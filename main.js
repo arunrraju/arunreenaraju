@@ -436,6 +436,7 @@
     { label: 'Gallery', hint: 'Section', run: go('#gallery') },
     { label: 'Experience', hint: 'Section', run: go('#experience') },
     { label: 'Contact', hint: 'Section', run: go('#contact') },
+    { label: 'Visit metzee.com', hint: 'Link', run: () => { location.href = 'https://metzee.com/'; } },
     { label: 'Copy email address', hint: 'Action', run: () => copyEmail($('[data-copy]')) },
     { label: 'Switch light / dark', hint: 'Theme', run: toggleTheme },
     { label: 'Open résumé', hint: 'File', run: () => { location.href = 'resume.pdf'; } },
