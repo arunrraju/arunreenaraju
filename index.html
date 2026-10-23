@@ -118,11 +118,10 @@
       <div class="portrait__sticky">
         <p class="portrait__say portrait__say--l" aria-hidden="true">Hello,</p>
         <figure class="portrait__frame photo" data-photo-label="Your portrait · assets/photos/portrait.jpg">
-          <!-- TODO(content): a strong portrait, at least 2400px wide, landscape or square -->
-          <img src="assets/photos/portrait.jpg" alt="Portrait of Arun Reena Raju" loading="lazy" decoding="async">
+          <img src="assets/photos/portrait.jpg" alt="Arun Reena Raju in a black suit, standing in front of a steel footbridge" loading="lazy" decoding="async">
         </figure>
         <p class="portrait__say portrait__say--r" aria-hidden="true">I'm Arun.</p>
-        <p class="portrait__caption mono">[Where this photo was taken · Year]</p>
+        <p class="portrait__caption mono">[City] · Autumn 2026</p>
       </div>
     </section>
 
@@ -244,64 +243,48 @@
         <p class="gallery__title">Moments, places<br>and <span class="iri">people</span>.</p>
         <p class="gallery__note mono">Tap any photo to view it full screen</p>
       </div>
-      <!-- TODO(content): drop photos into assets/photos/ named gallery-01.jpg to gallery-07.jpg.
-           To add more, copy an <li> and bump the number. -->
+      <!-- Photos live in assets/photos/. To add more, copy an <li>, bump the number and drop in gallery-06.jpg etc.
+           Size classes: g-tall (3:4), g-half (4:5), g-hero (4:3), g-wide (16:10), g-full (21:9). -->
       <ol class="gallery__grid" role="list">
-        <li class="gallery__item g-hero">
+        <li class="gallery__item g-tall">
           <button class="gallery__btn" type="button" data-lightbox="0" data-cursor="Open">
             <figure class="photo" data-photo-label="Photo 01 · assets/photos/gallery-01.jpg">
-              <img src="assets/photos/gallery-01.jpg" alt="[Describe photo 01]" loading="lazy" decoding="async">
+              <img src="assets/photos/gallery-01.jpg" alt="Arun in a black suit and sunglasses, looking out over an autumn bridge" loading="lazy" decoding="async">
             </figure>
           </button>
-          <p class="gallery__cap mono"><span>01</span><span>[Place, Year]</span></p>
+          <p class="gallery__cap mono"><span>01</span><span>[City] · Autumn 2026</span></p>
         </li>
         <li class="gallery__item g-tall">
           <button class="gallery__btn" type="button" data-lightbox="1" data-cursor="Open">
             <figure class="photo" data-photo-label="Photo 02 · assets/photos/gallery-02.jpg">
-              <img src="assets/photos/gallery-02.jpg" alt="[Describe photo 02]" loading="lazy" decoding="async">
+              <img src="assets/photos/gallery-02.jpg" alt="Arun adjusting his suit jacket, eyes down, under a steel footbridge" loading="lazy" decoding="async">
             </figure>
           </button>
-          <p class="gallery__cap mono"><span>02</span><span>[Place, Year]</span></p>
+          <p class="gallery__cap mono"><span>02</span><span>[City] · Autumn 2026</span></p>
         </li>
         <li class="gallery__item g-tall">
           <button class="gallery__btn" type="button" data-lightbox="2" data-cursor="Open">
             <figure class="photo" data-photo-label="Photo 03 · assets/photos/gallery-03.jpg">
-              <img src="assets/photos/gallery-03.jpg" alt="[Describe photo 03]" loading="lazy" decoding="async">
+              <img src="assets/photos/gallery-03.jpg" alt="Arun leaning on a stone wall, hands in pockets, in sunglasses" loading="lazy" decoding="async">
             </figure>
           </button>
-          <p class="gallery__cap mono"><span>03</span><span>[Place, Year]</span></p>
+          <p class="gallery__cap mono"><span>03</span><span>[City] · Autumn 2026</span></p>
         </li>
-        <li class="gallery__item g-wide">
+        <li class="gallery__item g-half">
           <button class="gallery__btn" type="button" data-lightbox="3" data-cursor="Open">
             <figure class="photo" data-photo-label="Photo 04 · assets/photos/gallery-04.jpg">
-              <img src="assets/photos/gallery-04.jpg" alt="[Describe photo 04]" loading="lazy" decoding="async">
+              <img src="assets/photos/gallery-04.jpg" alt="Arun looking down at the sunglasses in his hands" loading="lazy" decoding="async">
             </figure>
           </button>
-          <p class="gallery__cap mono"><span>04</span><span>[Place, Year]</span></p>
+          <p class="gallery__cap mono"><span>04</span><span>[City] · Autumn 2026</span></p>
         </li>
         <li class="gallery__item g-half">
           <button class="gallery__btn" type="button" data-lightbox="4" data-cursor="Open">
             <figure class="photo" data-photo-label="Photo 05 · assets/photos/gallery-05.jpg">
-              <img src="assets/photos/gallery-05.jpg" alt="[Describe photo 05]" loading="lazy" decoding="async">
+              <img src="assets/photos/gallery-05.jpg" alt="Arun holding his sunglasses, looking into the distance" loading="lazy" decoding="async">
             </figure>
           </button>
-          <p class="gallery__cap mono"><span>05</span><span>[Place, Year]</span></p>
-        </li>
-        <li class="gallery__item g-half">
-          <button class="gallery__btn" type="button" data-lightbox="5" data-cursor="Open">
-            <figure class="photo" data-photo-label="Photo 06 · assets/photos/gallery-06.jpg">
-              <img src="assets/photos/gallery-06.jpg" alt="[Describe photo 06]" loading="lazy" decoding="async">
-            </figure>
-          </button>
-          <p class="gallery__cap mono"><span>06</span><span>[Place, Year]</span></p>
-        </li>
-        <li class="gallery__item g-full">
-          <button class="gallery__btn" type="button" data-lightbox="6" data-cursor="Open">
-            <figure class="photo" data-photo-label="Photo 07 · assets/photos/gallery-07.jpg">
-              <img src="assets/photos/gallery-07.jpg" alt="[Describe photo 07]" loading="lazy" decoding="async">
-            </figure>
-          </button>
-          <p class="gallery__cap mono"><span>07</span><span>[Place, Year]</span></p>
+          <p class="gallery__cap mono"><span>05</span><span>[City] · Autumn 2026</span></p>
         </li>
       </ol>
     </section>

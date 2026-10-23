@@ -330,7 +330,7 @@ body::after {
    Every .photo shows its <img>; when the file isn't there yet, main.js adds .is-empty
    and the frame shows a designed placeholder naming the file to add. */
 .photo { position: relative; margin: 0; overflow: hidden; isolation: isolate; background: var(--bg-2); }
-.photo img { position: absolute; inset: -8% 0; width: 100%; height: 116%; max-width: none; object-fit: cover; transform: translate3d(0, var(--py, 0px), 0) scale(var(--ps, 1)); will-change: transform; }
+.photo img { position: absolute; inset: -8% 0; width: 100%; height: 116%; max-width: none; object-fit: cover; object-position: var(--pos, 50% 50%); transform: translate3d(0, var(--py, 0px), 0) scale(var(--ps, 1)); will-change: transform; }
 .photo.is-empty img { display: none; }
 .photo.is-empty {
   background:
@@ -365,12 +365,14 @@ body::after {
 .portrait { position: relative; height: 260svh; }
 .portrait__sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; place-items: center; }
 .portrait__frame {
-  position: absolute; inset: 0;
-  clip-path: inset(calc((1 - var(--pp, 0)) * 22%) calc((1 - var(--pp, 0)) * 30%) round calc((1 - var(--pp, 0)) * 28px));
-  --ps: calc(1.3 - var(--pp, 0) * 0.3);
+  position: absolute; inset: 0; --pos: 38% 30%;
+  /* the window opens around the face, which sits in the upper part of the photo */
+  clip-path: inset(calc((1 - var(--pp, 0)) * 10%) calc((1 - var(--pp, 0)) * 30%) calc((1 - var(--pp, 0)) * 34%) round calc((1 - var(--pp, 0)) * 28px));
+  --ps: calc(1.12 - var(--pp, 0) * 0.12);
 }
-.portrait__frame.is-empty::before { inset: calc((1 - var(--pp, 0)) * 22% + 18px) calc((1 - var(--pp, 0)) * 30% + 18px); }
-.portrait__frame.is-empty::after { left: calc((1 - var(--pp, 0)) * 30% + 32px); bottom: calc((1 - var(--pp, 0)) * 22% + 30px); }
+.portrait__frame img { inset: 0; height: 100%; transform-origin: 40% 22%; }
+.portrait__frame.is-empty::before { inset: calc((1 - var(--pp, 0)) * 10% + 18px) calc((1 - var(--pp, 0)) * 30% + 18px) calc((1 - var(--pp, 0)) * 34% + 18px); }
+.portrait__frame.is-empty::after { left: calc((1 - var(--pp, 0)) * 30% + 32px); bottom: calc((1 - var(--pp, 0)) * 34% + 30px); }
 .portrait__say {
   position: relative; z-index: 2; margin: 0; pointer-events: none;
   font-family: var(--display); font-weight: 750; font-stretch: 75%; font-size: clamp(64px, 13vw, 260px);
@@ -404,10 +406,10 @@ body::after {
 .gallery__cap span:first-child { color: var(--fg); }
 .g-hero { grid-column: span 8; } .g-hero .photo { aspect-ratio: 4 / 3; }
 .g-tall { grid-column: span 4; } .g-tall .photo { aspect-ratio: 3 / 4; }
-.g-tall + .g-tall { margin-top: 0; }
+.g-tall:nth-child(3n+2) { margin-top: clamp(40px, 6vw, 110px); }
 .g-hero + .g-tall { align-self: end; }
 .g-wide { grid-column: span 8; align-self: end; } .g-wide .photo { aspect-ratio: 16 / 10; }
-.g-half { grid-column: span 6; } .g-half .photo { aspect-ratio: 5 / 4; }
+.g-half { grid-column: span 6; } .g-half .photo { aspect-ratio: 4 / 5; }
 .g-half + .g-half { margin-top: clamp(40px, 8vw, 140px); }
 .g-full { grid-column: 1 / -1; } .g-full .photo { aspect-ratio: 21 / 9; }
 .gallery__item .photo { max-width: 100%; }
@@ -479,17 +481,17 @@ body::after {
   .card__tags { grid-column: 1; grid-row: auto; }
   .exp__row { grid-template-columns: 1fr; }
   .portrait { height: 200svh; }
-  .portrait__frame { clip-path: inset(calc((1 - var(--pp, 0)) * 26%) calc((1 - var(--pp, 0)) * 12%) round calc((1 - var(--pp, 0)) * 20px)); }
-  .portrait__frame.is-empty::before { inset: calc((1 - var(--pp, 0)) * 26% + 14px) calc((1 - var(--pp, 0)) * 12% + 14px); }
-  .portrait__frame.is-empty::after { left: calc((1 - var(--pp, 0)) * 12% + 26px); bottom: calc((1 - var(--pp, 0)) * 26% + 26px); right: 26px; }
+  .portrait__frame { clip-path: inset(calc((1 - var(--pp, 0)) * 16%) calc((1 - var(--pp, 0)) * 12%) calc((1 - var(--pp, 0)) * 34%) round calc((1 - var(--pp, 0)) * 20px)); }
+  .portrait__frame.is-empty::before { inset: calc((1 - var(--pp, 0)) * 16% + 14px) calc((1 - var(--pp, 0)) * 12% + 14px) calc((1 - var(--pp, 0)) * 34% + 14px); }
+  .portrait__frame.is-empty::after { left: calc((1 - var(--pp, 0)) * 12% + 26px); bottom: calc((1 - var(--pp, 0)) * 34% + 26px); right: 26px; }
   .portrait__say { font-size: 19vw; }
   .portrait__caption { bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
-  .portrait__say--l { transform: translate(calc(-14vw - var(--pp, 0) * 20vw), -1.55em); }
+  .portrait__say--l { transform: translate(calc(-14vw - var(--pp, 0) * 20vw), -3.9em); }
   .portrait__say--r { transform: translate(calc(10vw + var(--pp, 0) * 20vw), 1.6em); }
   .gallery__head { grid-template-columns: 1fr; }
   .gallery__grid { grid-template-columns: 1fr; }
   .g-hero, .g-tall, .g-wide, .g-half, .g-full { grid-column: 1; }
-  .g-half + .g-half { margin-top: 0; }
+  .g-half + .g-half, .g-tall:nth-child(3n+2) { margin-top: 0; }
   .g-full .photo { aspect-ratio: 4 / 3; }
   .lightbox__prev, .lightbox__next { top: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); translate: none; }
   .lightbox__prev { left: auto; right: calc(var(--gutter-r) + 60px); }

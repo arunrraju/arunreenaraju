@@ -1,15 +1,14 @@
 # Photos
 
-Drop your photos in this folder with these exact names and they appear on the site automatically. Until a file exists, its frame shows a placeholder naming the file it expects.
+Photos in this folder appear on the site by filename. A missing file shows a placeholder naming the file it expects.
 
-| File | Where it shows | Best size |
+| File | Where it shows | Shape |
 | --- | --- | --- |
-| `hero.jpg` | Blended into the moving chrome background behind your name (optional) | 2400×1600, landscape |
-| `portrait.jpg` | Full-screen portrait that expands as you scroll | 2400×1600 or larger, landscape |
-| `gallery-01.jpg` | Gallery, large | 2000×1500 (4:3) |
-| `gallery-02.jpg`, `gallery-03.jpg` | Gallery, tall | 1200×1600 (3:4) |
-| `gallery-04.jpg` | Gallery, wide | 2000×1250 (16:10) |
-| `gallery-05.jpg`, `gallery-06.jpg` | Gallery, side by side | 1500×1200 (5:4) |
-| `gallery-07.jpg` | Gallery, full-width panorama | 2800×1200 (21:9) |
+| `portrait.jpg` | Full-screen portrait that expands as you scroll | Landscape, 16:10 |
+| `gallery-01.jpg` to `gallery-03.jpg` | Gallery, three tall frames | 3:4 |
+| `gallery-04.jpg`, `gallery-05.jpg` | Gallery, two large frames | 4:5 |
+| `hero.jpg` | Optional, blended into the chrome background behind your name | Landscape |
 
-Photos are cropped to fill each frame, so keep the subject near the centre. Export as JPG at about 80% quality to keep the page fast. Update each photo's description (`alt`) and caption in `index.html`.
+The current photos were graded for the site: highlights pulled back, deeper blacks, cool steel shadows, muted colour with skin and autumn leaves kept warm, a soft vignette and fine grain. Use the same look on any new photo so the set stays consistent.
+
+To add a photo to the gallery, copy one `<li class="gallery__item">` in `index.html`, change the number and the description, and save the file here as `gallery-06.jpg`. Export JPGs around 2000px on the long side at 80–85% quality.
