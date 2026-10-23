@@ -199,6 +199,51 @@
   chrome($('.hero__canvas'), { scale: 0.55 });
   chrome($('.metzee__canvas'), { orb: true, scale: 0.75 });
 
+  /* ───────────── Photos: show a designed placeholder until the file exists ───────────── */
+  const markEmpty = (img) => img.closest('.photo')?.classList.add('is-empty');
+  $$('.photo img').forEach((img, k) => {
+    const fig = img.closest('.photo');
+    fig.style.setProperty('--gx', `${20 + ((k * 37) % 60)}%`);
+    fig.style.setProperty('--gy', `${15 + ((k * 23) % 55)}%`);
+    if (img.complete && img.naturalWidth === 0) markEmpty(img);
+    img.addEventListener('error', () => markEmpty(img));
+    img.addEventListener('load', () => fig.classList.remove('is-empty'));
+  });
+  $$('[data-optional-photo]').forEach((img) => {
+    const hide = () => img.classList.add('is-missing');
+    if (img.complete && img.naturalWidth === 0) hide();
+    img.addEventListener('error', hide);
+  });
+
+  /* ───────────── Lightbox ───────────── */
+  const lb = $('.lightbox');
+  const lbFig = $('.lightbox__fig', lb);
+  const lbImg = $('img', lbFig);
+  const shots = $$('[data-lightbox]');
+  let lbIndex = 0;
+  const showShot = (k) => {
+    lbIndex = (k + shots.length) % shots.length;
+    const src = $('.photo', shots[lbIndex]);
+    const img = $('img', src);
+    lbImg.src = img.currentSrc || img.src;
+    lbImg.alt = img.alt;
+    lbFig.dataset.photoLabel = src.dataset.photoLabel;
+    lbFig.classList.toggle('is-empty', src.classList.contains('is-empty'));
+    $('[data-lb-count]', lb).textContent = `${String(lbIndex + 1).padStart(2, '0')} / ${String(shots.length).padStart(2, '0')}`;
+    $('[data-lb-cap]', lb).textContent = shots[lbIndex].parentElement.querySelector('.gallery__cap span:last-child')?.textContent || '';
+  };
+  shots.forEach((b, k) => b.addEventListener('click', () => { showShot(k); lb.showModal(); }));
+  lb.addEventListener('click', (e) => {
+    const act = e.target.closest('[data-lb]')?.dataset.lb;
+    if (act === 'close' || e.target === lb) lb.close();
+    if (act === 'prev') showShot(lbIndex - 1);
+    if (act === 'next') showShot(lbIndex + 1);
+  });
+  lb.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') showShot(lbIndex - 1);
+    if (e.key === 'ArrowRight') showShot(lbIndex + 1);
+  });
+
   /* ───────────── Scroll-driven pieces ───────────── */
   // About: words light up as you read
   const statement = $('[data-scrub-words]');
@@ -233,8 +278,22 @@
   addEventListener('resize', sizeWork);
   addEventListener('load', sizeWork);
 
+  const portrait = $('.portrait');
+  const parallax = $$('.gallery .photo');
   const onScroll = () => {
     const vh = innerHeight;
+    if (portrait && !reduceMotion) {
+      const r = portrait.getBoundingClientRect();
+      const span = portrait.offsetHeight - vh;
+      const p = span > 0 ? clamp(-r.top / (span * 0.75)) : 1;
+      portrait.style.setProperty('--pp', (p * p * (3 - 2 * p)).toFixed(4));
+    }
+    if (!reduceMotion) parallax.forEach((f) => {
+      const r = f.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      const c = (r.top + r.height / 2 - vh / 2) / vh;
+      f.style.setProperty('--py', `${(c * -6).toFixed(2)}%`);
+    });
     if (words.length) {
       const r = statement.getBoundingClientRect();
       const p = clamp((vh * 0.85 - r.top) / (r.height + vh * 0.35));
@@ -264,7 +323,7 @@
   addEventListener('resize', onScroll);
 
   /* ───────────── Reveal on scroll ───────────── */
-  const revealTargets = $$('.about .label, .facts__item, .metzee__body > *, .metzee__card, .work__head, .exp .label, .exp__row, .kit, .contact__body > *');
+  const revealTargets = $$('.gallery__head, .gallery__item, .about .label, .facts__item, .metzee__body > *, .metzee__card, .work__head, .exp .label, .exp__row, .kit, .contact__body > *');
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { rootMargin: '0px 0px -10% 0px' });
@@ -362,6 +421,7 @@
     { label: 'About', hint: 'Section', run: go('#about') },
     { label: 'Metzee', hint: 'Section', run: go('#metzee') },
     { label: 'Selected work', hint: 'Section', run: go('#work') },
+    { label: 'Gallery', hint: 'Section', run: go('#gallery') },
     { label: 'Experience', hint: 'Section', run: go('#experience') },
     { label: 'Contact', hint: 'Section', run: go('#contact') },
     { label: 'Copy email address', hint: 'Action', run: () => copyEmail($('[data-copy]')) },

@@ -62,6 +62,7 @@
       <a href="#about">About</a>
       <a href="#metzee">Metzee</a>
       <a href="#work">Work</a>
+      <a href="#gallery">Gallery</a>
       <a href="#experience">Experience</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -80,6 +81,8 @@
     <!-- ───────────── HERO ───────────── -->
     <section class="hero" aria-labelledby="hero-name">
       <canvas class="hero__canvas" aria-hidden="true"></canvas>
+      <!-- Optional: add assets/photos/hero.jpg and it blends into the chrome background -->
+      <img class="hero__photo" src="assets/photos/hero.jpg" alt="" data-optional-photo>
       <div class="hero__veil" aria-hidden="true"></div>
 
       <div class="hero__inner">
@@ -107,6 +110,19 @@
             </a>
           </span>
         </h1>
+      </div>
+    </section>
+
+    <!-- ───────────── PORTRAIT (expands to full screen as you scroll) ───────────── -->
+    <section class="portrait" aria-label="Portrait of Arun">
+      <div class="portrait__sticky">
+        <p class="portrait__say portrait__say--l" aria-hidden="true">Hello,</p>
+        <figure class="portrait__frame photo" data-photo-label="Your portrait · assets/photos/portrait.jpg">
+          <!-- TODO(content): a strong portrait, at least 2400px wide, landscape or square -->
+          <img src="assets/photos/portrait.jpg" alt="Portrait of Arun Reena Raju" loading="lazy" decoding="async">
+        </figure>
+        <p class="portrait__say portrait__say--r" aria-hidden="true">I'm Arun.</p>
+        <p class="portrait__caption mono">[Where this photo was taken · Year]</p>
       </div>
     </section>
 
@@ -221,6 +237,75 @@
       </div>
     </section>
 
+    <!-- ───────────── GALLERY ───────────── -->
+    <section class="gallery wrap" id="gallery" aria-labelledby="gallery-h">
+      <div class="gallery__head">
+        <h2 class="label mono" id="gallery-h"><span class="label__dot"></span>Gallery</h2>
+        <p class="gallery__title">Moments, places<br>and <span class="iri">people</span>.</p>
+        <p class="gallery__note mono">Tap any photo to view it full screen</p>
+      </div>
+      <!-- TODO(content): drop photos into assets/photos/ named gallery-01.jpg to gallery-07.jpg.
+           To add more, copy an <li> and bump the number. -->
+      <ol class="gallery__grid" role="list">
+        <li class="gallery__item g-hero">
+          <button class="gallery__btn" type="button" data-lightbox="0" data-cursor="Open">
+            <figure class="photo" data-photo-label="Photo 01 · assets/photos/gallery-01.jpg">
+              <img src="assets/photos/gallery-01.jpg" alt="[Describe photo 01]" loading="lazy" decoding="async">
+            </figure>
+          </button>
+          <p class="gallery__cap mono"><span>01</span><span>[Place, Year]</span></p>
+        </li>
+        <li class="gallery__item g-tall">
+          <button class="gallery__btn" type="button" data-lightbox="1" data-cursor="Open">
+            <figure class="photo" data-photo-label="Photo 02 · assets/photos/gallery-02.jpg">
+              <img src="assets/photos/gallery-02.jpg" alt="[Describe photo 02]" loading="lazy" decoding="async">
+            </figure>
+          </button>
+          <p class="gallery__cap mono"><span>02</span><span>[Place, Year]</span></p>
+        </li>
+        <li class="gallery__item g-tall">
+          <button class="gallery__btn" type="button" data-lightbox="2" data-cursor="Open">
+            <figure class="photo" data-photo-label="Photo 03 · assets/photos/gallery-03.jpg">
+              <img src="assets/photos/gallery-03.jpg" alt="[Describe photo 03]" loading="lazy" decoding="async">
+            </figure>
+          </button>
+          <p class="gallery__cap mono"><span>03</span><span>[Place, Year]</span></p>
+        </li>
+        <li class="gallery__item g-wide">
+          <button class="gallery__btn" type="button" data-lightbox="3" data-cursor="Open">
+            <figure class="photo" data-photo-label="Photo 04 · assets/photos/gallery-04.jpg">
+              <img src="assets/photos/gallery-04.jpg" alt="[Describe photo 04]" loading="lazy" decoding="async">
+            </figure>
+          </button>
+          <p class="gallery__cap mono"><span>04</span><span>[Place, Year]</span></p>
+        </li>
+        <li class="gallery__item g-half">
+          <button class="gallery__btn" type="button" data-lightbox="4" data-cursor="Open">
+            <figure class="photo" data-photo-label="Photo 05 · assets/photos/gallery-05.jpg">
+              <img src="assets/photos/gallery-05.jpg" alt="[Describe photo 05]" loading="lazy" decoding="async">
+            </figure>
+          </button>
+          <p class="gallery__cap mono"><span>05</span><span>[Place, Year]</span></p>
+        </li>
+        <li class="gallery__item g-half">
+          <button class="gallery__btn" type="button" data-lightbox="5" data-cursor="Open">
+            <figure class="photo" data-photo-label="Photo 06 · assets/photos/gallery-06.jpg">
+              <img src="assets/photos/gallery-06.jpg" alt="[Describe photo 06]" loading="lazy" decoding="async">
+            </figure>
+          </button>
+          <p class="gallery__cap mono"><span>06</span><span>[Place, Year]</span></p>
+        </li>
+        <li class="gallery__item g-full">
+          <button class="gallery__btn" type="button" data-lightbox="6" data-cursor="Open">
+            <figure class="photo" data-photo-label="Photo 07 · assets/photos/gallery-07.jpg">
+              <img src="assets/photos/gallery-07.jpg" alt="[Describe photo 07]" loading="lazy" decoding="async">
+            </figure>
+          </button>
+          <p class="gallery__cap mono"><span>07</span><span>[Place, Year]</span></p>
+        </li>
+      </ol>
+    </section>
+
     <!-- ───────────── EXPERIENCE ───────────── -->
     <section class="exp wrap" id="experience" aria-labelledby="exp-h">
       <h2 class="label mono" id="exp-h"><span class="label__dot"></span>Experience</h2>
@@ -294,6 +379,15 @@
       </footer>
     </section>
   </main>
+
+  <!-- Full-screen photo viewer -->
+  <dialog class="lightbox" aria-label="Photo viewer">
+    <figure class="lightbox__fig photo"><img alt=""></figure>
+    <p class="lightbox__cap mono"><span data-lb-count></span><span data-lb-cap></span></p>
+    <button class="lightbox__btn lightbox__close" type="button" data-lb="close" aria-label="Close">Close ✕</button>
+    <button class="lightbox__btn lightbox__prev" type="button" data-lb="prev" aria-label="Previous photo">←</button>
+    <button class="lightbox__btn lightbox__next" type="button" data-lb="next" aria-label="Next photo">→</button>
+  </dialog>
 
   <!-- Command menu -->
   <dialog class="palette" aria-label="Command menu">
