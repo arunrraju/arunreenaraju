@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Arun Reena Raju</title>
   <meta name="claude:viewport-fit-sides" content="cover">
-  <!-- TODO(content): one-sentence positioning statement, ~150 characters -->
   <meta name="description" content="Arun Reena Raju, founder of Metzee, the live-auction marketplace built for India. Portfolio, work and contact.">
   <meta name="author" content="Arun Reena Raju">
   <link rel="canonical" href="https://arunreenaraju.com/">
@@ -130,7 +129,6 @@
     <!-- ───────────── ABOUT ───────────── -->
     <section class="about wrap" id="about" aria-labelledby="about-h">
       <h2 class="label mono" id="about-h"><span class="label__dot"></span>About</h2>
-      <!-- TODO(content): your bio in your own voice. Words light up as the reader scrolls. -->
       <p class="about__statement" data-scrub-words>
         I'm Arun. I build products that feel inevitable once they exist.
         Right now that means Metzee, a live-auction marketplace where
@@ -353,7 +351,7 @@
 
       <div class="kit">
         <h3 class="label mono"><span class="label__dot"></span>Education</h3>
-        <ol class="exp__list" role="list">
+        <ol class="exp__list" role="list" data-education>
           <li class="exp__row">
             <span class="exp__when mono">2023 — 2024</span>
             <span class="exp__role">MSc, Geographic Information Systems</span>
@@ -398,7 +396,6 @@
 
       <div class="contact__body wrap">
         <p class="contact__lede">Have an idea, a question, or just want to say hello? My inbox is open.</p>
-        <!-- TODO(content): confirm the public email address -->
         <div class="contact__actions">
           <button class="contact__email" type="button" data-copy="hello@arunreenaraju.com" data-cursor="Copy">
             <span class="contact__email-text">hello@arunreenaraju.com</span>
@@ -409,11 +406,8 @@
           </a>
         </div>
         <ul class="socials" role="list">
-          <!-- TODO(content): add or remove profiles -->
           <li><a href="https://www.linkedin.com/in/arun-r-raju/" rel="me noopener" target="_blank">LinkedIn <span aria-hidden="true">↗</span></a></li>
           <li><a href="https://github.com/arunrraju" rel="me noopener" target="_blank">GitHub <span aria-hidden="true">↗</span></a></li>
-          <li><a href="https://x.com/" rel="me noopener" target="_blank">X <span aria-hidden="true">↗</span></a></li>
-          <li><a href="resume.pdf">Résumé <span aria-hidden="true">↗</span></a></li>
         </ul>
       </div>
 
@@ -443,6 +437,8 @@
     </form>
   </dialog>
 
-  <script src="main.js" defer></script>
+  <!-- Text, photos and lists come from content.json (edit it at app.pagescms.org).
+       content.js fills the page from it, then loads main.js. -->
+  <script src="content.js" defer></script>
 </body>
 </html>

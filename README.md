@@ -11,15 +11,24 @@ python3 -m http.server 8000
 
 ## Edit the content
 
-All copy lives in `index.html`. Every spot that still needs real content is marked with a `TODO(content)` comment or `[square brackets]`:
+All text, photos and lists live in `content.json`. `content.js` fills the page from it when it loads, then starts `main.js`. The same content is also written into `index.html`, so the page still shows something if the file can't load; that fallback doesn't update when you edit through the CMS.
 
-```sh
-grep -n "TODO(content)\|\[" index.html
-```
+### With Pages CMS (no code)
 
-- **Résumé:** drop a PDF at `resume.pdf` in the repo root.
-- **Project images:** on a `.card__art` element add `style="--img: url(assets/work/name.jpg)"` to replace the generated art.
-- **Time zone** for the footer clock: `TIME_ZONE` in `main.js`.
+1. Go to [app.pagescms.org](https://app.pagescms.org) and sign in with GitHub.
+2. Open `arunrraju/arunreenaraju` and pick the `main` branch.
+3. Edit **Website content**: hero, portrait, about, Metzee, work, gallery, experience, education, toolkit and contact. Upload photos from the same screen; they go into `assets/photos/`.
+4. Save. Pages CMS commits the change, and the site redeploys in a minute or two.
+
+The form layout is defined in `.pages.yml`.
+
+### By hand
+
+Edit `content.json` directly on GitHub (pencil icon) or locally. Lists are ordered as they appear on the page.
+
+- **Gallery sizes:** `tall` (3:4), `half` (4:5), `hero` (4:3), `wide` (16:10), `full` (21:9).
+- **Work cover images:** set `image` on a work item to replace the generated art.
+- **Time zone** for the nav clock: `TIME_ZONE` in `main.js`.
 - **Social preview image:** add a 1200×630 `assets/og.png`.
 
 ## Features

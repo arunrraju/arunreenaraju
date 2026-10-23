@@ -1,0 +1,120 @@
+# Pages CMS (https://app.pagescms.org): edit the site's text and photos with forms.
+# Every save commits content.json (and any uploaded photos) to the repo.
+media:
+  input: assets/photos
+  output: assets/photos
+
+content:
+  - name: site
+    label: Website content
+    type: file
+    path: content.json
+    fields:
+      - name: hero
+        label: Top of the page
+        type: object
+        fields:
+          - { name: intro, label: Intro lines, type: string, list: true, description: "Short lines under your name. The word Metzee becomes a link." }
+          - { name: role, label: Role, type: string }
+          - { name: based, label: Based in, type: string }
+          - { name: focus, label: Focus, type: string }
+          - { name: status, label: Status, type: string, description: "Shown with a pulsing dot, e.g. Building" }
+
+      - name: portrait
+        label: Big portrait
+        type: object
+        fields:
+          - { name: image, label: Photo, type: image, description: "Landscape works best, at least 2400 px wide" }
+          - { name: alt, label: Photo description, type: string, description: "For screen readers and search engines" }
+          - { name: caption, label: Caption, type: string }
+
+      - name: about
+        label: About
+        type: object
+        fields:
+          - { name: bio, label: Bio, type: text, description: "Words light up as people scroll. Keep it to 3 to 5 sentences." }
+          - name: facts
+            label: Quick facts
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Label, type: string }
+              - { name: value, label: Value, type: string }
+
+      - name: metzee
+        label: Metzee
+        type: object
+        fields:
+          - { name: since, label: Founded (year), type: string }
+          - { name: lede, label: Intro sentence, type: text }
+          - { name: highlight, label: Words to highlight, type: string, description: "Must appear in the intro sentence exactly" }
+          - name: cards
+            label: Cards
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Title, type: string }
+              - { name: text, label: Text, type: text }
+          - { name: url, label: Website, type: string }
+
+      - name: work
+        label: Selected work
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Title, type: string }
+          - { name: description, label: Description, type: text }
+          - { name: tags, label: Tags, type: string, list: true, description: "Year first, then two topics" }
+          - { name: link, label: Link, type: string, description: "Optional. Leave empty to point at your experience." }
+          - { name: letter, label: Big letter, type: string, description: "One letter on the card art" }
+          - { name: image, label: Cover image, type: image, description: "Optional. Replaces the generated art." }
+
+      - name: gallery
+        label: Gallery
+        type: object
+        list: true
+        fields:
+          - { name: image, label: Photo, type: image }
+          - { name: alt, label: Photo description, type: string }
+          - { name: caption, label: Caption, type: string }
+          - name: size
+            label: Size
+            type: select
+            options:
+              values: [tall, half, hero, wide, full]
+
+      - name: experience
+        label: Experience
+        type: object
+        list: true
+        fields:
+          - { name: when, label: Dates, type: string, description: "e.g. 2020 — 2022 or 2024 — Now" }
+          - { name: role, label: Role, type: string }
+          - { name: org, label: Company, type: string }
+          - { name: note, label: One line on impact, type: string }
+
+      - name: education
+        label: Education
+        type: object
+        list: true
+        fields:
+          - { name: when, label: Dates, type: string }
+          - { name: role, label: Qualification, type: string }
+          - { name: org, label: Institution, type: string }
+          - { name: note, label: Note, type: string }
+
+      - { name: toolkit, label: Toolkit, type: string, list: true }
+
+      - name: contact
+        label: Contact
+        type: object
+        fields:
+          - { name: lede, label: Intro line, type: text }
+          - { name: email, label: Email, type: string }
+          - name: socials
+            label: Links
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Name, type: string }
+              - { name: url, label: URL, type: string }

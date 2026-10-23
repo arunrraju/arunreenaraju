@@ -276,7 +276,7 @@
   };
   sizeWork();
   addEventListener('resize', sizeWork);
-  addEventListener('load', sizeWork);
+  if (document.readyState === 'complete') requestAnimationFrame(sizeWork); else addEventListener('load', sizeWork);
 
   const portrait = $('.portrait');
   const nav = $('.nav');
@@ -436,10 +436,10 @@
     { label: 'Gallery', hint: 'Section', run: go('#gallery') },
     { label: 'Experience', hint: 'Section', run: go('#experience') },
     { label: 'Contact', hint: 'Section', run: go('#contact') },
-    { label: 'Visit metzee.com', hint: 'Link', run: () => { location.href = 'https://metzee.com/'; } },
+    { label: 'Visit metzee.com', hint: 'Link', run: () => { window.open($('.metzee__body .pill')?.href || 'https://metzee.com/', '_blank', 'noopener'); } },
     { label: 'Copy email address', hint: 'Action', run: () => copyEmail($('[data-copy]')) },
     { label: 'Switch light / dark', hint: 'Theme', run: toggleTheme },
-    { label: 'Open résumé', hint: 'File', run: () => { location.href = 'resume.pdf'; } },
+    { label: 'Open LinkedIn', hint: 'Link', run: () => { const a = $('.socials a[href*="linkedin"]'); if (a) window.open(a.href, '_blank', 'noopener'); } },
   ];
   let filtered = commands, active = 0;
   const render = () => {

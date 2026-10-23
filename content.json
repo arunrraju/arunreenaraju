@@ -1,0 +1,247 @@
+{
+  "hero": {
+    "intro": [
+      "Founder of Metzee.",
+      "Based in India."
+    ],
+    "role": "Founder, Metzee",
+    "based": "India",
+    "focus": "Live commerce",
+    "status": "Building"
+  },
+  "portrait": {
+    "image": "assets/photos/portrait.jpg",
+    "alt": "Arun Reena Raju in a black suit, standing in front of a steel footbridge",
+    "caption": "Autumn 2026"
+  },
+  "about": {
+    "bio": "I'm Arun. I build products that feel inevitable once they exist. Right now that means Metzee, a live-auction marketplace where anyone in India can go live, sell and ship in real time. Before that, I spent years in digital marketing, building websites and growing brands through search and social, and earned a Master's in GIS at Sheffield Hallam University. I care about craft, speed and the small details people feel before they notice.",
+    "facts": [
+      {
+        "label": "Founder of",
+        "value": "Metzee"
+      },
+      {
+        "label": "Previously",
+        "value": "Alionbot, Ecoshop"
+      },
+      {
+        "label": "Studied",
+        "value": "MSc GIS, Sheffield Hallam University"
+      },
+      {
+        "label": "Based in",
+        "value": "India"
+      }
+    ]
+  },
+  "metzee": {
+    "since": "[Year]",
+    "lede": "Metzee is a live-auction marketplace built for India. Buyers bid, pay and track delivery without ever leaving the stream.",
+    "highlight": "live-auction marketplace",
+    "cards": [
+      {
+        "title": "How it works",
+        "text": "Sellers broadcast live shows and run auctions in real time. Bidding, payment and delivery tracking all happen inside the stream."
+      },
+      {
+        "title": "Who sells",
+        "text": "Anyone can sell: resellers, wholesalers, manufacturers and collectors alike."
+      },
+      {
+        "title": "Where it runs",
+        "text": "A web app and a native Android app, built from one codebase."
+      }
+    ],
+    "url": "https://metzee.com/"
+  },
+  "work": [
+    {
+      "title": "Metzee",
+      "description": "India's live-auction marketplace. Go live, run auctions, and let buyers bid, pay and track in one stream.",
+      "tags": [
+        "Now",
+        "Founder",
+        "Live commerce"
+      ],
+      "link": "https://metzee.com/",
+      "letter": "M",
+      "image": ""
+    },
+    {
+      "title": "30+ websites at Alionbot",
+      "description": "Designed and shipped 30+ WordPress sites and stores. Organic traffic up 50%, conversions up 35%.",
+      "tags": [
+        "2020–22",
+        "Web design",
+        "SEO"
+      ],
+      "link": "",
+      "letter": "W",
+      "image": ""
+    },
+    {
+      "title": "Ecoshop online store",
+      "description": "Built Ecoshop's e-commerce platform. Qualified leads up 150%, online revenue up 60%.",
+      "tags": [
+        "2017–21",
+        "E-commerce",
+        "Growth"
+      ],
+      "link": "",
+      "letter": "E",
+      "image": ""
+    },
+    {
+      "title": "A team of 370",
+      "description": "Led and trained a 370-person sales network at Smartway India. Sales up 25%.",
+      "tags": [
+        "2016–18",
+        "Leadership",
+        "Training"
+      ],
+      "link": "",
+      "letter": "S",
+      "image": ""
+    },
+    {
+      "title": "Live trailer alerts",
+      "description": "A JavaScript tool that watches warehouse flow at Amazon and flags full trailers early. Manual monitoring down 30%.",
+      "tags": [
+        "2025",
+        "Automation",
+        "Operations"
+      ],
+      "link": "",
+      "letter": "T",
+      "image": ""
+    }
+  ],
+  "gallery": [
+    {
+      "image": "assets/photos/gallery-01.jpg",
+      "alt": "Arun in a black suit and sunglasses, looking out over an autumn bridge",
+      "caption": "Autumn 2026",
+      "size": "tall"
+    },
+    {
+      "image": "assets/photos/gallery-02.jpg",
+      "alt": "Arun adjusting his suit jacket, eyes down, under a steel footbridge",
+      "caption": "Autumn 2026",
+      "size": "tall"
+    },
+    {
+      "image": "assets/photos/gallery-03.jpg",
+      "alt": "Arun leaning on a stone wall, hands in pockets, in sunglasses",
+      "caption": "Autumn 2026",
+      "size": "tall"
+    },
+    {
+      "image": "assets/photos/gallery-04.jpg",
+      "alt": "Arun looking down at the sunglasses in his hands",
+      "caption": "Autumn 2026",
+      "size": "half"
+    },
+    {
+      "image": "assets/photos/gallery-05.jpg",
+      "alt": "Arun holding his sunglasses, looking into the distance",
+      "caption": "Autumn 2026",
+      "size": "half"
+    }
+  ],
+  "experience": [
+    {
+      "when": "[2024] — Now",
+      "role": "Founder",
+      "org": "Metzee",
+      "note": "Building India's live-auction marketplace, on web and native Android."
+    },
+    {
+      "when": "2025 — Now",
+      "role": "Process Guide",
+      "org": "Amazon, UK",
+      "note": "Runs trailer loading for 18+ people, steps in as shift lead, and built a tool that cut manual monitoring by 30%."
+    },
+    {
+      "when": "2024 — Now",
+      "role": "L&D Instructor",
+      "org": "Amazon, UK",
+      "note": "Trains new hires, leads and managers across three departments. Fulfil Your Potential award, 2025."
+    },
+    {
+      "when": "2020 — 2022",
+      "role": "Digital Marketing Specialist",
+      "org": "Alionbot",
+      "note": "Built 30+ websites, grew organic traffic 50% and won the Transformational Leadership Award."
+    },
+    {
+      "when": "2017 — 2021",
+      "role": "Marketing Associate",
+      "org": "Ecoshop",
+      "note": "Built the online store and grew qualified leads by 150%."
+    },
+    {
+      "when": "2016 — 2018",
+      "role": "Team Leader",
+      "org": "Smartway India",
+      "note": "Led and trained a network marketing team of 370 and lifted sales by 25%."
+    },
+    {
+      "when": "2016 — Now",
+      "role": "Senior Tutor",
+      "org": "Nehru Memorial Model School",
+      "note": "Personal learning plans and online classes for 100+ students."
+    }
+  ],
+  "education": [
+    {
+      "when": "2023 — 2024",
+      "role": "MSc, Geographic Information Systems",
+      "org": "Sheffield Hallam University",
+      "note": "Spatial analysis and mapping with ArcGIS."
+    },
+    {
+      "when": "2017",
+      "role": "Diploma, Cyber Forensics and Cyber Law",
+      "org": "Hi-Tech Crime Enquiry Cell, Kerala Police",
+      "note": "Digital forensics and the law around it."
+    },
+    {
+      "when": "2013 — 2016",
+      "role": "BSc, Geology",
+      "org": "SN College, Chempazhanthy",
+      "note": "Earth science, with GIS mapping training at CED Trivandrum."
+    }
+  ],
+  "toolkit": [
+    "Live commerce",
+    "Digital marketing",
+    "SEO",
+    "Google Ads",
+    "Meta Ads",
+    "GA4",
+    "WordPress",
+    "E-commerce",
+    "Team coaching",
+    "Safety leadership",
+    "Process improvement",
+    "Labour planning",
+    "JavaScript automation",
+    "Data analysis",
+    "GIS and ArcGIS"
+  ],
+  "contact": {
+    "lede": "Have an idea, a question, or just want to say hello? My inbox is open.",
+    "email": "hello@arunreenaraju.com",
+    "socials": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/arun-r-raju/"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/arunrraju"
+      }
+    ]
+  }
+}
