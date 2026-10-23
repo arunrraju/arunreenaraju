@@ -32,6 +32,8 @@ grep -n "TODO(content)\|\[" index.html
 
 ## Deploy
 
+> The domain `arunreenaraju.com` isn't registered yet. Buy it first (any registrar works: Cloudflare, Namecheap, Porkbun, Google/Squarespace), then follow the steps below. Until then the site works at `https://arunrraju.github.io/arunreenaraju/` only if you remove the `CNAME` file, since all asset paths are root-relative; with the domain set up, no changes are needed.
+
 `.github/workflows/pages.yml` publishes the site to GitHub Pages on every push to `main`.
 
 1. In the repo, go to **Settings → Pages** and set **Source** to **GitHub Actions**.

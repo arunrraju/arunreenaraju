@@ -212,6 +212,28 @@ main { position: relative; z-index: 1; }
 .stats__plus { color: var(--accent); }
 .stats__l { display: block; color: var(--ink-2); margin-top: 10px; }
 
+/* Metzee */
+.venture { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; }
+.venture__card {
+  position: relative; aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden;
+  background: var(--ink); color: var(--bg); display: flex; flex-direction: column; justify-content: flex-end;
+  padding: clamp(24px, 3vw, 40px);
+}
+.venture__orb {
+  position: absolute; width: 90%; aspect-ratio: 1; top: -15%; right: -25%; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffb38a, var(--accent) 45%, transparent 70%);
+  filter: blur(8px); animation: drift 14s ease-in-out infinite alternate;
+}
+@keyframes drift { to { transform: translate(-18%, 22%) scale(1.15); } }
+.venture__word { position: relative; font-family: var(--serif); font-style: italic; font-size: clamp(64px, 9vw, 150px); line-height: .9; letter-spacing: -0.04em; }
+.venture__tag { position: relative; margin-top: 16px; opacity: .7; }
+.venture__lede { font-size: clamp(26px, 2.8vw, 42px); line-height: 1.18; margin: 0 0 24px; font-weight: 300; letter-spacing: -0.01em; }
+.venture__text { color: var(--ink-2); margin: 0 0 32px; max-width: 52ch; }
+.venture__points { list-style: none; margin: 0 0 36px; padding: 0; }
+.venture__points li { display: grid; grid-template-columns: 110px 1fr; gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); }
+.venture__points li:last-child { border-bottom: 1px solid var(--line); }
+.venture__points .mono { color: var(--accent); padding-top: 3px; }
+
 /* Work */
 .work { list-style: none; margin: 0; padding: 0; counter-reset: w; }
 .work__item { border-bottom: 1px solid var(--line); }
@@ -322,7 +344,8 @@ main { position: relative; z-index: 1; }
 @media (max-width: 820px) {
   .nav__links { display: none; }
   .hero__foot { grid-template-columns: 1fr; }
-  .about { grid-template-columns: 1fr; }
+  .about, .venture { grid-template-columns: 1fr; }
+  .venture__card { aspect-ratio: 5 / 4; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .stats li { padding: 24px 0; margin: 0; border-right: 0; border-bottom: 1px solid var(--line); }
   .stats li:nth-child(odd) { padding-right: 16px; border-right: 1px solid var(--line); }

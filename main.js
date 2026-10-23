@@ -125,6 +125,7 @@
   const go = (hash) => () => document.querySelector(hash)?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
   const commands = [
     { label: 'Go to About', hint: 'Section', run: go('#about') },
+    { label: 'Go to Metzee', hint: 'Section', run: go('#metzee') },
     { label: 'Go to Selected work', hint: 'Section', run: go('#work') },
     { label: 'Go to Experience', hint: 'Section', run: go('#experience') },
     { label: 'Go to Contact', hint: 'Section', run: go('#contact') },
