@@ -2,20 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Page not found · Arun Reena Raju</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <script>try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <style>
+    .lost { min-height: 100svh; display: grid; align-content: center; gap: 32px; padding-block: 48px; }
+    .lost h1 { margin: 0; font-family: var(--display); font-weight: 750; font-stretch: 75%; font-size: clamp(120px, 30vw, 460px); line-height: .8; letter-spacing: -0.01em; }
+    .lost p { margin: 0; font-size: clamp(20px, 2vw, 28px); color: var(--fg-2); max-width: 26ch; }
+  </style>
 </head>
 <body>
-  <main class="contact" style="min-height:100svh;display:flex;flex-direction:column;justify-content:center;">
-    <p class="mono contact__kicker">Error 404</p>
-    <h1 class="contact__big">This page went <em>off-script.</em></h1>
-    <p style="margin-top:48px"><a class="btn btn--solid" href="/">Back to the homepage ←</a></p>
+  <main class="lost wrap">
+    <p class="label mono"><span class="label__dot"></span>Error 404</p>
+    <h1 class="iri">Lost.</h1>
+    <p>This page doesn't exist, but the rest of the site does.</p>
+    <a class="pill pill--iri" href="/">Back to the homepage ←</a>
   </main>
 </body>
 </html>

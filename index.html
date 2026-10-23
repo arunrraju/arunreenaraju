@@ -2,31 +2,30 @@
 <html lang="en" class="no-js">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Arun Reena Raju</title>
+  <meta name="claude:viewport-fit-sides" content="cover">
   <!-- TODO(content): one-sentence positioning statement, ~150 characters -->
-  <meta name="description" content="Arun Reena Raju — portfolio, selected work, experience and contact.">
+  <meta name="description" content="Arun Reena Raju builds Metzee. Portfolio, selected work and contact.">
   <meta name="author" content="Arun Reena Raju">
   <link rel="canonical" href="https://arunreenaraju.com/">
-  <meta name="theme-color" content="#0e0e0c" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#07090c">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://arunreenaraju.com/">
   <meta property="og:title" content="Arun Reena Raju">
-  <meta property="og:description" content="Portfolio, selected work, experience and contact.">
+  <meta property="og:description" content="Portfolio, selected work and contact.">
   <meta property="og:image" content="https://arunreenaraju.com/assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
   <script>
     document.documentElement.classList.remove('no-js');
-    // Apply the saved theme before first paint to avoid a flash.
     try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
   </script>
 
@@ -36,19 +35,28 @@
     "@type": "Person",
     "name": "Arun Reena Raju",
     "url": "https://arunreenaraju.com/",
-    "jobTitle": "Your role",
+    "worksFor": { "@type": "Organization", "name": "Metzee" },
     "sameAs": ["https://github.com/arunrraju"]
   }
   </script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="spotlight" aria-hidden="true"></div>
+
+  <!-- Intro: counts up while fonts and the shader warm up -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader__row">
+      <span class="loader__name">Arun Reena Raju</span>
+      <span class="loader__count"><span data-loader-count>000</span></span>
+    </div>
+    <div class="loader__bar"><span></span></div>
+  </div>
+
+  <div class="cursor" aria-hidden="true"><span class="cursor__label"></span></div>
 
   <header class="nav" id="top">
-    <a class="nav__mark" href="#top" aria-label="Arun Reena Raju, back to top">
-      <span class="mono">ARR</span>
+    <a class="nav__mark" href="#top" data-magnetic>
+      <span class="nav__mark-name">Arun Reena Raju</span>
     </a>
     <nav class="nav__links" aria-label="Primary">
       <a href="#about">About</a>
@@ -58,11 +66,12 @@
       <a href="#contact">Contact</a>
     </nav>
     <div class="nav__tools">
-      <button class="kbd-btn" type="button" data-open-palette aria-label="Open command menu">
+      <span class="nav__clock mono" aria-label="Arun's local time"><time data-clock>--:--</time></span>
+      <button class="chip" type="button" data-open-palette aria-label="Open command menu" data-magnetic>
         <kbd class="mono">⌘K</kbd>
       </button>
-      <button class="theme-btn" type="button" data-theme-toggle aria-label="Toggle colour theme">
-        <span class="theme-btn__dot"></span>
+      <button class="chip chip--round" type="button" data-theme-toggle aria-label="Switch light or dark theme" data-magnetic>
+        <span class="chip__half"></span>
       </button>
     </div>
   </header>
@@ -70,203 +79,177 @@
   <main id="main">
     <!-- ───────────── HERO ───────────── -->
     <section class="hero" aria-labelledby="hero-name">
-      <p class="hero__eyebrow mono reveal">
-        <span class="status-dot" aria-hidden="true"></span>
-        <!-- TODO(content): status line -->
-        Currently building Metzee · Based in [City]
-      </p>
+      <canvas class="hero__canvas" aria-hidden="true"></canvas>
+      <div class="hero__veil" aria-hidden="true"></div>
 
-      <h1 class="hero__name" id="hero-name">
-        <span class="line"><span class="word">Arun</span></span>
-        <span class="line"><span class="word italic">Reena</span> <span class="word">Raju</span></span>
-      </h1>
-
-      <div class="hero__foot">
-        <!-- TODO(content): positioning statement, one or two sentences -->
-        <p class="hero__lede reveal">
-          <span class="hl">[Your role]</span> who turns ambiguous problems into
-          products people actually use. I care about <em>craft</em>, clarity and
-          the details most people never notice.
-        </p>
-        <div class="hero__cta reveal">
-          <a class="btn btn--solid" href="#work">See selected work <span aria-hidden="true">↓</span></a>
-          <a class="btn" href="resume.pdf">Résumé <span aria-hidden="true">↗</span></a>
+      <div class="hero__inner">
+        <div class="hero__meta">
+          <!-- TODO(content): your role, and where you're based -->
+          <p class="hero__intro">
+            <span class="split">[Your role], building</span>
+            <span class="split"><a class="iri" href="#metzee">Metzee</a>. Based in [City].</span>
+          </p>
+          <ul class="hero__index mono" role="list">
+            <li><span>Now</span><span>Metzee</span></li>
+            <li><span>Focus</span><span>[Product · Engineering]</span></li>
+            <li><span>Status</span><span><i class="pulse" aria-hidden="true"></i>Building</span></li>
+          </ul>
         </div>
-      </div>
 
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee__track mono">
-          <!-- TODO(content): your core skills / disciplines -->
-          <span>Strategy</span><span>✦</span><span>Engineering</span><span>✦</span><span>Design</span><span>✦</span><span>Leadership</span><span>✦</span><span>Systems thinking</span><span>✦</span><span>Shipping</span><span>✦</span>
-          <span>Strategy</span><span>✦</span><span>Engineering</span><span>✦</span><span>Design</span><span>✦</span><span>Leadership</span><span>✦</span><span>Systems thinking</span><span>✦</span><span>Shipping</span><span>✦</span>
-        </div>
+        <h1 class="hero__name" id="hero-name" aria-label="Arun Reena Raju">
+          <span class="hero__line" aria-hidden="true"><span class="hero__chars">ARUN REENA</span></span>
+          <span class="hero__line hero__line--2" aria-hidden="true">
+            <span class="hero__chars">RAJU</span>
+            <span class="hero__tag mono">Portfolio<br>Est. 2026</span>
+            <a class="hero__scroll" href="#about" data-magnetic data-cursor="Scroll">
+              <span class="mono">Scroll</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m0 0-6-6m6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+            </a>
+          </span>
+        </h1>
       </div>
     </section>
 
     <!-- ───────────── ABOUT ───────────── -->
-    <section class="section" id="about" aria-labelledby="about-h">
-      <header class="section__head reveal">
-        <span class="section__num mono">01</span>
-        <h2 id="about-h" class="section__title">About</h2>
-      </header>
+    <section class="about wrap" id="about" aria-labelledby="about-h">
+      <h2 class="label mono" id="about-h"><span class="label__dot"></span>About</h2>
+      <!-- TODO(content): your bio in your own voice. Words light up as the reader scrolls. -->
+      <p class="about__statement" data-scrub-words>
+        I'm Arun. I build products that feel inevitable once they exist.
+        Right now that means Metzee, where I spend my days turning
+        [the problem Metzee solves] into something simple enough to love.
+        Before that, [one line about your path]. I care about craft,
+        speed and the small details people feel before they notice.
+      </p>
 
-      <div class="about">
-        <!-- TODO(content): a short bio in your own voice, 3 to 5 sentences -->
-        <p class="about__big reveal">
-          I'm Arun. For the past <span class="hl">[N] years</span> I've been
-          building <em>[what you build]</em> for <em>[who you build it for]</em>.
-          I'm happiest at the point where hard technical problems meet real people.
-        </p>
-        <div class="about__side reveal">
-          <p>
-            [Second paragraph: how you work, what you're known for, and what
-            you're looking to do next. Keep it human and specific.]
-          </p>
-          <dl class="facts">
-            <div><dt class="mono">Now</dt><dd>[Current role] at [Company]</dd></div>
-            <div><dt class="mono">Before</dt><dd>[Previous company], [Previous company]</dd></div>
-            <div><dt class="mono">Studied</dt><dd>[Degree], [University]</dd></div>
-            <div><dt class="mono">Based</dt><dd>[City, Country]</dd></div>
-          </dl>
-        </div>
-      </div>
-
-      <ul class="stats" role="list">
-        <!-- TODO(content): three or four numbers you're proud of -->
-        <li class="reveal"><span class="stats__n" data-count="10">0</span><span class="stats__plus">+</span><span class="stats__l mono">Years of experience</span></li>
-        <li class="reveal"><span class="stats__n" data-count="40">0</span><span class="stats__plus">+</span><span class="stats__l mono">Projects shipped</span></li>
-        <li class="reveal"><span class="stats__n" data-count="12">0</span><span class="stats__l mono">Teams led or mentored</span></li>
-        <li class="reveal"><span class="stats__n" data-count="3">0</span><span class="stats__l mono">Countries worked in</span></li>
-      </ul>
+      <dl class="facts">
+        <div class="facts__item"><dt class="mono">Building</dt><dd>Metzee</dd></div>
+        <div class="facts__item"><dt class="mono">Previously</dt><dd>[Company], [Company]</dd></div>
+        <div class="facts__item"><dt class="mono">Studied</dt><dd>[Degree], [University]</dd></div>
+        <div class="facts__item"><dt class="mono">Based in</dt><dd>[City, Country]</dd></div>
+      </dl>
     </section>
 
     <!-- ───────────── METZEE ───────────── -->
-    <section class="section" id="metzee" aria-labelledby="metzee-h">
-      <header class="section__head reveal">
-        <span class="section__num mono">02</span>
-        <h2 id="metzee-h" class="section__title">Metzee</h2>
-        <!-- TODO(content): your role at Metzee, e.g. Founder, Co-founder & CEO -->
-        <p class="section__note mono">[Your role] · [Year] — Now</p>
-      </header>
+    <section class="metzee" id="metzee" aria-labelledby="metzee-h">
+      <div class="metzee__sticky">
+        <div class="metzee__orb" aria-hidden="true">
+          <canvas class="metzee__canvas"></canvas>
+        </div>
+        <h2 class="metzee__word" id="metzee-h" data-metzee-word>Metzee</h2>
+      </div>
 
-      <article class="venture reveal">
-        <div class="venture__card" aria-hidden="true">
-          <div class="venture__orb"></div>
-          <span class="venture__word">Metzee</span>
-          <span class="venture__tag mono">[Category, e.g. Consumer app]</span>
+      <div class="metzee__body wrap">
+        <p class="label mono"><span class="label__dot"></span>The company · [Your role] · [Year] to now</p>
+        <!-- TODO(content): what Metzee is, in one sentence -->
+        <p class="metzee__lede">
+          Metzee is <span class="iri">[what it is]</span> for [who it's for],
+          built so they can [do what] without [the usual pain].
+        </p>
+        <div class="metzee__grid">
+          <!-- TODO(content): the three things someone should remember about Metzee -->
+          <article class="metzee__card">
+            <h3 class="mono">The problem</h3>
+            <p>[What's broken today, in one or two sentences.]</p>
+          </article>
+          <article class="metzee__card">
+            <h3 class="mono">The idea</h3>
+            <p>[What Metzee does differently, in one or two sentences.]</p>
+          </article>
+          <article class="metzee__card">
+            <h3 class="mono">Where it is</h3>
+            <p>[Stage, a number you're proud of, or what's shipping next.]</p>
+          </article>
         </div>
-        <div class="venture__body">
-          <!-- TODO(content): what Metzee is, in one sentence -->
-          <p class="venture__lede">
-            Metzee is <em>[what it is]</em> that helps <em>[who]</em> to
-            <span class="hl">[do what]</span>.
-          </p>
-          <!-- TODO(content): the story: why you started it, what's hard about it, where it's going -->
-          <p class="venture__text">
-            [Two or three sentences on why Metzee exists, the problem it solves,
-            and what you're building next. This is the part people will remember.]
-          </p>
-          <ul class="venture__points" role="list">
-            <li><span class="mono">Problem</span>[The problem in a few words]</li>
-            <li><span class="mono">Approach</span>[What makes Metzee different]</li>
-            <li><span class="mono">Stage</span>[e.g. Live, beta, 1,000 users]</li>
-          </ul>
-          <!-- TODO(content): Metzee's website -->
-          <a class="btn" href="#contact">Visit Metzee <span aria-hidden="true">↗</span></a>
-        </div>
-      </article>
+        <!-- TODO(content): Metzee's website -->
+        <a class="pill pill--iri" href="#contact" data-magnetic data-cursor="Visit">
+          Visit Metzee <span aria-hidden="true">↗</span>
+        </a>
+      </div>
     </section>
 
-    <!-- ───────────── WORK ───────────── -->
-    <section class="section" id="work" aria-labelledby="work-h">
-      <header class="section__head reveal">
-        <span class="section__num mono">03</span>
-        <h2 id="work-h" class="section__title">Selected work</h2>
-        <p class="section__note mono">Hover to preview · click to read</p>
-      </header>
-
-      <!-- TODO(content): 4 to 6 projects. Each needs a title, one-line outcome, year, tags and a link. -->
-      <ol class="work" role="list">
-        <li class="work__item reveal" data-hue="18">
-          <a class="work__link" href="#contact">
-            <span class="work__idx mono">01</span>
-            <span class="work__title">Project One</span>
-            <span class="work__desc">[One-line outcome, e.g. cut onboarding time by 60% for 2M users]</span>
-            <span class="work__tags mono">Product · Platform</span>
-            <span class="work__year mono">2026</span>
-            <span class="work__arrow" aria-hidden="true">↗</span>
-          </a>
-        </li>
-        <li class="work__item reveal" data-hue="210">
-          <a class="work__link" href="#contact">
-            <span class="work__idx mono">02</span>
-            <span class="work__title">Project Two</span>
-            <span class="work__desc">[One-line outcome with a number in it]</span>
-            <span class="work__tags mono">Engineering · Data</span>
-            <span class="work__year mono">2025</span>
-            <span class="work__arrow" aria-hidden="true">↗</span>
-          </a>
-        </li>
-        <li class="work__item reveal" data-hue="150">
-          <a class="work__link" href="#contact">
-            <span class="work__idx mono">03</span>
-            <span class="work__title">Project Three</span>
-            <span class="work__desc">[One-line outcome with a number in it]</span>
-            <span class="work__tags mono">Design · Research</span>
-            <span class="work__year mono">2024</span>
-            <span class="work__arrow" aria-hidden="true">↗</span>
-          </a>
-        </li>
-        <li class="work__item reveal" data-hue="280">
-          <a class="work__link" href="#contact">
-            <span class="work__idx mono">04</span>
-            <span class="work__title">Project Four</span>
-            <span class="work__desc">[One-line outcome with a number in it]</span>
-            <span class="work__tags mono">Leadership · Strategy</span>
-            <span class="work__year mono">2023</span>
-            <span class="work__arrow" aria-hidden="true">↗</span>
-          </a>
-        </li>
-      </ol>
-      <div class="work__preview" aria-hidden="true"><div class="work__preview-inner"><span class="mono">Preview</span></div></div>
+    <!-- ───────────── WORK (pinned horizontal scroll on desktop) ───────────── -->
+    <section class="work" id="work" aria-labelledby="work-h">
+      <div class="work__sticky">
+        <div class="work__head wrap">
+          <h2 class="label mono" id="work-h"><span class="label__dot"></span>Selected work</h2>
+          <p class="work__progress mono" aria-hidden="true"><span data-work-current>1</span> / <span data-work-total>4</span></p>
+        </div>
+        <!-- TODO(content): 4 to 6 projects. Add data-image="assets/work/name.jpg" to replace the generated art. -->
+        <ol class="work__track" role="list">
+          <li class="card" style="--a:#9db8ff;--b:#e2b8ff;--c:#0d1430">
+            <a class="card__link" href="#contact" data-cursor="View">
+              <div class="card__art"><span class="card__glyph">A</span></div>
+              <div class="card__meta">
+                <h3 class="card__title">Project One</h3>
+                <p class="card__desc">[One line on the outcome, ideally with a number.]</p>
+                <p class="card__tags mono"><span>2026</span><span>Product</span><span>Platform</span></p>
+              </div>
+            </a>
+          </li>
+          <li class="card" style="--a:#ffc6a6;--b:#ff8fb1;--c:#2a0f1c">
+            <a class="card__link" href="#contact" data-cursor="View">
+              <div class="card__art"><span class="card__glyph">B</span></div>
+              <div class="card__meta">
+                <h3 class="card__title">Project Two</h3>
+                <p class="card__desc">[One line on the outcome, ideally with a number.]</p>
+                <p class="card__tags mono"><span>2025</span><span>Engineering</span><span>Data</span></p>
+              </div>
+            </a>
+          </li>
+          <li class="card" style="--a:#a6ffe0;--b:#8fd0ff;--c:#06201d">
+            <a class="card__link" href="#contact" data-cursor="View">
+              <div class="card__art"><span class="card__glyph">C</span></div>
+              <div class="card__meta">
+                <h3 class="card__title">Project Three</h3>
+                <p class="card__desc">[One line on the outcome, ideally with a number.]</p>
+                <p class="card__tags mono"><span>2024</span><span>Design</span><span>Research</span></p>
+              </div>
+            </a>
+          </li>
+          <li class="card" style="--a:#f4f0c8;--b:#c9b8ff;--c:#1a1630">
+            <a class="card__link" href="#contact" data-cursor="View">
+              <div class="card__art"><span class="card__glyph">D</span></div>
+              <div class="card__meta">
+                <h3 class="card__title">Project Four</h3>
+                <p class="card__desc">[One line on the outcome, ideally with a number.]</p>
+                <p class="card__tags mono"><span>2023</span><span>Strategy</span><span>Growth</span></p>
+              </div>
+            </a>
+          </li>
+        </ol>
+      </div>
     </section>
 
     <!-- ───────────── EXPERIENCE ───────────── -->
-    <section class="section" id="experience" aria-labelledby="exp-h">
-      <header class="section__head reveal">
-        <span class="section__num mono">04</span>
-        <h2 id="exp-h" class="section__title">Experience</h2>
-      </header>
-
+    <section class="exp wrap" id="experience" aria-labelledby="exp-h">
+      <h2 class="label mono" id="exp-h"><span class="label__dot"></span>Experience</h2>
       <!-- TODO(content): roles, newest first -->
-      <ol class="exp" role="list">
-        <li class="exp__row reveal">
-          <span class="exp__when mono">2024 — Now</span>
-          <div class="exp__what">
-            <h3>[Role] <span class="exp__at">at [Company]</span></h3>
-            <p>[Two lines on scope and impact. Lead with the result, then how.]</p>
-          </div>
+      <ol class="exp__list" role="list">
+        <li class="exp__row">
+          <span class="exp__when mono">[2024] — Now</span>
+          <span class="exp__role">[Founder]</span>
+          <span class="exp__org">Metzee</span>
+          <span class="exp__note">[One line on scope and impact.]</span>
         </li>
-        <li class="exp__row reveal">
-          <span class="exp__when mono">2021 — 2024</span>
-          <div class="exp__what">
-            <h3>[Role] <span class="exp__at">at [Company]</span></h3>
-            <p>[Two lines on scope and impact.]</p>
-          </div>
+        <li class="exp__row">
+          <span class="exp__when mono">[2021] — [2024]</span>
+          <span class="exp__role">[Role]</span>
+          <span class="exp__org">[Company]</span>
+          <span class="exp__note">[One line on scope and impact.]</span>
         </li>
-        <li class="exp__row reveal">
-          <span class="exp__when mono">2018 — 2021</span>
-          <div class="exp__what">
-            <h3>[Role] <span class="exp__at">at [Company]</span></h3>
-            <p>[Two lines on scope and impact.]</p>
-          </div>
+        <li class="exp__row">
+          <span class="exp__when mono">[2018] — [2021]</span>
+          <span class="exp__role">[Role]</span>
+          <span class="exp__org">[Company]</span>
+          <span class="exp__note">[One line on scope and impact.]</span>
         </li>
       </ol>
 
-      <div class="caps reveal">
-        <h3 class="caps__title mono">Toolkit</h3>
+      <div class="kit">
+        <h3 class="label mono"><span class="label__dot"></span>Toolkit</h3>
         <!-- TODO(content): skills and tools -->
-        <ul class="caps__list" role="list">
+        <ul class="kit__list" role="list">
           <li>[Skill]</li><li>[Skill]</li><li>[Skill]</li><li>[Skill]</li>
           <li>[Tool]</li><li>[Tool]</li><li>[Tool]</li><li>[Tool]</li>
         </ul>
@@ -275,37 +258,49 @@
 
     <!-- ───────────── CONTACT ───────────── -->
     <section class="contact" id="contact" aria-labelledby="contact-h">
-      <p class="mono contact__kicker reveal">05 — Contact</p>
-      <h2 id="contact-h" class="contact__big reveal">
-        Let's build something <em>worth</em> remembering.
-      </h2>
-      <!-- TODO(content): confirm the public email address -->
-      <button class="contact__email reveal" type="button" data-copy="hello@arunreenaraju.com">
-        <span class="contact__email-text">hello@arunreenaraju.com</span>
-        <span class="contact__email-hint mono" aria-live="polite">Click to copy</span>
-      </button>
-      <ul class="socials reveal" role="list">
-        <!-- TODO(content): add or remove profiles -->
-        <li><a href="https://www.linkedin.com/" rel="me noopener" target="_blank">LinkedIn ↗</a></li>
-        <li><a href="https://github.com/arunrraju" rel="me noopener" target="_blank">GitHub ↗</a></li>
-        <li><a href="mailto:hello@arunreenaraju.com">Email ↗</a></li>
-        <li><a href="resume.pdf">Résumé ↗</a></li>
-      </ul>
+      <div class="contact__marquee" aria-hidden="true">
+        <div class="contact__track">
+          <span>Let's talk</span><span class="iri">✳</span><span>Let's talk</span><span class="iri">✳</span>
+          <span>Let's talk</span><span class="iri">✳</span><span>Let's talk</span><span class="iri">✳</span>
+        </div>
+      </div>
+      <h2 class="sr-only" id="contact-h">Contact</h2>
+
+      <div class="contact__body wrap">
+        <p class="contact__lede">Have an idea, a question, or just want to say hello? My inbox is open.</p>
+        <!-- TODO(content): confirm the public email address -->
+        <div class="contact__actions">
+          <button class="contact__email" type="button" data-copy="hello@arunreenaraju.com" data-cursor="Copy">
+            <span class="contact__email-text">hello@arunreenaraju.com</span>
+            <span class="contact__email-hint mono" aria-live="polite">Click to copy</span>
+          </button>
+          <a class="contact__orb" href="mailto:hello@arunreenaraju.com" data-magnetic data-cursor="Write">
+            <span>Say<br>hello</span>
+          </a>
+        </div>
+        <ul class="socials" role="list">
+          <!-- TODO(content): add or remove profiles -->
+          <li><a href="https://www.linkedin.com/" rel="me noopener" target="_blank">LinkedIn <span aria-hidden="true">↗</span></a></li>
+          <li><a href="https://github.com/arunrraju" rel="me noopener" target="_blank">GitHub <span aria-hidden="true">↗</span></a></li>
+          <li><a href="https://x.com/" rel="me noopener" target="_blank">X <span aria-hidden="true">↗</span></a></li>
+          <li><a href="resume.pdf">Résumé <span aria-hidden="true">↗</span></a></li>
+        </ul>
+      </div>
+
+      <footer class="foot wrap mono">
+        <span>© <span data-year>2026</span> Arun Reena Raju</span>
+        <span>Designed and built by hand</span>
+        <a href="#top">Back to top ↑</a>
+      </footer>
     </section>
   </main>
 
-  <footer class="foot mono">
-    <span>© <span data-year>2026</span> Arun Reena Raju</span>
-    <span>Local time <time data-clock>--:--</time></span>
-    <a href="#top">Back to top ↑</a>
-  </footer>
-
-  <!-- Command palette -->
+  <!-- Command menu -->
   <dialog class="palette" aria-label="Command menu">
     <form method="dialog" class="palette__box">
-      <input class="palette__input" type="text" placeholder="Type a command or search…" aria-label="Search commands" autocomplete="off">
+      <input class="palette__input" id="palette-search" type="text" placeholder="Jump to a section or run a command" aria-label="Search commands" autocomplete="off">
       <ul class="palette__list" role="listbox"></ul>
-      <p class="palette__hint mono">↑↓ to move · ↵ to select · esc to close</p>
+      <p class="palette__hint mono">↑↓ move · ↵ select · esc close</p>
     </form>
   </dialog>
 

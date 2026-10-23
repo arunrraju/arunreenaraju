@@ -18,16 +18,17 @@ grep -n "TODO(content)\|\[" index.html
 ```
 
 - **Résumé:** drop a PDF at `resume.pdf` in the repo root.
-- **Project images:** add `data-image="/assets/work/name.jpg"` to a `<li class="work__item">` and the hover preview shows it instead of the gradient.
+- **Project images:** on a `.card__art` element add `style="--img: url(assets/work/name.jpg)"` to replace the generated art.
 - **Time zone** for the footer clock: `TIME_ZONE` in `main.js`.
 - **Social preview image:** add a 1200×630 `assets/og.png`.
 
 ## Features
 
-- Light and dark themes (follows the system, with a toggle that remembers your choice)
-- Command menu on ⌘K / Ctrl+K
-- Cursor-following project previews, scroll reveals, count-up stats, live local clock
-- Fully responsive, keyboard accessible, respects reduced-motion
+- Real-time liquid-chrome WebGL hero and a chrome orb for Metzee (hand-written shader, no libraries)
+- Intro counter, letter-by-letter name reveal, words that light up as you read the bio
+- Pinned horizontal scroll through selected work on desktop, swipe carousel on phones
+- Custom cursor with labels, magnetic buttons, ⌘K / Ctrl+K command menu, live local clock
+- Dark and light themes, fully responsive, keyboard accessible, respects reduced motion
 - SEO basics: meta and Open Graph tags, JSON-LD `Person`, sitemap, robots.txt, 404 page
 
 ## Deploy
