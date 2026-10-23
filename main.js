@@ -130,7 +130,7 @@
     { label: 'Go to Experience', hint: 'Section', run: go('#experience') },
     { label: 'Go to Contact', hint: 'Section', run: go('#contact') },
     { label: 'Copy email address', hint: 'Action', run: () => navigator.clipboard?.writeText(email) },
-    { label: 'Download résumé', hint: 'File', run: () => { window.location.href = '/resume.pdf'; } },
+    { label: 'Download résumé', hint: 'File', run: () => { window.location.href = 'resume.pdf'; } },
     { label: 'Toggle light / dark', hint: 'Theme', run: toggleTheme },
     { label: 'Open GitHub', hint: 'Link', run: () => window.open('https://github.com/arunrraju', '_blank', 'noopener') },
   ];

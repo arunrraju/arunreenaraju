@@ -17,7 +17,7 @@ All copy lives in `index.html`. Every spot that still needs real content is mark
 grep -n "TODO(content)\|\[" index.html
 ```
 
-- **Résumé:** drop a PDF at `/resume.pdf`.
+- **Résumé:** drop a PDF at `resume.pdf` in the repo root.
 - **Project images:** add `data-image="/assets/work/name.jpg"` to a `<li class="work__item">` and the hover preview shows it instead of the gradient.
 - **Time zone** for the footer clock: `TIME_ZONE` in `main.js`.
 - **Social preview image:** add a 1200×630 `assets/og.png`.
@@ -32,7 +32,7 @@ grep -n "TODO(content)\|\[" index.html
 
 ## Deploy
 
-> The domain `arunreenaraju.com` isn't registered yet. Buy it first (any registrar works: Cloudflare, Namecheap, Porkbun, Google/Squarespace), then follow the steps below. Until then the site works at `https://arunrraju.github.io/arunreenaraju/` only if you remove the `CNAME` file, since all asset paths are root-relative; with the domain set up, no changes are needed.
+> The domain `arunreenaraju.com` isn't registered yet. Until you buy it, the site still works at `https://arunrraju.github.io/arunreenaraju/` once Pages is enabled (skip step 2). After buying it at any registrar, do steps 2 and 3.
 
 `.github/workflows/pages.yml` publishes the site to GitHub Pages on every push to `main`.
 
