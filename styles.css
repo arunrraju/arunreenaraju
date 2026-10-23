@@ -368,7 +368,7 @@ body::after {
   position: absolute; inset: 0; --pos: 38% 30%;
   /* the window opens around the face, which sits in the upper part of the photo */
   clip-path: inset(calc((1 - var(--pp, 0)) * 10%) calc((1 - var(--pp, 0)) * 30%) calc((1 - var(--pp, 0)) * 34%) round calc((1 - var(--pp, 0)) * 28px));
-  --ps: calc(1.12 - var(--pp, 0) * 0.12);
+  --ps: calc(1.05 - var(--pp, 0) * 0.05);
 }
 .portrait__frame img { inset: 0; height: 100%; transform-origin: 40% 22%; }
 .portrait__frame.is-empty::before { inset: calc((1 - var(--pp, 0)) * 10% + 18px) calc((1 - var(--pp, 0)) * 30% + 18px) calc((1 - var(--pp, 0)) * 34% + 18px); }
