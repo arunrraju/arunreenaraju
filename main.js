@@ -279,6 +279,10 @@
   addEventListener('load', sizeWork);
 
   const portrait = $('.portrait');
+  const nav = $('.nav');
+  const heroEl = $('.hero');
+  const navHasFocus = () => nav.contains(document.activeElement);
+  let lastY = scrollY;
   const parallax = $$('.gallery .photo');
   const onScroll = () => {
     const vh = innerHeight;
@@ -301,13 +305,21 @@
       words.forEach((w, k) => w.classList.toggle('on', k < lit));
     }
     if (metzee) {
-      const r = metzee.getBoundingClientRect();
+      const scene = $('.metzee__scene', metzee);
+      const r = scene.getBoundingClientRect();
+      const span = Math.max(1, scene.offsetHeight - vh);
       const p = clamp(1 - r.top / vh);
-      const out = clamp(-r.top / vh);
-      metzee.style.setProperty('--orb', (0.55 + 0.45 * p).toFixed(4));
-      metzee.style.setProperty('--word', (1.35 - 0.35 * p + out * 0.2).toFixed(4));
-      metzee.style.setProperty('--word-o', clamp(1 - (out - 0.15) * 2.2).toFixed(3));
-      metzee.style.setProperty('--orb-o', (1 - clamp((out - 0.15) * 1.6) * 0.6).toFixed(3));
+      const out = clamp(-r.top / span);
+      metzee.style.setProperty('--orb', (0.55 + 0.45 * p + out * 0.1).toFixed(4));
+      metzee.style.setProperty('--word', (1.35 - 0.35 * p + out * 0.15).toFixed(4));
+    }
+    if (nav) {
+      const y = scrollY;
+      const solid = y > heroEl.offsetHeight - 80;
+      nav.classList.toggle('is-solid', solid);
+      nav.classList.toggle('is-hidden', solid && y > lastY + 2 && !navHasFocus());
+      if (y < lastY - 2 || !solid) nav.classList.remove('is-hidden');
+      lastY = y;
     }
     if (desktop.matches && work) {
       const r = work.getBoundingClientRect();

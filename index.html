@@ -149,11 +149,14 @@
 
     <!-- ───────────── METZEE ───────────── -->
     <section class="metzee" id="metzee" aria-labelledby="metzee-h">
-      <div class="metzee__sticky">
-        <div class="metzee__orb" aria-hidden="true">
-          <canvas class="metzee__canvas"></canvas>
+      <!-- The scene pins for one screen of scrolling, then the details follow below it -->
+      <div class="metzee__scene">
+        <div class="metzee__sticky">
+          <div class="metzee__orb" aria-hidden="true">
+            <canvas class="metzee__canvas"></canvas>
+          </div>
+          <h2 class="metzee__word" id="metzee-h" data-metzee-word>Metzee</h2>
         </div>
-        <h2 class="metzee__word" id="metzee-h" data-metzee-word>Metzee</h2>
       </div>
 
       <div class="metzee__body wrap">

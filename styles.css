@@ -117,7 +117,21 @@ body::after {
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;
   padding: calc(18px + env(safe-area-inset-top, 0px)) var(--gutter-r) 18px var(--gutter);
   mix-blend-mode: difference; color: #fff;
+  transition: transform .5s var(--ease), background-color .4s, border-color .4s, color .4s;
+  border-bottom: 1px solid transparent;
 }
+/* Past the hero the bar gets its own surface so page content never shows through it,
+   and it slides away while scrolling down */
+.nav.is-solid {
+  mix-blend-mode: normal; color: var(--fg);
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom-color: var(--line);
+  padding-block: calc(12px + env(safe-area-inset-top, 0px)) 12px;
+}
+.nav.is-solid .chip { border-color: var(--line); }
+.nav.is-solid .chip:hover { border-color: var(--fg); }
+.nav.is-hidden { transform: translateY(-100%); }
 .nav__mark-name { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 .nav__links { display: flex; gap: clamp(14px, 2.2vw, 34px); font-size: 14px; }
 .nav__links a { position: relative; padding: 4px 0; opacity: .78; transition: opacity .3s; }
@@ -193,6 +207,7 @@ body::after {
 
 /* ───────────── Metzee ───────────── */
 .metzee { position: relative; }
+.metzee__scene { position: relative; height: 165svh; }
 .metzee__sticky {
   position: sticky; top: 0; height: 100svh; overflow: hidden;
   display: grid; place-items: center; isolation: isolate;
@@ -204,7 +219,7 @@ body::after {
   font-size: clamp(90px, 25vw, 480px); line-height: .8; letter-spacing: -0.01em; opacity: var(--word-o, 1);
   color: #fff; mix-blend-mode: difference; transform: scale(var(--word, 1)); will-change: transform;
 }
-.metzee__body { position: relative; z-index: 2; margin-top: -12svh; padding-block: 0 clamp(100px, 14vw, 200px); display: grid; gap: clamp(28px, 4vw, 48px); }
+.metzee__body { position: relative; z-index: 2; padding-block: clamp(40px, 6vw, 80px) clamp(100px, 14vw, 200px); display: grid; gap: clamp(28px, 4vw, 48px); }
 .metzee__lede {
   margin: 0; max-width: 22ch; font-family: var(--display); font-weight: 500; font-stretch: 88%;
   font-size: clamp(32px, 4.4vw, 72px); line-height: 1.04; letter-spacing: -0.012em;
@@ -367,20 +382,21 @@ body::after {
 .portrait__frame {
   position: absolute; inset: 0; --pos: 38% 30%;
   /* the window opens around the face, which sits in the upper part of the photo */
-  clip-path: inset(calc((1 - var(--pp, 0)) * 10%) calc((1 - var(--pp, 0)) * 30%) calc((1 - var(--pp, 0)) * 34%) round calc((1 - var(--pp, 0)) * 28px));
+  clip-path: inset(calc((1 - var(--pp, 0)) * 21%) calc((1 - var(--pp, 0)) * 30%) calc((1 - var(--pp, 0)) * 27%) round calc((1 - var(--pp, 0)) * 28px));
   --ps: calc(1.05 - var(--pp, 0) * 0.05);
 }
 .portrait__frame img { inset: 0; height: 100%; transform-origin: 40% 22%; }
-.portrait__frame.is-empty::before { inset: calc((1 - var(--pp, 0)) * 10% + 18px) calc((1 - var(--pp, 0)) * 30% + 18px) calc((1 - var(--pp, 0)) * 34% + 18px); }
-.portrait__frame.is-empty::after { left: calc((1 - var(--pp, 0)) * 30% + 32px); bottom: calc((1 - var(--pp, 0)) * 34% + 30px); }
+.portrait__frame.is-empty::before { inset: calc((1 - var(--pp, 0)) * 21% + 18px) calc((1 - var(--pp, 0)) * 30% + 18px) calc((1 - var(--pp, 0)) * 27% + 18px); }
+.portrait__frame.is-empty::after { left: calc((1 - var(--pp, 0)) * 30% + 32px); bottom: calc((1 - var(--pp, 0)) * 27% + 30px); }
 .portrait__say {
   position: relative; z-index: 2; margin: 0; pointer-events: none;
-  font-family: var(--display); font-weight: 750; font-stretch: 75%; font-size: clamp(64px, 13vw, 260px);
-  line-height: .85; letter-spacing: -0.01em; color: #fff; mix-blend-mode: difference; white-space: nowrap;
-  grid-area: 1 / 1;
+  font-family: var(--display); font-weight: 750; font-stretch: 75%; font-size: min(10vw, 16vh);
+  line-height: .85; letter-spacing: -0.01em; color: var(--fg); white-space: nowrap;
+  grid-area: 1 / 1; opacity: calc(1 - var(--pp, 0) * 2.2);
 }
-.portrait__say--l { transform: translate(calc(-22vw - var(--pp, 0) * 30vw), -0.45em); }
-.portrait__say--r { transform: translate(calc(18vw + var(--pp, 0) * 30vw), 0.5em); }
+/* "Hello," sits above the photo card and "I'm Arun." below it, so neither covers the face */
+.portrait__say--l { transform: translate(calc(-8vw - var(--pp, 0) * 20vw), calc(-50svh + 11svh)); }
+.portrait__say--r { transform: translate(calc(10vw + var(--pp, 0) * 20vw), calc(50svh - 15svh)); }
 .portrait__caption {
   position: absolute; right: var(--gutter-r); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); margin: 0; z-index: 2;
   color: #fff; mix-blend-mode: difference; opacity: var(--pp, 0); text-align: right;
@@ -481,13 +497,13 @@ body::after {
   .card__tags { grid-column: 1; grid-row: auto; }
   .exp__row { grid-template-columns: 1fr; }
   .portrait { height: 200svh; }
-  .portrait__frame { clip-path: inset(calc((1 - var(--pp, 0)) * 16%) calc((1 - var(--pp, 0)) * 12%) calc((1 - var(--pp, 0)) * 34%) round calc((1 - var(--pp, 0)) * 20px)); }
-  .portrait__frame.is-empty::before { inset: calc((1 - var(--pp, 0)) * 16% + 14px) calc((1 - var(--pp, 0)) * 12% + 14px) calc((1 - var(--pp, 0)) * 34% + 14px); }
-  .portrait__frame.is-empty::after { left: calc((1 - var(--pp, 0)) * 12% + 26px); bottom: calc((1 - var(--pp, 0)) * 34% + 26px); right: 26px; }
-  .portrait__say { font-size: 19vw; }
+  .portrait__frame { clip-path: inset(calc((1 - var(--pp, 0)) * 20%) calc((1 - var(--pp, 0)) * 8%) calc((1 - var(--pp, 0)) * 24%) round calc((1 - var(--pp, 0)) * 20px)); }
+  .portrait__frame.is-empty::before { inset: calc((1 - var(--pp, 0)) * 20% + 14px) calc((1 - var(--pp, 0)) * 8% + 14px) calc((1 - var(--pp, 0)) * 24% + 14px); }
+  .portrait__frame.is-empty::after { left: calc((1 - var(--pp, 0)) * 8% + 26px); bottom: calc((1 - var(--pp, 0)) * 24% + 26px); right: 26px; }
+  .portrait__say { font-size: 17vw; }
   .portrait__caption { bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
-  .portrait__say--l { transform: translate(calc(-14vw - var(--pp, 0) * 20vw), -3.9em); }
-  .portrait__say--r { transform: translate(calc(10vw + var(--pp, 0) * 20vw), 1.6em); }
+  .portrait__say--l { transform: translate(calc(-16vw - var(--pp, 0) * 20vw), calc(-50svh + 12svh)); }
+  .portrait__say--r { transform: translate(calc(12vw + var(--pp, 0) * 20vw), calc(50svh - 14svh)); }
   .gallery__head { grid-template-columns: 1fr; }
   .gallery__grid { grid-template-columns: 1fr; }
   .g-hero, .g-tall, .g-wide, .g-half, .g-full { grid-column: 1; }
