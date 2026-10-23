@@ -293,7 +293,7 @@ body::after {
 .exp__when { color: var(--fg-2); font-variant-numeric: tabular-nums; }
 .exp__role { font-family: var(--display); font-weight: 600; font-stretch: 85%; font-size: clamp(24px, 2.4vw, 40px); letter-spacing: -0.008em; line-height: 1.05; }
 .exp__org { font-size: clamp(17px, 1.4vw, 22px); }
-.exp__row:first-child .exp__org { background: var(--iri); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.exp > .exp__list > .exp__row:first-child .exp__org { background: var(--iri); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .exp__note { color: var(--fg-2); }
 .kit { display: grid; gap: 20px; margin-top: clamp(24px, 4vw, 48px); }
 .kit__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
