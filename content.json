@@ -108,11 +108,18 @@
         }
       ],
       "demo": "",
-      "quote": {
-        "text": "[A line from a seller or buyer about Metzee.]",
-        "name": "[Name]",
-        "role": "[Seller on Metzee]"
-      },
+      "quotes": [
+        {
+          "name": "As a seller",
+          "role": "",
+          "text": "I go live from my phone in the evening and just hold things up to the camera. People ask what the back looks like, I turn it round and show them. The timer resets every time someone bids, so nothing gets sniped in the last second — it ends when the room is done, not when the clock says so. I set delivery per item: this one’s local drop, that one’s collect from my place, the rest ship across India. I cap how many orders a day I can actually pack, so I’m never promising more than I can post. And I run the whole thing in the language I think in."
+        },
+        {
+          "name": "As a buyer",
+          "role": "",
+          "text": "There’s always something running. You’re watching an actual person hold the thing, not a product photo someone lifted off the internet — ask about a scratch and they’ll show you the scratch. Slide to bid, and if you win you’ve got half an hour to pay. I can have it shipped, or pick it up myself if the seller’s nearby, or pay cash when it arrives. Everything I’ve bought is sitting in one place with where it’s got to."
+        }
+      ],
       "links": [
         {
           "label": "Visit metzee.com",
@@ -172,11 +179,35 @@
         }
       ],
       "demo": "swing-analyzer-demo/index.html",
-      "quote": {
-        "text": "[A line from someone who uses Swing Analyzer.]",
-        "name": "[Name]",
-        "role": "[Role]"
-      },
+      "quotes_title": "In my words",
+      "quotes_style": "typing",
+      "quotes": [
+        {
+          "name": "",
+          "role": "",
+          "text": "I used to spend my evenings flicking through charts. Now the Today page shows me which setups are forming, with the levels already marked, and I’m done in ten minutes."
+        },
+        {
+          "name": "",
+          "role": "",
+          "text": "The Movers scanner is my morning coffee. Gappers, volume spikes and high-of-day runners for India and the US, all on one screen."
+        },
+        {
+          "name": "",
+          "role": "",
+          "text": "What I like most is that it’s honest. It shows the track record behind each setup, so I know which ones to trust and which to skip."
+        },
+        {
+          "name": "",
+          "role": "",
+          "text": "The chart feels like a pro terminal. It draws trendlines and channels by itself, I can drag it anywhere, and it zooms on the price axis."
+        },
+        {
+          "name": "",
+          "role": "",
+          "text": "Paper trading on live prices let me practise my rules for a month before putting any real money in."
+        }
+      ],
       "links": [],
       "demo_sections": [
         {

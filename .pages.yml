@@ -92,8 +92,23 @@ content:
             fields:
               - { name: label, label: Button text, type: string }
               - { name: hash, label: Link inside the demo, type: string, description: "e.g. #plan or #movers" }
+          - { name: quotes_title, label: Testimonials heading, type: string, description: "Defaults to In their words" }
+          - name: quotes_style
+            label: Testimonials style
+            type: select
+            options:
+              values: [side by side, typing]
+          - name: quotes
+            label: Testimonials
+            type: object
+            list: true
+            description: "One or more. Two or more sit side by side."
+            fields:
+              - { name: name, label: Who, type: string, description: "e.g. As a seller" }
+              - { name: role, label: Role and company, type: string }
+              - { name: text, label: Quote, type: text }
           - name: quote
-            label: Testimonial
+            label: Testimonial (single, older field)
             type: object
             fields:
               - { name: text, label: Quote, type: text }
