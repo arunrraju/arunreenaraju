@@ -68,6 +68,16 @@
       "letter": "M"
     },
     {
+      "title": "Live trailer alerts",
+      "description": "A JavaScript tool that watches warehouse flow at Amazon and flags full trailers early. Manual monitoring down 30%.",
+      "tags": [
+        "2025",
+        "Automation",
+        "Operations"
+      ],
+      "letter": "T"
+    },
+    {
       "title": "30+ websites at Alionbot",
       "description": "Designed and shipped 30+ WordPress sites and stores. Organic traffic up 50%, conversions up 35%.",
       "tags": [
@@ -96,16 +106,6 @@
         "Training"
       ],
       "letter": "S"
-    },
-    {
-      "title": "Live trailer alerts",
-      "description": "A JavaScript tool that watches warehouse flow at Amazon and flags full trailers early. Manual monitoring down 30%.",
-      "tags": [
-        "2025",
-        "Automation",
-        "Operations"
-      ],
-      "letter": "T"
     }
   ],
   "gallery": [
