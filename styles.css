@@ -586,7 +586,9 @@ body::after {
 .case__quote { margin: 0; }
 .case__quote p { margin: 0; font-family: var(--display); font-weight: 500; font-stretch: 88%; font-size: clamp(28px, 3.6vw, 60px); line-height: 1.08; letter-spacing: -0.005em; max-width: 24ch; }
 .case__quote p::before { content: "“"; display: block; font-family: Georgia, "Times New Roman", serif; font-size: 2.2em; line-height: .7; background: var(--iri); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.case__quote footer { margin-top: 24px; color: var(--fg-2); }
+.case__quote footer { margin-bottom: 18px; color: var(--fg-2); text-transform: uppercase; font-size: 12px; letter-spacing: .08em; }
+.case__quotes--many { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(40px, 6vw, 96px); }
+.case__quotes--many .case__quote p { font-size: clamp(19px, 1.6vw, 25px); line-height: 1.45; font-stretch: 100%; font-weight: 400; max-width: 46ch; }
 
 .case__next {
   appearance: none; border: 0; border-top: 1px solid var(--line); background: none; color: inherit; font: inherit; cursor: pointer;

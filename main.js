@@ -305,7 +305,8 @@
             <figcaption class="mono"><span>${n(i)} / ${String(total).padStart(2, '0')}</span>${esc(x.caption)}</figcaption>
           </figure>
         </li>`).join('');
-      const q = w.quote || {};
+      // Several testimonials (quotes) sit side by side; the single quote field still works
+      const quotes = arr(w.quotes).filter((x) => x.text).length ? arr(w.quotes).filter((x) => x.text) : (w.quote?.text ? [w.quote] : []);
       const next = projects[(current + 1) % projects.length];
 
       body.innerHTML = `
@@ -324,7 +325,7 @@
             ${stats ? `<dl class="case__stats">${stats}</dl>` : ''}
           </div>
           ${shots ? `<section class="case__section"><p class="label mono wrap"><span class="label__dot"></span>Screens</p><ol class="case__stack" role="list">${shots}</ol></section>` : ''}
-          ${q.text ? `<section class="case__section wrap"><p class="label mono"><span class="label__dot"></span>In their words</p><blockquote class="case__quote" ${rv()}><p>${esc(q.text)}</p>${q.name || q.role ? `<footer class="mono">${esc([q.name, q.role].filter(Boolean).join(' · '))}</footer>` : ''}</blockquote></section>` : ''}
+          ${quotes.length ? `<section class="case__section wrap"><p class="label mono"><span class="label__dot"></span>In their words</p><div class="case__quotes${quotes.length > 1 ? ' case__quotes--many' : ''}">${quotes.map((x) => `<blockquote class="case__quote" ${rv()}>${x.name || x.role ? `<footer class="mono">${esc([x.name, x.role].filter(Boolean).join(' · '))}</footer>` : ''}<p>${esc(x.text)}</p></blockquote>`).join('')}</div></section>` : ''}
           ${projects.length > 1 ? `<div class="wrap"><button class="case__next" type="button" data-case-next><span class="mono">Next project</span><span class="case__next-title">${esc(next.title)} →</span></button></div>` : ''}
         </div>`;
       body.scrollTop = 0;
