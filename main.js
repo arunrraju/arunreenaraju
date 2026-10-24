@@ -290,9 +290,11 @@
       let d = 0;
       const rv = () => `class="case-rv" style="--d:${d++}"`;
       const n = (i) => String(i + 1).padStart(2, '0');
-      const links = arr(w.links).filter((l) => l.url).map((l, i) => {
+      // A live demo opens full screen above the panel; it leads the buttons when there is one
+      const demoBtn = w.demo ? `<button class="pill pill--iri" type="button" data-demo-open>View demo <span aria-hidden="true">↗</span></button>` : '';
+      const links = demoBtn + arr(w.links).filter((l) => l.url).map((l, i) => {
         const ext = /^https?:/i.test(l.url) ? ' target="_blank" rel="noopener"' : '';
-        return `<a class="pill${i ? '' : ' pill--iri'}" href="${esc(l.url)}"${ext}>${esc(l.label || 'Visit')} <span aria-hidden="true">↗</span></a>`;
+        return `<a class="pill${i || demoBtn ? '' : ' pill--iri'}" href="${esc(l.url)}"${ext}>${esc(l.label || 'Visit')} <span aria-hidden="true">↗</span></a>`;
       }).join('');
       const stats = arr(w.stats).map((x) => `<div ${rv()}><dt>${esc(x.value)}</dt><dd>${esc(x.label)}</dd></div>`).join('');
       const total = arr(w.shots).length;
@@ -322,7 +324,6 @@
             ${stats ? `<dl class="case__stats">${stats}</dl>` : ''}
           </div>
           ${shots ? `<section class="case__section"><p class="label mono wrap"><span class="label__dot"></span>Screens</p><ol class="case__stack" role="list">${shots}</ol></section>` : ''}
-          ${w.demo ? `<section class="case__section wrap"><p class="label mono"><span class="label__dot"></span>Try it</p><div class="case__device"><iframe src="${esc(w.demo)}" title="${esc(w.title)} live demo" loading="lazy"></iframe></div><p class="case__device-cap"><a class="pill" href="${esc(w.demo)}" target="_blank" rel="noopener">Open full screen ↗</a></p></section>` : ''}
           ${q.text ? `<section class="case__section wrap"><p class="label mono"><span class="label__dot"></span>In their words</p><blockquote class="case__quote" ${rv()}><p>${esc(q.text)}</p>${q.name || q.role ? `<footer class="mono">${esc([q.name, q.role].filter(Boolean).join(' · '))}</footer>` : ''}</blockquote></section>` : ''}
           ${projects.length > 1 ? `<div class="wrap"><button class="case__next" type="button" data-case-next><span class="mono">Next project</span><span class="case__next-title">${esc(next.title)} →</span></button></div>` : ''}
         </div>`;
@@ -381,6 +382,39 @@
       }, reduceMotion ? 0 : 420);
     };
 
+    // Live demo: the app runs in a full-screen iframe. On a phone the frame is phone-wide,
+    // so the app shows its own phone layout; on a computer it shows the web layout.
+    const demoDlg = $('.demo');
+    const demoFrame = demoDlg && $('[data-demo-frame]', demoDlg);
+    const demoFull = demoDlg && $('[data-demo-full]', demoDlg);
+    const demoTabs = demoDlg && $('[data-demo-tabs]', demoDlg);
+    const demoGo = (url) => { demoFrame.src = url; demoFull.href = url; };
+    const openDemo = (w) => {
+      if (!demoDlg || !w?.demo) return;
+      const base = String(w.demo).split('#')[0];
+      const sections = arr(w.demo_sections).filter((x) => x.hash);
+      $('[data-demo-title]', demoDlg).textContent = `${w.title} · live demo`;
+      demoTabs.innerHTML = sections.map((x, i) => `<button type="button" data-hash="${esc(x.hash)}" aria-pressed="${i === 0}">${esc(x.label || x.hash)}</button>`).join('');
+      demoGo(base + (sections[0]?.hash || ''));
+      demoDlg.showModal();
+      requestAnimationFrame(() => demoDlg.classList.add('is-in'));
+    };
+    const closeDemo = () => {
+      if (!demoDlg?.open) return;
+      demoDlg.classList.remove('is-in');
+      setTimeout(() => { demoDlg.close(); demoFrame.src = 'about:blank'; }, reduceMotion ? 0 : 350);
+    };
+    if (demoDlg) {
+      demoDlg.addEventListener('cancel', (e) => { e.preventDefault(); closeDemo(); });
+      demoDlg.addEventListener('click', (e) => {
+        if (e.target.closest('[data-demo-close]')) closeDemo();
+        const tab = e.target.closest('[data-hash]');
+        if (!tab) return;
+        demoGo(demoFrame.src.split('#')[0] + tab.dataset.hash);
+        $$('[data-hash]', demoTabs).forEach((b) => b.setAttribute('aria-pressed', String(b === tab)));
+      });
+    }
+
     $$('[data-case]').forEach((a) => a.addEventListener('click', (e) => {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
       e.preventDefault();
@@ -390,6 +424,7 @@
     caseDlg.addEventListener('click', (e) => {
       if (e.target.closest('[data-case-close]')) closeCase();
       if (e.target.closest('[data-case-next]')) goNext();
+      if (e.target.closest('[data-demo-open]')) openDemo(projects[current]);
     });
     // Screens stack: each one pins near the top and the next slides over it,
     // pushing the ones underneath back (scaled down, tilted and dimmed).
