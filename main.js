@@ -266,6 +266,133 @@
     if (e.key === 'ArrowRight') showShot(lbIndex + 1);
   });
 
+  /* ───────────── Case panel: a work card grows into its full story ───────────── */
+  const caseDlg = $('.case');
+  const projects = window.siteContent?.work || [];
+  if (caseDlg && projects.length) {
+    const stage = $('.case__stage', caseDlg);
+    const art = $('.case__art', caseDlg);
+    const body = $('[data-case-body]', caseDlg);
+    const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+    const arr = (v) => (Array.isArray(v) ? v.filter(Boolean) : []);
+    const cards = $$('.card');
+    let current = 0, busy = false;
+
+    const fill = (k) => {
+      current = (k + projects.length) % projects.length;
+      const w = projects[current];
+      const card = cards[current];
+      // Same colours as the card, so the grow animation is seamless
+      ['--a', '--b', '--c'].forEach((v) => stage.style.setProperty(v, card?.style.getPropertyValue(v) || ''));
+      if (w.image) art.style.setProperty('--img', `url('${w.image}')`); else art.style.removeProperty('--img');
+      $('.case__glyph', art).textContent = (w.letter || w.title || '').trim().charAt(0).toUpperCase();
+
+      let d = 0;
+      const rv = () => `class="case-rv" style="--d:${d++}"`;
+      const n = (i) => String(i + 1).padStart(2, '0');
+      const links = arr(w.links).filter((l) => l.url).map((l, i) => {
+        const ext = /^https?:/i.test(l.url) ? ' target="_blank" rel="noopener"' : '';
+        return `<a class="pill${i ? '' : ' pill--iri'}" href="${esc(l.url)}"${ext}>${esc(l.label || 'Visit')} <span aria-hidden="true">↗</span></a>`;
+      }).join('');
+      const stats = arr(w.stats).map((x) => `<div ${rv()}><dt>${esc(x.value)}</dt><dd>${esc(x.label)}</dd></div>`).join('');
+      const shots = arr(w.shots).map((x, i) => `
+        <li ${rv()}>
+          <figure class="photo${x.image ? '' : ' is-empty'}" data-photo-label="Screen ${n(i)} · add it in Pages CMS">${x.image ? `<img src="${esc(x.image)}" alt="${esc(x.caption)}" loading="lazy">` : ''}</figure>
+          ${x.caption ? `<p class="mono">${esc(x.caption)}</p>` : ''}
+        </li>`).join('');
+      const q = w.quote || {};
+      const next = projects[(current + 1) % projects.length];
+
+      body.innerHTML = `
+        <header class="case__head wrap">
+          <p class="case__kicker mono case-rv" style="--d:1"><span>${n(current)} / ${String(projects.length).padStart(2, '0')}</span>${w.role ? `<span>${esc(w.role)}</span>` : ''}${arr(w.tags).filter((t) => t.toLowerCase() !== String(w.role || '').toLowerCase()).map((t) => `<span>${esc(t)}</span>`).join('')}</p>
+          <h2 class="case__title" id="case-title"><span>${esc(w.title)}</span></h2>
+          ${w.description ? `<p class="case__desc case-rv" style="--d:3">${esc(w.description)}</p>` : ''}
+        </header>
+        <div class="case__sheet">
+          <div class="wrap case__grid">
+            <div class="case__story" ${rv()}>
+              <p class="label mono"><span class="label__dot"></span>The story</p>
+              <p>${esc(w.summary || w.description)}</p>
+              ${links ? `<div class="case__links">${links}</div>` : ''}
+            </div>
+            ${stats ? `<dl class="case__stats">${stats}</dl>` : ''}
+          </div>
+          ${shots ? `<section class="case__section"><p class="label mono wrap"><span class="label__dot"></span>Screens</p><ol class="case__strip" role="list">${shots}</ol></section>` : ''}
+          ${w.demo ? `<section class="case__section wrap"><p class="label mono"><span class="label__dot"></span>Try it</p><div class="case__device"><iframe src="${esc(w.demo)}" title="${esc(w.title)} live demo" loading="lazy"></iframe></div><p class="case__device-cap"><a class="pill" href="${esc(w.demo)}" target="_blank" rel="noopener">Open full screen ↗</a></p></section>` : ''}
+          ${q.text ? `<section class="case__section wrap"><p class="label mono"><span class="label__dot"></span>In their words</p><blockquote class="case__quote" ${rv()}><p>${esc(q.text)}</p>${q.name || q.role ? `<footer class="mono">${esc([q.name, q.role].filter(Boolean).join(' · '))}</footer>` : ''}</blockquote></section>` : ''}
+          ${projects.length > 1 ? `<div class="wrap"><button class="case__next" type="button" data-case-next><span class="mono">Next project</span><span class="case__next-title">${esc(next.title)} →</span></button></div>` : ''}
+        </div>`;
+      body.scrollTop = 0;
+      stage.style.setProperty('--sp', 0);
+    };
+
+    const rectOf = (k) => {
+      const el = cards[k] && $('.card__art', cards[k]);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      const visible = r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
+      return visible ? `inset(${r.top}px ${innerWidth - r.right}px ${innerHeight - r.bottom}px ${r.left}px round 22px)` : null;
+    };
+    const full = 'inset(0px 0px 0px 0px round 0px)';
+
+    const openCase = (k) => {
+      fill(k);
+      const from = !reduceMotion && rectOf(current);
+      stage.style.transition = 'none';
+      stage.style.clipPath = from || full;
+      stage.style.opacity = from || reduceMotion ? '1' : '0';
+      caseDlg.showModal();
+      root.classList.add('case-open');
+      stage.getBoundingClientRect();
+      stage.style.transition = '';
+      requestAnimationFrame(() => {
+        stage.style.clipPath = full;
+        stage.style.opacity = '1';
+        setTimeout(() => caseDlg.classList.add('is-in'), reduceMotion ? 0 : from ? 420 : 120);
+      });
+    };
+
+    const closeCase = () => {
+      if (busy || !caseDlg.open) return;
+      busy = true;
+      caseDlg.classList.remove('is-in');
+      const to = !reduceMotion && rectOf(current);
+      setTimeout(() => {
+        if (to) stage.style.clipPath = to; else stage.style.opacity = '0';
+        setTimeout(() => {
+          caseDlg.close();
+          root.classList.remove('case-open');
+          busy = false;
+        }, reduceMotion ? 0 : to ? 820 : 300);
+      }, reduceMotion ? 0 : 260);
+    };
+
+    const goNext = () => {
+      if (busy) return;
+      busy = true;
+      caseDlg.classList.remove('is-in');
+      setTimeout(() => {
+        fill(current + 1);
+        requestAnimationFrame(() => { caseDlg.classList.add('is-in'); busy = false; });
+      }, reduceMotion ? 0 : 420);
+    };
+
+    $$('[data-case]').forEach((a) => a.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      e.preventDefault();
+      openCase(Number(a.dataset.case));
+    }));
+    caseDlg.addEventListener('cancel', (e) => { e.preventDefault(); closeCase(); });
+    caseDlg.addEventListener('click', (e) => {
+      if (e.target.closest('[data-case-close]')) closeCase();
+      if (e.target.closest('[data-case-next]')) goNext();
+    });
+    body.addEventListener('scroll', () => {
+      stage.style.setProperty('--sp', Math.min(1, body.scrollTop / innerHeight).toFixed(3));
+    }, { passive: true });
+  }
+
   /* ───────────── Scroll-driven pieces ───────────── */
   // About: words light up as you read
   const statement = $('[data-scrub-words]');

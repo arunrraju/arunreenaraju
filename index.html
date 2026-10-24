@@ -428,6 +428,15 @@
     <button class="lightbox__btn lightbox__next" type="button" data-lb="next" aria-label="Next photo">→</button>
   </dialog>
 
+  <!-- Case panel: a work card grows into this full-screen story (filled by main.js from content.json) -->
+  <dialog class="case" aria-labelledby="case-title">
+    <div class="case__stage">
+      <div class="case__art" aria-hidden="true"><span class="case__glyph"></span></div>
+      <div class="case__scroll" data-case-body></div>
+    </div>
+    <button class="lightbox__btn case__close" type="button" data-case-close aria-label="Close">Close ✕</button>
+  </dialog>
+
   <!-- Command menu -->
   <dialog class="palette" aria-label="Command menu">
     <form method="dialog" class="palette__box">
