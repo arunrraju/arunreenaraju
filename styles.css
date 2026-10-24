@@ -522,14 +522,34 @@ body::after {
 
 .case__section { margin-top: clamp(64px, 9vw, 130px); }
 .case__section > .label { margin-bottom: 22px; }
-.case__strip {
-  list-style: none; margin: 0; display: flex; gap: clamp(14px, 1.6vw, 24px); overflow-x: auto; scroll-snap-type: x mandatory;
-  padding: 0 var(--gutter-r) 12px var(--gutter); scroll-padding-left: var(--gutter); scrollbar-width: thin;
+/* Screens: a pinned stack. Each frame sticks below the last and slides over it;
+   main.js sets --depth (how many frames now cover it) to push it back. */
+.case__stack {
+  list-style: none; margin: 0 auto; padding: 0 var(--gutter-r) 14vh var(--gutter); max-width: 1600px;
+  perspective: 1400px;
 }
-.case__strip li { flex: none; width: clamp(260px, 46vw, 780px); scroll-snap-align: start; }
-.case__strip .photo { aspect-ratio: 16 / 10; border-radius: 18px; }
-.case__strip .photo img { inset: 0; height: 100%; transform: none; }
-.case__strip p { margin: 12px 0 0; color: var(--fg-2); font-size: 12px; }
+.case__stack li {
+  position: sticky; top: calc(12svh + var(--i, 0) * 14px);
+  width: min(100%, calc(74svh * 1.6)); margin: 0 auto 18svh;
+}
+.case__stack li:last-child { margin-bottom: 0; }
+.case__shot {
+  aspect-ratio: 16 / 10; border-radius: clamp(14px, 1.6vw, 26px);
+  box-shadow: 0 -20px 60px -24px rgba(0,0,0,.45), 0 40px 90px -40px var(--shadow);
+  transform-origin: 50% 0;
+  transform: translateY(calc(min(var(--depth, 0), 3) * -10px)) scale(calc(1 - min(var(--depth, 0), 3) * .055)) rotateX(calc(min(var(--depth, 0), 1) * 7deg));
+  filter: brightness(calc(1 - min(var(--depth, 0), 1.6) * .32)) saturate(calc(1 - min(var(--depth, 0), 1) * .25));
+  will-change: transform, filter;
+}
+.case__shot img { inset: 0; height: 100%; transform: scale(calc(1 + min(var(--depth, 0), 1) * .04)); }
+.case__shot figcaption {
+  position: absolute; left: clamp(10px, 1.4vw, 22px); bottom: clamp(10px, 1.4vw, 22px); z-index: 1;
+  display: flex; gap: 12px; align-items: center; max-width: calc(100% - 20px);
+  padding: 9px 14px; border-radius: 999px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #fff;
+  background: rgba(10, 13, 17, .55); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(12px);
+  opacity: calc(1 - min(var(--depth, 0), 1));
+}
+.case__shot figcaption span { opacity: .6; }
 
 .case__device {
   width: min(380px, 80vw); aspect-ratio: 9 / 19; margin: 0 auto; border-radius: 44px; padding: 12px;
@@ -555,12 +575,16 @@ body::after {
 @media (max-width: 760px) {
   .case__grid { grid-template-columns: minmax(0, 1fr); }
   .case__head { min-height: 64svh; }
-  .case__strip li { width: 82vw; }
+  .case__stack li { top: calc(14svh + var(--i, 0) * 10px); margin-bottom: 12svh; }
+  .case__shot figcaption { display: block; font-size: 10px; padding: 6px 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .case__shot figcaption span { display: none; }
   .case__next { flex-direction: column; gap: 8px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .case__stage, .case-rv, .case__sheet, .case__title span { transition: none !important; }
   .case__art { animation: none; }
+  .case__stack li { position: static; margin-bottom: 24px; }
+  .case__shot { transform: none; filter: none; }
 }
 
 /* ───────────── Command menu ───────────── */
