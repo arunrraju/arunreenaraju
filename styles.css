@@ -551,12 +551,37 @@ body::after {
 }
 .case__shot figcaption span { opacity: .6; }
 
-.case__device {
-  width: min(380px, 80vw); aspect-ratio: 9 / 19; margin: 0 auto; border-radius: 44px; padding: 12px;
-  background: linear-gradient(145deg, #2a3038, #0b0e12); box-shadow: 0 50px 100px -30px var(--shadow), inset 0 0 0 1px rgba(255,255,255,.12);
+/* Live demo: full screen above the case panel. The frame is always the full width,
+   so on a phone the app inside switches to its own phone layout. */
+.demo {
+  position: fixed; inset: 0; width: 100vw; height: 100svh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+  background: #0B0F14; color: #E6EAF0; overflow: hidden;
+  opacity: 0; transform: translateY(4vh) scale(.985); transition: opacity .35s var(--ease), transform .5s var(--ease);
 }
-.case__device iframe { width: 100%; height: 100%; border: 0; border-radius: 34px; background: #fff; }
-.case__device-cap { text-align: center; margin-top: 18px; }
+.demo[open] { display: flex; flex-direction: column; }
+.demo.is-in { opacity: 1; transform: none; }
+.demo::backdrop { background: rgba(4, 6, 9, .6); backdrop-filter: blur(6px); }
+.demo__bar {
+  flex: none; display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) var(--gutter-r) 10px var(--gutter);
+  border-bottom: 1px solid #1C2430; font-size: 12px; letter-spacing: .04em;
+}
+.demo__title { margin: 0; text-transform: uppercase; color: #9aa4b2; }
+.demo__tabs:focus { outline: none; }
+.demo__tabs { display: flex; gap: 6px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.demo__tabs button, .demo__full, .demo__close {
+  flex: none; font: inherit; color: #c9d4e3; background: #121a26; border: 1px solid #263246; border-radius: 999px;
+  padding: 8px 13px; cursor: pointer; text-decoration: none; white-space: nowrap;
+}
+.demo__tabs button[aria-pressed="true"] { background: #e6eaf0; border-color: #e6eaf0; color: #0B0F14; }
+.demo__close { background: #e6eaf0; color: #0B0F14; border-color: #e6eaf0; }
+.demo__frame { flex: 1; width: 100%; min-height: 0; border: 0; display: block; background: #0B0F14; }
+@media (max-width: 760px) {
+  .demo__bar { gap: 8px; }
+  .demo__title { flex: 1; }
+  .demo__tabs { order: 3; flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .demo { transition: none; } }
 
 .case__quote { margin: 0; }
 .case__quote p { margin: 0; font-family: var(--display); font-weight: 500; font-stretch: 88%; font-size: clamp(28px, 3.6vw, 60px); line-height: 1.08; letter-spacing: -0.005em; max-width: 24ch; }

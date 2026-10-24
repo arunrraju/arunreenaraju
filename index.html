@@ -437,6 +437,17 @@
     <button class="lightbox__btn case__close" type="button" data-case-close aria-label="Close">Close ✕</button>
   </dialog>
 
+  <!-- Live demo: a project's app running full screen above its case panel (filled by main.js) -->
+  <dialog class="demo" aria-labelledby="demo-title">
+    <div class="demo__bar">
+      <p class="demo__title mono" id="demo-title" data-demo-title>Live demo</p>
+      <div class="demo__tabs mono" role="group" aria-label="Demo sections" data-demo-tabs></div>
+      <a class="demo__full mono" href="#" target="_blank" rel="noopener" data-demo-full>Full screen ↗</a>
+      <button class="demo__close mono" type="button" data-demo-close aria-label="Close demo">Close ✕</button>
+    </div>
+    <iframe class="demo__frame" title="Live demo" data-demo-frame src="about:blank"></iframe>
+  </dialog>
+
   <!-- Command menu -->
   <dialog class="palette" aria-label="Command menu">
     <form method="dialog" class="palette__box">

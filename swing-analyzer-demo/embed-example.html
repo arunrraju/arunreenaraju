@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swing Analyzer embed example</title>
+<!-- Reference for the portfolio site: how to embed the demo so it works on desktop and phones.
+     Copy the .swing-demo block and its CSS/JS into the case-study page. Paths assume the demo
+     lives at /swing-analyzer-demo/ (here it sits next to this file, so the src is relative). -->
+<style>
+  body { margin: 0; background: #0B0F14; color: #E6EAF0; font: 16px/1.5 system-ui, -apple-system, Segoe UI, sans-serif; }
+  .page { max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  /* ---- the embed ---- */
+  .swing-demo { margin: 24px 0; }
+  .swing-demo__links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .swing-demo__links button, .swing-demo__full {
+    font: 600 13px/1 system-ui, sans-serif; color: #9CC3FF; background: #12233D; border: 1px solid #2B4A7A;
+    border-radius: 999px; padding: 8px 14px; cursor: pointer; text-decoration: none;
+  }
+  .swing-demo__links button[aria-pressed="true"] { background: #2563EB; border-color: #2563EB; color: #fff; }
+  .swing-demo__frame {
+    display: block; width: 100%; border: 0; border-radius: 16px; background: #0B0F14;
+    height: min(900px, calc(100vh - 140px)); min-height: 600px;
+    box-shadow: 0 0 0 1px #1C2430;
+  }
+  .swing-demo__full { display: inline-block; margin-top: 12px; }
+  /* Phones: the frame fills the screen width and nearly its height, so the app shows its own phone
+     layout (bottom tab bar, stacked cards). The app picks that layout from the frame's width. */
+  @media (max-width: 760px) {
+    .swing-demo { margin-left: -16px; margin-right: -16px; }
+    .swing-demo__links { padding: 0 16px; overflow-x: auto; flex-wrap: nowrap; }
+    .swing-demo__links button { flex: none; }
+    .swing-demo__frame { border-radius: 0; height: calc(100svh - 64px); min-height: 520px; box-shadow: none; border-top: 1px solid #1C2430; border-bottom: 1px solid #1C2430; }
+    .swing-demo__full { margin-left: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Swing Analyzer</h1>
+  <p>A personal research tool for swing trading Indian and US stocks. The demo below is the real app running on invented sample data; it is not investment advice.</p>
+
+  <section class="swing-demo">
+    <div class="swing-demo__links" role="group" aria-label="Demo sections">
+      <button data-hash="#plan" aria-pressed="true">Today plan</button>
+      <button data-hash="#trade/NSE/SKYLARK">Trade chart</button>
+      <button data-hash="#analyze/NSE/NOVATEK">Analysis</button>
+      <button data-hash="#screener">Screener</button>
+      <button data-hash="#movers">Live movers</button>
+    </div>
+    <iframe class="swing-demo__frame" id="swing-demo" src="index.html#plan" title="Swing Analyzer interactive demo" loading="lazy"></iframe>
+    <a class="swing-demo__full" id="swing-demo-full" href="index.html#plan" target="_blank" rel="noopener">Open full screen ↗</a>
+  </section>
+</div>
+<script>
+  (function () {
+    var frame = document.getElementById('swing-demo'), full = document.getElementById('swing-demo-full');
+    var base = frame.getAttribute('src').split('#')[0];
+    document.querySelectorAll('.swing-demo__links button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        frame.src = base + b.dataset.hash;
+        full.href = base + b.dataset.hash;
+        document.querySelectorAll('.swing-demo__links button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      });
+    });
+  })();
+</script>
+</body>
+</html>

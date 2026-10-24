@@ -64,7 +64,61 @@
         "Founder",
         "Live commerce"
       ],
-      "letter": "M"
+      "letter": "M",
+      "summary": "Metzee is a live-auction marketplace built for India. Sellers broadcast live shows and run auctions in real time, while buyers bid, pay and track delivery without ever leaving the stream. Anyone can sell: resellers, wholesalers, manufacturers and collectors. It runs as a web app and a native Android app, built from one codebase.",
+      "role": "Founder",
+      "stats": [
+        {
+          "value": "Live",
+          "label": "Auctions run in real time, inside the stream"
+        },
+        {
+          "value": "1",
+          "label": "Codebase for web and native Android"
+        },
+        {
+          "value": "Anyone",
+          "label": "Can sell: resellers to collectors"
+        }
+      ],
+      "shots": [
+        {
+          "image": "assets/photos/work/metzee-p1-landing.jpg",
+          "caption": "Landing page: metzee.com on web and mobile"
+        },
+        {
+          "image": "assets/photos/work/metzee-p2-home.jpg",
+          "caption": "Home: live now and trending"
+        },
+        {
+          "image": "assets/photos/work/metzee-p3-auction.jpg",
+          "caption": "Live auction: bid against the clock"
+        },
+        {
+          "image": "assets/photos/work/metzee-03-store.jpg",
+          "caption": "Store page: every seller gets a storefront"
+        },
+        {
+          "image": "assets/photos/work/metzee-02-explore.jpg",
+          "caption": "Explore: categories with live counts"
+        },
+        {
+          "image": "assets/photos/work/metzee-06-onboard.jpg",
+          "caption": "Onboarding: bid live, win in seconds"
+        }
+      ],
+      "demo": "",
+      "quote": {
+        "text": "[A line from a seller or buyer about Metzee.]",
+        "name": "[Name]",
+        "role": "[Seller on Metzee]"
+      },
+      "links": [
+        {
+          "label": "Visit metzee.com",
+          "url": "https://metzee.com/"
+        }
+      ]
     },
     {
       "title": "Swing Analyzer",
@@ -74,7 +128,78 @@
         "Trading",
         "Web + mobile"
       ],
-      "letter": "S"
+      "letter": "S",
+      "role": "Builder",
+      "summary": "Swing Analyzer is a personal research tool I built for swing trading Indian and US stocks. Each evening it scans my lists and builds a plan for the next session: setups ranked by a score from technicals, fundamentals, news tone and market flows, with entry, stop and targets drawn on the chart. During the day it streams live prices, scans for fast movers and raises alerts. Built with Python and FastAPI, React and TradingView Lightweight Charts. The demo runs the real app on invented sample data and is not investment advice.",
+      "stats": [
+        {
+          "value": "2",
+          "label": "Markets: India and US"
+        },
+        {
+          "value": "Nightly",
+          "label": "Scan builds the next day's plan"
+        },
+        {
+          "value": "Web + mobile",
+          "label": "One app, both screens"
+        }
+      ],
+      "shots": [
+        {
+          "image": "assets/photos/work/swing-1-plan.jpg",
+          "caption": "Daily plan: market mood and the best setup"
+        },
+        {
+          "image": "assets/photos/work/swing-2-calendar.jpg",
+          "caption": "Results calendar: earnings for the month"
+        },
+        {
+          "image": "assets/photos/work/swing-3-day.jpg",
+          "caption": "Earnings day: what to buy, watch or skip"
+        },
+        {
+          "image": "assets/photos/work/swing-4-trade.jpg",
+          "caption": "Trade screen: entry, stop and target on the chart"
+        },
+        {
+          "image": "assets/photos/work/swing-5-movers.jpg",
+          "caption": "Live movers: what's moving right now"
+        },
+        {
+          "image": "assets/photos/work/swing-6-paper.jpg",
+          "caption": "Paper trading: practice before real money"
+        }
+      ],
+      "demo": "swing-analyzer-demo/index.html",
+      "quote": {
+        "text": "[A line from someone who uses Swing Analyzer.]",
+        "name": "[Name]",
+        "role": "[Role]"
+      },
+      "links": [],
+      "demo_sections": [
+        {
+          "label": "Today plan",
+          "hash": "#plan"
+        },
+        {
+          "label": "Trade chart",
+          "hash": "#trade/NSE/SKYLARK"
+        },
+        {
+          "label": "Analysis",
+          "hash": "#analyze/NSE/NOVATEK"
+        },
+        {
+          "label": "Screener",
+          "hash": "#screener"
+        },
+        {
+          "label": "Live movers",
+          "hash": "#movers"
+        }
+      ]
     },
     {
       "title": "30+ websites at Alionbot",
@@ -84,7 +209,48 @@
         "Web design",
         "SEO"
       ],
-      "letter": "W"
+      "letter": "W",
+      "summary": "At Alionbot I designed and shipped more than 30 WordPress websites and stores, then grew them with SEO, Google Ads and social campaigns. I tracked everything in GA4 and SEMrush, ran A/B tests on ads, and set up email and SMS flows that kept customers coming back.",
+      "role": "Digital Marketing Specialist",
+      "stats": [
+        {
+          "value": "30+",
+          "label": "Websites and stores launched"
+        },
+        {
+          "value": "+50%",
+          "label": "Organic traffic"
+        },
+        {
+          "value": "+35%",
+          "label": "Conversion rate from PPC"
+        },
+        {
+          "value": "+40%",
+          "label": "Customer retention via email and SMS"
+        }
+      ],
+      "shots": [
+        {
+          "image": "assets/photos/work/alionbot-1.jpg",
+          "caption": "Website"
+        },
+        {
+          "image": "assets/photos/work/alionbot-2.jpg",
+          "caption": "Online store"
+        },
+        {
+          "image": "assets/photos/work/alionbot-3.jpg",
+          "caption": "Campaign results"
+        }
+      ],
+      "demo": "",
+      "quote": {
+        "text": "[A short line from a client, colleague or customer about this work.]",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      },
+      "links": []
     },
     {
       "title": "Ecoshop online store",
@@ -94,7 +260,44 @@
         "E-commerce",
         "Growth"
       ],
-      "letter": "E"
+      "letter": "E",
+      "summary": "I built Ecoshop's e-commerce platform and ran its growth: targeted SEO, PPC campaigns and social media across Facebook, Instagram and YouTube, plus early influencer partnerships to grow awareness.",
+      "role": "Marketing Associate",
+      "stats": [
+        {
+          "value": "+150%",
+          "label": "Qualified leads"
+        },
+        {
+          "value": "+50%",
+          "label": "Return on ad spend"
+        },
+        {
+          "value": "+60%",
+          "label": "Online revenue"
+        },
+        {
+          "value": "+40%",
+          "label": "Brand engagement"
+        }
+      ],
+      "shots": [
+        {
+          "image": "assets/photos/work/ecoshop-1.jpg",
+          "caption": "Storefront"
+        },
+        {
+          "image": "assets/photos/work/ecoshop-2.jpg",
+          "caption": "Product page"
+        }
+      ],
+      "demo": "",
+      "quote": {
+        "text": "[A short line from a client, colleague or customer about this work.]",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      },
+      "links": []
     }
   ],
   "gallery": [

@@ -84,7 +84,14 @@ content:
             fields:
               - { name: image, label: Image, type: image, description: "Landscape, 16:10 works best" }
               - { name: caption, label: Caption, type: string }
-          - { name: demo, label: Live demo URL, type: string, description: "Optional. Shown inside a phone frame. Some sites block this; if it stays blank, leave it empty." }
+          - { name: demo, label: Live demo URL, type: string, description: "Optional. Adds a View demo button that opens the app full screen (phone layout on phones). e.g. swing-analyzer-demo/index.html" }
+          - name: demo_sections
+            label: Demo quick links
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Button text, type: string }
+              - { name: hash, label: Link inside the demo, type: string, description: "e.g. #plan or #movers" }
           - name: quote
             label: Testimonial
             type: object
