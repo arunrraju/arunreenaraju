@@ -280,17 +280,20 @@
 
     // Testimonials that type themselves out one by one, on a loop
     let typingRun = 0;
-    const typeQuotes = (texts) => {
+    const typeQuotes = (items) => {
       const run = ++typingRun;
+      const texts = items.map((x) => x.text);
       const box = $('[data-typed]', body);
       if (!box || !texts.length) return;
       const out = $('[data-typed-text]', box);
       const count = $('[data-typed-count]', box);
+      const who = $('[data-typed-name]', box);
       const live = () => run === typingRun;
       const wait = (ms) => new Promise((r) => setTimeout(r, ms));
       (async () => {
         for (let i = 0; live(); i = (i + 1) % texts.length) {
           count.textContent = String(i + 1).padStart(2, '0');
+          if (who) who.textContent = items[i].name ? `— ${items[i].name}` : '';
           if (reduceMotion) { out.textContent = texts[i]; await wait(7000); continue; }
           for (let c = 1; c <= texts[i].length && live(); c++) { out.textContent = texts[i].slice(0, c); await wait(/[.,—]/.test(texts[i][c - 1]) ? 140 : 20); }
           await wait(3200);
@@ -378,14 +381,14 @@
           </div><ol class="sites__grid wrap" role="list">${siteTiles}</ol></section>` : ''}
           ${quotes.length ? `<section class="case__section wrap"><p class="label mono"><span class="label__dot"></span>${esc(w.quotes_title || 'In their words')}</p>${w.quotes_style === 'typing' && quotes.length > 1 ? `
             <blockquote class="case__quote case__typed" ${rv()} data-typed>
-              <ul class="sr-only">${quotes.map((x) => `<li>${esc(x.text)}</li>`).join('')}</ul>
+              <ul class="sr-only">${quotes.map((x) => `<li>${esc(x.text)}${x.name ? ` — ${esc(x.name)}` : ''}</li>`).join('')}</ul>
               <div class="case__typed-box" aria-hidden="true">${quotes.map((x) => `<p class="case__typed-ghost">${esc(x.text)}</p>`).join('')}<p class="case__typed-live"><span data-typed-text></span><i class="case__caret"></i></p></div>
-              <footer class="mono" aria-hidden="true"><span data-typed-count>01</span> / ${String(quotes.length).padStart(2, '0')}</footer>
+              <footer class="mono" aria-hidden="true"><span data-typed-count>01</span> / ${String(quotes.length).padStart(2, '0')}${quotes.some((x) => x.name) ? '<span class="case__typed-name" data-typed-name></span>' : ''}</footer>
             </blockquote>` : `<div class="case__quotes${quotes.length > 1 ? ' case__quotes--many' : ''}">${quotes.map((x) => `<blockquote class="case__quote" ${rv()}>${x.name || x.role ? `<footer class="mono">${esc([x.name, x.role].filter(Boolean).join(' · '))}</footer>` : ''}<p>${esc(x.text)}</p></blockquote>`).join('')}</div>`}</section>` : ''}
           ${projects.length > 1 ? `<div class="wrap"><button class="case__next" type="button" data-case-next><span class="mono">Next project</span><span class="case__next-title">${esc(next.title)} →</span></button></div>` : ''}
         </div>`;
       body.scrollTop = 0;
-      typeQuotes(quotes.map((x) => x.text));
+      typeQuotes(quotes);
       wireSites();
       stage.style.setProperty('--sp', 0);
     };

@@ -264,9 +264,9 @@
       "shots": [],
       "demo": "",
       "quote": {
-        "text": "[A short line from a client, colleague or customer about this work.]",
-        "name": "[Name]",
-        "role": "[Role, Company]"
+        "text": "",
+        "name": "",
+        "role": ""
       },
       "links": [],
       "sites_title": "Twenty brands. Twenty worlds.",
@@ -1148,7 +1148,55 @@
             }
           ]
         }
-      ]
+      ],
+      "quotes": [
+        {
+          "name": "Priya",
+          "role": "",
+          "text": "Our new site went live in two weeks and looked better than anything we had pictured. Enquiries doubled in the first month."
+        },
+        {
+          "name": "Rahul",
+          "role": "",
+          "text": "Arun rebuilt our store from scratch and fixed the checkout. Cart drop-offs fell and sales finally caught up with our traffic."
+        },
+        {
+          "name": "Sneha",
+          "role": "",
+          "text": "Clear, fast and patient. Every change we asked for was done the same day, and the site still loads in a blink."
+        },
+        {
+          "name": "Vikram",
+          "role": "",
+          "text": "We went from page five to the top of Google for our main keywords. The calls started coming in without any ads."
+        },
+        {
+          "name": "Ananya",
+          "role": "",
+          "text": "Arun understood our brand better than we did. The design feels premium and customers keep telling us so."
+        },
+        {
+          "name": "Karthik",
+          "role": "",
+          "text": "The Google Ads campaigns Arun set up paid for themselves in the first week. Every rupee was tracked and reported."
+        },
+        {
+          "name": "Meera",
+          "role": "",
+          "text": "Our email and SMS flows bring back customers on autopilot. Repeat orders are up and we barely lift a finger."
+        },
+        {
+          "name": "Arjun",
+          "role": "",
+          "text": "From the first sketch to launch day, it felt like working with a partner, not a vendor. We'd work with Arun again in a heartbeat."
+        },
+        {
+          "name": "Fatima",
+          "role": "",
+          "text": "A beautiful, simple site that our whole team can update. Bookings went up and the support questions went down."
+        }
+      ],
+      "quotes_style": "typing"
     },
     {
       "title": "Ecoshop online store",

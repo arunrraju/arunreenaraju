@@ -736,6 +736,7 @@ body::after {
 .case__caret { display: inline-block; width: .08em; height: .9em; margin-left: .06em; vertical-align: -.08em; background: currentColor; animation: caret 1s steps(1) infinite; }
 @keyframes caret { 50% { opacity: 0; } }
 .case__typed footer { margin: 22px 0 0; }
+.case__typed-name { margin-left: 18px; color: var(--fg); }
 .case__quotes--many { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(40px, 6vw, 96px); }
 .case__quotes--many .case__quote p { font-size: clamp(19px, 1.6vw, 25px); line-height: 1.45; font-stretch: 100%; font-weight: 400; max-width: 46ch; }
 
