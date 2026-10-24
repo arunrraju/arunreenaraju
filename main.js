@@ -78,7 +78,7 @@
   const VERT = 'attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }';
   const FRAG = `
     precision highp float;
-    uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; uniform float uOrb;
+    uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; uniform float uOrb; uniform float uPress;
     float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
     float noise(vec2 p){
       vec2 i = floor(p), f = fract(p);
@@ -99,7 +99,10 @@
       float pull = exp(-2.5 * dot(uv - m, uv - m));
       vec2 q = vec2(fbm(p + vec2(0.0, t)), fbm(p + vec2(5.2, 1.3) - t));
       vec2 r = vec2(fbm(p + 3.0 * q + vec2(1.7, 9.2) + 1.3 * t), fbm(p + 3.0 * q + vec2(8.3, 2.8) - t));
-      r += (m - uv) * pull * 0.35;
+      r += (m - uv) * pull * (0.35 + 0.4 * uPress);
+      // Touch: rings spread out from the finger like water
+      float dm = length(uv - m);
+      r += (uv - m) / (dm + 1e-3) * sin(dm * 22.0 - uTime * 7.0) * exp(-dm * 5.5) * 0.11 * uPress;
       vec2 b = p + 2.4 * r;
       float e = 0.006;
       float h0 = fbm(b);
@@ -173,18 +176,37 @@
     resize();
     addEventListener('resize', resize);
 
-    const mouse = { x: 0.62, y: 0.55, tx: 0.62, ty: 0.55 };
-    addEventListener('pointermove', (e) => {
+    const uPress = gl.getUniformLocation(prog, 'uPress');
+    const mouse = { x: 0.62, y: 0.55, tx: 0.62, ty: 0.55, press: 0, pressT: 0 };
+    const aim = (x, y) => {
       const r = canvas.getBoundingClientRect();
-      mouse.tx = (e.clientX - r.left) / r.width;
-      mouse.ty = 1 - (e.clientY - r.top) / r.height;
-    }, { passive: true });
+      mouse.tx = (x - r.left) / r.width;
+      mouse.ty = 1 - (y - r.top) / r.height;
+    };
+    addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') aim(e.clientX, e.clientY); }, { passive: true });
+
+    // Phones: the liquid follows the finger. Touch events keep firing while the page scrolls, pointer events don't.
+    const area = canvas.closest('section') || canvas;
+    const touch = (e) => {
+      const t = e.touches[0];
+      if (!t) return;
+      aim(t.clientX, t.clientY);
+      if (e.type === 'touchstart') { mouse.x = mouse.tx; mouse.y = mouse.ty; }
+      mouse.pressT = 1;
+    };
+    area.addEventListener('touchstart', touch, { passive: true });
+    area.addEventListener('touchmove', touch, { passive: true });
+    area.addEventListener('touchend', () => { mouse.pressT = 0; }, { passive: true });
+    area.addEventListener('touchcancel', () => { mouse.pressT = 0; }, { passive: true });
 
     let visible = true, raf = 0;
     const t0 = performance.now() - 20000;
     const frame = (now) => {
-      mouse.x += (mouse.tx - mouse.x) * 0.04;
-      mouse.y += (mouse.ty - mouse.y) * 0.04;
+      const follow = mouse.pressT ? 0.2 : 0.04;
+      mouse.x += (mouse.tx - mouse.x) * follow;
+      mouse.y += (mouse.ty - mouse.y) * follow;
+      mouse.press += (mouse.pressT - mouse.press) * (mouse.pressT ? 0.12 : 0.03);
+      gl.uniform1f(uPress, mouse.press);
       gl.uniform1f(uTime, (now - t0) / 1000);
       gl.uniform2f(uMouse, mouse.x, mouse.y);
       gl.drawArrays(gl.TRIANGLES, 0, 3);

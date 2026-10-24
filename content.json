@@ -65,44 +65,7 @@
         "Live commerce"
       ],
       "link": "https://metzee.com/",
-      "letter": "M",
-      "image": ""
-    },
-    {
-      "title": "30+ websites at Alionbot",
-      "description": "Designed and shipped 30+ WordPress sites and stores. Organic traffic up 50%, conversions up 35%.",
-      "tags": [
-        "2020–22",
-        "Web design",
-        "SEO"
-      ],
-      "link": "",
-      "letter": "W",
-      "image": ""
-    },
-    {
-      "title": "Ecoshop online store",
-      "description": "Built Ecoshop's e-commerce platform. Qualified leads up 150%, online revenue up 60%.",
-      "tags": [
-        "2017–21",
-        "E-commerce",
-        "Growth"
-      ],
-      "link": "",
-      "letter": "E",
-      "image": ""
-    },
-    {
-      "title": "A team of 370",
-      "description": "Led and trained a 370-person sales network at Smartway India. Sales up 25%.",
-      "tags": [
-        "2016–18",
-        "Leadership",
-        "Training"
-      ],
-      "link": "",
-      "letter": "S",
-      "image": ""
+      "letter": "M"
     },
     {
       "title": "Live trailer alerts",
@@ -112,9 +75,37 @@
         "Automation",
         "Operations"
       ],
-      "link": "",
-      "letter": "T",
-      "image": ""
+      "letter": "T"
+    },
+    {
+      "title": "30+ websites at Alionbot",
+      "description": "Designed and shipped 30+ WordPress sites and stores. Organic traffic up 50%, conversions up 35%.",
+      "tags": [
+        "2020–22",
+        "Web design",
+        "SEO"
+      ],
+      "letter": "W"
+    },
+    {
+      "title": "Ecoshop online store",
+      "description": "Built Ecoshop's e-commerce platform. Qualified leads up 150%, online revenue up 60%.",
+      "tags": [
+        "2017–21",
+        "E-commerce",
+        "Growth"
+      ],
+      "letter": "E"
+    },
+    {
+      "title": "A team of 370",
+      "description": "Led and trained a 370-person sales network at Smartway India. Sales up 25%.",
+      "tags": [
+        "2016–18",
+        "Leadership",
+        "Training"
+      ],
+      "letter": "S"
     }
   ],
   "gallery": [
@@ -157,13 +148,13 @@
       "note": "Building India's live-auction marketplace, on web and native Android."
     },
     {
-      "when": "2025 — Now",
-      "role": "Process Guide",
+      "when": "2025 — 2026",
+      "role": "Operations Process Guide",
       "org": "Amazon, UK",
       "note": "Runs trailer loading for 18+ people, steps in as shift lead, and built a tool that cut manual monitoring by 30%."
     },
     {
-      "when": "2024 — Now",
+      "when": "2024 — 2026",
       "role": "L&D Instructor",
       "org": "Amazon, UK",
       "note": "Trains new hires, leads and managers across three departments. Fulfil Your Potential award, 2025."
@@ -179,12 +170,6 @@
       "role": "Marketing Associate",
       "org": "Ecoshop",
       "note": "Built the online store and grew qualified leads by 150%."
-    },
-    {
-      "when": "2016 — 2018",
-      "role": "Team Leader",
-      "org": "Smartway India",
-      "note": "Led and trained a network marketing team of 370 and lifted sales by 25%."
     },
     {
       "when": "2016 — Now",
