@@ -83,16 +83,44 @@
       ],
       "shots": [
         {
-          "image": "assets/photos/work/metzee-1.jpg",
-          "caption": "Live show"
+          "image": "assets/photos/work/metzee-01-home.jpg",
+          "caption": "Home: live now and trending"
         },
         {
-          "image": "assets/photos/work/metzee-2.jpg",
-          "caption": "Bidding in the stream"
+          "image": "assets/photos/work/metzee-04-auction.jpg",
+          "caption": "Live auction: bid against the clock"
         },
         {
-          "image": "assets/photos/work/metzee-3.jpg",
-          "caption": "Checkout and tracking"
+          "image": "assets/photos/work/metzee-03-store.jpg",
+          "caption": "Store page: every seller gets a storefront"
+        },
+        {
+          "image": "assets/photos/work/metzee-02-explore.jpg",
+          "caption": "Explore: categories with live counts"
+        },
+        {
+          "image": "assets/photos/work/metzee-06-onboard.jpg",
+          "caption": "Onboarding: bid live, win in seconds"
+        },
+        {
+          "image": "assets/photos/work/metzee-07-landing.jpg",
+          "caption": "Landing page"
+        },
+        {
+          "image": "assets/photos/work/metzee-w3-auction.jpg",
+          "caption": "Live auction on the web"
+        },
+        {
+          "image": "assets/photos/work/metzee-w2-store.jpg",
+          "caption": "Store page on the web"
+        },
+        {
+          "image": "assets/photos/work/metzee-w1-home.jpg",
+          "caption": "Home on the web"
+        },
+        {
+          "image": "assets/photos/work/metzee-w4-landing.jpg",
+          "caption": "metzee.com"
         }
       ],
       "demo": "",
