@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>HALO — Checkout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="halo.css">
+<style>
+.co{position:relative;padding:150px 40px 120px;overflow:hidden}
+.top{display:flex;justify-content:space-between;align-items:flex-end;padding:0 24px 44px;position:relative;z-index:3}
+.top h1{font-size:104px;font-weight:200;letter-spacing:-.06em;margin-top:18px}
+.stp{display:flex;align-items:center;gap:12px}
+.stp .s{display:flex;align-items:center;gap:10px;padding:8px 18px 8px 8px;border-radius:999px;font:600 13px/1 var(--sans)}
+.stp .s i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 12px/1 var(--sans);font-style:normal;background:rgba(36,35,44,.08)}
+.stp .s.done i{background:linear-gradient(135deg,var(--mint),var(--sky))}
+.stp .s.on{background:var(--ink);color:#fff}.stp .s.on i{background:linear-gradient(135deg,var(--lilac),var(--peach));color:var(--ink)}
+.stp .ln{width:40px;height:2px;background:rgba(36,35,44,.12);border-radius:2px}
+.grid{display:grid;grid-template-columns:1fr 480px;gap:24px;position:relative;z-index:3;align-items:start}
+.left{display:grid;gap:20px}
+.blk{padding:34px}
+.blk .bh{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.blk .bh h2{font-size:32px;font-weight:300;display:flex;align-items:center;gap:14px}
+.blk .bh h2 i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:600 13px/1 var(--sans);font-style:normal;background:var(--ink);color:#fff}
+.blk .bh .ed{font-size:13px;font-weight:700;color:var(--violet)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.plans>div{border-radius:26px;padding:22px;background:rgba(255,255,255,.55);border:1px solid #fff;position:relative;display:flex;flex-direction:column}
+.plans>div.on{background:#fff;box-shadow:0 0 0 2px var(--ink),0 24px 40px -20px rgba(76,58,150,.4)}
+.plans .rd{width:22px;height:22px;border-radius:50%;border:2px solid rgba(36,35,44,.2);position:absolute;right:20px;top:20px}
+.plans .on .rd{border:7px solid var(--ink)}
+.plans small.k{font:600 10px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.plans h3{font-size:24px;font-weight:300;margin:12px 0 4px}
+.plans .pr{font:200 40px/1 var(--display);letter-spacing:-.05em;margin:12px 0 4px}
+.plans .pr span{font-size:15px;color:var(--dim);letter-spacing:0}
+.plans ul{list-style:none;font-size:13px;color:var(--ink-2);display:grid;gap:6px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.plans li{display:flex;gap:8px;align-items:center}
+.plans li .ic{width:16px;height:16px;color:var(--teal)}
+.plans .badge{position:absolute;top:-12px;left:22px;font:700 10px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:7px 12px;border-radius:99px;background:linear-gradient(90deg,var(--lilac),var(--peach))}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fields .w2{grid-column:span 2}
+.ship{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.ship>div{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:20px;background:rgba(255,255,255,.55);border:1px solid #fff}
+.ship>div.on{background:#fff;box-shadow:0 0 0 2px var(--ink)}
+.ship b{display:block;font:400 15px/1.2 var(--display)}
+.ship small{font-size:12px;color:var(--dim)}
+.ship .p{margin-left:auto;font:400 15px/1 var(--display)}
+.ship .icn{width:40px;height:40px;border-radius:14px;display:grid;place-items:center}
+.pay{display:grid;grid-template-columns:330px 1fr;gap:26px;align-items:start}
+.cc{height:206px;border-radius:28px;padding:24px;position:relative;overflow:hidden;color:var(--ink);box-shadow:0 30px 50px -20px rgba(76,58,150,.45);background:linear-gradient(135deg,#c9b8ff,#ffc9b0 50%,#b8f0dc);transform:rotate(-4deg)}
+.cc::before{content:"";position:absolute;inset:0;background:radial-gradient(120px 120px at 80% 20%,rgba(255,255,255,.8),transparent),radial-gradient(200px 160px at 10% 110%,rgba(185,216,255,.9),transparent)}
+.cc::after{content:"";position:absolute;top:-40%;left:-60%;width:40%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);transform:rotate(20deg);animation:sheen 4s ease-in-out infinite}
+@keyframes sheen{0%{left:-60%}60%,100%{left:130%}}
+.cc>*{position:relative;z-index:2}
+.cc .chipc{width:44px;height:32px;border-radius:8px;background:linear-gradient(135deg,#fff7e0,#d8c08a);margin-top:22px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.cc .no{font:400 21px/1 var(--display);letter-spacing:.12em;margin-top:22px}
+.cc .bt{display:flex;justify-content:space-between;margin-top:20px;font:600 11px/1 var(--sans);letter-spacing:.14em}
+.cc .lg{display:flex;justify-content:space-between;align-items:center}
+.cc .lg b{font:500 16px/1 var(--display);letter-spacing:.3em}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tabs span{flex:1;height:50px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:8px;font:600 13px/1 var(--sans);background:rgba(255,255,255,.55);border:1px solid #fff}
+.tabs span.on{background:var(--ink);color:#fff}
+.tabs .ic{width:18px;height:18px}
+.secure{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--dim);margin-top:14px}
+.secure .ic{width:16px;height:16px;color:var(--teal)}
+
+.sum{position:relative;padding:30px;border-radius:var(--r-xl)}
+.sum h2{font-size:30px;font-weight:300;display:flex;justify-content:space-between;align-items:center}
+.sum .vis{height:260px;border-radius:30px;margin:20px 0;position:relative;overflow:hidden;background:radial-gradient(70% 70% at 50% 40%,#fff,rgba(255,255,255,0)),linear-gradient(135deg,#ece5ff,#ffeee6 55%,#e3f8ef)}
+.sum .vis .ringwrap{position:absolute;width:280px;left:50%;margin-left:-140px;top:44px}
+.sum .vis .pill{position:absolute;left:14px;top:14px}
+.sum .vis .cursor{width:74px;height:74px;margin:-37px 0 0 -37px;font-size:10px}
+.line{display:grid;grid-template-columns:54px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.line .th{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:rgba(255,255,255,.7);border:1px solid #fff}
+.line .th .sphere{width:30px;height:30px}
+.line b{display:block;font:400 15px/1.25 var(--display)}
+.line small{font-size:12px;color:var(--dim)}
+.line .p{font:400 16px/1 var(--display);text-align:right}
+.line .p s{display:block;font-size:12px;color:var(--dim);margin-top:4px}
+.promo{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:18px;background:linear-gradient(90deg,rgba(184,240,220,.55),rgba(185,216,255,.45));margin:6px 0 10px;font-size:13px}
+.promo b{font-weight:700;letter-spacing:.08em}
+.promo .x{margin-left:auto;color:var(--ink-2);font-weight:600}
+.tot .r{display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2);padding:6px 0}
+.tot .r.big{color:var(--ink);padding-top:16px;margin-top:8px;border-top:1px solid var(--line-2);align-items:baseline}
+.tot .r.big b{font:200 54px/1 var(--display);letter-spacing:-.05em}
+.then{font-size:12px;color:var(--dim);text-align:right}
+.sum .btn.dark{width:100%;justify-content:space-between;height:66px;margin-top:20px;padding-left:28px;font-size:15px}
+.sum .btn.dark .ic{margin-right:-18px}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.trust span{padding:12px 8px;border-radius:16px;background:rgba(255,255,255,.55);border:1px solid #fff;text-align:center;font:600 11px/1.3 var(--sans);color:var(--ink-2)}
+.trust .ic{display:block;margin:0 auto 6px;color:var(--violet)}
+.toastok{position:absolute;right:540px;top:150px;z-index:5;display:flex;gap:12px;align-items:center;padding:12px 18px 12px 12px;border-radius:22px}
+.toastok .d{width:38px;height:38px;border-radius:12px;display:grid;place-items:center}
+.toastok b{display:block;font:400 14px/1.2 var(--display)}
+.toastok small{font-size:12px;color:var(--dim)}
+@keyframes ty{50%{opacity:0}}
+</style></head>
+<body>
+<section class="co">
+  <div data-aurora="40,80,520;560,640,560,.55;980,120,480;1100,900,460,.6;200,1200,420,.5"></div>
+  <div data-nav></div>
+  <div class="top"><div><span class="eyebrow">Secure checkout</span><h1>Almost <span class="au">yours.</span></h1></div>
+    <div class="stp"><span class="s done glass"><i class="ck" data-ic="check"></i>Plan</span><span class="ln"></span><span class="s done glass"><i class="ck" data-ic="check"></i>Details</span><span class="ln"></span><span class="s on"><i>3</i>Payment</span></div></div>
+  <div class="grid">
+    <div class="left">
+      <div class="blk glass">
+        <div class="bh"><h2><i>1</i>Choose your plan</h2><span class="ed">Compare plans</span></div>
+        <div class="plans">
+          <div><span class="rd"></span><small class="k">Ring only</small><h3>Essentials</h3><div class="pr">€0<span> / mo</span></div><ul><li><span data-ic="check"></span>Sleep time & heart rate</li><li><span data-ic="check"></span>Activity & steps</li></ul></div>
+          <div class="on"><span class="badge">First month free</span><span class="rd"></span><small class="k">Monthly</small><h3>Membership</h3><div class="pr">€5.99<span> / mo</span></div><ul><li><span data-ic="check"></span>Sleep staging & score</li><li><span data-ic="check"></span>Readiness & HRV trends</li><li><span data-ic="check"></span>Cancel anytime</li></ul></div>
+          <div><span class="rd"></span><small class="k">Annual · save 18%</small><h3>Membership</h3><div class="pr">€59<span> / yr</span></div><ul><li><span data-ic="check"></span>Everything in monthly</li><li><span data-ic="check"></span>Doctor-ready reports</li></ul></div>
+        </div>
+      </div>
+      <div class="blk glass">
+        <div class="bh"><h2><i>2</i>Delivery details</h2><span class="ed">Edit</span></div>
+        <div class="fields">
+          <div class="field"><small>First name</small><span>Lena</span></div><div class="field"><small>Last name</small><span>Vogt</span></div>
+          <div class="field w2"><small>Email · for your receipt and app login</small><span>lena.vogt@calmmornings.com</span></div>
+          <div class="field w2"><small>Address</small><span>Kastanienallee 41, 3rd floor</span></div>
+          <div class="field"><small>Postcode & city</small><span>10435 Berlin</span></div><div class="field"><small>Country</small><span>Germany</span></div>
+        </div>
+        <div class="ship"><div class="on"><span class="icn t-mint" data-ic="truck"></span><div><b>Standard</b><small>Thu 16 – Fri 17 Oct</small></div><span class="p">Free</span></div><div><span class="icn t-peach" data-ic="bolt"></span><div><b>Express</b><small>Tomorrow by 12:00</small></div><span class="p">€9</span></div></div>
+      </div>
+      <div class="blk glass solid">
+        <div class="bh"><h2><i>3</i>Payment</h2><span class="secure" style="margin:0"><span data-ic="lock"></span>256-bit encrypted</span></div>
+        <div class="pay">
+          <div class="cc"><div class="lg"><b>HALO</b><span style="font:600 10px/1 var(--sans);letter-spacing:.2em">MEMBER CARD</span></div><div class="chipc"></div><div class="no">•••• •••• •••• 4821</div><div class="bt"><span>LENA VOGT</span><span>09 / 29</span></div></div>
+          <div><div class="tabs"><span class="on"><span data-ic="card"></span>Card</span><span><span data-ic="phone"></span>Wallet</span><span><span data-ic="clock"></span>Pay in 3</span></div>
+            <div class="fields"><div class="field w2"><small>Card number</small><span>•••• •••• •••• 4821</span></div><div class="field"><small>Expiry</small><span>09 / 29</span></div><div class="field focus"><small>Security code</small><span>•••<span style="display:inline-block;width:1.5px;height:16px;background:var(--violet);vertical-align:middle;margin-left:2px;animation:ty 1s steps(1) infinite"></span></span></div></div>
+            <div class="secure"><span data-ic="shield"></span>Billing address same as delivery</div></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="sum glass">
+      <h2>Your order <span class="pill">2 items</span></h2>
+      <div class="vis"><span class="pill">Brushed Titanium · size 9</span><div class="ringwrap float" data-ring="ti|.42|96|1|8"></div><div class="cursor" style="left:352px;top:196px">SPIN</div></div>
+      <div class="line"><span class="th"><i class="sphere sp-ti"></i></span><div><b>HALO Ring Gen 3</b><small>Brushed Titanium · US 9 · 19.0 mm</small></div><span class="p">€349</span></div>
+      <div class="line"><span class="th t-lilac" data-ic="moon"></span><div><b>Membership · monthly</b><small>First month free, then €5.99/mo</small></div><span class="p">€0<s>€5.99</s></span></div>
+      <div class="line"><span class="th t-mint" data-ic="ruler"></span><div><b>Sizing kit</b><small>Size confirmed · not needed</small></div><span class="p">€0</span></div>
+      <div class="promo"><span data-ic="gift"></span>Code <b>SLEEPWELL</b> applied<span class="x">−€20</span></div>
+      <div class="tot"><div class="r"><span>Subtotal</span><span>€349.00</span></div><div class="r"><span>Discount</span><span>−€20.00</span></div><div class="r"><span>Shipping</span><span>Free</span></div>
+        <div class="r big"><span>Total today</span><b>€<span data-count="329">329</span></b></div><div class="then">incl. €52.53 VAT · then €5.99/mo from 14 Nov</div></div>
+      <a class="btn dark">Pay €329 securely <span data-ic="lock"></span></a>
+      <div class="trust"><span><span data-ic="cycle"></span>30-night trial</span><span><span data-ic="shield"></span>2-year warranty</span><span><span data-ic="truck"></span>Free returns</span></div>
+    </aside>
+  </div>
+  <div class="toastok glass"><span class="d t-mint" data-ic="check"></span><div><b>Details saved</b><small>We’ll text you when it ships</small></div></div>
+</section>
+<div data-footer></div>
+<script src="halo.js"></script>
+<script>halo('Membership', { bag: 2, progress: 84 });</script>
+</body></html>

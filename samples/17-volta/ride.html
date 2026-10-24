@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOLTA — Book a test ride</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,600;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="volta.css">
+<script src="volta3d.js"></script>
+<style>
+.top{position:relative;height:560px;overflow:hidden}
+.top>[data-img]{position:absolute;inset:0}
+.top>[data-img] img{object-position:50% 60%;filter:saturate(1.2)}
+.top::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(15,16,17,.95) 0%,rgba(15,16,17,.7) 45%,rgba(15,16,17,.2) 80%),linear-gradient(0deg,var(--ink) 2%,transparent 40%)}
+.top .in{position:absolute;left:64px;top:140px;z-index:3}
+.top h1{font-size:170px}
+.top .flow{position:absolute;right:64px;bottom:60px;z-index:3;display:flex;gap:0}
+.top .flow div{width:170px;padding:14px 0 0;border-top:2px solid rgba(255,255,255,.18);margin-left:8px}
+.top .flow div.on{border-top-color:var(--volt)}
+.top .flow div.half{border-image:linear-gradient(90deg,var(--volt) 50%,rgba(255,255,255,.18) 50%) 1}
+.top .flow b{display:block;font:italic 800 26px/1 var(--disp);text-transform:uppercase}
+.top .flow span{font:500 10px/1 var(--mono);color:var(--grey);letter-spacing:.12em}
+.top .flow div.on span{color:var(--volt)}
+
+.finder{display:grid;grid-template-columns:470px 1fr;height:980px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.list{padding:34px 34px 0 64px;border-right:1px solid var(--line);background:var(--g0);overflow:hidden}
+.search{display:flex;align-items:center;gap:12px;height:56px;padding:0 6px 0 18px;background:rgba(255,255,255,.05);box-shadow:inset 0 -2px 0 var(--volt);font-size:15px}
+.search .ic{color:var(--volt)}
+.search span.loc{margin-left:auto;height:44px;padding:0 14px;display:flex;align-items:center;gap:8px;background:var(--volt);color:var(--ink);font:700 12px/1 var(--sans);clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.chips{display:flex;gap:6px;margin:16px 0 22px}
+.st{padding:18px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:6px 14px}
+.st b{font:italic 800 30px/1 var(--disp);text-transform:uppercase}
+.st .d{font:500 11px/1 var(--mono);color:var(--grey);text-align:right;align-self:center}
+.st p{grid-column:1/3;font-size:13px;color:var(--grey)}
+.st .sl{grid-column:1/3;display:flex;gap:6px;margin-top:6px}
+.st .sl span{font:500 10px/1 var(--mono);padding:6px 8px;border:1px solid var(--line2);color:rgba(244,246,248,.7)}
+.st.on{margin:0 -34px 0 -64px;padding:22px 34px 22px 60px;background:linear-gradient(90deg,rgba(230,255,0,.08),transparent);border-left:4px solid var(--volt)}
+.st.on b{color:var(--volt)}
+.st.on .sl span.on{background:var(--volt);color:var(--ink);border-color:var(--volt)}
+.st .ph{grid-column:1/3;height:140px;margin-top:10px;clip-path:polygon(14px 0,100% 0,calc(100% - 14px) 100%,0 100%)}
+.map{position:relative;overflow:hidden;background:#101214}
+.map>svg{position:absolute;inset:0;width:100%;height:100%}
+.map .pinc{position:absolute;z-index:4;transform:translate(-50%,-100%)}
+.map .card{position:absolute;z-index:5;width:330px;background:rgba(18,19,21,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line2);border-top:2px solid var(--volt);padding:20px 22px}
+.map .card h4{font:italic 800 34px/1 var(--disp);text-transform:uppercase}
+.map .card .r{display:flex;justify-content:space-between;font-size:12px;color:var(--grey);padding:9px 0;border-bottom:1px solid var(--line)}
+.map .card .r b{color:var(--white);font-weight:600}
+.map .card .btn{margin-top:14px;width:100%;justify-content:center}
+.map .ctl{position:absolute;right:30px;top:30px;z-index:5;display:flex;flex-direction:column;gap:6px}
+.map .ctl span{width:46px;height:46px;display:grid;place-items:center;background:rgba(18,19,21,.85);border:1px solid var(--line2);font:600 18px/1 var(--sans)}
+.map .legend{position:absolute;left:30px;bottom:30px;z-index:5;display:flex;gap:18px;padding:12px 18px;background:rgba(18,19,21,.85);border:1px solid var(--line2);font:500 10px/1 var(--mono);letter-spacing:.1em;color:var(--grey)}
+.map .legend i{display:inline-block;width:10px;height:10px;margin-right:8px;vertical-align:-1px}
+.map .eta{position:absolute;z-index:5;padding:8px 12px;background:var(--volt);color:var(--ink);font:italic 800 20px/1 var(--disp);clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.map .eta small{font:600 10px/1 var(--mono);font-style:normal;margin-left:6px}
+
+.book{padding:120px 64px 130px}
+.book .sh{margin-bottom:54px}
+.book .cols{display:grid;grid-template-columns:1fr 1.25fr 0.95fr;gap:20px}
+.bx{background:var(--g1);padding:28px 28px 30px}
+.bx .h{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.bx .h b{font:italic 800 34px/1 var(--disp);text-transform:uppercase}
+.bx .h span{font:500 10px/1 var(--mono);color:var(--volt);letter-spacing:.14em}
+.bk{display:grid;grid-template-columns:140px 1fr auto;gap:14px;align-items:center;padding:10px 12px;border:1px solid var(--line);margin-bottom:8px}
+.bk img{width:140px;height:84px;object-fit:contain}
+.bk b{display:block;font:italic 800 24px/1 var(--disp);text-transform:uppercase}
+.bk small{font-size:12px;color:var(--grey)}
+.bk em{font:500 10px/1 var(--mono);font-style:normal;color:var(--grey)}
+.bk.on{border-color:var(--volt);background:rgba(230,255,0,.06)}
+.bk.on em{color:var(--volt)}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:22px}
+.days div{padding:12px 0 10px;text-align:center;border:1px solid var(--line)}
+.days div span{display:block;font:500 10px/1 var(--mono);color:var(--grey);letter-spacing:.1em}
+.days div b{display:block;font:italic 800 34px/1 var(--disp);margin:6px 0 6px}
+.days div i{display:block;font:500 9px/1 var(--mono);font-style:normal;color:var(--volt)}
+.days div.on{background:var(--volt);color:var(--ink);border-color:var(--volt)}
+.days div.on span,.days div.on i{color:#323700}
+.days div.off{opacity:.35}
+.slots .grp{font:500 10px/1 var(--mono);color:var(--grey);letter-spacing:.14em;margin:14px 0 10px}
+.slots .g{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.slots .g span{height:44px;display:grid;place-items:center;border:1px solid var(--line2);font:600 14px/1 var(--sans)}
+.slots .g span.x{color:rgba(244,246,248,.25);text-decoration:line-through;border-color:var(--line)}
+.slots .g span.on{background:var(--white);color:var(--ink);border-color:var(--white);position:relative}
+.slots .g span.on::after{content:"";position:absolute;inset:-5px;border:1px solid var(--volt)}
+.sumx .row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.sumx .row span{color:var(--grey)}
+.sumx .row b{font-weight:600}
+.sumx .tl{margin:22px 0 24px;display:grid;grid-template-columns:1fr 3fr 1fr;gap:4px}
+.sumx .tl div{padding-top:10px;border-top:3px solid var(--g3);font:500 10px/1.4 var(--mono);color:var(--grey)}
+.sumx .tl div.v{border-top-color:var(--volt);color:var(--white)}
+.sumx .btn{width:100%;justify-content:center}
+.sumx .note{display:flex;gap:10px;align-items:center;margin-top:16px;font-size:12px;color:var(--grey)}
+.sumx .note .ic{color:var(--volt)}
+</style></head>
+<body>
+<section class="top">
+  <div data-img="1712186557617-04d361c71fc4|2200"></div>
+  <div class="speed" data-n="16" style="z-index:2;opacity:.55"></div>
+  <div data-nav></div>
+  <div class="in"><div class="idx">Test ride · 45 min · free</div><h1 class="d" style="margin-top:26px">Ride before<br><span class="volt smear" data-t="you buy.">you buy.</span></h1></div>
+  <div class="flow">
+    <div class="on"><span>01 · DONE</span><b>Studio</b></div>
+    <div class="on"><span>02 · DONE</span><b>Bike</b></div>
+    <div class="half"><span style="color:var(--volt)">03 · NOW</span><b>Time</b></div>
+    <div><span>04</span><b>Confirm</b></div>
+  </div>
+</section>
+
+<section class="finder">
+  <div class="list">
+    <div class="search"><span data-ic="search"></span>Amsterdam, NL<span class="loc"><span data-ic="pin"></span>Near me</span></div>
+    <div class="chips"><span class="pill on">Studios · 3</span><span class="pill">Home delivery</span><span class="pill">Pop-ups · 2</span></div>
+    <div class="st on"><b>Westerpark Studio</b><span class="d">2.1 KM · 7 MIN</span><p>Haarlemmerweg 8B · open today 09:00–20:00 · all 6 models, sizes S–XL</p>
+      <div class="ph" data-img="1618066296858-2046a4a39c25|900"></div>
+      <div class="sl"><span>10:30</span><span class="on">17:45</span><span>18:30</span><span>19:15</span></div></div>
+    <div class="st"><b>De Pijp Garage</b><span class="d">3.4 KM · 11 MIN</span><p>Ferdinand Bolstraat 140 · open 10:00–19:00 · R1, C1</p><div class="sl"><span>12:00</span><span>16:30</span></div></div>
+    <div class="st"><b>Noord Pop-up</b><span class="d">5.8 KM · 18 MIN</span><p>NDSM-plein 22 · Fri–Sun only · gravel loop on site</p><div class="sl"><span>SAT 10:00</span><span>SAT 14:00</span></div></div>
+    <div class="st" style="border-bottom:0"><b>Home delivery</b><span class="d">ANY ADDRESS</span><p>We bring two bikes to your street. Ride your own commute. €0 within the ring.</p></div>
+  </div>
+  <div class="map" id="map">
+    <svg id="msvg" viewBox="0 0 970 980" preserveAspectRatio="xMidYMid slice"></svg>
+    <div class="ctl"><span>+</span><span>−</span><span><i data-ic="pin"></i></span></div>
+    <div class="card" style="left:560px;top:160px"><div class="mono volt" style="margin-bottom:10px">● Open · 6 bikes ready</div><h4>Westerpark Studio</h4>
+      <div class="r"><span>Route from you</span><b>2.1 km · 7 min by R1</b></div>
+      <div class="r"><span>Next free slot</span><b>Today 17:45</b></div>
+      <div class="r" style="border-bottom:0"><span>Ride loop</span><b>Westerpark → IJ ferry, 14 km</b></div>
+      <a class="btn sm">Book this studio <span data-ic="arrow"></span></a></div>
+    <div class="eta" style="left:300px;top:560px">7 MIN<small>· 2.1 KM</small></div>
+    <div class="legend"><span><i style="background:#e6ff00"></i>VOLTA STUDIO</span><span><i style="background:#6fa8ff"></i>POP-UP</span><span><i style="border:1px dashed #e6ff00"></i>45-MIN RIDE ZONE</span></div>
+  </div>
+</section>
+
+<section class="book">
+  <div class="sh"><div><div class="idx">Step 03 — pick a time</div><h2 style="margin-top:22px">Thursday,<br><span class="volt">17:45.</span></h2></div>
+    <p class="grey" style="max-width:380px">A rider host fits the bike to you, sets the bar height and pairs V-OS with your phone. Then the street is yours for 40 minutes.</p></div>
+  <div class="cols">
+    <div class="bx"><div class="h"><b>Your bike</b><span>2 OF 3 PICKED</span></div>
+      <div class="bk on"><img class="snap" data-i="0" alt=""><div><b>R1 Gravel</b><small>Size M · 750 Wh</small></div><em>✓ PICKED</em></div>
+      <div class="bk on"><img class="snap" data-i="1" alt=""><div><b>C1 City</b><small>Size M · 500 Wh</small></div><em>✓ PICKED</em></div>
+      <div class="bk"><img class="snap" data-i="2" alt=""><div><b>S1 Speed 45</b><small>Licence needed</small></div><em>+ ADD</em></div>
+    </div>
+    <div class="bx"><div class="h"><b>Date &amp; time</b><span>NOV 2026</span></div>
+      <div class="days">
+        <div class="off"><span>MON</span><b>3</b><i>FULL</i></div><div><span>TUE</span><b>4</b><i>3 FREE</i></div><div><span>WED</span><b>5</b><i>5 FREE</i></div><div class="on"><span>THU</span><b>6</b><i>6 FREE</i></div><div><span>FRI</span><b>7</b><i>2 FREE</i></div><div><span>SAT</span><b>8</b><i>8 FREE</i></div><div><span>SUN</span><b>9</b><i>4 FREE</i></div>
+      </div>
+      <div class="slots">
+        <div class="grp">MORNING</div><div class="g"><span class="x">09:00</span><span>09:45</span><span>10:30</span><span class="x">11:15</span></div>
+        <div class="grp">AFTERNOON</div><div class="g"><span class="x">13:00</span><span class="x">13:45</span><span>15:15</span><span class="x">16:00</span></div>
+        <div class="grp">EVENING · LIGHTS ON</div><div class="g"><span class="on">17:45</span><span>18:30</span><span>19:15</span><span class="x">20:00</span></div>
+      </div></div>
+    <div class="bx sumx"><div class="h"><b>Summary</b><span>FREE</span></div>
+      <div class="row"><span>Studio</span><b>Westerpark</b></div>
+      <div class="row"><span>When</span><b>Thu 6 Nov · 17:45</b></div>
+      <div class="row"><span>Bikes</span><b>R1 Gravel, C1 City</b></div>
+      <div class="row"><span>Helmet</span><b>Halo MIPS · M</b></div>
+      <div class="tl"><div class="v">0–5′<br>FIT</div><div class="v">5–40′ · RIDE ANYWHERE</div><div>40–45′<br>CHAT</div></div>
+      <a class="btn">Confirm test ride <span data-ic="arrow"></span></a>
+      <div class="note"><span data-ic="cal"></span>Reminder by SMS · reschedule up to 1 h before</div>
+    </div>
+  </div>
+</section>
+
+<div data-footer></div>
+
+<script src="volta.js"></script>
+<script>volta('Test ride');
+/* stylised Amsterdam-like map: canal rings, IJ river, parks, grid, route */
+(function () {
+  const W = 970, H = 980, cx = 470, cy = 150;
+  let seed = 7; const r = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  let g = `<defs>
+    <radialGradient id="zone"><stop offset="0" stop-color="#e6ff00" stop-opacity=".09"/><stop offset="1" stop-color="#e6ff00" stop-opacity="0"/></radialGradient>
+    <linearGradient id="rt" x1="0" x2="1"><stop offset="0" stop-color="#e6ff00" stop-opacity=".25"/><stop offset="1" stop-color="#e6ff00"/></linearGradient>
+    <filter id="bl"><feGaussianBlur stdDeviation="5"/></filter></defs>
+    <rect width="${W}" height="${H}" fill="#101214"/>`;
+  // outer street grid
+  for (let i = 0; i < 70; i++) {
+    const x = r() * W, y = r() * H, a = r() * Math.PI, L = 120 + r() * 380;
+    g += `<line x1="${x}" y1="${y}" x2="${x + Math.cos(a) * L}" y2="${y + Math.sin(a) * L}" stroke="rgba(255,255,255,${(0.03 + r() * 0.04).toFixed(3)})" stroke-width="${(1 + r() * 2).toFixed(1)}"/>`;
+  }
+  // parks
+  g += `<path d="M40 560 C120 520 260 540 330 600 C360 640 300 690 220 700 C140 705 60 660 40 560Z" fill="#14201a"/>`;
+  g += `<path d="M700 760 C780 720 900 740 940 820 C950 880 860 930 780 900 C720 870 680 820 700 760Z" fill="#14201a"/>`;
+  // river IJ
+  g += `<path d="M0 60 C200 110 380 40 560 70 C740 100 860 40 970 70 L970 0 L0 0Z" fill="#0b1a26"/><path d="M0 60 C200 110 380 40 560 70 C740 100 860 40 970 70" fill="none" stroke="rgba(111,168,255,.35)" stroke-width="1.5"/>`;
+  // canal rings
+  for (let k = 0; k < 5; k++) {
+    const R = 210 + k * 70;
+    g += `<path d="M${cx - R} ${cy} A${R} ${R} 0 0 0 ${cx + R} ${cy}" fill="none" stroke="#0f2433" stroke-width="${k < 4 ? 9 : 14}"/><path d="M${cx - R} ${cy} A${R} ${R} 0 0 0 ${cx + R} ${cy}" fill="none" stroke="rgba(111,168,255,.18)" stroke-width="1"/>`;
+  }
+  // radial streets
+  for (let k = 0; k < 16; k++) {
+    const a = Math.PI * (k + .5) / 16; const x1 = cx + Math.cos(a) * 180, y1 = cy + Math.sin(a) * 180, x2 = cx + Math.cos(a) * 900, y2 = cy + Math.sin(a) * 900;
+    g += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(255,255,255,.09)" stroke-width="${k % 4 ? 2 : 4}"/>`;
+  }
+  // ring roads
+  g += `<path d="M0 760 C220 820 520 870 970 700" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="7"/>`;
+  // ride zone
+  g += `<circle cx="300" cy="460" r="330" fill="url(#zone)"/><circle cx="300" cy="460" r="330" fill="none" stroke="#e6ff00" stroke-opacity=".45" stroke-dasharray="6 8"/>`;
+  // route
+  const route = 'M560 720 L520 640 L452 600 L420 520 L360 470 L330 380 L300 330';
+  g += `<path d="${route}" fill="none" stroke="#e6ff00" stroke-width="12" opacity=".35" filter="url(#bl)"/><path d="${route}" fill="none" stroke="url(#rt)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 8"><animate attributeName="stroke-dashoffset" from="44" to="0" dur="1s" repeatCount="indefinite"/></path>`;
+  // you
+  g += `<circle cx="560" cy="720" r="26" fill="#6fa8ff" opacity=".18"/><circle cx="560" cy="720" r="9" fill="#6fa8ff" stroke="#fff" stroke-width="3"/><text x="580" y="740" fill="#cfe0ff" font-family="JetBrains Mono" font-size="11" letter-spacing="1.5">YOU</text>`;
+  // pins
+  const pin = (x, y, c, lab, big) => `<g transform="translate(${x} ${y})"><circle r="${big ? 34 : 20}" fill="${c}" opacity=".14"><animate attributeName="r" values="${big ? '20;44;20' : '12;26;12'}" dur="2.4s" repeatCount="indefinite"/></circle><path d="M0 0 C-14 -16 -16 -24 -16 -30 A16 16 0 0 1 16 -30 C16 -24 14 -16 0 0Z" fill="${c}" ${big ? 'stroke="#fff" stroke-width="2"' : ''}/><circle cy="-30" r="6" fill="#101214"/><text x="22" y="-24" fill="${big ? '#e6ff00' : '#c3c8cf'}" font-family="Barlow Condensed" font-style="italic" font-weight="800" font-size="${big ? 26 : 18}">${lab}</text></g>`;
+  g += pin(300, 330, '#e6ff00', 'WESTERPARK', true) + pin(610, 470, '#e6ff00', 'DE PIJP') + pin(520, 120, '#6fa8ff', 'NOORD POP-UP') + pin(820, 600, '#6fa8ff', 'OOST POP-UP');
+  // labels
+  g += `<g fill="rgba(255,255,255,.22)" font-family="JetBrains Mono" font-size="10" letter-spacing="2"><text x="70" y="610">VONDELPARK</text><text x="730" y="830">FLEVOPARK</text><text x="640" y="40">IJ</text><text x="380" y="270">JORDAAN</text><text x="660" y="380">GRACHTENGORDEL</text></g>`;
+  document.getElementById('msvg').innerHTML = g;
+})();
+</script>
+<script type="module">
+import * as THREE from 'three';
+await Promise.all([document.fonts.load('italic 800 40px "Barlow Condensed"'), document.fonts.load('600 18px Inter')]);
+const K = VOLTA3D(THREE, {});
+window.__pending3d++;
+const shots = K.snapshot([{ color: '#2a2c30' }, { color: '#e8ebee', bar: 'flat', fenders: true }, { color: '#ff5a1f', bar: 'flat', fenders: true, wheels: 'disc' }], { w: 280, h: 168 });
+document.querySelectorAll('img.snap').forEach(im => { im.src = shots[+im.dataset.i]; });
+window.__pending3d--; window.__ready3d = true;
+</script>
+</body></html>

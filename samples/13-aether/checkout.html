@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Aether — Secure your seat</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="aether.css">
+<script src="aether3d.js"></script>
+<style>
+body{background:radial-gradient(900px 700px at 85% 10%,rgba(61,139,255,.16),transparent 70%),#000}
+.co{padding:140px 64px 120px;display:grid;grid-template-columns:1fr 520px;gap:40px;align-items:start}
+.co .hd{grid-column:span 2;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px}
+.co h1{font:200 128px/.86 var(--sans);letter-spacing:-.055em;margin-top:18px}
+.co h1 span{font-weight:100;color:transparent;-webkit-text-stroke:1.2px rgba(244,242,236,.55)}
+.stp{display:flex;gap:6px}
+.stp div{width:150px;font:400 10px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);padding-top:12px;border-top:2px solid var(--blue)}
+.stp div b{display:flex;gap:6px;align-items:center;font:300 14px var(--sans);letter-spacing:0;text-transform:none;color:#fff;margin-top:3px}
+.stp div b svg{width:14px;height:14px;color:var(--green)}
+.stp div.on{border-color:#fff;color:#fff}
+.blk{border:1px solid var(--line);border-radius:22px;background:var(--panel);padding:30px 32px;margin-bottom:20px}
+.blk .t{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.blk h3{font:300 26px/1.1 var(--sans);letter-spacing:-.02em;display:flex;gap:14px;align-items:baseline}
+.blk h3 em{font-style:normal;font:400 11px var(--mono);color:var(--ice);letter-spacing:.12em}
+.trav{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+.trav div{padding:16px 0}
+.trav div+div{padding-left:18px;border-left:1px solid var(--line)}
+.trav b{display:block;font:300 17px var(--sans);margin-top:6px}
+.pay{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opt{border:1px solid var(--line2);border-radius:16px;padding:20px;position:relative}
+.opt .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.05);color:var(--ice);margin-bottom:16px}
+.opt h4{font:300 18px/1.2 var(--sans)}
+.opt p{font-size:12.5px;color:var(--dim);margin-top:6px;line-height:1.5}
+.opt .rad{position:absolute;right:18px;top:20px;width:18px;height:18px;border-radius:50%;border:1px solid var(--line2)}
+.opt.on{border-color:var(--blue);background:linear-gradient(160deg,rgba(61,139,255,.16),rgba(61,139,255,.03));box-shadow:0 20px 60px -20px rgba(61,139,255,.6)}
+.opt.on .rad{border:5px solid var(--blue);background:#fff}
+.wire{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.field{border:1px solid var(--line2);border-radius:12px;padding:12px 14px;background:rgba(0,0,0,.35)}
+.field label{display:block;font:400 9.5px var(--mono);letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.field div{font:400 14px var(--mono);margin-top:6px;color:#fff;letter-spacing:.04em}
+.store{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.item{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#06090e;position:relative}
+.item .vis{height:190px;position:relative;display:grid;place-items:center;background:radial-gradient(circle at 50% 60%,rgba(61,139,255,.18),transparent 65%)}
+.item .vis>[data-img]{position:absolute;inset:0}
+.item .bd{padding:14px 16px 16px}
+.item h5{font:300 15px/1.25 var(--sans)}
+.item .f{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font:400 13px var(--mono)}
+.item .add{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line2)}
+.item.on{border-color:var(--blue)}
+.item.on .add{background:var(--blue);border-color:var(--blue);color:#fff}
+.item .badge{position:absolute;left:12px;top:12px;z-index:2}
+#mStage{position:absolute;inset:0}
+.terms{display:flex;gap:14px;align-items:flex-start;font-size:13px;color:#c4cbd8}
+.terms .cb{width:20px;height:20px;border-radius:6px;background:var(--blue);display:grid;place-items:center;flex:none;margin-top:2px}
+.terms .cb svg{width:14px;height:14px;color:#fff}
+.refund{display:grid;grid-template-columns:repeat(4,1fr);margin-top:22px;position:relative}
+.refund::before{content:"";position:absolute;left:0;right:0;top:6px;height:2px;background:linear-gradient(90deg,var(--green) 50%,var(--amber) 50% 75%,var(--red) 75%)}
+.refund div{padding-top:22px;font:400 10px var(--mono);letter-spacing:.1em;color:var(--dim);text-transform:uppercase;position:relative}
+.refund div::before{content:"";position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:#000;border:2px solid var(--line2)}
+.refund div:first-child::before{background:var(--green);border-color:var(--green)}
+.refund div b{display:block;font:300 14px var(--sans);color:#fff;letter-spacing:0;text-transform:none;margin-top:4px}
+
+.sum{position:sticky;top:20px;border-radius:26px;overflow:hidden;border:1px solid var(--line2);background:linear-gradient(180deg,#07101e,#06090e 55%)}
+.sum .cv{height:400px;position:relative;border-bottom:1px solid var(--line)}
+.sum .cv .badge{position:absolute;left:22px;top:22px;z-index:3;display:flex;gap:8px}
+.sum .cv .nm{position:absolute;left:0;right:0;bottom:0;padding:60px 24px 20px;z-index:3;background:linear-gradient(0deg,rgba(4,8,16,.92),transparent)}
+.sum .cv .nm b{display:block;font:200 44px/1 var(--sans);letter-spacing:-.04em}
+.sum .cv .big{position:absolute;right:-10px;top:40px;z-index:1;font:100 210px/1 var(--sans);letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px rgba(156,196,255,.3)}
+.sum .bd{padding:24px 28px 28px}
+.sum .r{display:flex;justify-content:space-between;padding:11px 0;font-size:14px;color:#c4cbd8;border-bottom:1px solid var(--line)}
+.sum .r b{font:400 13px var(--mono);color:#fff;font-weight:400}
+.sum .r .ok{color:var(--green)}
+.sum .due{display:flex;justify-content:space-between;align-items:flex-end;margin:22px 0 8px}
+.sum .due small{display:block;font:400 10px var(--mono);letter-spacing:.14em;color:var(--dim);text-transform:uppercase;margin-bottom:6px}
+.sum .due b{font:200 58px/1 var(--sans);letter-spacing:-.04em}
+.sum .sched{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 22px}
+.sum .sched div{border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:400 9.5px var(--mono);letter-spacing:.1em;color:var(--dim)}
+.sum .sched div b{display:block;font:300 15px var(--sans);color:#fff;letter-spacing:0;margin-top:3px}
+.sum .sched div.on{border-color:var(--blue);background:rgba(61,139,255,.12)}
+.sum .cta{width:100%;justify-content:center;height:58px;font-size:15px}
+.sum .lock{display:flex;gap:8px;align-items:center;justify-content:center;font:400 10.5px var(--mono);letter-spacing:.1em;color:var(--dim);margin-top:14px;text-transform:uppercase}
+.sum .lock svg{width:14px;height:14px}
+</style></head>
+<body>
+<header data-nav="store"></header>
+<main class="co">
+  <div class="hd"><div><div class="tag">Step 4 of 4 · Deposit</div><h1>Secure<br><span>your</span> seat.</h1></div>
+    <div class="stp"><div>01<b data-icon="check">Seat 03</b></div><div>02<b data-icon="check">Medical cleared</b></div><div>03<b data-icon="check">Training booked</b></div><div class="on">04<b>Deposit</b></div></div></div>
+
+  <div>
+    <section class="blk"><div class="t"><h3><em>A</em>Traveller</h3><span class="chip">Edit</span></div>
+      <div class="trav"><div><span class="mono">Name</span><b>Elena Varga</b></div><div><span class="mono">Mission</span><b>AE-14 Meridian</b></div><div><span class="mono">Launch</span><b>14 Mar 2027 · 06:12 UTC</b></div><div><span class="mono">Medical</span><b class="ice">Class 2 · valid to 2028</b></div></div></section>
+
+    <section class="blk"><div class="t"><h3><em>B</em>Deposit method</h3><span class="mono">Refundable until medical sign-off</span></div>
+      <div class="pay">
+        <div class="opt on"><span class="rad"></span><div class="ic" data-icon="shield"></div><h4>Escrow transfer</h4><p>Held by an independent trustee in Geneva until your seat is confirmed.</p></div>
+        <div class="opt"><span class="rad"></span><div class="ic" data-icon="bank"></div><h4>Bank transfer</h4><p>SEPA or SWIFT direct to Aether Orbital. 1–3 working days.</p></div>
+        <div class="opt"><span class="rad"></span><div class="ic" data-icon="card"></div><h4>Card</h4><p>Up to €50,000 per transaction. Concierge confirms by phone.</p></div>
+      </div>
+      <div class="wire"><div class="field"><label>Trustee</label><div>Lémanique Trust SA</div></div><div class="field"><label>Reference</label><div>AE14 · S03 · 7781</div></div><div class="field"><label>Amount</label><div>EUR 45,000.00</div></div></div></section>
+
+    <section class="blk"><div class="t"><h3><em>C</em>Mission store · flies with you</h3><span class="mono">Every item flown on AE-14</span></div>
+      <div class="store">
+        <div class="item on"><div class="vis"><span class="chip blue badge">Added</span><svg width="150" height="150" viewBox="0 0 200 200" style="animation:spin 40s linear infinite"><defs><path id="pc2" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0"/></defs><circle cx="100" cy="100" r="96" fill="#0b1324" stroke="#9cc4ff" stroke-width="3" stroke-dasharray="2 3"/><circle cx="100" cy="100" r="60" fill="#04070d" stroke="#3d8bff" stroke-width="1.5"/><circle cx="100" cy="112" r="26" fill="#3d8bff"/><ellipse cx="100" cy="100" rx="52" ry="16" fill="none" stroke="#f4f2ec" stroke-width="2" transform="rotate(-20 100 100)"/><circle cx="146" cy="84" r="5" fill="#f4f2ec"/><text font-family="Space Mono" font-size="12" letter-spacing="5" fill="#f4f2ec"><textPath href="#pc2">AETHER · MERIDIAN · AE-14 · CREW OF FOUR ·</textPath></text></svg></div>
+          <div class="bd"><h5>Flown mission patch</h5><div class="f"><span>€45</span><span class="add" data-icon="check"></span></div></div></div>
+        <div class="item on"><div class="vis"><span class="chip blue badge">Added</span><div id="mStage"></div></div>
+          <div class="bd"><h5>Crescent 1:24 model</h5><div class="f"><span>€1,450</span><span class="add" data-icon="check"></span></div></div></div>
+        <div class="item"><div class="vis"><div data-img="1656077217715-bdaeb06bd01f|600"></div></div>
+          <div class="bd"><h5>“Earthrise” print · 1 m</h5><div class="f"><span>€320</span><span class="add" data-icon="plus"></span></div></div></div>
+        <div class="item"><div class="vis"><svg width="150" height="150" viewBox="0 0 200 200"><circle cx="100" cy="100" r="86" fill="#0d1118" stroke="#9aa0a8" stroke-width="8"/><circle cx="100" cy="100" r="74" fill="#04070d"/><g id="dial"></g><circle cx="100" cy="100" r="40" fill="none" stroke="#3d8bff" stroke-dasharray="4 4"/><line x1="100" y1="100" x2="100" y2="40" stroke="#f4f2ec" stroke-width="3" stroke-linecap="round"/><line x1="100" y1="100" x2="146" y2="118" stroke="#f4f2ec" stroke-width="3" stroke-linecap="round"/><line x1="100" y1="100" x2="62" y2="64" stroke="#3d8bff" stroke-width="1.5" style="transform-origin:100px 100px;animation:spin 6s linear infinite"/><circle cx="100" cy="100" r="5" fill="#3d8bff"/><text x="100" y="136" text-anchor="middle" font-family="Space Mono" font-size="9" letter-spacing="3" fill="#9cc4ff">T-0</text></svg></div>
+          <div class="bd"><h5>Chronograph T-0 · titanium</h5><div class="f"><span>€8,900</span><span class="add" data-icon="plus"></span></div></div></div>
+      </div></section>
+
+    <section class="blk"><div class="terms"><span class="cb" data-icon="check"></span><div>I've read the <u>Spaceflight Participant Agreement</u> and the informed-consent briefing. I understand the deposit is fully refundable until medical sign-off, then follows the schedule below.</div></div>
+      <div class="refund"><div>Today → sign-off<b>100% refundable</b></div><div>Until T−180 days<b>100% refundable</b></div><div>T−180 → T−90<b>50% refundable</b></div><div>After T−90<b>Transferable seat</b></div></div></section>
+  </div>
+
+  <div>
+  <aside class="sum">
+    <div class="cv" id="sStage"><div class="badge"><span class="chip on">Seat 03</span><span class="chip">Starboard window</span></div><div class="big">03</div><div class="nm"><span class="mono">AE-14 · Crescent</span><b>Meridian</b></div></div>
+    <div class="bd">
+      <div class="r">Seat 03 · 3-day orbital<b>€450,000</b></div>
+      <div class="r">10-week training block<b class="ok">Included</b></div>
+      <div class="r">Medical clearance · Lisbon<b class="ok">Cleared ✓</b></div>
+      <div class="r">Mission patch · Crescent model<b>€1,495</b></div>
+      <div class="r">Total<b>€451,495</b></div>
+      <div class="due"><div><small>Due today · escrow</small><b>€45,000</b></div><span class="mono">10% deposit</span></div>
+      <div class="sched"><div class="on">TODAY<b>€45,000</b></div><div>T−180 D<b>€180,598</b></div><div>T−90 D<b>€225,897</b></div></div>
+      <a class="btn blue cta" href="home.html">Pay deposit into escrow <span class="dot" data-icon="arrow"></span></a>
+      <div class="lock" data-icon="lock">Held by Lémanique Trust · never touches Aether until clearance</div>
+    </div>
+  </aside>
+  <div class="blk" style="margin-top:20px;display:flex;gap:18px;align-items:center"><span style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font:400 14px var(--mono);background:radial-gradient(circle at 30% 30%,#2a4b80,#0a1222);border:1px solid var(--line2);flex:none">SB</span><div style="flex:1"><span class="mono">Your mission concierge</span><div style="font:300 19px var(--sans);margin-top:4px">Sofia Brandt · Lisbon</div><div class="dim" style="font-size:13px">Replies within 20 minutes, day or night.</div></div><span class="chip blue">Call</span></div>
+  </div>
+</main>
+<footer data-foot></footer>
+<script src="aether.js"></script>
+<script>
+document.getElementById('dial').innerHTML = Array.from({ length: 60 }, (_, i) => { const a = i / 60 * Math.PI * 2, b = i % 5 === 0; const r1 = b ? 62 : 67; return `<line x1="${100 + Math.cos(a) * r1}" y1="${100 + Math.sin(a) * r1}" x2="${100 + Math.cos(a) * 72}" y2="${100 + Math.sin(a) * 72}" stroke="${b ? '#f4f2ec' : '#566072'}" stroke-width="${b ? 2 : 1}"/>`; }).join('');
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+const K = A3D(THREE, { RoomEnvironment });
+/* summary: the capsule, slow turn, orbit ring + Earth limb glow */
+{
+  const S = K.stage(document.getElementById('sStage'), { w: 520, h: 400, fov: 30 });
+  const { scene, camera } = S; camera.position.set(0, .5, 7.2); camera.lookAt(0, .05, 0);
+  K.sunlight(scene, [-4, 3, 4], 3.2);
+  const cap = K.capsule(); cap.scale.setScalar(1.0); cap.position.set(.75, .35, 0); scene.add(cap);
+  const ring = K.orbit(K.ellipse(2.2, 2.2, 200, [1.25, 0, .25]), { opacity: .5 }); ring.position.copy(cap.position); scene.add(ring);
+  const ring2 = K.orbit(K.ellipse(2.6, 2.6, 200, [1.3, 0, .3]), { opacity: .2, dashed: true }); ring2.position.copy(cap.position); scene.add(ring2);
+  const E = K.earth({ radius: 6, sun: new THREE.Vector3(-.4, .9, .3), seg: 96 }); E.group.position.set(0, -8.5, -4); E.group.rotation.set(.7, 0, .2); scene.add(E.group);
+  scene.add(K.stars({ count: 900, seed: 2, radius: 60 }));
+  S.run(t => { cap.rotation.set(.25, .9 + t * .25, -.5); E.sphere.rotation.y = t * .01; E.uniforms.t.value = t; }, E.ready);
+}
+/* store: 1:24 model on a plinth */
+{
+  const S = K.stage(document.getElementById('mStage'), { w: 230, h: 190, fov: 30 });
+  const { scene, camera } = S; camera.position.set(0, 1.1, 5); camera.lookAt(0, -.05, 0);
+  K.sunlight(scene, [-3, 4, 3], 3);
+  const cap = K.capsule({ wings: false }); cap.scale.setScalar(.95); cap.position.y = .05; scene.add(cap);
+  const plinth = new THREE.Mesh(new THREE.CylinderGeometry(.7, .75, .14, 64), new THREE.MeshPhysicalMaterial({ color: '#0d1118', metalness: .6, roughness: .25, clearcoat: 1 })); plinth.position.y = -1.0; scene.add(plinth);
+  const ringL = new THREE.Mesh(new THREE.TorusGeometry(.72, .01, 8, 96), K.M.emit('#3d8bff', 3)); ringL.rotation.x = Math.PI / 2; ringL.position.y = -.93; scene.add(ringL);
+  S.run(t => { cap.rotation.y = t * .4; });
+}
+</script>
+</body></html>

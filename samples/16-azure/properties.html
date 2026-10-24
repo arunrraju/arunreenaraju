@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Azure Estates — Villas &amp; portfolio map</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="azure.css">
+<script src="azure3d.js"></script>
+<style>
+.maphero{position:relative;height:980px;overflow:hidden;background:linear-gradient(180deg,#cfe0ea 0%,#e9eef0 30%,#f4f1ea 60%)}
+#map3d{position:absolute;left:0;top:0;width:1440px;height:980px;z-index:1}
+.maphero .fog{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(247,246,242,.95) 0,rgba(247,246,242,.5) 16%,rgba(247,246,242,0) 32%),linear-gradient(0deg,rgba(8,60,82,.45),rgba(8,60,82,0) 35%)}
+.maphero .title{position:absolute;left:48px;bottom:150px;z-index:5;width:640px;color:#fff}
+.maphero .title .idx{color:rgba(255,255,255,.8)}.maphero .title .idx b{color:#fff}
+.maphero h1{font:200 112px/.86 var(--display);letter-spacing:-.06em;margin-top:18px}
+.maphero h1{text-shadow:0 4px 40px rgba(6,50,70,.35)}.maphero h1 span{color:#dff6f6}
+.maphero .sub{margin-top:22px;font-size:16px;color:rgba(255,255,255,.92);max-width:440px}
+.regions{position:absolute;right:48px;top:128px;z-index:5;display:flex;gap:6px;padding:6px;border-radius:999px;background:rgba(255,255,255,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid #fff;box-shadow:0 10px 30px rgba(16,18,20,.08)}
+.regions a{height:40px;padding:0 18px;border-radius:999px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.regions a small{font:500 10px/1 var(--mono);color:var(--mute)}
+.regions a.on{background:var(--ink);color:#fff}
+.regions a.on small{color:var(--sun-2)}
+.compass{position:absolute;left:48px;top:128px;z-index:5;width:86px;height:86px;border-radius:50%;background:rgba(255,255,255,.7);border:1px solid #fff;display:grid;place-items:center;font:500 10px/1 var(--mono)}
+.compass::before{content:"";position:absolute;width:2px;height:56px;background:linear-gradient(var(--sun) 50%,var(--ink) 50%);transform:rotate(-18deg);border-radius:2px}
+.compass b{position:absolute;top:6px;font:600 10px/1 var(--mono)}
+.mp{position:absolute;z-index:6;width:0;height:0}
+.mp .c{position:absolute;left:0;bottom:12px;transform:translateX(-50%);white-space:nowrap;background:#fff;border-radius:999px;padding:7px 12px 7px 7px;display:flex;align-items:center;gap:8px;font:600 12px/1 var(--sans);box-shadow:0 10px 24px rgba(16,18,20,.16)}
+.mp .c i{width:26px;height:26px;border-radius:50%;background-size:cover;background-position:center}
+.mp .c::after{content:"";position:absolute;left:50%;bottom:-5px;margin-left:-5px;border:5px solid transparent;border-top-color:#fff;border-bottom:0}
+.mp.stay .c{background:var(--pool);color:#fff}.mp.stay .c::after{border-top-color:var(--pool)}
+.mp.on .c{background:var(--ink);color:#fff;transform:translateX(-50%) scale(1.12)}.mp.on .c::after{border-top-color:var(--ink)}
+.sel{position:absolute;right:48px;bottom:40px;z-index:7;width:380px;background:rgba(255,255,255,.82);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border:1px solid #fff;border-radius:24px;padding:12px;box-shadow:0 30px 60px rgba(16,18,20,.18)}
+.sel .ph{height:150px;border-radius:16px;overflow:hidden;position:relative}
+.sel .bd{padding:16px 8px 6px}
+.sel h3{font:300 30px/1 var(--display);letter-spacing:-.03em}
+.sel .k{display:grid;grid-template-columns:repeat(4,1fr);margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.sel .k div{font:500 9px/1.2 var(--mono);letter-spacing:.1em;color:var(--mute)}
+.sel .k b{display:block;font:300 20px/1 var(--display);color:var(--ink);margin-top:5px;letter-spacing:-.02em}
+.legend{position:absolute;left:48px;bottom:48px;z-index:6;display:flex;gap:18px;font-size:12px;color:var(--ink-2);background:rgba(255,255,255,.72);border:1px solid #fff;padding:12px 18px;border-radius:999px;backdrop-filter:blur(10px)}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--ink)}
+.scale{position:absolute;right:470px;bottom:56px;z-index:6;font:500 10px/1 var(--mono);color:#fff}
+.scale div{width:160px;height:6px;border:1.5px solid #fff;border-top:0;margin-top:6px;background:linear-gradient(90deg,#fff 50%,transparent 50%) bottom/100% 2px no-repeat}
+
+.filters{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:18px 48px;border-bottom:1px solid var(--line);background:rgba(247,246,242,.9);backdrop-filter:blur(12px)}
+.seg{display:flex;padding:4px;border-radius:999px;background:var(--paper-2);border:1px solid var(--line)}
+.seg a{height:36px;padding:0 18px;display:flex;align-items:center;border-radius:999px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.seg a.on{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(16,18,20,.08)}
+.fchip{height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);display:flex;align-items:center;gap:10px;font-size:13px;background:#fff}
+.fchip b{font:500 11px/1 var(--mono);color:var(--pool)}
+.fchip.open{border-color:var(--ink);box-shadow:0 0 0 3px rgba(15,94,122,.12)}
+.range{position:absolute;top:70px;left:310px;width:360px;background:#fff;border-radius:20px;padding:20px;box-shadow:0 24px 50px rgba(16,18,20,.16);border:1px solid var(--line)}
+.range .hist{display:flex;align-items:flex-end;gap:3px;height:56px;margin-top:14px}
+.range .hist i{flex:1;background:var(--stone);border-radius:2px}
+.range .hist i.in{background:var(--pool)}
+.range .track{height:4px;background:var(--stone);border-radius:2px;position:relative;margin:14px 0 16px}
+.range .track b{position:absolute;left:12%;right:30%;top:0;bottom:0;background:var(--pool);border-radius:2px}
+.range .track i{position:absolute;top:-8px;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--pool);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.range .vals{display:flex;justify-content:space-between;font:500 13px/1 var(--mono)}
+
+.list{padding:150px 48px 100px}
+.list .head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px}
+.list .head h2{font:200 64px/.9 var(--display);letter-spacing:-.05em}
+.list .g{display:grid;grid-template-columns:repeat(3,1fr);gap:44px 24px}
+.card-v .ph{height:420px}
+.card-v .cmp{position:absolute;left:16px;bottom:16px;display:flex;gap:6px}
+.card-v .cmp span{height:30px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.88);display:flex;align-items:center;font:500 11px/1 var(--mono)}
+.card-v .dots{position:absolute;right:16px;bottom:22px;display:flex;gap:5px}
+.card-v .dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5)}
+.card-v .dots i:first-child{background:#fff;width:18px;border-radius:3px}
+.card-v.hover .ph{box-shadow:0 30px 60px rgba(16,18,20,.2);transform:translateY(-8px)}
+.card-v.hover .ph img{transform:scale(1.06)}
+.card-v .ph{transition:transform .6s,box-shadow .6s}
+.offm{border-radius:20px;background:var(--ink);color:#fff;padding:34px;display:flex;flex-direction:column;justify-content:space-between;height:420px;position:relative;overflow:hidden}
+.offm h3{font:200 54px/.92 var(--display);letter-spacing:-.05em}
+.offm .blur{position:absolute;right:-60px;top:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(70,195,207,.55),transparent 65%)}
+.offm .lockrow{display:flex;gap:8px;margin-top:20px}
+.offm .lockrow span{flex:1;height:70px;border-radius:12px;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.12);filter:blur(.3px)}
+.pager{display:flex;justify-content:space-between;align-items:center;margin-top:70px;padding-top:28px;border-top:1px solid var(--line)}
+.pager .pg{display:flex;gap:6px}
+.pager .pg a{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);font:500 13px/1 var(--mono)}
+.pager .pg a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pager .bar{width:420px;height:2px;background:var(--line);position:relative}
+.pager .bar i{position:absolute;left:0;top:-1px;height:4px;width:28%;background:var(--pool);border-radius:2px}
+</style></head>
+<body>
+<nav class="nav glass"><div class="logo"><i></i>AZURE<small>ESTATES</small></div>
+  <div class="links"><a href="home.html">Home</a><a class="on" href="properties.html">Villas for sale</a><a href="properties.html">Private stays</a><a href="properties.html">Portfolio map</a><a href="tour.html">3D tours</a><a href="#">Journal</a></div>
+  <div class="r"><span class="pill"><svg class="ic" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Saved · 4</span><a class="pill ink" href="stay.html">Book a viewing</a></div></nav>
+
+<section class="maphero">
+  <div id="map3d"></div><div class="fog"></div>
+  <div class="title"><div class="idx"><b>( Portfolio )</b> &nbsp;Ibiza · South-west coast</div>
+    <h1>12 villas on<br><span>one coastline.</span></h1>
+    <p class="sub">Every Azure house, modelled on the terrain it stands on. Rotate the coast, compare sea views and drop into any villa in 3D.</p></div>
+  <div class="regions"><a class="on">Ibiza <small>12</small></a><a>Amalfi <small>9</small></a><a>Big Sur <small>6</small></a><a>Mani <small>8</small></a><a>Comporta <small>11</small></a></div>
+  <div class="compass"><b>N</b></div>
+  <div id="pins"></div>
+  <div class="scale">500 m<div></div></div>
+  <div class="legend"><span><i></i>For sale</span><span><i style="background:var(--pool);border-color:var(--pool)"></i>Private stay</span><span><i style="background:var(--ink)"></i>Selected</span><span style="color:var(--mute)">Terraces = 20 m contours</span></div>
+  <div class="sel">
+    <div class="ph" data-img="1600596542815-ffad4c1539a9" data-w="800"><span class="tag" style="position:absolute;left:12px;top:12px"><i></i>3D tour ready</span></div>
+    <div class="bd"><div style="display:flex;justify-content:space-between;align-items:baseline"><h3>Villa Halcyon</h3><span style="font-weight:600">€14.8M</span></div>
+      <div class="mono" style="color:var(--mute);margin-top:8px;font-size:10px">Es Cubells · 38°51′N 1°18′E · 64 m above sea</div>
+      <div class="k"><div>BEDS<b>6</b></div><div>INTERIOR<b>742 m²</b></div><div>VIEW<b>212°</b></div><div>BEACH<b>6 min</b></div></div>
+      <div style="display:flex;gap:8px;margin-top:16px"><a class="pill ink" style="flex:1;justify-content:center" href="villa.html">Open villa</a><a class="pill" style="flex:1;justify-content:center" href="tour.html">Dollhouse 3D</a></div></div>
+  </div>
+  <div class="cursor" style="left:760px;top:660px"><span>DRAG<br>TO TILT</span></div>
+</section>
+
+<div class="filters">
+  <div class="seg"><a class="on">For sale · 31</a><a>Private stays · 15</a></div>
+  <span class="fchip open">Price <b>€6M – €18M</b><svg class="ic" viewBox="0 0 24 24" style="width:14px"><path d="M6 9l6 6 6-6"/></svg></span>
+  <span class="fchip">Bedrooms <b>5+</b></span>
+  <span class="fchip">Sea view <b>≥ 180°</b></span>
+  <span class="fchip">Pool <b>Infinity</b></span>
+  <span class="fchip">Architect</span>
+  <span style="margin-left:auto" class="fchip">Sort · <b>Sea view, widest</b></span>
+  <div class="seg"><a class="on">Grid</a><a>Map</a></div>
+  <div class="range"><div style="display:flex;justify-content:space-between"><span class="lab">Asking price</span><span class="mono" style="font-size:10px;color:var(--pool)">17 villas</span></div>
+    <div class="hist"><i style="height:30%"></i><i style="height:52%"></i><i style="height:70%" class=""></i><i style="height:88%" class="in"></i><i style="height:100%" class="in"></i><i style="height:76%" class="in"></i><i style="height:64%" class="in"></i><i style="height:48%" class="in"></i><i style="height:56%" class="in"></i><i style="height:40%" class="in"></i><i style="height:34%" class="in"></i><i style="height:22%"></i><i style="height:18%"></i><i style="height:26%"></i><i style="height:12%"></i><i style="height:8%"></i></div>
+    <div class="track"><b></b><i style="left:calc(12% - 10px)"></i><i style="left:calc(70% - 10px)"></i></div>
+    <div class="vals"><span>€6.0M</span><span>€18.0M</span></div></div>
+</div>
+
+<section class="list">
+  <div class="head"><div><div class="lab">Showing 9 of 17 · Ibiza, Amalfi, Big Sur, Mani, Comporta</div><h2 style="margin-top:14px">Villas for sale</h2></div>
+    <div style="display:flex;gap:8px"><span class="tag dark">Sea view ≥ 180° ✕</span><span class="tag">5+ bedrooms ✕</span><span class="tag">Clear all</span></div></div>
+  <div class="g">
+    <a class="card-v hover" href="villa.html"><div class="ph" data-img="1600596542815-ffad4c1539a9" data-w="800"><span class="tag"><i></i>3D tour</span><span class="heart"><svg class="ic" viewBox="0 0 24 24" style="fill:#e9995a;stroke:#e9995a"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span><div class="cmp"><span>212° view</span><span>31 m to cliff</span></div><div class="dots"><i></i><i></i><i></i><i></i></div></div>
+      <div class="row"><h3>Villa Halcyon</h3><span class="pr">€14,800,000</span></div><div class="meta"><span>IBIZA</span><span>6 BD · 7 BA</span><span>742 M²</span></div></a>
+    <a class="card-v" href="villa.html"><div class="ph" data-img="1748063578185-3d68121b11ff" data-w="800"><span class="tag dark">Off-market</span><span class="heart"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span><div class="cmp"><span>240° view</span><span>Pacific</span></div><div class="dots"><i></i><i></i><i></i></div></div>
+      <div class="row"><h3>Ridgeline House</h3><span class="pr">€21,400,000</span></div><div class="meta"><span>BIG SUR</span><span>7 BD · 8 BA</span><span>1,040 M²</span></div></a>
+    <a class="card-v" href="villa.html"><div class="ph" data-img="1613490493576-7fde63acd811" data-w="800"><span class="tag"><i></i>Price revised −6%</span><span class="heart"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span><div class="cmp"><span>164° view</span><span>Lap pool</span></div><div class="dots"><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="row"><h3>Casa Teca</h3><span class="pr">€7,250,000</span></div><div class="meta"><span>IBIZA</span><span>5 BD · 5 BA</span><span>486 M²</span></div></a>
+    <a class="card-v" href="villa.html"><div class="ph" data-img="1580587771525-78b9dba3b914" data-w="800"><span class="tag"><i></i>New</span><span class="heart"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span><div class="cmp"><span>188° view</span><span>Roof deck</span></div><div class="dots"><i></i><i></i><i></i></div></div>
+      <div class="row"><h3>Casa Albar</h3><span class="pr">€8,900,000</span></div><div class="meta"><span>IBIZA</span><span>5 BD · 6 BA</span><span>560 M²</span></div></a>
+    <div class="offm"><div class="blur"></div><div><span class="tag" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.2)"><i></i>14 private listings</span><h3 style="margin-top:26px">Off-market,<br>by request.</h3><p style="color:#a9aaa8;margin-top:14px;font-size:14px;max-width:300px">Owners who prefer not to be photographed. Verified buyers see full 3D models and pricing.</p><div class="lockrow"><span></span><span></span><span></span></div></div><a class="btn light" style="align-self:flex-start;height:54px">Request access<span class="o" style="width:40px;height:40px"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+    <a class="card-v" href="villa.html"><div class="ph" data-img="1512917774080-9991f1c4c750" data-w="800"><span class="tag"><i></i>3D tour</span><span class="heart"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span><div class="cmp"><span>196° view</span><span>Garden 2,400 m²</span></div><div class="dots"><i></i><i></i><i></i><i></i></div></div>
+      <div class="row"><h3>Villa Mirall</h3><span class="pr">€6,300,000</span></div><div class="meta"><span>COMPORTA</span><span>5 BD · 4 BA</span><span>410 M²</span></div></a>
+    <a class="card-v" href="villa.html"><div class="ph" data-img="1628012209120-d9db7abf7eab" data-w="800"><span class="tag"><i></i>Architect’s own</span><span class="heart"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span><div class="cmp"><span>182° view</span><span>3 levels</span></div><div class="dots"><i></i><i></i><i></i></div></div>
+      <div class="row"><h3>Casa Cubic</h3><span class="pr">€9,750,000</span></div><div class="meta"><span>AMALFI</span><span>6 BD · 6 BA</span><span>620 M²</span></div></a>
+    <a class="card-v" href="villa.html"><div class="ph" data-img="1582268611958-ebfd161ef9cf" data-w="800"><span class="tag"><i></i>Under offer</span><span class="heart"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span><div class="cmp"><span>205° view</span><span>Single storey</span></div><div class="dots"><i></i><i></i><i></i><i></i></div></div>
+      <div class="row"><h3>Casa Lumo</h3><span class="pr">€11,200,000</span></div><div class="meta"><span>MANI</span><span>5 BD · 5 BA</span><span>530 M²</span></div></a>
+    <a class="card-v" href="villa.html"><div class="ph" data-img="1709147617968-709368900af1" data-w="800"><span class="tag"><i></i>New</span><span class="heart"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span><div class="cmp"><span>190° view</span><span>Timber roof</span></div><div class="dots"><i></i><i></i><i></i></div></div>
+      <div class="row"><h3>Villa Aster</h3><span class="pr">€16,900,000</span></div><div class="meta"><span>IBIZA</span><span>7 BD · 7 BA</span><span>812 M²</span></div></a>
+  </div>
+  <div class="pager"><span class="lab">9 of 17 villas</span><div class="bar"><i style="width:53%"></i></div><div class="pg"><a class="on">1</a><a>2</a><a>→</a></div></div>
+</section>
+
+<footer class="f" data-footer></footer>
+<script src="azure.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = window.AZ3D(THREE, { RoundedBoxGeometry });
+const S = K.stage(document.getElementById('map3d'), { w: 1440, h: 980, fov: 28, exposure: 1.05, env: 'day', envIntensity: 0.55, staticShadows: true });
+if (S) {
+  const M = K.mats('day');
+  const C = K.coast(M, { step: 3.2 }); S.scene.add(C.group);
+  const sm = K.sea({ deep: '#0d5a76', mid: '#167f99', shallow: '#62cdd0', haze: '#eef0ec', sun: [-0.5, 0.6, 0.45], fade: [260, 520], shore: 1 });
+  const sea = new THREE.Mesh(new THREE.PlaneGeometry(1400, 1400), sm); sea.rotation.x = -Math.PI / 2; sea.position.y = 0.4; S.scene.add(sea);
+  K.lights(S.scene, 'day', { at: [-90, 120, 60], size: 150, map: 2048, target: [0, 0, -20] });
+  // scattered pines / olives on the terraces (instanced)
+  const r = K.rng(77), N = 420;
+  const tg = new THREE.IcosahedronGeometry(1, 0);
+  const trees = new THREE.InstancedMesh(tg, new THREE.MeshStandardMaterial({ color: '#7c8a58', roughness: .9, flatShading: true }), N);
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler();
+  let n = 0;
+  for (let i = 0; i < N * 3 && n < N; i++) {
+    const x = -170 + r() * 340, z = -140 + r() * 140;
+    if (z > C.f(x) - 6) continue;
+    const y = C.height(x, z); const s = 0.45 + r() * 0.7;
+    m4.compose(new THREE.Vector3(x, y + s * 0.6, z), q.setFromEuler(e.set(r(), r(), r())), new THREE.Vector3(s, s * 0.8, s));
+    trees.setMatrixAt(n++, m4);
+  }
+  trees.count = n; trees.castShadow = true; trees.receiveShadow = true; S.scene.add(trees);
+  // villas + pins
+  const V = [[-78, 'Villa Halcyon', '€14.8M', 1600596542815, 'on'], [-52, 'Casa Teca', '€7.25M', 1613490493576], [-24, 'Es Racó', '€4,800 / nt', 1543489822, 'stay'], [6, 'Casa Albar', '€8.9M', 1580587771525],
+             [32, 'Villa Aster', '€16.9M', 1709147617968], [58, 'Can Sal', '€3,900 / nt', 1603085429201, 'stay'], [82, 'Casa Lumo', '€11.2M', 1582268611958]];
+  const ids = { 1600596542815: '1600596542815-ffad4c1539a9', 1613490493576: '1613490493576-7fde63acd811', 1543489822: '1543489822-c49534f3271f', 1580587771525: '1580587771525-78b9dba3b914', 1709147617968: '1709147617968-709368900af1', 1603085429201: '1603085429201-64dadaec4061', 1582268611958: '1582268611958-ebfd161ef9cf' };
+  const pinsEl = document.getElementById('pins');
+  V.forEach(([x, name, price, id, cls], i) => {
+    const z = C.f(x) - 7 - (i % 3) * 3; const y = C.height(x, z);
+    const v = K.miniVilla(M, 2.1, -0.2 + (i % 3) * 0.15); v.position.set(x, y, z); S.scene.add(v);
+    const p = K.pinMesh(cls === 'on' ? '#e9995a' : cls === 'stay' ? '#0f5e7a' : '#101214', cls === 'on' ? 9 : 6); p.position.set(x, y, z + 2.6); S.scene.add(p);
+    const el = document.createElement('div'); el.className = 'mp ' + (cls || '');
+    el.innerHTML = `<div class="c"><i style="background-image:url(https://images.unsplash.com/photo-${ids[id]}?auto=format&fit=crop&q=70&w=80)"></i>${name} · ${price}</div>`;
+    pinsEl.appendChild(el); S.pin(p.userData.head, el);
+  });
+  [[-40, 40, 0.3], [70, 30, -2.6]].forEach(([x, z, ry]) => { const b = K.boat(M); b.position.set(x, 0.4, z); b.rotation.y = ry; S.scene.add(b); });
+  const cam = S.camera;
+  S.run(t => {
+    sm.uniforms.uT.value = t;
+    const a = Math.sin(t * 0.07) * 0.04;
+    cam.position.set(Math.sin(0.55 + a) * 245 - 6, 100, Math.cos(0.55 + a) * 245 - 4);
+    cam.lookAt(-14, 0, -6);
+  });
+}
+</script>
+</body></html>

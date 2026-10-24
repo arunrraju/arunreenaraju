@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Forma Atelier — Sculpture you can sit in</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="forma.css">
+<style>
+/* HERO */
+.hero{height:1000px;position:relative;overflow:hidden;background:radial-gradient(ellipse 55% 60% at 50% 42%,#83302a 0%,#5a1f1b 38%,#2c0d0c 78%,#1a0707 100%)}
+.hero .back,.hero .front{position:absolute;left:0;right:0;top:300px;text-align:center;font:800 300px/.8 var(--display);letter-spacing:-.065em;padding-right:.06em;white-space:nowrap}
+.hero .back{color:var(--plaster);z-index:1;text-shadow:0 40px 80px rgba(0,0,0,.35)}
+.hero .front{z-index:3;color:transparent;-webkit-text-stroke:1.5px rgba(233,226,214,.55);pointer-events:none;mask-image:linear-gradient(180deg,transparent 30%,#000 55%);-webkit-mask-image:linear-gradient(180deg,transparent 30%,#000 55%)}
+.hero canvas{position:absolute;left:0;top:0;z-index:2}
+.hero .halo{position:absolute;left:470px;top:-120px;width:500px;height:700px;z-index:1;background:radial-gradient(ellipse 50% 60% at 50% 0%,rgba(255,226,184,.22),transparent 70%);filter:blur(10px)}
+.hero .meta{position:absolute;left:48px;top:118px;z-index:4;display:grid;gap:10px}
+.hero .meta .tag{color:var(--brass2)}
+.hero .meta .n{font:800 15px/1 var(--display);letter-spacing:.06em}
+.hero .idx{position:absolute;right:48px;top:132px;z-index:4;text-align:right;display:grid;gap:8px;font:500 12px/1 var(--sans);letter-spacing:.14em;color:rgba(233,226,214,.45)}
+.hero .idx b{color:var(--plaster);font-weight:600}
+.hero .idx b::before{content:"";display:inline-block;width:34px;height:1px;background:var(--brass);vertical-align:middle;margin-right:12px}
+.hero .copy{position:absolute;left:48px;bottom:58px;z-index:4;width:500px}
+.hero .copy h1{font:400 72px/.95 var(--serif);font-style:italic;letter-spacing:-.02em;margin:18px 0 20px}
+.hero .copy h1 b{font:800 64px/.9 var(--display);font-style:normal;letter-spacing:-.04em;text-transform:uppercase;display:block}
+.hero .copy p{color:rgba(233,226,214,.72);max-width:370px;margin-bottom:30px}
+.hero .copy .row{display:flex;gap:12px}
+.hero .card{position:absolute;right:48px;bottom:58px;z-index:4;width:340px;background:rgba(33,9,10,.5);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(233,226,214,.16);padding:22px}
+.hero .card .top{display:flex;justify-content:space-between;align-items:flex-start}
+.hero .card h3{font:800 26px/1 var(--display);letter-spacing:-.02em;text-transform:uppercase;margin:12px 0 6px}
+.hero .card .sw{display:flex;gap:7px;margin:16px 0}
+.hero .card .sw i{width:26px;height:26px;border-radius:50%;border:2px solid rgba(233,226,214,.2)}
+.hero .card .sw i.on{outline:1.5px solid var(--brass2);outline-offset:3px}
+.hero .card .pr{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(233,226,214,.16);padding-top:16px}
+.hero .card .pr b{font:700 30px/1 var(--display)}
+.hero .card .pr span{font-size:12px;color:rgba(233,226,214,.55)}
+.ann{position:absolute;inset:0;z-index:4;pointer-events:none}
+.ann svg{position:absolute;inset:0;width:1440px;height:1000px;overflow:visible}
+.ann .l{position:absolute;width:250px;font-size:12px;line-height:1.45;color:rgba(233,226,214,.7)}
+.ann .l b{display:block;font:700 13px/1.2 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--plaster);margin-bottom:3px}
+.ann .l b em{font-style:normal;color:var(--brass2);margin-right:8px}
+.ann .l.right{text-align:left}
+.ann .l.left{text-align:right}
+.hero .scroll{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:14px;font:500 11px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:rgba(233,226,214,.55)}
+.hero .scroll i{width:1px;height:46px;background:linear-gradient(var(--brass),transparent);animation:float 2s ease-in-out infinite}
+.hero .cursor{left:905px;top:640px}
+
+/* crossing bands */
+.bands{height:280px;position:relative;overflow:hidden;background:var(--ox3)}
+.bands .mq{position:absolute;left:-60px;right:-60px;font:800 70px/1 var(--display);letter-spacing:-.03em;text-transform:uppercase;padding:22px 0}
+.bands .a{top:60px;background:var(--brass);color:var(--ink);transform:rotate(-3deg);z-index:2;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.bands .b{top:110px;background:var(--forest);color:var(--plaster);transform:rotate(2.5deg)}
+.bands .b .tr{animation-direction:reverse;animation-duration:55s}
+.bands .mq span{padding:0 28px;display:inline-flex;align-items:center;gap:56px}
+.bands .mq span::after{content:"✦";font-size:40px}
+.bands .b span{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;letter-spacing:-.01em;font-size:66px}
+
+/* statement */
+.state{background:var(--plaster);color:var(--ink);padding:150px 48px 130px;position:relative}
+.state .tag{color:var(--ox)}
+.state h2{font:800 104px/.92 var(--display);letter-spacing:-.05em;text-transform:uppercase;margin:34px 0 90px}
+.state h2 .serif{color:var(--ox);font-size:112px;letter-spacing:-.03em}
+.state h2 .pill{display:inline-block;width:230px;height:92px;border-radius:999px;vertical-align:middle;margin:-14px 6px 0;position:relative;overflow:hidden}
+.state h2 .pill img{position:absolute;inset:0}
+.state .stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(20,15,14,.18)}
+.state .stats div{padding:30px 30px 0 0;border-right:1px solid rgba(20,15,14,.12);margin-right:30px}
+.state .stats div:last-child{border:0}
+.state .stats b{display:block;font:800 76px/1 var(--display);letter-spacing:-.05em;color:var(--ox)}
+.state .stats span{font-size:14px;color:#5e544d;display:block;margin-top:10px;max-width:250px}
+
+/* trio */
+.trio{background:radial-gradient(ellipse 60% 70% at 50% 75%,#2d5444 0%,#1f3a2f 40%,#0e1d17 100%);position:relative;overflow:hidden;padding-top:120px}
+.trio .hd{display:grid;grid-template-columns:1.4fr 1fr;align-items:end;padding:0 48px;position:relative;z-index:3}
+.trio h2{font:800 196px/.8 var(--display);letter-spacing:-.06em;text-transform:uppercase}
+.trio h2 .serif{font-size:150px;color:var(--brass2);display:block;margin-left:220px;letter-spacing:-.03em}
+.trio .hd p{color:rgba(233,226,214,.7);font-size:17px;max-width:420px;margin-bottom:24px}
+.trio .stage{position:relative;height:860px;margin-top:-20px}
+.trio canvas{position:absolute;left:0;top:0;z-index:2}
+.trio .lb{position:absolute;z-index:3;width:210px;transform:translateX(-50%)}
+.trio .lb .label{text-align:left}
+.trio .lb .label .p{display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid rgba(20,15,14,.15);font:700 13px/1 var(--display)}
+.trio .num{position:absolute;z-index:3;font:800 15px/1 var(--display);color:var(--brass2);letter-spacing:.1em;transform:translateX(-50%)}
+.trio .foot{display:flex;justify-content:space-between;align-items:center;padding:30px 48px 60px;border-top:1px solid rgba(233,226,214,.12);position:relative;z-index:3}
+.trio .foot .list{display:flex;gap:34px;font:600 13px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;color:rgba(233,226,214,.55)}
+.trio .foot .list b{color:var(--plaster)}
+
+/* materials */
+.mats{background:var(--plaster);color:var(--ink);padding:130px 48px;display:grid;grid-template-columns:420px 1fr;gap:60px}
+.mats h2{font:800 66px/.88 var(--display);letter-spacing:-.05em;text-transform:uppercase;margin:24px 0 28px}
+.mats h2 .serif{color:var(--ox);font-size:92px}
+.mats p{color:#5e544d;font-size:16px;margin-bottom:34px}
+.mats .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mats .t{height:520px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:22px}
+.mats .t img{position:absolute;left:-20px;right:-20px;top:70px;width:calc(100% + 40px);height:auto;object-fit:contain}
+.mats .t .n{font:800 13px/1 var(--display);letter-spacing:.12em;position:relative}
+.mats .t .c{position:relative}
+.mats .t .c b{display:block;font:800 16px/1.05 var(--display);text-transform:uppercase;letter-spacing:-.01em;margin-bottom:6px}
+.mats .t .c span{font-size:12px;opacity:.7}
+.mats .t:nth-child(2){transform:translateY(40px)}
+.mats .t:nth-child(4){transform:translateY(40px)}
+
+/* touch */
+.touch{background:var(--ink);display:grid;grid-template-columns:720px 1fr;min-height:900px}
+.touch .ph{position:relative;overflow:hidden}
+.touch .ph .wipe{position:absolute;top:0;bottom:0;left:62%;width:4px;background:var(--brass);box-shadow:0 0 30px var(--brass);z-index:2}
+.touch .ph .after{position:absolute;inset:0;left:62%;overflow:hidden;z-index:1;backdrop-filter:grayscale(1) contrast(1.15) brightness(.8);-webkit-backdrop-filter:grayscale(1) contrast(1.15) brightness(.8)}
+.touch .ph .wl{position:absolute;z-index:3;top:50%;left:62%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:var(--brass);color:var(--ink);display:grid;place-items:center}
+.touch .ph .cap{position:absolute;z-index:3;left:30px;bottom:30px;right:30px;display:flex;justify-content:space-between;font:500 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.touch .txt{padding:110px 48px 80px 80px}
+.touch h2{font:400 104px/.9 var(--serif);font-style:italic;letter-spacing:-.03em;margin:24px 0 50px}
+.touch h2 b{font:800 92px/.86 var(--display);font-style:normal;text-transform:uppercase;letter-spacing:-.05em;display:block;color:var(--brass2)}
+.touch .rv{display:grid;gap:14px}
+.touch .r{border:1px solid rgba(233,226,214,.14);padding:24px 26px;display:grid;grid-template-columns:1fr auto;gap:8px 20px;background:linear-gradient(110deg,rgba(233,226,214,.04),transparent)}
+.touch .r p{font:400 23px/1.25 var(--serif);font-style:italic;grid-column:1/-1}
+.touch .r .st{color:var(--brass2);display:flex;gap:3px}
+.touch .r .st .ic{width:14px;height:14px}
+.touch .r .who{font-size:12px;color:rgba(233,226,214,.55);letter-spacing:.06em}
+.touch .r .who b{color:var(--plaster);font-weight:600}
+.touch .r.hi{border-color:var(--brass);transform:translateX(-30px);background:linear-gradient(110deg,rgba(176,141,87,.16),rgba(176,141,87,.02))}
+
+/* salon */
+.salon{background:var(--ox);position:relative;overflow:hidden;padding:130px 48px 120px;display:grid;grid-template-columns:minmax(0,1fr) 520px;gap:80px}
+.salon h2{font:800 176px/.78 var(--display);letter-spacing:-.065em;text-transform:uppercase;margin:30px 0 40px}
+.salon h2 .serif{font-size:150px;color:var(--brass2);letter-spacing:-.03em}
+.salon .dates{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(233,226,214,.2);margin-bottom:44px}
+.salon .dates div{padding:22px 0}
+.salon .dates b{display:block;font:800 40px/1 var(--display);letter-spacing:-.03em}
+.salon .dates span{font-size:13px;color:rgba(233,226,214,.6)}
+.salon .ph{height:760px;position:relative;box-shadow:0 60px 120px rgba(0,0,0,.45)}
+.salon .ph::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 14px var(--ox),inset 0 0 0 15px rgba(233,226,214,.3)}
+.salon .badge{position:absolute;left:-85px;bottom:80px;width:170px;height:170px;z-index:3;border-radius:50%;background:var(--brass);color:var(--ink);display:grid;place-items:center}
+.salon .badge svg{position:absolute;inset:0;animation:spin 18s linear infinite}
+.salon .badge text{font:700 13.5px var(--display);letter-spacing:.3em;fill:var(--ink)}
+.salon .badge .c{width:56px;height:56px;border-radius:50%;background:var(--ink);color:var(--brass2);display:grid;place-items:center}
+</style></head>
+<body>
+<section class="hero">
+  <div data-nav></div>
+  <div class="halo"></div>
+  <div class="back" data-fit="1400">FORMA</div>
+  <canvas id="hero"></canvas>
+  <div class="front" data-fit="1400">FORMA</div>
+  <div class="ann" id="ann"><svg id="annsvg"></svg></div>
+  <div class="meta"><span class="tag">N°07 — Collection 2027</span><span class="n">ORBE LOUNGE CHAIR</span><span class="tag" style="color:rgba(233,226,214,.5)">Edition of 120 · Signed</span></div>
+  
+  <div class="copy">
+    <span class="tag brass"><span class="dot"></span>&nbsp; Furniture as sculpture</span>
+    <h1><b>Sculpture</b>you can sit in.</h1>
+    <p>Seven objects for slow rooms. Every piece is shaped by hand in our Lisbon atelier, signed, numbered and delivered white-glove.</p>
+    <div class="row"><a class="btn">Configure Orbe <span class="sq"><i data-ic="arrow"></i></span></a><a class="tag" style="align-self:center;margin-left:14px;border-bottom:1px solid var(--brass);padding-bottom:6px">The gallery</a></div>
+  </div>
+  <div class="card">
+    <div class="top"><span class="tag" style="color:var(--brass2)">On the plinth</span><span class="tag" style="color:rgba(233,226,214,.5)">360° · Live</span></div>
+    <h3>Orbe Lounge</h3>
+    <span style="font-size:13px;color:rgba(233,226,214,.65)">Ivory bouclé · Brushed brass · 92 × 84 × 74 cm</span>
+    <div class="sw"><i class="on" style="background:#e6ded0"></i><i style="background:#6a2320"></i><i style="background:#22422f"></i><i style="background:#b07a35"></i><i style="background:#1d1d24"></i></div>
+    <div class="pr"><div><span>From</span><br><b>€6,400</b></div><a class="tag brass">Configure ↗</a></div>
+  </div>
+  <div class="cursor">Drag<br>to orbit</div>
+  <div class="scroll"><i></i>Scroll the gallery</div>
+</section>
+
+<section class="bands">
+  <div class="mq b"><div class="tr"><span>hand-built in Lisbon</span><span>signed &amp; numbered</span><span>delivered white-glove to 32 countries</span><span>made to order in 10 weeks</span></div></div>
+  <div class="mq a"><div class="tr"><span>Bouclé</span><span>Velvet</span><span>Calacatta Viola</span><span>Brushed brass</span><span>Travertine</span><span>Steam-bent ash</span></div></div>
+</section>
+
+<section class="state">
+  <span class="tag">( Manifesto )</span>
+  <h2>We hang furniture <span class="pill" data-img="1762803841292-4bd571730968|600"></span> like <span class="serif">art</span> — one object, one light, <span class="pill" data-img="1759647020668-648cd90ddce4|600"></span> <span class="serif">nothing</span> else.</h2>
+  <div class="stats">
+    <div><b>31h</b><span>of hand upholstery inside every Orbe chair</span></div>
+    <div><b>120</b><span>pieces per edition, each signed under the seat</span></div>
+    <div><b>0</b><span>glued foam — horsehair, down and steel springs only</span></div>
+    <div><b>∞</b><span>frame warranty, transferable to the next owner</span></div>
+  </div>
+</section>
+
+<section class="trio">
+  <div class="hd">
+    <h2>Seven<span class="serif">objects.</span></h2>
+    <div><p>No catalogue of 400 sofas. Seven pieces a year, each lit and shown like a work on loan — then made only when you order it.</p><a class="btn">Enter the gallery <span class="sq"><i data-ic="arrow"></i></span></a></div>
+  </div>
+  <div class="stage" id="trioStage"><canvas id="trio"></canvas></div>
+  <div class="foot"><div class="list"><b>Orbe</b><span>Dune</span><span>Monolith</span><b>Halo</b><b>Ovum</b><b>Pebble</b><span>Totem</span></div><span class="tag brass">Showing 3 of 7 — 04 / 05 / 06</span></div>
+</section>
+
+<section class="mats">
+  <div>
+    <span class="tag" style="color:var(--ox)">( Material library )</span>
+    <h2>Chosen like <span class="serif">pigments.</span></h2>
+    <p>Four families, forty colourways. Every sample is free and arrives in a linen folio within three days — rendered here exactly as the light hits it.</p>
+    <a class="btn dark">Order free samples <span class="sq"><i data-ic="arrow"></i></span></a>
+  </div>
+  <div class="tiles">
+    <div class="t" style="background:var(--ox);color:var(--plaster)"><span class="n">M—01</span><img id="m1" alt=""><div class="c"><b>Bouclé</b><span>Wool-alpaca loop · 940 g/m²</span></div></div>
+    <div class="t" style="background:var(--plaster2);color:var(--ink)"><span class="n">M—02</span><img id="m2" alt=""><div class="c"><b>Silk velvet</b><span>Cut pile · Como, Italy</span></div></div>
+    <div class="t" style="background:var(--forest);color:var(--plaster)"><span class="n">M—03</span><img id="m3" alt=""><div class="c"><b>Calacatta Viola</b><span>Honed marble · Tuscany</span></div></div>
+    <div class="t" style="background:var(--ink2);color:var(--plaster)"><span class="n">M—04</span><img id="m4" alt=""><div class="c"><b>Brushed brass</b><span>Solid, hand-grained · Ages gold</span></div></div>
+  </div>
+</section>
+
+<section class="touch">
+  <div class="ph" data-img="1762803841292-4bd571730968|1200"><div class="after"></div><div class="wipe"></div><div class="wl"><i data-ic="explode"></i></div><div class="cap"><span>Your room · in colour</span><span>Sketch · in tone</span></div></div>
+  <div class="txt">
+    <span class="tag brass">( Collectors )</span>
+    <h2><b>Touch is</b>the first review.</h2>
+    <div class="rv">
+      <div class="r"><p>“It stopped every guest at the door. Two years on, the bouclé still looks like the day it was uncrated.”</p><span class="who"><b>Margaux L.</b> · Orbe in Ivory · Bordeaux</span><span class="st">${STARS}</span></div>
+      <div class="r hi"><p>“They sent four velvet swatches and a photo of my exact chair on the plinth before it shipped. Theatre, start to finish.”</p><span class="who"><b>Daniel K.</b> · Dune, 3 modules · Rotterdam</span><span class="st">${STARS}</span></div>
+      <div class="r"><p>“The marble arrived in a crate built for it, with the quarry slab number inked inside. I kept the crate.”</p><span class="who"><b>Aiko M.</b> · Monolith table · Zürich</span><span class="st">${STARS}</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="salon">
+  <div>
+    <span class="tag brass">( Exhibition — by invitation )</span>
+    <h2>Salon <span class="serif">07</span></h2>
+    <div class="dates"><div><b>13–18</b><span>April 2027</span></div><div><b>Milan</b><span>Via Solferino 27</span></div><div><b>7</b><span>objects, one room</span></div></div>
+    <p style="font-size:17px;color:rgba(233,226,214,.75);max-width:520px;margin-bottom:34px">The whole of Collection 07 in a single darkened room, each piece under its own light. Sit in everything. Book a 30-minute private slot with the designer.</p>
+    <a class="btn">Request an invitation <span class="sq"><i data-ic="arrow"></i></span></a>
+  </div>
+  <div class="ph" data-img="1774477178005-bff823e43be8|1200">
+    <div class="badge"><svg viewBox="0 0 170 170"><defs><path id="bc" d="M85,85 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs><text><textPath href="#bc">RSVP · SALON 07 · MILAN · APRIL ·</textPath></text></svg><div class="c"><i data-ic="ne"></i></div></div>
+  </div>
+</section>
+
+<div data-footer></div>
+
+<script src="forma.js"></script>
+<script>
+document.querySelectorAll('.st').forEach(s => s.innerHTML = '<i data-ic="star"></i>'.repeat(5));
+forma('Collection');
+</script>
+<script src="forma3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const F = Forma3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+
+/* ---- material spheres (rendered once) ---- */
+const sphere = mat => () => { const g = new THREE.Group(); const s = F.mesh(new THREE.SphereGeometry(0.42, 96, 64), mat); s.position.y = 0.42; g.add(s); return g; };
+const opts = { w: 420, h: 420, cam: [0, 0.75, 2.9], target: [0, 0.4, 0], fov: 24 };
+document.getElementById('m1').src = F.snap(sphere(F.fabric('boucle', '#e6ded0', [6, 3])), opts);
+document.getElementById('m2').src = F.snap(sphere(F.fabric('velvet', '#22422f')), opts);
+document.getElementById('m3').src = F.snap(sphere(F.marble('viola', [2, 1])), { ...opts, exposure: 0.8 });
+document.getElementById('m4').src = F.snap(sphere(F.metal('brass')), { ...opts, env: 1.2 });
+
+/* ---- HERO: exploded, levitating Orbe on a plaster plinth ---- */
+const H = F.stage(document.getElementById('hero'), { w: 1440, h: 1000, fov: 28, exposure: 1.1 });
+H.env = 0.45;
+const { scene, camera } = H;
+camera.position.set(0, 1.0, 5.1); camera.lookAt(0, 0.66, 0);
+const plinth = F.plinth({ r: 0.68, h: 2.2 }); scene.add(plinth);
+const chair = F.chair({ fabric: F.fabric('boucle', '#e9e1d3', [12, 3]) });
+const P = chair.userData.parts;
+const lift = new THREE.Group(); lift.add(chair); lift.position.y = 0.16; scene.add(lift);
+chair.rotation.y = -0.55;
+// floating hardware: brass dowels and fixings between the parts
+const hw = new THREE.Group(); const brass = F.metal('brass');
+for (let k = 0; k < 4; k++) { const a = Math.PI / 4 + k * Math.PI / 2; const d = F.mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.09, 16), brass); d.position.set(Math.cos(a) * 0.36, 0.25, Math.sin(a) * 0.36); hw.add(d); const n = F.mesh(new THREE.CylinderGeometry(0.024, 0.024, 0.012, 6), brass); n.position.set(Math.cos(a) * 0.36, 0.19, Math.sin(a) * 0.36); hw.add(n); }
+chair.add(hw);
+const orbit = [];
+for (let i = 0; i < 3; i++) { const s = F.mesh(new THREE.SphereGeometry(0.035 - i * 0.008, 32, 24), brass); scene.add(s); orbit.push(s); }
+const chip = F.mesh(new THREE.DodecahedronGeometry(0.07, 0), F.marble('viola')); chip.position.set(-0.95, 1.05, 0.3); scene.add(chip);
+const chip2 = F.mesh(new THREE.DodecahedronGeometry(0.045, 0), F.travertine()); chip2.position.set(0.98, 0.42, 0.5); scene.add(chip2);
+scene.add(F.blob(0.75, 0.75, 0.55));
+F.spot(scene, { pos: [0.6, 4.2, 1.6], target: [0, 0.45, 0], intensity: 85, angle: 0.36 });
+F.rim(scene, [-2.5, 2.2, -2.5], '#ff9c7a', 4);
+F.rim(scene, [2.8, 1.2, -1.5], '#ffd9a8', 2.2);
+const fill = new THREE.HemisphereLight('#ffe8d0', '#3a0f0d', 0.5); scene.add(fill);
+const beam = F.beam({ top: [0.25, 3.6, 0.6], height: 3.6, radius: 1.25, opacity: 0.16 }); beam.rotation.z = 0.06; scene.add(beam);
+const dust = F.dust({ n: 380, r: 1.2, y0: 0.05, y1: 3.0 }); scene.add(dust);
+
+// annotation labels, projected from real 3D points each frame
+const ann = document.getElementById('ann'), svg = document.getElementById('annsvg');
+const LABELS = [
+  { part: P.back, off: [-0.42, 0.28, 0.2], side: 'left', x: 330, y: 238, t: ['01', 'Bouclé shell'], d: 'Wool-alpaca loop, 940 g/m², hand-pulled over a steam-bent ash frame.' },
+  { part: P.cushion, off: [0.32, 0.17, 0.2], side: 'right', x: 1100, y: 238, t: ['02', 'Down cushion'], d: '2.4 kg of Hungarian down around a pocket-sprung core. No glued foam.' },
+  { part: P.legs, off: [0.33, 0.06, 0.33], side: 'right', x: 1100, y: 548, t: ['03', 'Solid brass base'], d: 'Turned, then brushed by hand. Ages to a deep gold over a decade.' },
+  { part: P.drum, off: [-0.5, 0.1, 0.3], side: 'left', x: 330, y: 548, t: ['04', 'Tailored drum'], d: 'Single-piece upholstery, 31 hours, signed under the seat.' }
+];
+LABELS.forEach(L => { L.el = document.createElement('div'); L.el.className = 'l ' + L.side; L.el.innerHTML = `<b><em>${L.t[0]}</em>${L.t[1]}</b>${L.d}`; L.el.style.left = (L.side === 'left' ? L.x - 250 : L.x) + 'px'; L.el.style.top = (L.y - 8) + 'px'; ann.appendChild(L.el); });
+const tmp = new THREE.Vector3();
+const place = () => {
+  svg.innerHTML = LABELS.map(L => {
+    L.part.updateWorldMatrix(true, false); tmp.set(...L.off); L.part.localToWorld(tmp);
+    const p = H.project(tmp), ex = L.side === 'left' ? L.x + 14 : L.x - 14;
+    return `<path d="M${p.x},${p.y} L${ex + (L.side === 'left' ? 40 : -40)},${L.y} L${ex},${L.y}" fill="none" stroke="rgba(224,192,138,.75)" stroke-width="1"/><circle cx="${p.x}" cy="${p.y}" r="5" fill="#e0c08a"/><circle cx="${p.x}" cy="${p.y}" r="12" fill="none" stroke="rgba(224,192,138,.45)"/>`;
+  }).join('');
+};
+H.tick.push(t => {
+  const f = Math.sin(t * 0.9);
+  lift.position.y = 0.16 + f * 0.025;
+  chair.rotation.y = -0.55 + Math.sin(t * 0.2) * 0.25;
+  P.cushion.position.y = 0.38 + 0.26 + Math.sin(t * 0.9 + 0.6) * 0.02;
+  P.back.position.y = 0.6 + 0.18 + Math.sin(t * 0.9 + 1.1) * 0.015;
+  P.band.position.y = 0.2 + 0.06;
+  P.legs.position.y = -0.1 + f * 0.01;
+  hw.position.y = -0.02 + Math.sin(t * 1.3) * 0.01;
+  orbit.forEach((s, i) => { const a = t * (0.35 + i * 0.12) + i * 2.1; s.position.set(Math.cos(a) * (1.05 + i * 0.12), 0.75 + Math.sin(a * 1.3) * 0.25 + i * 0.12, Math.sin(a) * (0.75 + i * 0.1)); });
+  chip.rotation.set(t * 0.3, t * 0.4, 0); chip2.rotation.set(t * 0.5, t * 0.2, 0);
+  F.driftDust(dust, t); place();
+});
+H.start();
+
+/* ---- TRIO: three pieces on three plinths ---- */
+const T = F.stage(document.getElementById('trio'), { w: 1440, h: 860, fov: 26, exposure: 1.05 });
+T.env = 0.5;
+T.camera.position.set(0, 1.9, 7.3); T.camera.lookAt(0, 1.2, 0);
+const pl = [[-1.85, 0.45], [0, 1.0], [1.85, 0.7]];
+const pieces = [F.lamp(), F.pouf({ fabric: F.fabric('velvet', '#7a2723') }), F.side()];
+const groups = [];
+pl.forEach(([x, h], i) => {
+  const g = new THREE.Group(); g.position.x = x;
+  const p = F.plinth({ r: 0.62, h, mat: F.plaster('#e9e2d6', [2, 1]) }); p.position.y = h; g.add(p);
+  const piece = pieces[i]; if (i) piece.scale.setScalar(1.4); piece.position.y = h + (i === 0 ? 0 : 0.08); g.add(piece);
+  const b = F.blob(0.55, 0.55, 0.5); b.position.y = h + 0.003; g.add(b);
+  F.spot(T.scene, { pos: [x + 0.4, 5.2, 1.6], target: [x, h + 0.4, 0], intensity: 70, angle: 0.24, size: 512 });
+  const bm = F.beam({ top: [x + 0.25, 4.8, 0.7], height: 4.8 - h, radius: 0.85, opacity: 0.12 }); T.scene.add(bm);
+  T.scene.add(g); groups.push({ g, piece, h });
+});
+const gl = new THREE.PointLight('#ffcf8a', 2.5, 3, 2); gl.position.set(-1.85, 0.45 + 1.6, 0.2); T.scene.add(gl);
+F.shadowFloor(T.scene, 20, 0.35);
+T.scene.add(new THREE.HemisphereLight('#f4e6d0', '#0b1712', 0.6));
+F.rim(T.scene, [-4, 3, -3], '#bfe0c8', 2.5);
+// labels under each plinth
+const stage = document.getElementById('trioStage');
+const INFO = [['Halo floor lamp', 'Brass, opal glass, Nero Marquina', '€3,200', 'N°05'], ['Ovum pouf', 'Oxblood silk velvet, brass foot', '€2,300', 'N°06'], ['Pebble side table', 'Solid Roman travertine', '€1,900', 'N°07']];
+INFO.forEach((d, i) => {
+  const p = T.project(new THREE.Vector3(pl[i][0], pl[i][1] * 0.62, 0.62));
+  const lb = document.createElement('div'); lb.className = 'lb'; lb.style.left = p.x + 'px'; lb.style.top = (p.y - 30) + 'px';
+  lb.innerHTML = `<div class="label"><b>${d[0]}</b><i>${d[1]}</i><div class="p"><span>${d[3]}</span><span>${d[2]}</span></div></div>`; stage.appendChild(lb);
+});
+T.tick.push(t => {
+  groups.forEach((o, i) => { o.piece.rotation.y = t * 0.15 + i; if (i === 1) o.piece.position.y = o.h + 0.1 + Math.sin(t * 1.1) * 0.03; });
+});
+T.start();
+</script>
+</body></html>

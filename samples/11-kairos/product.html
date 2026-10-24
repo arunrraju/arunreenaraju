@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Meridian Tourbillon KT-01.42 — Kairos</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kairos.css">
+<script src="kairos3d.js"></script>
+<style>
+.view{position:relative;height:1010px;overflow:hidden;background:radial-gradient(ellipse 42% 52% at 44% 52%,#1a3570 0%,#0a1630 45%,var(--night) 75%)}
+.view .word{position:absolute;left:0;right:0;top:330px;text-align:center;font:300 268px/1 var(--disp);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1.4px rgba(201,209,220,.22);background:linear-gradient(180deg,rgba(238,242,247,.12),rgba(238,242,247,0) 80%);-webkit-background-clip:text;background-clip:text;white-space:nowrap;margin-left:-330px}
+.view canvas{position:absolute;left:0;top:0;z-index:2}
+.view .crumbs{position:absolute;left:64px;top:110px;z-index:5}
+.view .thumbs{position:absolute;left:64px;top:300px;z-index:5;display:grid;gap:12px}
+.view .thumbs a{width:92px;height:92px;border:1px solid var(--line);position:relative;background:rgba(10,20,40,.5)}
+.view .thumbs a img{object-fit:contain}
+.view .thumbs a.on{border-color:var(--blue);box-shadow:0 0 30px rgba(91,140,255,.3)}
+.view .thumbs a span{position:absolute;left:104px;top:38px;font:500 9.5px/1 var(--mono);letter-spacing:.2em;color:var(--dim);white-space:nowrap}
+.view .thumbs a.on span{color:var(--silver)}
+.panel{position:absolute;right:48px;top:120px;width:400px;z-index:6;padding:34px}
+.panel h1{font:400 46px/.95 var(--disp);letter-spacing:-.04em;color:var(--silver);margin:18px 0 10px}
+.panel .price{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin:26px 0 6px;font:300 40px/1 var(--disp);color:var(--silver);letter-spacing:-.03em}
+.panel .price small{font:400 11px var(--mono);color:var(--dim);letter-spacing:.1em}
+.opt{margin-top:24px}
+.opt .lab{display:flex;justify-content:space-between;margin-bottom:12px}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.seg span{height:56px;border:1px solid var(--line);display:grid;place-items:center;position:relative}
+.seg span i{width:26px;height:26px;border-radius:50%;display:block}
+.seg span.on{border-color:var(--silver);background:rgba(238,242,247,.06)}
+.seg span.on::after{content:"";position:absolute;top:6px;right:6px;width:5px;height:5px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue)}
+.size{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.size span{height:46px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font:500 12px var(--mono);letter-spacing:.1em;color:var(--dim)}
+.size span.on{border-color:var(--silver);color:var(--silver)}
+.edbar{display:flex;gap:2px;margin-top:10px}
+.edbar i{flex:1;height:10px;background:var(--steel)}
+.edbar i.f{background:rgba(201,209,220,.12)}
+.edbar i.me{background:var(--blue);box-shadow:0 0 10px var(--blue)}
+.perks{display:grid;gap:10px;margin-top:22px;font-size:13px;color:var(--dim)}
+.perks div{display:flex;gap:12px;align-items:center}
+.perks svg{color:var(--blue)}
+.scrub{position:absolute;left:220px;right:520px;bottom:56px;z-index:5}
+.scrub .ticks{height:28px;position:relative;background:repeating-linear-gradient(90deg,rgba(201,209,220,.35) 0 1px,transparent 1px 12px);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.scrub .knob{position:absolute;left:38%;top:-14px;width:1px;height:56px;background:var(--blue);box-shadow:0 0 14px var(--blue)}
+.scrub .knob b{position:absolute;top:-26px;left:-30px;width:60px;text-align:center;font:500 10px var(--mono);color:var(--silver);letter-spacing:.1em}
+.scrub .lbls{display:flex;justify-content:space-between;margin-top:12px}
+.specs{padding:150px 64px 120px;display:grid;grid-template-columns:640px 1fr;gap:90px}
+.tbl{display:grid;grid-template-columns:1fr 1fr}
+.tbl div{padding:20px 0;border-bottom:1px solid var(--line);display:grid;gap:6px}
+.tbl div:nth-child(odd){padding-right:30px}
+.tbl span{font:500 10px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.tbl b{font:400 16px/1.3 var(--sans);color:var(--silver)}
+.draw{position:relative;border:1px solid var(--line);height:540px;background:linear-gradient(180deg,#081126,#050a16)}
+.draw svg{position:absolute;inset:0;width:100%;height:100%}
+.mvm{position:relative;height:900px;overflow:hidden;background:radial-gradient(ellipse 40% 60% at 30% 50%,#152c60,var(--ink) 72%);border-top:1px solid var(--line)}
+.mvm canvas{position:absolute;left:0;top:0;z-index:1;-webkit-mask-image:linear-gradient(90deg,#000 80%,transparent);mask-image:linear-gradient(90deg,#000 80%,transparent)}
+.mvm .txt{position:absolute;left:880px;top:130px;width:500px;z-index:3}
+.tg{margin-top:36px;border:1px solid var(--line);padding:22px;position:relative}
+.tg svg{width:100%;height:130px;display:block}
+.tg .row{display:grid;grid-template-columns:repeat(4,1fr);margin-top:16px;border-top:1px solid var(--line);padding-top:16px}
+.tg .row b{display:block;font:300 24px/1 var(--disp);color:var(--silver);margin-top:8px}
+.fin{padding:140px 64px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.fin .t{height:480px;position:relative;border:1px solid var(--line);overflow:hidden}
+.fin .t .cap{position:absolute;left:0;right:0;bottom:0;padding:22px;background:linear-gradient(0deg,rgba(2,4,10,.92),transparent);z-index:2}
+.fin .t h4{font:400 20px/1.1 var(--disp);color:var(--silver);margin:10px 0 6px}
+.fin .t p{font-size:13px;color:var(--dim)}
+.revs{padding:0 64px 160px;display:grid;grid-template-columns:420px 1fr 1fr;gap:40px}
+.rev{border-top:1px solid var(--line);padding-top:30px}
+.rev p{font:300 20px/1.45 var(--sans);color:var(--silver);margin:18px 0 24px}
+.bar{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);width:900px;height:76px;z-index:30;display:flex;align-items:center;gap:22px;padding:0 10px 0 14px;border-radius:2px}
+.bar .th{width:56px;height:56px;border:1px solid var(--line)}
+.bar .th img{object-fit:contain}
+</style></head>
+<body>
+<div data-nav="product.html" data-p=".55"></div>
+
+<section class="view">
+  <div class="grid-bg" style="mask-image:radial-gradient(ellipse 60% 60% at 44% 50%,#000 20%,transparent 75%)"></div>
+  <div class="word">MERIDIAN</div>
+  <div class="ring" style="left:635px;top:530px;width:820px;height:820px;margin:-410px 0 0 -410px;z-index:1"><svg viewBox="0 0 820 820"><circle cx="410" cy="410" r="404" fill="none" stroke="rgba(157,185,255,.35)" stroke-dasharray="1 20.15"/><circle cx="410" cy="410" r="380" fill="none" stroke="rgba(201,209,220,.08)"/><circle cx="410" cy="6" r="4" fill="#5b8cff"/></svg></div>
+  <canvas id="v"></canvas>
+  <div class="dof" style="--fx:44%;--fy:52%;backdrop-filter:blur(5px)"></div>
+  <div class="callouts"><svg id="co"></svg></div>
+  <div class="crumbs tag">Collection / Tourbillon / <b>KT-01.42</b></div>
+  <div class="thumbs">
+    <a class="on"><img data-snap="0" alt=""><span>Front</span></a><a><img data-snap="1" alt=""><span>Profile</span></a><a><img data-snap="2" alt=""><span>Caseback</span></a><a><img data-snap="3" alt=""><span>On the wrist</span></a>
+  </div>
+  <div class="note r" style="left:290px;top:162px;width:220px"><div class="k">Ø 42.0 mm<i>1</i></div>Polished flanks, brushed bezel top.</div>
+  <div class="note r" style="left:250px;top:770px;width:210px"><div class="k">60-second cage<i>2</i></div>Flying — no upper bridge on the cage.</div>
+  <div class="cursor" style="left:780px;top:760px"><div class="c">DRAG</div><span>Rotate · 38°</span></div>
+  <div class="scrub"><div class="ticks"></div><div class="knob"><b>038°</b></div><div class="lbls"><span class="tag">0°</span><span class="tag">90° · crown</span><span class="tag">180° · caseback</span><span class="tag">270°</span><span class="tag">360°</span></div></div>
+
+  <aside class="panel glass">
+    <div style="display:flex;justify-content:space-between"><span class="tag">Ref. KT-01.42</span><span class="tag"><b class="live">In atelier</b></span></div>
+    <h1>Meridian<br>Tourbillon</h1>
+    <p style="font-size:14px;color:var(--dim)">Steel, hand-guilloché blue dial, flying tourbillon at six, 72-hour reserve.</p>
+    <div class="price">€ 86,000 <small>incl. Swiss VAT</small></div>
+    <div class="opt"><div class="lab"><span class="tag" style="color:var(--silver)">Case</span><span class="tag">904L Steel</span></div>
+      <div class="seg"><span class="on"><i style="background:radial-gradient(circle at 35% 30%,#fff,#9aa4b2 60%,#5f6876)"></i></span><span><i style="background:radial-gradient(circle at 35% 30%,#fbe0d2,#c88b70 60%,#7d4a35)"></i></span><span><i style="background:radial-gradient(circle at 35% 30%,#fff,#d1d6dd 60%,#8a919b)"></i></span><span><i style="background:radial-gradient(circle at 35% 30%,#d9dee4,#7b838e 60%,#3e444d)"></i></span></div></div>
+    <div class="opt"><div class="lab"><span class="tag" style="color:var(--silver)">Diameter</span><span class="tag">fits 15–19 cm wrist</span></div><div class="size"><span>39 mm</span><span class="on">42 mm</span></div></div>
+    <div class="opt"><div class="lab"><span class="tag" style="color:var(--silver)">Edition</span><span class="tag">Yours: <b>No. 26 / 42</b></span></div>
+      <div class="edbar"></div></div>
+    <a class="btn steel" href="appointment.html" style="width:100%;justify-content:center;margin-top:26px">Reserve allocation <span data-ic="arrow"></span></a>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><a class="btn ghost" href="appointment.html" style="justify-content:center;height:48px">View in boutique</a><a class="btn ghost" href="configurator.html" style="justify-content:center;height:48px">Configure</a></div>
+    <div class="perks"><div><span data-ic="shield"></span>8-year warranty · Poinçon de Genève</div><div><span data-ic="pin"></span>Hand-delivered by a watchmaker · 14 weeks</div></div>
+  </aside>
+</section>
+
+<section class="specs">
+  <div>
+    <div class="sh" style="padding:0;grid-template-columns:120px;margin-bottom:36px"><div class="no">01</div></div>
+    <h2 class="disp" style="font-size:64px;margin-bottom:46px">Specification,<br><span class="outline">to the micron.</span></h2>
+    <div class="tbl">
+      <div><span>Case</span><b>904L steel, 42.0 × 11.9 mm</b></div><div><span>Crystal</span><b>Sapphire, double AR, 2.1 mm</b></div>
+      <div><span>Calibre</span><b>KC-1 · manual winding</b></div><div><span>Frequency</span><b>21,600 vph · 3 Hz</b></div>
+      <div><span>Reserve</span><b>72 hours · indicator at 9</b></div><div><span>Jewels</span><b>31 rubies in gold chatons</b></div>
+      <div><span>Functions</span><b>H · M · S · 24 h · tourbillon</b></div><div><span>Water</span><b>50 m · screw-down crown</b></div>
+      <div><span>Strap</span><b>Midnight alligator, steel pin buckle</b></div><div><span>Certificate</span><b>Poinçon de Genève · COSC</b></div>
+    </div>
+  </div>
+  <div class="draw"><div class="grid-bg" style="mask-image:none;opacity:.8"></div>
+    <svg viewBox="0 0 640 540" fill="none" stroke-linecap="round">
+      <g stroke="rgba(201,209,220,.8)" stroke-width="1.2">
+        <path d="M150 300 L150 252 Q150 238 166 236 L474 236 Q490 238 490 252 L490 300 Q490 316 470 320 L170 320 Q150 316 150 300Z"/>
+        <path d="M176 236 Q190 214 222 210 L418 210 Q450 214 464 236"/>
+        <path d="M206 210 Q320 192 434 210" stroke="#5b8cff"/>
+        <path d="M150 266 L96 262 Q76 262 74 280 L76 296 Q80 306 96 306 L150 300"/>
+        <path d="M490 266 L544 262 Q564 262 566 280 L564 296 Q560 306 544 306 L490 300"/>
+        <rect x="490" y="268" width="14" height="22" rx="2"/><rect x="504" y="262" width="30" height="34" rx="4"/>
+        <path d="M200 320 L210 336 L430 336 L440 320"/>
+      </g>
+      <g stroke="rgba(201,209,220,.25)" stroke-dasharray="3 5"><path d="M320 170 V370"/><path d="M60 284 H590"/></g>
+      <g stroke="#5b8cff" stroke-width="1"><path d="M150 420 H490"/><path d="M150 410 V430 M490 410 V430"/><path d="M74 470 H566"/><path d="M74 460 V480 M566 460 V480"/><path d="M600 192 V336"/><path d="M590 192 H610 M590 336 H610"/></g>
+      <g fill="#c9d1dc" font-family="IBM Plex Mono" font-size="11" letter-spacing="2" stroke="none">
+        <text x="276" y="412">Ø 42.00</text><text x="268" y="462">L–L 51.20</text><text x="612" y="268" transform="rotate(90 612 268)">11.90</text>
+        <text x="60" y="150" fill="#7f8ca4">SIDE ELEVATION · 3 O'CLOCK</text><text x="60" y="168" fill="#7f8ca4">SCALE 6:1 · DWG KT-01-042-C</text>
+        <text x="380" y="186" fill="#9db9ff">SAPPHIRE R 46</text><text x="520" y="250" fill="#7f8ca4">CROWN Ø 6.3</text>
+      </g>
+      <circle cx="320" cy="284" r="3" fill="#5b8cff"/>
+    </svg>
+    <div class="scan"></div>
+  </div>
+</section>
+
+<section class="mvm">
+  <div class="grid-bg" style="mask-image:none;opacity:.5"></div>
+  <canvas id="m"></canvas>
+  <div class="dof" style="--fx:32%;--fy:52%;backdrop-filter:blur(9px)"></div>
+  <div class="x" style="left:420px;top:440px;z-index:3"></div>
+  <div class="tag" style="position:absolute;left:64px;top:60px;z-index:3">Macro · ×8 · <b>live cage</b></div>
+  <div class="txt">
+    <div class="sh" style="padding:0;grid-template-columns:120px;margin-bottom:36px"><div class="no">02</div></div>
+    <h2 class="disp" style="font-size:60px">Calibre KC-1.<br><span class="outline-b">Gravity, averaged.</span></h2>
+    <p class="lead" style="margin-top:26px">The whole escapement turns inside a 68-part cage once a minute, so every position error cancels itself out. You can watch it happen through the aperture at six.</p>
+    <div class="tg"><div style="display:flex;justify-content:space-between"><span class="tag" style="color:var(--silver)">Timegrapher · dial up</span><span class="tag live">Measuring</span></div>
+      <svg viewBox="0 0 460 130" id="tg"></svg>
+      <div class="row"><div><span class="tag">Rate</span><b>+0.8 s</b></div><div><span class="tag">Amplitude</span><b>286°</b></div><div><span class="tag">Beat error</span><b>0.1 ms</b></div><div><span class="tag">Lift</span><b>52°</b></div></div></div>
+  </div>
+</section>
+
+<section class="fin">
+  <div class="t" data-img="1545697729-0ab8f5b1954c" data-w="800"><div class="cap"><span class="tag">01 · 6 h / bridge</span><h4>Côtes de Genève</h4><p>Stripes cut at 2.0 mm on every bridge, then rhodium-anthracite.</p></div></div>
+  <div class="t" data-img="1633451238042-85d93d267866" data-w="800"><div class="cap"><span class="tag">02 · 4,200 circles</span><h4>Perlage</h4><p>Overlapping circular graining on the mainplate, both faces.</p></div></div>
+  <div class="t" data-img="1583198432859-635beb4e8600" data-w="800"><div class="cap"><span class="tag">03 · 64 teeth</span><h4>Wheel train</h4><p>Gold-plated wheels, five curved spokes, chamfered by hand.</p></div></div>
+  <div class="t" data-img="1649803091689-0e65c4e9581f" data-w="800"><div class="cap"><span class="tag">04 · 9 h</span><h4>Black polish</h4><p>The lyre bridge turns black or white depending on where you stand.</p></div></div>
+</section>
+
+<section class="revs">
+  <div><div class="sh" style="padding:0;grid-template-columns:120px;margin-bottom:36px"><div class="no">03</div></div><h2 class="disp" style="font-size:48px">Owners,<br><span class="outline">in their words.</span></h2>
+    <div style="display:flex;gap:16px;align-items:end;margin-top:36px"><b style="font:200 96px/.8 var(--disp);color:var(--silver)">4.9</b><span class="tag" style="padding-bottom:6px">36 verified owners</span></div></div>
+  <div class="rev"><span class="tag">Matteo R. · Milano · KT-01 #12</span><p>“The lyre bridge flips from black to mirror as you tilt your wrist. Fourteen weeks felt short once I opened the box.”</p><span class="tag" style="color:var(--blue)">★★★★★ · Owned 11 months</span></div>
+  <div class="rev"><span class="tag">Dr. Hana Okabe · Tokyo · KT-01 #03</span><p>“I asked for my daughter's birth time engraved on the caseback, to the second. They did it on the bridge as well.”</p><span class="tag" style="color:var(--blue)">★★★★★ · Owned 2 years</span></div>
+</section>
+
+<div style="position:relative;height:0"><div class="bar glass" style="bottom:auto;top:-140px"><div class="th"><img data-snap="0" alt=""></div><div><div style="color:var(--silver);font:400 15px var(--disp)">Meridian Tourbillon</div><div class="tag" style="margin-top:6px">Steel · 42 mm · No. 26 / 42</div></div><b class="mono" style="margin-left:auto;color:var(--silver);font-size:18px">€ 86,000</b><a class="btn steel" style="height:56px">Reserve <span data-ic="arrow"></span></a></div></div>
+
+<div data-foot></div>
+<script>
+  document.querySelector('.edbar').innerHTML = Array.from({ length: 42 }, (_, i) => `<i class="${i === 25 ? 'me' : i > 25 ? 'f' : ''}"></i>`).join('');
+  // timegrapher trace: two slightly drifting dotted lines
+  let d = '';
+  for (let i = 0; i < 230; i++) { const x = i * 2; const y1 = 52 - i * .035 + Math.sin(i * .9) * 1.2, y2 = 78 - i * .035 + Math.cos(i * .7) * 1.2; d += `<circle cx="${x}" cy="${y1.toFixed(1)}" r="1.1"/><circle cx="${x}" cy="${y2.toFixed(1)}" r="1.1"/>`; }
+  document.getElementById('tg').innerHTML = `<g stroke="rgba(201,209,220,.1)">${[20, 45, 65, 85, 110].map(y => `<path d="M0 ${y}H460"/>`).join('')}</g><g fill="#9db9ff">${d}</g><path d="M0 65H460" stroke="#5b8cff" stroke-dasharray="2 4"/>`;
+</script>
+<script src="kairos.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = KAIROS3D(THREE, { RoundedBoxGeometry });
+const co = document.getElementById('co');
+K.stage(document.getElementById('v'), {
+  w: 1440, h: 1010, opts: { metal: 'steel', dial: 'blue', strap: 'alligator' }, rot: [-.12, -.62, .06],
+  cam: { pos: [0, 0, 236], fov: 24, shift: [-.12, -.05] },
+  animate: (t, a) => { a.watch.rotation.y = -.62 + Math.sin(t * .3) * .08; },
+  onAnchors: p => callouts(co, p, [{ k: 'crystal', to: [520, 172] }, { k: 'tourbillon', to: [470, 780], bend: -40 }].filter(Boolean))
+});
+K.stage(document.getElementById('m'), {
+  w: 860, h: 900, opts: { metal: 'steel', dial: 'blue', strap: 'none' }, rot: [0, 0, 0], shadow: false, exposure: 1.15,
+  cam: { pos: [14, -26, 24], target: [1.5, -7.6, 7.5], fov: 34, shift: [0, 0] },
+  animate: (t, a) => {}
+});
+K.snapshots([
+  { metal: 'steel', dial: 'blue', strap: 'alligator', rot: [0, 0, 0] },
+  { metal: 'steel', dial: 'blue', strap: 'alligator', rot: [-.1, -1.45, 0] },
+  { metal: 'steel', dial: 'blue', strap: 'alligator', rot: [.1, Math.PI + .1, 0] },
+  { metal: 'steel', dial: 'blue', strap: 'alligator', rot: [-.9, -.3, .5] }
+], { w: 220, h: 220, cam: { pos: [0, 0, 260], fov: 24 }, shadow: false }).then(u => document.querySelectorAll('[data-snap]').forEach(i => i.src = u[+i.dataset.snap]));
+</script>
+</body></html>

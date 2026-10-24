@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Build your box — JUNO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Caprasimo&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="juno.css">
+<style>
+html,body{height:1080px;overflow:hidden}
+.app{position:absolute;inset:42px 0 0 0;overflow:hidden}
+.bgblob{position:absolute;pointer-events:none}
+.left{position:absolute;left:64px;top:150px;width:410px;z-index:5}
+.left h1{font-size:92px;line-height:.86}
+.left h1 em{color:var(--hot)}
+.left p{font:500 16px/1.4 var(--sans);margin:14px 0 20px;color:var(--ink2)}
+.tiles{display:flex;flex-direction:column;gap:10px}
+.tile{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;height:84px;border:var(--line);border-radius:26px;padding:0 12px 0 10px;background:var(--bgc);position:relative}
+.tile .mc{height:72px;position:relative;overflow:visible}
+.tile .mc .can{position:absolute;left:4px;top:2px;filter:none}
+.tile b{font:400 24px/1 var(--disp);display:block}
+.tile small{font:600 13px/1.2 var(--sans)}
+.tile .st{display:flex;align-items:center;gap:10px;background:var(--cream);border:2px solid var(--ink);border-radius:999px;padding:5px;font:800 17px/1 var(--sans)}
+.tile .st i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--ink);font-style:normal}
+.tile .st i:last-child{background:var(--ink);color:var(--cream)}
+.tile .st .ic{width:16px;height:16px}
+.tile.drag{outline:3px dashed var(--ink);outline-offset:4px;transform:rotate(-1.5deg)}
+.tile .grip{position:absolute;right:-30px;top:28px;opacity:.6}
+
+.mid{position:absolute;left:520px;top:150px;width:500px;z-index:4}
+.count{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
+.count .n{font:400 120px/.8 var(--disp);letter-spacing:-.03em}
+.count .n span{color:var(--hot);-webkit-text-stroke:3px var(--ink)}
+.count .n small{font:800 40px var(--sans);color:var(--ink2)}
+.count .lbl{text-align:right;font:700 15px/1.3 var(--sans)}
+.count .lbl b{display:inline-block;background:var(--lime);border:2px solid var(--ink);border-radius:999px;padding:6px 12px;margin-bottom:6px;transform:rotate(3deg)}
+.segs{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;margin-bottom:34px}
+.segs i{height:16px;border-radius:6px;border:2px solid var(--ink);background:var(--cream)}
+.box{position:relative;border:4px solid var(--ink);border-radius:34px;background:var(--blue);padding:22px;box-shadow:12px 14px 0 var(--ink)}
+.box .flap{position:absolute;left:30px;right:30px;top:-62px;height:62px;background:#1d38d9;border:4px solid var(--ink);border-bottom:0;border-radius:24px 24px 0 0;transform:perspective(400px) rotateX(38deg);transform-origin:bottom;z-index:-1}
+.box .flap span{position:absolute;left:0;right:0;top:12px;text-align:center;font:400 28px/1 var(--disp);color:var(--cream)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;background:var(--cream);border:3px solid var(--ink);border-radius:22px;padding:16px}
+.grid .s{aspect-ratio:1;border-radius:50%;position:relative}
+.grid .s.e{border:3px dashed var(--ink2);display:grid;place-items:center;font:800 26px var(--sans);color:var(--ink2);opacity:.6}
+.grid .s.target{opacity:1;border:3px dashed var(--ink);background:repeating-conic-gradient(var(--peach) 0 15deg,var(--cream) 15deg 30deg);animation:pulse 1s ease-in-out infinite;box-shadow:0 0 0 8px rgba(255,179,138,.5)}
+.grid .s.target span{background:var(--ink);color:var(--cream);font:800 11px/1 var(--sans);letter-spacing:.08em;padding:6px 8px;border-radius:999px;text-transform:uppercase}
+@keyframes pulse{50%{transform:scale(1.06)}}
+.grid .s.new{animation:pop .6s cubic-bezier(.3,1.8,.5,1) both}
+@keyframes pop{0%{transform:scale(.4)}100%{transform:scale(1)}}
+.box .lbl2{display:flex;justify-content:space-between;color:var(--cream);font:700 13px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;margin-top:16px;padding:0 6px}
+.ghost{position:absolute;z-index:30}
+.ghost .can{transform:rotate(-24deg)}
+.ghost .tr{position:absolute;filter:blur(5px);opacity:.3}
+.path{position:absolute;z-index:3;pointer-events:none}
+.mid .hint{display:flex;gap:10px;justify-content:center;margin-top:34px}
+.mid .hint span{display:flex;align-items:center;gap:8px;font:700 14px/1 var(--sans);background:var(--cream);border:2px solid var(--ink);border-radius:999px;padding:10px 16px}
+
+.right{position:absolute;right:64px;top:150px;width:340px;z-index:5;background:var(--cream);border:var(--line);border-radius:36px;padding:28px;box-shadow:10px 10px 0 var(--ink)}
+.right .nm{display:flex;justify-content:space-between;align-items:center;border:2px dashed var(--ink);border-radius:16px;padding:12px 14px;font:400 22px/1 var(--disp);margin:10px 0 18px}
+.right .nm small{font:700 12px var(--sans);color:var(--ink2)}
+.right h6{font:800 12px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.list>div{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:2px solid rgba(26,18,48,.12);font:700 15px/1 var(--sans)}
+.list i{width:18px;height:18px;border-radius:50%;border:2px solid var(--ink)}
+.list b{margin-left:auto;font:800 15px var(--sans)}
+.list .pend{opacity:.55}
+.tot{display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0 14px}
+.tot b{font:400 56px/1 var(--disp)}
+.tot small{display:block;font:600 13px/1.3 var(--sans);color:var(--ink2)}
+.subt{display:flex;align-items:center;gap:12px;background:var(--lime);border:2px solid var(--ink);border-radius:18px;padding:12px 14px;font:700 14px/1.25 var(--sans);margin-bottom:14px}
+.subt .tg{width:48px;height:28px;border-radius:999px;background:var(--ink);position:relative;flex:none}
+.subt .tg::after{content:"";position:absolute;right:4px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--lime)}
+.go{height:64px;border-radius:999px;border:var(--line);display:flex;align-items:center;justify-content:center;gap:10px;font:800 17px/1 var(--sans);background:repeating-linear-gradient(-45deg,#e9e0cf 0 10px,var(--cream) 10px 20px);color:var(--ink2)}
+.surp{margin-top:10px;height:54px;border-radius:999px;border:var(--line);display:flex;align-items:center;justify-content:center;gap:10px;font:800 15px/1 var(--sans);background:var(--pink)}
+.gift{position:absolute;right:64px;top:905px;z-index:6;display:flex;align-items:center;gap:12px;background:var(--sun);border:var(--line);border-radius:22px;padding:12px 18px;box-shadow:var(--pop);transform:rotate(-4deg);font:700 14px/1.25 var(--sans)}
+.gift b{display:block;font:400 22px/1 var(--disp)}
+.toast{position:absolute;left:520px;top:960px;z-index:20;display:flex;align-items:center;gap:12px;background:var(--ink);color:var(--cream);border-radius:999px;padding:10px 20px 10px 10px;font:700 15px/1 var(--sans);box-shadow:6px 6px 0 rgba(26,18,48,.3)}
+.toast i{width:36px;height:36px;border-radius:50%;background:var(--lime);color:var(--ink);display:grid;place-items:center}
+</style></head>
+<body>
+<div data-nav></div>
+<div class="app">
+  <svg class="bgblob" style="left:440px;top:120px;width:680px;height:900px" viewBox="0 0 100 130"><path d="M50 4C80 2 98 30 96 62 94 100 76 126 48 126 18 126 2 100 4 64 6 28 22 6 50 4Z" fill="#ff8fc7"/></svg>
+  <svg class="bgblob spin" style="right:-120px;top:620px;width:420px;height:420px;animation-duration:40s" viewBox="0 0 100 100"><path d="M50 2 58 20 76 8 74 30 96 30 82 46 98 60 76 64 84 86 62 78 54 98 44 80 24 92 26 70 4 66 18 50 2 36 24 32 18 10 40 20Z" fill="#c6f432" stroke="#1a1230" stroke-width=".8"/></svg>
+  <div data-bubbles="22"></div>
+
+  <div class="left">
+    <span class="kick"><i style="background:var(--hot)"></i>Step 1 of 2 · Pick 12</span>
+    <h1 style="margin-top:16px">Build your <em>box.</em></h1>
+    <p>Drag any 12 cans in. Mix it up, go all-in on one, we won’t judge. Every custom box is €34.</p>
+    <div class="tiles" id="tiles"></div>
+  </div>
+
+  <div class="mid">
+    <div class="count"><div class="n"><span>9</span><small>/12</small></div><div class="lbl"><b>3 to go!</b><br>Your box is 75% fizz</div></div>
+    <div class="segs" id="segs"></div>
+    <div class="box">
+      <div class="flap"><span>juno · box of joy</span></div>
+      <div class="grid" id="grid"></div>
+      <div class="lbl2"><span>Keep upright · contains fizz</span><span>12 × 330 ml</span></div>
+    </div>
+    <div class="hint"><span><span data-ic="drag"></span>Drag or tap +</span><span><span data-ic="repeat"></span>Shake to shuffle</span></div>
+  </div>
+  <svg class="path" style="left:476px;top:560px;width:260px;height:320px" viewBox="0 0 260 320"><path d="M6 300 C 60 220 120 120 210 70" fill="none" stroke="#1a1230" stroke-width="4" stroke-dasharray="4 14" stroke-linecap="round"/><path d="M190 60 l26 6 -10 24" fill="none" stroke="#1a1230" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="ghost" style="left:700px;top:455px"><div class="tr" style="left:-60px;top:-30px"><div data-can="peach|9"></div></div><div data-can="peach|9.5"></div></div>
+  <div class="cursor" style="left:800px;top:590px;width:104px;height:104px;font-size:26px;background:var(--peach)">DROP</div>
+
+  <div class="right">
+    <h6>Your box</h6>
+    <div class="nm">Gina’s desk stash<small style="text-decoration:underline">Rename</small></div>
+    <div class="list" id="list"></div>
+    <div class="tot"><div><small>Custom 12-pack</small><b>€34</b></div><div style="text-align:right"><small>with subscription</small><b style="font-size:34px;color:var(--hot)">€28.90</b></div></div>
+    <div class="subt"><span class="tg"></span>Subscribe &amp; save 15% · every 4 weeks, edit anytime</div>
+    <div class="go"><span data-ic="lock"></span>Add 3 more to continue</div>
+    <div class="surp">✦ Surprise me — fill the rest</div>
+  </div>
+  <div class="gift"><span data-fruit="sparkle|38" style="position:static;color:var(--pink)"></span><div><b>Free sticker sheet</b>unlocked with every custom box</div></div>
+  <div class="toast"><i><span data-ic="check"></span></i>Yuzu Yes added — great taste, honestly.</div>
+  <span data-fruit="lime|70" class="bob" style="left:1000px;top:110px;--r:20deg"></span>
+  <span data-fruit="sparkle|44" class="bob" style="left:500px;top:120px;color:var(--sun)"></span>
+  <span data-fruit="orange|60" class="bob" style="left:440px;top:900px;--r:-30deg"></span>
+</div>
+<script src="juno.js"></script>
+<script>
+const counts={sun:3,pink:2,lime:2,blue:1,peach:0,yuzu:1};
+const bgs={sun:'var(--tan)',pink:'var(--pink)',lime:'var(--lime)',blue:'#8fa1ff',peach:'var(--peach)',yuzu:'var(--sun)'};
+document.getElementById('tiles').innerHTML=Object.keys(FL).map(k=>`<div class="tile ${k==='peach'?'drag':''}" style="--bgc:${bgs[k]}"><div class="mc"><div data-can="${k}|3.8"></div></div><div><b>${FL[k].name}</b><small>${FL[k].mood} · ${FL[k].sub.split(' · ')[0]}</small></div><div class="st"><i><span data-ic="minus"></span></i>${counts[k]}<i><span data-ic="plus"></span></i></div></div>`).join('');
+const order=['sun','sun','sun','pink','pink','lime','lime','blue','yuzu'];
+document.getElementById('grid').innerHTML=order.map((k,i)=>`<div class="s ${i===8?'new':''}">${lid(k)}</div>`).join('')+'<div class="s e target"><span>Drop here</span></div><div class="s e">11</div><div class="s e">12</div>';
+document.getElementById('segs').innerHTML=Array.from({length:12},(_,i)=>`<i style="${i<9?`background:${FL[order[i]].c}`:''}"></i>`).join('');
+document.getElementById('list').innerHTML=Object.keys(FL).map(k=>`<div class="${counts[k]?'':'pend'}"><i style="background:${FL[k].c}"></i>${FL[k].name}<b>${k==='peach'?'+1 dragging':'× '+counts[k]}</b></div>`).join('');
+juno('Build a box',{cart:3});
+</script>
+</body></html>

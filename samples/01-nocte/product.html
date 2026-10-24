@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Nocté — Or Liquide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nocte.css">
+<style>
+.stage{position:relative;height:1080px;overflow:hidden;background:radial-gradient(70% 70% at 50% 55%,#3a2610 0%,#140e08 50%,#070605 80%)}
+.stage .bg{position:absolute;left:0;right:0;top:250px;text-align:center;font:italic 400 330px/.8 var(--serif);letter-spacing:-.04em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(243,215,155,.22)}
+.stage .bg b{font-weight:400;color:rgba(243,215,155,.07);-webkit-text-stroke:0}
+.orbit{position:absolute;left:50%;top:560px;border-radius:50%;border:1px solid rgba(243,215,155,.16);transform:translate(-50%,-50%) rotateX(68deg)}
+.orb{position:absolute;z-index:4;display:flex;align-items:center;gap:12px}
+.orb i{width:58px;height:58px;border-radius:50%;box-shadow:0 0 40px var(--g),inset -8px -10px 18px rgba(0,0,0,.45);position:relative}
+.orb i::after{content:"";position:absolute;left:12px;top:10px;width:16px;height:10px;border-radius:50%;background:rgba(255,255,255,.55);filter:blur(2px)}
+.orb span{font:italic 400 22px/1.1 var(--serif)}
+.orb small{display:block;font:500 10px/1 var(--sans);letter-spacing:.24em;color:var(--gold);margin-bottom:6px;font-style:normal}
+.orb.rev{flex-direction:row-reverse;text-align:right}
+.orb.sm i{width:34px;height:34px}.orb.sm span{font-size:18px}
+.bottle{position:absolute;left:50%;top:150px;width:440px;height:760px;transform:translateX(-50%);z-index:3;border-radius:240px 240px 26px 26px;box-shadow:0 80px 160px rgba(0,0,0,.7),0 0 0 1px rgba(243,215,155,.3),0 0 160px rgba(240,170,70,.25)}
+.bottle img{object-position:50% 58%;transform:scale(1.15)}
+.reflect{position:absolute;left:50%;top:915px;width:440px;height:140px;transform:translateX(-50%) scaleY(-1);z-index:2;border-radius:26px;opacity:.18;filter:blur(6px);-webkit-mask-image:linear-gradient(transparent 30%,#000)}
+.reflect img{object-position:50% 90%}
+.left{position:absolute;left:64px;top:190px;width:330px;z-index:5}
+.left .crumb{font-size:12px;color:var(--dim)}
+.left h1{font:italic 400 84px/.9 var(--serif);margin:26px 0 14px;letter-spacing:-.02em}
+.left .stars{color:var(--gold);letter-spacing:3px;font-size:13px}
+.left p{color:rgba(239,230,216,.72);margin:26px 0 30px}
+.left .facts{display:grid;grid-template-columns:1fr 1fr;gap:18px;border-top:1px solid var(--faint);padding-top:24px}
+.left .facts span{display:block;font:500 10px/1 var(--sans);letter-spacing:.24em;color:var(--dim);margin-bottom:8px}
+.left .facts b{font:italic 400 22px/1.1 var(--serif);font-weight:400}
+.buy{position:absolute;right:56px;top:170px;width:380px;z-index:5;padding:28px;border-radius:26px;background:rgba(20,16,11,.55);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(243,215,155,.2);box-shadow:0 40px 80px rgba(0,0,0,.4)}
+.buy .lbl{display:flex;justify-content:space-between;font:500 10px/1 var(--sans);letter-spacing:.24em;color:var(--dim);margin:0 0 14px}
+.sizes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:26px}
+.sizes div{border-radius:16px;border:1px solid var(--faint);padding:16px 10px 12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.sizes div i{display:block;background:linear-gradient(180deg,#f3d79b,#a8752e);border-radius:40% 40% 6px 6px;opacity:.85}
+.sizes div b{font:500 13px/1 var(--sans)}
+.sizes div small{font-size:12px;color:var(--dim)}
+.sizes div.on{border-color:var(--gold);background:rgba(216,178,106,.1);box-shadow:0 0 30px rgba(216,178,106,.12)}
+.engr{border-radius:16px;border:1px dashed rgba(243,215,155,.35);padding:16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.engr span{font:italic 400 26px/1 var(--serif);color:var(--gold-2);letter-spacing:.08em}
+.engr small{font-size:11px;color:var(--dim)}
+.buy .price{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
+.buy .price b{font:italic 400 52px/1 var(--serif)}
+.buy .btn{width:100%;justify-content:space-between;height:62px}
+.buy .perks{display:flex;justify-content:space-between;margin-top:18px;font-size:12px;color:var(--dim)}
+.buy .perks span{display:flex;gap:6px;align-items:center}
+.buy .perks .ic{width:15px;height:15px;color:var(--gold)}
+.thumbs{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);z-index:5;display:flex;gap:10px;padding:8px;border-radius:999px;background:rgba(20,16,11,.55);backdrop-filter:blur(16px);border:1px solid var(--faint)}
+.thumbs div{width:52px;height:52px;border-radius:50%;opacity:.55}
+.thumbs div.on{opacity:1;outline:1.5px solid var(--gold);outline-offset:2px}
+.thumbs span{display:flex;align-items:center;padding:0 16px;font:500 12px/1 var(--sans);gap:8px}
+
+.curve{padding:170px 64px 150px;display:grid;grid-template-columns:420px 1fr;gap:80px;align-items:center}
+.curve h2{font:400 92px/.92 var(--serif);letter-spacing:-.03em;margin:24px 0 26px}
+.chart{position:relative;height:500px;border-radius:28px;background:linear-gradient(180deg,#120e0a,#0b0907);border:1px solid var(--faint);padding:40px 44px}
+.chart svg{position:absolute;left:44px;right:44px;top:70px;width:calc(100% - 88px);height:340px;overflow:visible}
+.chart .hrs{position:absolute;left:44px;right:44px;bottom:36px;display:flex;justify-content:space-between;font:500 11px/1 var(--sans);color:var(--dim);letter-spacing:.1em}
+.chart .tip{position:absolute;left:420px;top:96px;padding:14px 18px;border-radius:16px;background:rgba(30,24,16,.8);backdrop-filter:blur(12px);border:1px solid rgba(243,215,155,.3);font-size:12px;color:var(--dim)}
+.chart .tip b{display:block;font:italic 400 22px/1.1 var(--serif);color:var(--bone);margin-bottom:4px}
+.chart .legend{display:flex;gap:22px;font-size:12px;color:var(--dim)}
+.chart .legend i{display:inline-block;width:22px;height:2px;margin-right:8px;vertical-align:middle}
+
+.ritual{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:0 64px 160px}
+.rc{border-radius:24px;border:1px solid var(--faint);overflow:hidden;background:var(--coal)}
+.rc .ph{height:360px}
+.rc .t{padding:28px}
+.rc .n{font:italic 400 60px/1 var(--serif);color:transparent;-webkit-text-stroke:1px var(--gold)}
+.rc h4{font:italic 400 32px/1 var(--serif);margin:16px 0 10px}
+.rc p{color:var(--dim);font-size:14px}
+
+.revs{padding:140px 64px;border-top:1px solid var(--faint);display:grid;grid-template-columns:420px 1fr;gap:80px}
+.revs .score{font:italic 400 180px/.8 var(--serif)}
+.revs .r{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.rv{border-radius:24px;border:1px solid var(--faint);padding:34px;background:linear-gradient(160deg,#16120d,#0c0a08)}
+.rv q{display:block;font:italic 400 28px/1.25 var(--serif);margin:18px 0 26px;quotes:none}
+.rv .who{display:flex;gap:14px;align-items:center;font-size:13px;color:var(--dim)}
+.rv .who div{width:46px;height:46px;border-radius:50%}
+.rv .who b{display:block;color:var(--bone);font-weight:500}
+.sticky{position:relative;margin:0 64px 120px;height:88px;border-radius:999px;display:flex;align-items:center;gap:18px;padding:0 10px 0 12px;background:rgba(239,230,216,.06);backdrop-filter:blur(20px);border:1px solid rgba(243,215,155,.2)}
+.sticky .t{width:64px;height:64px;border-radius:50%}
+.sticky b{font:italic 400 26px/1 var(--serif)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="stage">
+  <div class="bg">Or <b>Liquide</b></div>
+  <div class="glow pulse" style="width:760px;height:760px;left:340px;top:200px;background:radial-gradient(circle,rgba(255,180,80,.45),transparent 65%)"></div>
+  <div class="orbit" style="width:900px;height:900px"></div>
+  <div class="orbit" style="width:1180px;height:1180px;border-style:dashed;opacity:.6"></div>
+  <div class="reflect" data-img="1733660227163-01bc46e0d7d7|900"></div>
+  <div class="bottle" data-img="1733660227163-01bc46e0d7d7|1200"></div>
+  <div class="orb" style="left:480px;top:250px;--g:rgba(255,170,60,.7)"><i style="background:radial-gradient(circle at 35% 35%,#ffd889,#c2620f)"></i><div><small>TOP</small><span>Saffron</span></div></div>
+  <div class="orb sm rev" style="left:790px;top:226px;--g:rgba(220,255,120,.5)"><i style="background:radial-gradient(circle at 35% 35%,#eef7a0,#7a8d22)"></i><div><small>TOP</small><span>Bergamot</span></div></div>
+  <div class="orb rev" style="left:760px;top:640px;--g:rgba(240,130,150,.6)"><i style="background:radial-gradient(circle at 35% 35%,#ffb3be,#8a2a40)"></i><div><small>HEART</small><span>Damask rose</span></div></div>
+  <div class="orb sm" style="left:430px;top:600px;--g:rgba(180,160,240,.5)"><i style="background:radial-gradient(circle at 35% 35%,#d2c6ff,#4b3a8d)"></i><div><small>HEART</small><span>Orris</span></div></div>
+  <div class="orb" style="left:520px;top:860px;--g:rgba(160,110,70,.6)"><i style="background:radial-gradient(circle at 35% 35%,#c49a72,#3a2312)"></i><div><small>BASE</small><span>Oud</span></div></div>
+  <div class="orb sm" style="left:860px;top:840px;--g:rgba(240,225,190,.5)"><i style="background:radial-gradient(circle at 35% 35%,#fff3d6,#9a7c4b)"></i><div><small>BASE</small><span>Ambergris</span></div></div>
+
+  <div class="left">
+    <div class="crumb">Fragrances — Amber — Nº 07</div>
+    <h1>Or<br><span class="gold-text">Liquide</span></h1>
+    <span class="stars">★★★★★</span> <span style="font-size:13px;color:var(--dim);margin-left:8px">4.9 · 2,140 reviews</span>
+    <p>Molten saffron poured over Damask rose, sinking slowly into smoked oud and sea-washed ambergris. Warm, luminous, impossible to forget.</p>
+    <div class="facts"><div><span>FAMILY</span><b>Amber floral</b></div><div><span>CONCENTRATION</span><b>Extrait · 28%</b></div><div><span>LONGEVITY</span><b>12+ hours</b></div><div><span>SILLAGE</span><b>Intimate → strong</b></div></div>
+  </div>
+
+  <div class="buy">
+    <div class="lbl"><span>FLACON</span><span style="color:var(--gold)">50 ML SELECTED</span></div>
+    <div class="sizes"><div><i style="width:16px;height:26px"></i><b>10 ml</b><small>€ 85</small></div><div class="on"><i style="width:22px;height:36px"></i><b>50 ml</b><small>€ 295</small></div><div><i style="width:28px;height:46px"></i><b>100 ml</b><small>€ 420</small></div></div>
+    <div class="lbl"><span>COMPLIMENTARY ENGRAVING</span><span>EDIT</span></div>
+    <div class="engr"><span>À toi, L.</span><small>Gold leaf · serif</small></div>
+    <div class="price"><b>€ 295</b><span style="font-size:12px;color:var(--dim)">or 3 × €98.33</span></div>
+    <a class="btn gold">Add to bag<span class="o"><span data-ic="bag"></span></span></a>
+    <div class="perks"><span><span data-ic="gift"></span>Gift-boxed</span><span><span data-ic="truck"></span>Free express</span><span><span data-ic="drop"></span>2 samples</span></div>
+  </div>
+
+  <div class="thumbs"><div class="on" data-img="1733660227163-01bc46e0d7d7|200"></div><div data-img="1670381225856-997d3eea46df|200"></div><div data-img="1516565349308-c76fe36a115c|200"></div><div data-img="1634733049839-0292be607569|200"></div><span><span data-ic="sparkle"></span>View in 3D</span></div>
+  <div class="cursor" style="left:740px;top:430px"><span>ROTATE</span></div>
+  <div class="progress" style="top:450px;right:20px;--p:12%"><span>01</span><div class="tr"><i></i></div><span>05</span></div>
+</section>
+
+<section class="curve">
+  <div><div class="mono gold">( 02 ) How it wears</div><h2>Twelve hours, <span class="it gold-text">three acts.</span></h2><p style="color:var(--dim)">Measured on skin in our Grasse lab. Or Liquide opens bright, blooms at hour two, and settles into a warm resinous trail that’s still there at dawn.</p></div>
+  <div class="chart">
+    <div class="legend"><span><i style="background:var(--gold)"></i>Intensity</span><span><i style="background:#f08aa6"></i>Floral heart</span><span><i style="background:#8a6a45"></i>Woody base</span></div>
+    <svg viewBox="0 0 800 340" preserveAspectRatio="none">
+      <defs><linearGradient id="fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#d8b26a" stop-opacity=".45"/><stop offset="1" stop-color="#d8b26a" stop-opacity="0"/></linearGradient></defs>
+      <g stroke="rgba(239,230,216,.07)"><line x1="0" x2="800" y1="85" y2="85"/><line x1="0" x2="800" y1="170" y2="170"/><line x1="0" x2="800" y1="255" y2="255"/></g>
+      <path d="M0 300 C 60 40, 120 30, 200 60 S 380 110, 480 150 S 680 220, 800 250 L800 340 L0 340Z" fill="url(#fill)"/>
+      <path d="M0 300 C 60 40, 120 30, 200 60 S 380 110, 480 150 S 680 220, 800 250" fill="none" stroke="#f3d79b" stroke-width="2.5"/>
+      <path d="M0 330 C 100 300, 160 90, 280 100 S 460 230, 560 290 S 720 330, 800 335" fill="none" stroke="#f08aa6" stroke-width="1.5" stroke-dasharray="5 6"/>
+      <path d="M0 338 C 200 330, 300 260, 420 200 S 640 150, 800 170" fill="none" stroke="#a07a5a" stroke-width="1.5" stroke-dasharray="5 6"/>
+      <line x1="390" x2="390" y1="0" y2="340" stroke="rgba(243,215,155,.4)"/>
+      <circle cx="390" cy="122" r="7" fill="#f3d79b"/><circle cx="390" cy="122" r="16" fill="none" stroke="#f3d79b" stroke-opacity=".4"/>
+    </svg>
+    <div class="tip"><b>Hour 6 · the dry-down</b>Rose fades, oud & ambergris rise</div>
+    <div class="hrs"><span>0H</span><span>2H</span><span>4H</span><span>6H</span><span>8H</span><span>10H</span><span>12H+</span></div>
+  </div>
+</section>
+
+<section class="ritual">
+  <div class="rc"><div class="ph" data-img="1622618991746-fe6004db3a47|800"></div><div class="t"><span class="n">i.</span><h4>Mist the pulse</h4><p>Two sprays on the wrists and the nape. Never rub — let the top notes breathe.</p></div></div>
+  <div class="rc"><div class="ph" data-img="1670381225856-997d3eea46df|800"></div><div class="t"><span class="n">ii.</span><h4>Layer the body</h4><p>Pair with Or Liquide body oil for a sillage that lasts through the night.</p></div></div>
+  <div class="rc"><div class="ph" data-img="1556388275-bb5585725aca|800"></div><div class="t"><span class="n">iii.</span><h4>Scent the room</h4><p>Our oud-wax candle carries the same base — home smells like you.</p></div></div>
+</section>
+
+<section class="revs">
+  <div><div class="mono gold">( 03 ) Worn by 2,140</div><div class="score gold-text" style="margin-top:30px">4.9</div><div style="color:var(--gold);letter-spacing:4px;margin-top:20px">★★★★★</div><p style="color:var(--dim);margin-top:16px">96% would wear it again · 88% say it lasts 10h+</p></div>
+  <div class="r">
+    <div class="rv"><span style="color:var(--gold);letter-spacing:3px">★★★★★</span><q>“Strangers stop me to ask what I’m wearing. Still on my scarf three days later.”</q><div class="who"><div data-img="1558683018-e0e6e20f2bdb|120"></div><div><b>Camille R.</b>Paris · Verified · 50 ml</div></div></div>
+    <div class="rv"><span style="color:var(--gold);letter-spacing:3px">★★★★★</span><q>“Like candlelight turned into a scent. Worth every cent — and the engraving made it a gift she cried over.”</q><div class="who"><div data-img="1614010966237-74489a16848b|120"></div><div><b>Omar K.</b>Dubai · Verified · 100 ml</div></div></div>
+  </div>
+</section>
+
+<div class="sticky"><div class="t" data-img="1733660227163-01bc46e0d7d7|200"></div><div><b>Or Liquide</b><div style="font-size:12px;color:var(--dim)">Extrait · 50 ml · engraved “À toi, L.”</div></div><span style="margin-left:auto;font:italic 400 28px/1 var(--serif)">€ 295</span><a class="btn gold">Add to bag<span class="o"><span data-ic="bag"></span></span></a></div>
+
+<div data-footer></div>
+<script src="nocte.js"></script>
+<script>nocte('Fragrances');</script>
+</body></html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOIDWORKS — Shop all</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="void.css">
+<style>
+.head{display:grid;grid-template-columns:1fr 430px;border-bottom:2px solid var(--ink);position:relative;overflow:hidden}
+.head .l{padding:40px 48px 46px;border-right:2px solid var(--ink);position:relative}
+.head .crumb{font:700 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#55544f}
+.head h1{font:400 236px/.8 var(--dis);text-transform:uppercase;white-space:nowrap;margin-top:26px;letter-spacing:-.01em}
+.head h1 .o{color:transparent;-webkit-text-stroke:2px var(--ink);display:inline-block;transform:scaleY(1.12) skewX(-10deg);transform-origin:bottom}
+.head h1 sup{font:700 22px/1 var(--mono);vertical-align:top;position:relative;top:24px;background:var(--red);color:var(--paper);padding:6px 9px;margin-left:12px;letter-spacing:0}
+.head .r{background:var(--ink);color:var(--paper);padding:40px 34px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+.head .r .dis{font-size:48px;line-height:.9}
+.head .r .dis span{color:var(--lime)}
+.head .r p{color:#bdbcb5;font-size:13px}
+.head .r .mini{display:flex;gap:8px}
+.head .r .mini div{flex:1;border:2px solid var(--paper);text-align:center;padding:8px 0 6px}
+.head .r .mini b{display:block;font:400 42px/1 var(--dis);color:var(--lime)}
+.head .r .mini span{font:700 9px/1 var(--mono);letter-spacing:.16em}
+.head .tag48{right:40px;top:200px;transform:rotate(8deg);background:var(--red);color:var(--paper)}
+
+.filters{border-bottom:2px solid var(--ink);background:var(--paper)}
+.frow{display:flex;align-items:stretch;border-bottom:2px solid var(--ink);height:74px}
+.frow:last-child{border-bottom:0;height:64px}
+.tog{display:flex;align-items:center;gap:10px;padding:0 24px;border-right:2px solid var(--ink);font:700 13px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.tog small{font-size:10px;color:#77766f}
+.tog.on{background:var(--ink);color:var(--lime)}
+.tog.on small{color:var(--paper)}
+.cats .tog{font:400 30px/1 var(--dis);letter-spacing:.01em;padding:0 30px}
+.cats .tog small{font:700 11px/1 var(--mono);align-self:flex-start;margin-top:20px}
+.sizes{display:flex;gap:8px;align-items:center;padding:0 22px;border-right:2px solid var(--ink)}
+.sizes span{width:46px;height:40px;border:2px solid var(--ink);display:grid;place-items:center;font:700 12px/1 var(--mono);box-shadow:3px 3px 0 var(--ink)}
+.sizes span.on{background:var(--lime);transform:translate(3px,3px);box-shadow:none}
+.lab{font:700 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#55544f;margin-right:6px}
+.colr{display:flex;gap:8px;align-items:center;padding:0 22px;border-right:2px solid var(--ink)}
+.colr i{width:30px;height:30px;border:2px solid var(--ink);display:block}
+.colr i.on{outline:2px solid var(--ink);outline-offset:3px}
+.sw{display:flex;align-items:center;gap:12px;padding:0 22px;border-right:2px solid var(--ink);font:700 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.sw .t{width:62px;height:32px;border:2px solid var(--ink);background:var(--lime);position:relative}
+.sw .t::after{content:"";position:absolute;right:3px;top:3px;width:22px;height:22px;background:var(--ink)}
+.sort{margin-left:auto;display:flex;align-items:center;gap:30px;padding:0 24px;border-left:2px solid var(--ink);font:700 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.view{display:flex;border-left:2px solid var(--ink)}
+.view span{width:64px;display:grid;place-items:center;border-right:2px solid var(--ink)}
+.view span:last-child{border-right:0}
+.view span.on{background:var(--lime)}
+.chips{display:flex;align-items:center;gap:10px;padding:0 24px;width:100%}
+.chips .c{display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;background:var(--ink);color:var(--paper);font:700 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.chips .c .ic{width:13px;height:13px;color:var(--lime)}
+.chips .clr{font:700 11px/1 var(--mono);letter-spacing:.1em;text-decoration:underline;text-transform:uppercase;margin-left:6px}
+.chips .res{margin-left:auto;font:700 12px/1 var(--mono);letter-spacing:.06em}
+.chips .res b{background:var(--lime);padding:3px 6px}
+
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:30px 26px;padding:50px 48px 40px;position:relative}
+.grid .pc .ph{height:410px}
+.promo{grid-column:span 2;background:var(--ink);color:var(--paper);border:2px solid var(--ink);position:relative;overflow:hidden;padding:36px 36px 30px;display:flex;flex-direction:column;justify-content:space-between}
+.promo .pimg{position:absolute;right:-20px;top:0;bottom:0;width:330px;border-left:2px solid var(--lime)}
+.promo h3{font:400 104px/.84 var(--dis);text-transform:uppercase;position:relative;z-index:3}
+.promo h3 span{color:var(--lime)}
+.promo .row{display:flex;gap:8px;position:relative;z-index:3}
+.promo .row div{width:96px;border:2px solid var(--paper);background:var(--paper);color:var(--ink);text-align:center}
+.promo .row b{display:block;font:400 62px/1 var(--dis);padding:8px 0 2px}
+.promo .row span{display:block;background:var(--ink);color:var(--paper);font:700 9px/1 var(--mono);letter-spacing:.2em;padding:6px}
+.promo .row div.s b{color:var(--red)}
+.promo .tk{position:absolute;left:-60px;right:-60px;bottom:120px;transform:rotate(-6deg);z-index:4}
+.promo .tk.tick{height:48px}
+.promo .tk .t{font-size:22px}
+.promo .ft{position:relative;z-index:5;display:flex;gap:14px;align-items:center}
+.promo .ft .btn{height:52px;box-shadow:5px 5px 0 var(--paper);border-color:var(--paper)}
+.raf{position:absolute;left:10px;bottom:10px;z-index:5;background:var(--ink);color:var(--lime);font:700 11px/1 var(--mono);padding:8px 10px;letter-spacing:.1em;display:flex;gap:8px;align-items:center}
+.raf .ic{width:14px;height:14px}
+.pc .heart{position:absolute;right:10px;bottom:10px;z-index:5;width:40px;height:40px;background:var(--paper);border:2px solid var(--ink);display:grid;place-items:center}
+.pc .heart.on{background:var(--red);color:var(--paper)}
+.pc .sw3{grid-column:1/-1;display:flex;gap:6px;margin-top:8px}
+.pc .sw3 i{width:16px;height:16px;border:2px solid var(--ink)}
+.pc .sticker{left:-10px;top:-14px;transform:rotate(-5deg)}
+
+.more{margin:30px 48px 110px;border:2px solid var(--ink);display:grid;grid-template-columns:1fr auto;align-items:center;gap:40px;padding:28px 30px;box-shadow:8px 8px 0 var(--ink)}
+.more .tr{height:20px;border:2px solid var(--ink);position:relative;margin-top:12px;background:repeating-linear-gradient(90deg,transparent 0 22px,rgba(10,10,10,.15) 22px 24px)}
+.more .tr i{position:absolute;inset:0;right:auto;width:29%;background:var(--ink)}
+.more .tr i::after{content:"";position:absolute;right:0;top:0;bottom:0;width:20px;background:var(--lime)}
+</style></head>
+<body>
+<div data-nav></div>
+<section class="head">
+  <div class="l"><div class="crumb">Voidworks / Shop / All pieces</div>
+    <h1>Shop <span class="o">all</span><sup>48</sup></h1>
+    <div class="sticker tag48">Ships in 48h from Berlin</div>
+  </div>
+  <div class="r"><div class="dis">Everything <span>still alive</span> from drops 04—06.</div><p>Once a size hits zero it stays at zero. Filter to in-stock only so you don't fall in love with a ghost.</p>
+    <div class="mini"><div><b>31</b><span>IN STOCK</span></div><div><b>17</b><span>SOLD OUT</span></div><div><b style="color:var(--red)">06</b><span>UNDER 5</span></div></div></div>
+</section>
+<div class="tick r"><div class="t"><span>Sold out: Oil Slick Bomber</span><b></b><span>Restocked: nothing, ever</span><b></b><span>M — Concrete Hood — 2 left</span><b></b><span>Raffle-only: Void Shell Jacket</span><b></b></div></div>
+
+<section class="filters">
+  <div class="frow cats"><span class="tog on">All <small>48</small></span><span class="tog">Hoodies <small>12</small></span><span class="tog">Jackets <small>09</small></span><span class="tog">Cargos <small>08</small></span><span class="tog">Tees <small>11</small></span><span class="tog">Extras <small>08</small></span>
+    <div class="sort">Sort: Newest drop <span data-ic="plus"></span></div><div class="view"><span class="on"><span data-ic="grid"></span></span><span>▤</span></div></div>
+  <div class="frow"><div class="sizes"><span class="lab">Size</span><span>XS</span><span>S</span><span class="on">M</span><span class="on">L</span><span>XL</span><span>XXL</span></div>
+    <div class="colr"><span class="lab">Colour</span><i style="background:#0a0a0a" class="on"></i><i style="background:#8b8a84"></i><i style="background:#b4572e"></i><i style="background:#d8c9a6"></i><i style="background:#f2f0ea"></i><i style="background:#d4ff00"></i></div>
+    <div class="sw"><span class="t"></span>In stock only</div>
+    <div class="sw" style="border-right:0">Drop: 04 · 05 · <b style="background:var(--lime);padding:3px 5px">06</b></div>
+  </div>
+  <div class="frow"><div class="chips"><span class="c">Size M <span data-ic="x"></span></span><span class="c">Size L <span data-ic="x"></span></span><span class="c">Black <span data-ic="x"></span></span><span class="c">In stock <span data-ic="x"></span></span><span class="clr">Clear all</span><span class="res">Showing <b>14</b> of 48 pieces</span></div></div>
+</section>
+
+<section class="grid">
+  <div class="pc"><span class="sticker">New</span><span class="num">07 / 01</span><div class="ph bw ht" data-img="1673092147872-5ddb03194341|700|60% 50%"><span class="heart"><span data-ic="heart"></span></span></div><div class="meta"><h4>Null Hoodie 01</h4><span class="pr">€180</span><span class="sub">Washed black · 480gsm</span><div class="sw3"><i style="background:#0a0a0a"></i><i style="background:#8b8a84"></i></div></div></div>
+  <div class="pc"><span class="num">06 / 01</span><div class="ph duo" data-img="1578768079052-aa76e52ff62e|700"><span class="stock">4 left</span><span class="heart on"><span data-ic="heart"></span></span></div><div class="meta"><h4>Static Hoodie</h4><span class="pr">€180</span><span class="sub">Rust · Boxy fit</span><div class="sw3"><i style="background:#b4572e"></i><i style="background:#0a0a0a"></i></div></div></div>
+  <div class="pc hov"><span class="num">06 / 02</span><div class="ph bw" data-img="1557600067-173369923ba5|700|50% 40%">
+      <div class="qa"><div style="display:flex;justify-content:space-between" class="mono"><span>Quick add · size</span><span class="red">M — 2 left</span></div><div class="sz"><span class="x">XS</span><span>S</span><span class="on">M</span><span>L</span><span class="x">XL</span></div><div class="go">ADD — €160 <span data-ic="arrow"></span></div></div></div>
+    <div class="meta"><h4>Concrete Hood</h4><span class="pr">€160</span><span class="sub">Heather grey · Double hood</span><div class="sw3"><i style="background:#8b8a84"></i></div></div><div class="cursor" style="left:236px;top:120px">GRAB</div></div>
+  <div class="pc"><span class="num">06 / 04</span><div class="ph gph halftone" data-g="cargo" style="background-color:var(--lime)"><span class="stock">9 left</span><span class="heart"><span data-ic="heart"></span></span></div><div class="meta"><h4>Psalm Cargo</h4><span class="pr">€210</span><span class="sub">Black ripstop · 8 pockets</span><div class="sw3"><i style="background:#0a0a0a"></i><i style="background:#58584a"></i></div></div></div>
+
+  <div class="promo"><div class="pimg duo" data-img="1508216310976-c518daae0cdc|700"></div>
+    <div><span class="live k" style="border-color:var(--lime)"><i></i> 214 people viewing</span><h3 style="margin-top:24px">Drop 07<br><span>lands in</span></h3></div>
+    <div class="row" data-cd="223629"><div><b data-u="d">02</b><span>DAYS</span></div><div><b data-u="h">14</b><span>HRS</span></div><div><b data-u="m">07</b><span>MIN</span></div><div class="s"><b data-u="s">09</b><span>SEC</span></div></div>
+    <div class="ft"><a class="btn">Notify me <span data-ic="bell"></span></a><span class="mono" style="color:#bdbcb5">11 pieces · Fri 18:00</span></div>
+  </div>
+  <div class="pc out"><span class="num">06 / 07</span><div class="ph" data-img="1576193929674-c1da148d6bdf|700|50% 30%"><div class="stamp">Sold out<small>All sizes · 11m 04s</small></div></div><div class="meta"><h4>Oil Slick Bomber</h4><span class="pr" style="text-decoration:line-through;color:#8b8a84">€420</span><span class="sub">Waxed vegan leather</span><div class="sw3"><i style="background:#0a0a0a"></i></div></div></div>
+  <div class="pc"><span class="num">06 / 09</span><div class="ph gph" data-g="tee" data-gc="rd" style="background:var(--ink)"><span class="heart"><span data-ic="heart"></span></span></div><div class="meta"><h4>Signal Tee</h4><span class="pr">€60</span><span class="sub">Red · 260gsm heavyweight</span><div class="sw3"><i style="background:#ff2e2e"></i><i style="background:#0a0a0a"></i><i style="background:#f2f0ea"></i></div></div></div>
+
+  <div class="pc"><span class="num">05 / 02</span><div class="ph duo r" data-img="1678884399113-0a2b079a31f5|700"><span class="stock">2 left</span><span class="heart"><span data-ic="heart"></span></span></div><div class="meta"><h4>Cloud Puffer</h4><span class="pr">€340</span><span class="sub">Bone · 700-fill recycled</span><div class="sw3"><i style="background:#ebe7da"></i></div></div></div>
+  <div class="pc"><span class="num">07 / 03</span><div class="ph bw" data-img="1508216310976-c518daae0cdc|700|50% 70%"><span class="heart"><span data-ic="heart"></span></span></div><div class="meta"><h4>Hush Hood</h4><span class="pr">€170</span><span class="sub">Ash · Brushed interior</span><div class="sw3"><i style="background:#5d5a55"></i><i style="background:#0a0a0a"></i></div></div></div>
+  <div class="pc"><span class="num">07 / 06</span><div class="ph gph halftone" data-g="jacket" style="background-color:#d8c9a6"><span class="heart"><span data-ic="heart"></span></span></div><div class="meta"><h4>Crate Chore Jacket</h4><span class="pr">€240</span><span class="sub">Sand canvas · Boxy</span><div class="sw3"><i style="background:#d8c9a6"></i></div></div></div>
+  <div class="pc"><span class="sticker r">Under €70</span><span class="num">05 / 09</span><div class="ph gph halftone" data-g="beanie" style="background-color:var(--paper-2)"><span class="heart"><span data-ic="heart"></span></span></div><div class="meta"><h4>Void Beanie</h4><span class="pr">€60</span><span class="sub">Merino rib · One size</span><div class="sw3"><i style="background:#0a0a0a"></i><i style="background:#d4ff00"></i></div></div></div>
+
+  <div class="pc out"><span class="num">05 / 01</span><div class="ph" data-img="1688111421205-a0a85415b224|700|50% 30%"><div class="stamp sm">Sold out<small>Archive only</small></div></div><div class="meta"><h4>Ghost Hoodie</h4><span class="pr" style="text-decoration:line-through;color:#8b8a84">€170</span><span class="sub">Optic white · 480gsm</span><div class="sw3"><i style="background:#fff"></i></div></div></div>
+  <div class="pc"><span class="num">06 / 11</span><div class="ph gph" data-g="tote" data-gc="lm" style="background:var(--red)"><span class="heart"><span data-ic="heart"></span></span></div><div class="meta"><h4>Dead Air Tote</h4><span class="pr">€65</span><span class="sub">16oz canvas · Inner zip</span><div class="sw3"><i style="background:#f2f0ea"></i></div></div></div>
+  <div class="pc"><span class="num">06 / 03</span><div class="ph bw ht" data-img="1677538537484-324385aff147|700|50% 30%"><span class="stock">5 left</span><span class="heart"><span data-ic="heart"></span></span></div><div class="meta"><h4>Grid Hoodie</h4><span class="pr">€165</span><span class="sub">Ink navy · Raglan</span><div class="sw3"><i style="background:#232a38"></i></div></div></div>
+  <div class="pc"><span class="num">07 / 11</span><div class="ph duo" data-img="1576193929684-06c6c6a8b582|700"><span class="raf"><span data-ic="ticket"></span> Raffle only — 120 units</span></div><div class="meta"><h4>Void Shell Jacket</h4><span class="pr">€480</span><span class="sub">3-layer shell · Taped seams</span><div class="sw3"><i style="background:#0a0a0a"></i></div></div></div>
+</section>
+
+<div class="more"><div><div style="display:flex;justify-content:space-between" class="mono"><span>Showing 14 of 48 pieces</span><span>29%</span></div><div class="tr"><i></i></div></div><a class="btn blk">Load 16 more <span data-ic="plus"></span></a></div>
+
+<div data-footer></div>
+<script src="void.js"></script><script>void_('Shop')</script>
+</body></html>

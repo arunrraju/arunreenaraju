@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Villa Halcyon — Azure Estates</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="azure.css">
+<script src="azure3d.js"></script>
+<style>
+.vhero{position:relative;height:1000px;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 66% 58%,#ffffff 0,#f7f6f2 55%,#eeebe3 100%)}
+#model3d{position:absolute;left:0;top:0;width:1440px;height:1000px;z-index:2}
+.vhero .bgword{position:absolute;right:-30px;top:96px;z-index:1;font:200 300px/.8 var(--display);letter-spacing:-.07em;color:transparent;-webkit-text-stroke:1px rgba(16,18,20,.14);white-space:nowrap}
+.vhero .info{position:absolute;left:48px;top:140px;z-index:5;width:470px}
+.crumbs{font:500 11px/1 var(--mono);letter-spacing:.1em;color:var(--mute)}
+.crumbs b{color:var(--ink);font-weight:500}
+.vhero h1{font:200 128px/.84 var(--display);letter-spacing:-.065em;margin:26px 0 18px}
+.vhero h1 span{display:block;color:var(--pool)}
+.vhero .loc{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--ink-2)}
+.price{margin-top:38px;padding-top:24px;border-top:1px solid var(--line-2);display:flex;gap:40px}
+.price b{display:block;font:200 54px/1 var(--display);letter-spacing:-.05em;margin-top:8px}
+.price small{font-size:13px;color:var(--mute)}
+.vhero .ctas{display:flex;gap:10px;margin-top:34px}
+.mini-spec{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:34px}
+.mini-spec div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;font:500 10px/1.2 var(--mono);letter-spacing:.1em;color:var(--mute)}
+.mini-spec b{display:block;font:300 24px/1 var(--display);letter-spacing:-.03em;color:var(--ink);margin-top:6px}
+.tools{position:absolute;left:50%;margin-left:-60px;bottom:40px;z-index:6;display:flex;gap:4px;padding:6px;border-radius:999px;background:rgba(255,255,255,.8);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid #fff;box-shadow:0 14px 40px rgba(16,18,20,.12)}
+.tools a{height:44px;padding:0 18px;border-radius:999px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.tools a.on{background:var(--ink);color:#fff}
+.tools .sep{width:1px;background:var(--line);margin:8px 4px}
+.levels{position:absolute;right:48px;top:250px;z-index:6;display:flex;flex-direction:column;gap:6px}
+.levels a{width:62px;height:62px;border-radius:16px;background:rgba(255,255,255,.8);border:1px solid #fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font:500 15px/1 var(--display);box-shadow:0 6px 20px rgba(16,18,20,.06)}
+.levels a small{font:500 8px/1 var(--mono);letter-spacing:.1em;color:var(--mute);margin-top:5px}
+.levels a.on{background:var(--pool);color:#fff;border-color:var(--pool)}
+.levels a.on small{color:rgba(255,255,255,.75)}
+.exp-note{position:absolute;right:130px;top:250px;z-index:6;font:500 10px/1.5 var(--mono);letter-spacing:.1em;color:var(--mute);text-align:right}
+.exp-note b{display:block;font:300 34px/1 var(--display);letter-spacing:-.03em;color:var(--ink);text-transform:none}
+
+.gal{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:330px 330px;gap:14px;padding:0 48px}
+.gal>div{border-radius:22px;overflow:hidden;position:relative}
+.gal>div:first-child{grid-row:span 2}
+.gal .cnt{position:absolute;right:16px;bottom:16px}
+.gal .wipe{position:absolute;inset:0;clip-path:inset(0 0 0 54%);}
+.gal .wline{position:absolute;top:0;bottom:0;left:54%;width:2px;background:#fff;box-shadow:0 0 20px rgba(0,0,0,.3)}
+.gal .wline i{position:absolute;top:50%;left:-21px;width:44px;height:44px;margin-top:-22px;border-radius:50%;background:#fff;display:grid;place-items:center;font:600 11px/1 var(--mono)}
+.gal .lbl{position:absolute;top:16px;font:500 10px/1 var(--mono);letter-spacing:.14em;color:#fff;background:rgba(0,0,0,.25);padding:7px 10px;border-radius:999px;backdrop-filter:blur(6px)}
+
+.specs{display:grid;grid-template-columns:1fr 420px;gap:64px;padding:120px 48px 80px}
+.specs h2{font:200 84px/.9 var(--display);letter-spacing:-.05em;margin:18px 0 40px}
+.specs .txt{columns:2;column-gap:40px;font-size:15px;color:var(--ink-2);margin-top:44px}
+.specs .txt p+p{margin-top:14px}
+.agent{position:sticky;top:20px;background:#fff;border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:0 30px 70px rgba(16,18,20,.08);align-self:start}
+.agent .who{display:flex;gap:14px;align-items:center}
+.agent .who .av{width:64px;height:64px;border-radius:50%;overflow:hidden}
+.agent .who b{display:block;font:400 22px/1.1 var(--display);margin-top:4px}
+.agent .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:16px}
+.agent .slots span{height:58px;border-radius:12px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;font:500 13px/1.2 var(--sans)}
+.agent .slots span small{font:500 9px/1 var(--mono);color:var(--mute);letter-spacing:.08em}
+.agent .slots span.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.agent .slots span.on small{color:var(--sun-2)}
+.agent .mode{display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--paper-2);margin-top:18px}
+.agent .mode a{flex:1;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--ink-2)}
+.agent .mode a.on{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+
+.plans{padding:110px 48px;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative}
+.plans .wrap{display:grid;grid-template-columns:900px 1fr;gap:48px;margin-top:50px}
+.plans .board{background:var(--paper);border-radius:24px;border:1px solid var(--line);position:relative;overflow:hidden;height:620px;background-image:linear-gradient(rgba(15,94,122,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(15,94,122,.06) 1px,transparent 1px);background-size:30px 30px}
+.plans .tabs{display:flex;gap:6px}
+.plans .tabs a{height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);display:flex;align-items:center;font-size:13px}
+.plans .tabs a.on{background:var(--pool);color:#fff;border-color:var(--pool)}
+.sched{width:100%;border-collapse:collapse;margin-top:10px}
+.sched td{padding:13px 0;border-bottom:1px solid var(--line);font-size:14px}
+.sched td:last-child{text-align:right;font:500 13px/1 var(--mono)}
+.sched tr.on td{color:var(--pool);font-weight:600}
+.sched td i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:10px;vertical-align:-1px}
+
+.near{padding:110px 48px 120px;display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.near h2{font:200 84px/.9 var(--display);letter-spacing:-.05em;margin-top:18px}
+.near ul{list-style:none;margin-top:10px}
+.near li{display:grid;grid-template-columns:1fr 140px 90px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);font-size:15px}
+.near li .bar{height:4px;background:var(--stone);border-radius:2px;position:relative}
+.near li .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--pool);border-radius:2px}
+.near li span:last-child{text-align:right;font:500 13px/1 var(--mono)}
+.near .ph{height:560px;border-radius:28px;overflow:hidden;position:relative}
+</style></head>
+<body>
+<nav class="nav"><div class="logo"><i></i>AZURE<small>ESTATES</small></div>
+  <div class="links"><a href="home.html">Home</a><a class="on" href="properties.html">Villas for sale</a><a href="properties.html">Private stays</a><a href="properties.html">Portfolio map</a><a href="tour.html">3D tours</a><a href="#">Journal</a></div>
+  <div class="r"><span class="pill"><svg class="ic" viewBox="0 0 24 24" style="fill:#e9995a;stroke:#e9995a"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Saved</span><a class="pill ink" href="stay.html">Book a viewing</a></div></nav>
+
+<section class="vhero">
+  <div class="bgword">HALCYON</div>
+  <div id="model3d"></div>
+  <div class="info">
+    <div class="crumbs">Villas / Ibiza / <b>Es Cubells</b> · REF AZ-IB-0412</div>
+    <h1>Villa<span>Halcyon</span></h1>
+    <div class="loc"><span class="tag"><i></i>Available</span>Es Cubells, Ibiza · 64 m above the sea</div>
+    <div class="price"><div><span class="lab">Asking</span><b>€14.8M</b><small>€19,946 / m² · freehold</small></div><div><span class="lab">Private stay</span><b>€9,800</b><small>per night · min. 7 nights</small></div></div>
+    <div class="mini-spec"><div>BEDROOMS<b>6</b></div><div>INTERIOR<b>742 m²</b></div><div>SEA VIEW<b>212°</b></div><div>PLOT<b>4,180 m²</b></div><div>POOL<b>18 × 6.6</b></div><div>ENERGY<b>A · 21</b></div></div>
+    <div class="ctas"><a class="btn" href="stay.html">Book a viewing<span class="o"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="btn ghost" href="tour.html">Walk the dollhouse</a></div>
+  </div>
+  <div class="exp-note">EXPLODED · LEVEL L1 LIFTED<b>+4.2 m</b></div>
+  <div class="levels"><a>R<small>ROOF</small></a><a class="on">L1<small>UPPER</small></a><a>L0<small>GROUND</small></a><a>−1<small>SPA</small></a></div>
+  <div class="pin3d" id="a1"><i class="dot"></i><div class="card"><small>Principal suite · L1</small>64 m² · sea on two sides</div></div>
+  <div class="pin3d l" id="a2"><i class="dot"></i><div class="card"><small>Living · L0</small>99 m² · 3.6 m ceilings</div></div>
+  <div class="pin3d b" id="a3"><i class="dot"></i><div class="card"><small>Infinity pool</small>18.0 × 6.6 m · salt</div></div>
+  <div class="tools"><a>Exterior</a><a class="on"><svg class="ic" viewBox="0 0 24 24" style="width:16px"><path d="M4 8l8-4 8 4-8 4-8-4zM4 13l8 4 8-4M4 17l8 4 8-4"/></svg>Exploded</a><a>Plans</a><span class="sep"></span><a>☀ 08:00</a><a>13:00</a><a style="color:var(--sun)">19:40</a><span class="sep"></span><a>Measure</a></div>
+  <div class="cursor" style="left:1130px;top:780px"><span>DRAG<br>TO ROTATE</span></div>
+</section>
+
+<div class="gal">
+  <div data-img="1600596542815-ffad4c1539a9" data-w="1100"><span class="lbl" style="left:16px">EXTERIOR · DAY</span><span class="pill white cnt">View all 38 photos</span></div>
+  <div data-img="1661069543196-9712dc126a91" data-w="600"><span class="lbl" style="left:16px">LIVING</span></div>
+  <div data-img="1613553474179-e1eda3ea5734" data-w="600"><span class="lbl" style="left:16px">PRINCIPAL SUITE</span></div>
+  <div data-img="1543489822-c49534f3271f" data-w="600"><span class="lbl" style="left:16px">SKY TERRACE VIEW</span></div>
+  <div data-img="1720161263981-84281892ee4b" data-w="600"><span class="lbl" style="left:16px">SPA COURTYARD</span></div>
+</div>
+
+<section class="specs">
+  <div>
+    <div class="idx"><b>( 01 )</b> &nbsp;The house in numbers</div>
+    <h2>Three levels,<br>one long horizon.</h2>
+    <div class="spec">
+      <div><span class="lab">Interior</span><b>742<sup>m²</sup></b></div><div><span class="lab">Terraces</span><b>520<sup>m²</sup></b></div><div><span class="lab">Plot</span><b>4,180<sup>m²</sup></b></div><div><span class="lab">Built</span><b>2024</b></div>
+      <div><span class="lab">Bedrooms</span><b>6</b></div><div><span class="lab">Bathrooms</span><b>7</b></div><div><span class="lab">Sea view</span><b>212<sup>°</sup></b></div><div><span class="lab">Above sea</span><b>64<sup>m</sup></b></div>
+      <div><span class="lab">Ceilings</span><b>3.6<sup>m</sup></b></div><div><span class="lab">Glazing</span><b>186<sup>m²</sup></b></div><div><span class="lab">Cantilever</span><b>8.2<sup>m</sup></b></div><div><span class="lab">Energy</span><b>A<sup>21 kWh</sup></b></div>
+    </div>
+    <div class="txt"><p>Designed by Marín Torres Arquitectos and finished in 2024, Halcyon is two travertine and lime-plaster volumes stacked on the last flat rock before the cliff drops to the sea. The upper volume cantilevers 8.2 metres west, so the principal suite floats over the infinity pool and sees water on two sides.</p>
+      <p>The ground floor is one 22-metre room of floor-to-ceiling glass that opens fully onto the pool deck. Below it, cut into the rock, is a spa level with a 10-metre indoor pool, hammam, gym and a cinema for eight.</p>
+      <p>Everything is built to last on the coast: marine-grade bronze fittings, solid travertine from Úbeda, 42 kW of roof solar and a 90 m³ rainwater cistern under the lawn.</p></div>
+  </div>
+  <aside class="agent">
+    <div class="who"><div class="av" style="background:linear-gradient(135deg,#0f5e7a,#46c3cf);display:grid;place-items:center;color:#fff;font:400 22px/1 var(--display)">LF</div><div><span class="lab">Your agent · Ibiza</span><b>Lucía Ferrer Vidal</b><div style="font-size:13px;color:var(--mute)">Speaks ES · EN · FR · IT</div></div></div>
+    <div class="mode"><a class="on">In person</a><a>Video tour</a><a>Stay first</a></div>
+    <div class="lab" style="margin-top:22px">Next viewings · November</div>
+    <div class="slots"><span>Thu 6<small>10:30</small></span><span class="on">Fri 7<small>17:40 · SUNSET</small></span><span>Sat 8<small>11:00</small></span><span>Mon 10<small>09:30</small></span><span>Tue 11<small>16:00</small></span><span>Wed 12<small>12:00</small></span></div>
+    <a class="btn" style="width:100%;justify-content:space-between;margin-top:20px" href="stay.html">Request Fri 7 · 17:40<span class="o"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    <div style="display:flex;justify-content:space-between;margin-top:18px;font-size:13px;color:var(--mute)"><span>Proof of funds needed</span><span>Response &lt; 2 h</span></div>
+    <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px">Stay before you buy · 7 nights credited</span><span class="tag" style="background:var(--paper-2)">€68,600</span></div>
+  </aside>
+</section>
+
+<section class="plans">
+  <div class="sh"><div><div class="idx"><b>( 02 )</b> &nbsp;Floor plans</div><h2 style="margin-top:18px">Ground floor, L0.</h2></div>
+    <div class="tabs"><a>L−1 Spa</a><a class="on">L0 Ground</a><a>L1 Upper</a><a>Roof</a><a style="border-style:dashed">Download PDF ↓</a></div></div>
+  <div class="wrap">
+    <div class="board">
+      <svg viewBox="0 0 900 620" width="900" height="620" font-family="IBM Plex Mono" font-size="10">
+        <defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#0f5e7a" stroke-width="1" opacity=".35"/></pattern></defs>
+        <!-- sea view wedge -->
+        <path d="M330 470 L40 620 L900 620 L900 560 Z" fill="#46c3cf" opacity=".1"/>
+        <!-- terrace and pool -->
+        <rect x="70" y="90" width="760" height="460" fill="#efe7d8" stroke="#b89f7a" stroke-width="1"/>
+        <rect x="100" y="418" width="378" height="118" fill="#7fd0da" opacity=".55" stroke="#0f5e7a"/>
+        <rect x="100" y="534" width="378" height="8" fill="#0f5e7a" opacity=".6"/>
+        <text x="289" y="482" text-anchor="middle" fill="#0f5e7a" font-size="11">INFINITY POOL · 18.0 × 6.6 m</text>
+        <!-- house footprint -->
+        <g transform="translate(310,150)">
+          <rect x="0" y="0" width="462" height="189" fill="#fff"/>
+          <rect x="0" y="0" width="231" height="189" fill="url(#hatch)" opacity=".0"/>
+          <rect x="0" y="0" width="231" height="189" fill="#0f5e7a" opacity=".08"/>
+          <!-- walls -->
+          <path d="M0 0 H462 V189" fill="none" stroke="#101214" stroke-width="7"/>
+          <path d="M0 189 H462" fill="none" stroke="#101214" stroke-width="2"/>
+          <path d="M0 0 V189" fill="none" stroke="#101214" stroke-width="2"/>
+          <g stroke="#101214" stroke-width="1" opacity=".55">
+            <line x1="44" y1="189" x2="44" y2="181"/><line x1="90" y1="189" x2="90" y2="181"/><line x1="136" y1="189" x2="136" y2="181"/><line x1="182" y1="189" x2="182" y2="181"/><line x1="228" y1="189" x2="228" y2="181"/><line x1="274" y1="189" x2="274" y2="181"/><line x1="320" y1="189" x2="320" y2="181"/><line x1="366" y1="189" x2="366" y2="181"/><line x1="412" y1="189" x2="412" y2="181"/>
+          </g>
+          <path d="M231 0 V60 M231 90 V189 M231 94 H357 M357 0 V40 M357 70 V189 M357 94 H462 M399 94 V189" fill="none" stroke="#101214" stroke-width="4"/>
+          <!-- furniture -->
+          <g fill="none" stroke="#7b7d7c" stroke-width="1">
+            <rect x="34" y="40" width="126" height="22" rx="6"/><rect x="18" y="62" width="22" height="58" rx="6"/><rect x="70" y="80" width="46" height="26" rx="4"/><rect x="24" y="30" width="150" height="100" rx="2" stroke-dasharray="3 3"/>
+            <rect x="250" y="20" width="90" height="16"/><rect x="262" y="52" width="66" height="22" rx="3"/>
+            <rect x="256" y="128" width="84" height="26" rx="2"/><circle cx="262" cy="120" r="4"/><circle cx="282" cy="120" r="4"/><circle cx="302" cy="120" r="4"/><circle cx="322" cy="120" r="4"/>
+            <rect x="372" y="14" width="76" height="12"/><rect x="390" y="44" width="44" height="22" rx="3"/>
+            <path d="M405 100 h50 M405 112 h50 M405 124 h50 M405 136 h50 M405 148 h50 M405 160 h50 M405 172 h50"/>
+          </g>
+          <!-- room labels -->
+          <g fill="#101214" font-size="11"><text x="116" y="152" text-anchor="middle" font-family="Outfit" font-size="18">Living</text><text x="116" y="168" text-anchor="middle" fill="#0f5e7a">99 m²</text>
+          <text x="294" y="89" text-anchor="middle" font-family="Outfit" font-size="14">Kitchen</text>
+          <text x="294" y="182" text-anchor="middle" font-family="Outfit" font-size="15" fill="#101214">Dining</text>
+          <text x="410" y="80" text-anchor="middle" font-family="Outfit" font-size="15">Library</text>
+          <text x="378" y="140" text-anchor="middle" font-size="9" fill="#7b7d7c">WC</text></g>
+          <!-- door swings -->
+          <path d="M231 60 A30 30 0 0 1 261 90" fill="none" stroke="#7b7d7c" stroke-dasharray="2 2"/>
+          <path d="M357 40 A30 30 0 0 0 327 70" fill="none" stroke="#7b7d7c" stroke-dasharray="2 2"/>
+        </g>
+        <!-- cantilever outline above -->
+        <rect x="190" y="160" width="462" height="168" fill="none" stroke="#e9995a" stroke-width="1.5" stroke-dasharray="7 5"/>
+        <text x="0" y="0" transform="translate(182,328) rotate(-90)" fill="#e9995a">L1 OVERHEAD · 8.2 m</text>
+        <!-- tower -->
+        <rect x="625" y="100" width="63" height="72" fill="#d8c7a9" stroke="#101214" stroke-width="2"/>
+        <text x="656" y="140" text-anchor="middle" font-size="9">STAIR</text>
+        <!-- dimensions -->
+        <g stroke="#0f5e7a" fill="#0f5e7a"><line x1="310" y1="370" x2="772" y2="370"/><line x1="310" y1="364" x2="310" y2="376"/><line x1="772" y1="364" x2="772" y2="376"/><text x="541" y="388" text-anchor="middle" stroke="none">22.00 m</text>
+          <line x1="800" y1="150" x2="800" y2="339"/><line x1="794" y1="150" x2="806" y2="150"/><line x1="794" y1="339" x2="806" y2="339"/><text x="812" y="248" stroke="none">9.00</text></g>
+        <!-- north + scale -->
+        <g transform="translate(70,40)"><circle r="16" fill="#fff" stroke="#101214"/><path d="M0 -12 L5 6 L0 2 L-5 6Z" fill="#101214"/><text x="24" y="4">N</text></g>
+        <g transform="translate(700,40)"><rect width="30" height="5" fill="#101214"/><rect x="30" width="30" height="5" fill="none" stroke="#101214"/><rect x="60" width="30" height="5" fill="#101214"/><text y="20">0</text><text x="84" y="20">3 m</text></g>
+        <text x="80" y="600" fill="#0f5e7a">SEA VIEW ARC 212° →</text>
+      </svg>
+      <div class="pin3d b l" style="left:400px;top:262px"><i class="dot"></i><div class="card"><small>Selected · Living</small>99 m² · 3.6 m ceiling · S + W glass</div></div>
+    </div>
+    <div>
+      <div class="lab">Room schedule · L0</div>
+      <table class="sched">
+        <tr class="on"><td><i style="background:#0f5e7a"></i>Living</td><td>99.0 m²</td></tr>
+        <tr><td><i style="background:#d8c7a9"></i>Kitchen</td><td>27.0 m²</td></tr>
+        <tr><td><i style="background:#d8c7a9"></i>Dining</td><td>24.0 m²</td></tr>
+        <tr><td><i style="background:#d8c7a9"></i>Library</td><td>22.5 m²</td></tr>
+        <tr><td><i style="background:#d8c7a9"></i>Guest WC</td><td>9.0 m²</td></tr>
+        <tr><td><i style="background:#e9995a"></i>Covered terrace</td><td>58.0 m²</td></tr>
+        <tr><td><i style="background:#46c3cf"></i>Pool deck</td><td>212.0 m²</td></tr>
+      </table>
+      <div style="display:flex;justify-content:space-between;margin-top:22px;font:300 34px/1 var(--display);letter-spacing:-.03em"><span>Level total</span><span>198 m²</span></div>
+      <a class="btn ghost" style="margin-top:30px" href="tour.html">Open level in 3D →</a>
+    </div>
+  </div>
+</section>
+
+<section class="near">
+  <div>
+    <div class="idx"><b>( 03 )</b> &nbsp;Neighbourhood</div>
+    <h2>Es Cubells,<br>on foot and by boat.</h2>
+    <ul>
+      <li><span>Swimming platform (private stair)</span><span class="bar"><i style="width:10%"></i></span><span>6 min</span></li>
+      <li><span>Cala Llentrisca</span><span class="bar"><i style="width:22%"></i></span><span>9 min</span></li>
+      <li><span>Es Cubells village &amp; church</span><span class="bar"><i style="width:30%"></i></span><span>4 km</span></li>
+      <li><span>Ibiza airport</span><span class="bar"><i style="width:55%"></i></span><span>22 min</span></li>
+      <li><span>Dalt Vila, old town</span><span class="bar"><i style="width:70%"></i></span><span>28 min</span></li>
+      <li><span>Formentera by tender</span><span class="bar"><i style="width:48%"></i></span><span>35 min</span></li>
+    </ul>
+  </div>
+  <div class="ph" data-img="1619165403901-4b8df2522a3a" data-w="1000"><div class="chip" style="left:24px;bottom:24px;width:280px"><span class="lab">Coastal setback</span><b>31 m</b><div style="font-size:12px;color:var(--mute);margin-top:6px">Pool edge to the cliff face. Protected foreground, so the view cannot be built on.</div></div></div>
+</section>
+
+<footer class="f" data-footer></footer>
+<script src="azure.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = window.AZ3D(THREE, { RoundedBoxGeometry });
+const S = K.stage(document.getElementById('model3d'), { w: 1440, h: 1000, fov: 26, exposure: 1.0, env: 'day', envIntensity: 0.55 });
+if (S) {
+  const M = K.mats('day');
+  const wm = K.water({ sky: '#e8f2f3', sun: [-0.5, 0.6, 0.45] });
+  const V = K.villa(M, { cutaway: true, waterMat: wm }); S.scene.add(V.group);
+  const plinth = K.strata(M, { layers: 4, H: 1.5, cut: true, rect: [-22, 22, -14, 12.5], colors: ['#d9c9ab', '#cbb593', '#d3bf9e', '#c2aa85'] }); S.scene.add(plinth);
+  const catcher = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.ShadowMaterial({ opacity: 0.16 })); catcher.rotation.x = -Math.PI / 2; catcher.position.y = -6.6; catcher.receiveShadow = true; S.scene.add(catcher);
+  K.lights(S.scene, 'day', { at: [-40, 55, 30], size: 40 });
+  // dashed guides from the lifted floor down to the slab
+  const guides = new THREE.Group(); S.scene.add(guides);
+  const gm = new THREE.LineDashedMaterial({ color: 0x0f5e7a, dashSize: 0.5, gapSize: 0.35 });
+  [[-14, -7.5], [8, -7.5], [-14, 0.5], [8, 0.5]].forEach(([x, z]) => { const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x, 4.05, z), new THREE.Vector3(x, 14, z)]); const l = new THREE.Line(g, gm); l.computeLineDistances(); guides.add(l); });
+  S.pin(new THREE.Vector3(-9.5, 9.6, -3), document.getElementById('a1'));
+  S.pin(new THREE.Vector3(-3, 2.6, -4), document.getElementById('a2'));
+  S.pin(new THREE.Vector3(-10, 0, 8), document.getElementById('a3'));
+  const cam = S.camera; cam.setViewOffset(1840, 1000, 0, 0, 1440, 1000);
+  S.run(t => {
+    wm.uniforms.uT.value = t;
+    const lift = 4.2 + Math.sin(t * 0.9) * 0.25;
+    V.parts.upper.position.y = lift; V.parts.slab.position.y = lift * 0.38;
+    guides.children.forEach(l => { l.scale.y = 1; });
+    const a = 0.52 + Math.sin(t * 0.1) * 0.05;
+    cam.position.set(Math.sin(a) * 88, 50, Math.cos(a) * 88);
+    cam.lookAt(-1, 1.5, -1);
+  });
+}
+</script>
+</body></html>

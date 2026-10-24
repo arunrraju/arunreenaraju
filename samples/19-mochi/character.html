@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Peachy Bun 18 cm — Mochi Monsters</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mochi.css">
+<script src="mochi.js"></script>
+<script src="mochi3d.js"></script>
+<style>
+.pd{position:relative;height:1060px;display:grid;grid-template-columns:880px 1fr;background:linear-gradient(180deg,#fff8ef,#fff1e6)}
+.pd .stagebox{position:relative;margin:120px 0 30px 24px;border-radius:52px;overflow:hidden;background:radial-gradient(520px 460px at 50% 52%,#fff,rgba(255,255,255,0) 70%),linear-gradient(160deg,#ffd2c0,#ffb59a 60%,#ffa385);box-shadow:var(--clay)}
+.pd .bgword{position:absolute;left:-10px;right:0;top:40px;text-align:center;font:700 270px/.8 var(--disp);letter-spacing:-.06em;color:transparent;-webkit-text-stroke:3px rgba(255,255,255,.75);white-space:nowrap;z-index:0}
+.pd .bgword.b{top:600px;-webkit-text-stroke:0;color:rgba(255,255,255,.28)}
+.pd canvas#tt{position:absolute;left:0;top:0;width:856px;height:910px;z-index:1}
+.hot{position:absolute;z-index:3;display:flex;align-items:center;gap:10px;font-weight:800;font-size:14px}
+.hot i{width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;font:700 18px/1 var(--disp);font-style:normal;box-shadow:0 0 0 8px rgba(255,255,255,.35),var(--clay-sm);animation:pulse2 2s infinite}
+@keyframes pulse2{50%{box-shadow:0 0 0 14px rgba(255,255,255,.12),var(--clay-sm)}}
+.hot span{background:rgba(255,255,255,.88);border-radius:999px;padding:8px 14px;box-shadow:var(--clay-sm);backdrop-filter:blur(8px)}
+.hot span small{display:block;font-weight:700;color:var(--ink2);font-size:12px}
+.dial{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:16px;padding:10px 12px 10px 22px;border-radius:999px;background:rgba(255,255,255,.85);box-shadow:var(--clay-sm);backdrop-filter:blur(10px);font-weight:800;white-space:nowrap}
+.dial .tr{width:200px;height:8px;border-radius:999px;background:var(--cream2);position:relative}
+.dial .tr i{position:absolute;left:0;top:0;bottom:0;width:59%;border-radius:999px;background:var(--ink)}
+.dial .tr b{position:absolute;left:59%;top:50%;width:22px;height:22px;border-radius:50%;background:var(--butter);transform:translate(-50%,-50%);box-shadow:var(--clay-sm)}
+.dial .deg{font:700 18px/1 var(--disp);background:var(--ink);color:#fff;border-radius:999px;padding:10px 14px}
+.thumbs{position:absolute;left:28px;top:30px;z-index:3;display:flex;flex-direction:column;gap:12px}
+.thumbs canvas{width:76px;height:76px;border-radius:22px;background:rgba(255,255,255,.55);box-shadow:var(--clay-sm)}
+.thumbs canvas.on{outline:3px solid var(--ink);outline-offset:3px}
+.cur2{position:absolute;z-index:4;left:600px;top:420px}
+
+.buy{padding:150px 64px 40px 56px}
+.crumb{font-weight:800;font-size:13px;color:var(--ink2);letter-spacing:.04em}
+.crumb b{color:var(--ink)}
+.art{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:6px 16px 6px 6px;border-radius:999px;background:#fff;box-shadow:var(--clay-sm);font-weight:800;font-size:14px}
+.art i{width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#ffb59a);display:grid;place-items:center;font:700 14px/1 var(--disp);font-style:normal}
+.buy h1{font:700 92px/.86 var(--disp);letter-spacing:-.045em;margin:20px 0 14px}
+.rate{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--ink2)}
+.rate .s{color:#f5b52e;letter-spacing:2px;font-size:18px}
+.price{display:flex;align-items:baseline;gap:14px;margin:26px 0 8px}
+.price b{font:700 56px/1 var(--disp);letter-spacing:-.03em}
+.price .ed{font:800 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--butter);border-radius:999px;padding:9px 12px}
+.lbl{display:flex;justify-content:space-between;font:800 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin:26px 0 12px}
+.lbl b{color:var(--ink);letter-spacing:.02em;text-transform:none;font-size:14px}
+.fin{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fin div{border-radius:24px;background:#fff;padding:14px;box-shadow:var(--clay-sm);font-weight:800;font-size:14px;display:flex;align-items:center;gap:10px}
+.fin div.on{box-shadow:inset 0 0 0 3px var(--ink),var(--clay-sm)}
+.fin .dot{width:30px;height:30px;flex:none}
+.fin small{display:block;color:var(--ink2);font-size:12px}
+.size{display:flex;gap:10px}
+.size div{flex:1;border-radius:22px;padding:12px 14px;background:var(--cream2);font:600 18px/1.1 var(--disp);box-shadow:inset 3px 3px 6px rgba(43,34,64,.07),inset -3px -3px 6px rgba(255,255,255,.9)}
+.size div small{display:block;font:800 12px/1.4 var(--sans);color:var(--ink2)}
+.size div.on{background:var(--ink);color:#fff8ef}.size div.on small{color:var(--butter)}
+.stock{margin-top:24px;padding:16px 20px;border-radius:24px;background:#fff;box-shadow:var(--clay-sm)}
+.stock .t{display:flex;justify-content:space-between;font-weight:800;font-size:14px;margin-bottom:10px}
+.stock .pb{height:14px;border-radius:999px;background:var(--cream2);overflow:hidden}
+.stock .pb i{display:block;height:100%;width:76%;border-radius:999px;background:repeating-linear-gradient(-45deg,#ff8a6b 0 10px,#ffb59a 10px 20px);animation:barb 1s linear infinite;background-size:28px 28px}
+@keyframes barb{to{background-position:28px 0}}
+.add{display:flex;gap:12px;margin-top:22px}
+.add .btn{flex:1;justify-content:center;height:70px;font-size:21px}
+.add .ico{width:70px;height:70px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:var(--clay-sm);font-size:24px;color:var(--berry)}
+.perks{display:flex;gap:18px;margin-top:20px;font-weight:800;font-size:13px;color:var(--ink2)}
+
+.sec{padding:120px 64px 0}
+.rar{display:grid;grid-template-columns:420px 1fr;gap:60px;align-items:start}
+.rar h2,.cz h2,.more h2{font:700 84px/.88 var(--disp);letter-spacing:-.045em}
+.rar p{color:var(--ink2);font-size:17px;margin-top:20px}
+.specs{margin-top:30px;border-radius:30px;background:#fff;box-shadow:var(--clay);padding:8px 24px}
+.specs div{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px dashed var(--line);font-weight:700}
+.specs div:last-child{border:0}.specs span{color:var(--ink2)}
+.chart{border-radius:44px;background:var(--ink);color:#fff8ef;padding:40px 44px 34px;box-shadow:var(--clay);position:relative}
+.chart .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:84px}
+.chart .hd b{font:700 30px/1 var(--disp)}
+.chart .bars{display:grid;grid-template-columns:repeat(13,1fr);gap:12px;align-items:end;height:300px;border-bottom:2px solid rgba(255,255,255,.12)}
+.chart .bars div{position:relative;border-radius:16px 16px 6px 6px;box-shadow:inset 3px 4px 6px rgba(255,255,255,.35),inset -3px -4px 6px rgba(0,0,0,.18)}
+.chart .bars div em{position:absolute;left:50%;top:-26px;transform:translateX(-50%);font:700 13px/1 var(--disp);font-style:normal;color:rgba(255,248,239,.8);white-space:nowrap}
+.chart .bars div.me{outline:3px solid #fff;outline-offset:4px}
+.chart .bars div.me em{top:-58px;background:#fff;color:var(--ink);border-radius:999px;padding:8px 12px}
+.chart .names{display:grid;grid-template-columns:repeat(13,1fr);gap:12px;margin-top:12px;font:800 11px/1.2 var(--sans);color:rgba(255,248,239,.55);text-align:center}
+.chart .leg{display:flex;gap:22px;margin-top:26px;font-weight:700;font-size:14px;color:rgba(255,248,239,.7)}
+.chart .leg i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:8px;vertical-align:-1px}
+
+.cz{margin:140px 24px 0;border-radius:56px;background:linear-gradient(150deg,#e9e1ff,#c7b6ff 55%,#b3a0ff);box-shadow:var(--clay);position:relative;height:900px;overflow:hidden}
+.cz canvas{position:absolute;left:330px;top:0;width:760px;height:900px;z-index:1}
+.cz .l{position:absolute;left:52px;top:60px;width:330px;z-index:2}
+.cz .r{position:absolute;right:52px;top:60px;width:330px;z-index:2}
+.cz .grp{margin-top:26px}
+.cz .grp > b{display:block;font:800 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(43,34,64,.6);margin-bottom:12px}
+.cway{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cway div{border-radius:22px;background:rgba(255,255,255,.6);padding:10px;text-align:center;font-weight:800;font-size:12px;box-shadow:var(--clay-sm)}
+.cway div i{display:block;width:44px;height:44px;border-radius:50%;margin:0 auto 6px;box-shadow:inset 4px 5px 8px rgba(255,255,255,.65),inset -4px -5px 8px rgba(0,0,0,.12)}
+.cway div.on{background:#fff;box-shadow:inset 0 0 0 3px var(--ink),var(--clay-sm)}
+.accs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.accs div{height:84px;border-radius:22px;background:rgba(255,255,255,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:800;font-size:12px;box-shadow:var(--clay-sm)}
+.accs div span{font-size:26px;line-height:1}
+.accs div.on{background:var(--ink);color:#fff}
+.toggle{display:flex;padding:6px;border-radius:999px;background:rgba(255,255,255,.5)}
+.toggle span{flex:1;text-align:center;padding:12px 0;border-radius:999px;font:600 15px/1 var(--disp)}
+.toggle span.on{background:#fff;box-shadow:var(--clay-sm)}
+.sum{border-radius:36px;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);padding:28px;box-shadow:var(--clay)}
+.sum h3{font:700 36px/1 var(--disp);letter-spacing:-.03em;margin:8px 0 18px}
+.sum div.li{display:flex;justify-content:space-between;padding:8px 0;font-weight:700;border-bottom:1px dashed var(--line)}
+.sum div.li span{color:var(--ink2)}
+.sum .tot{display:flex;justify-content:space-between;align-items:baseline;margin:18px 0 20px;font:700 40px/1 var(--disp)}
+.sum .tot small{font:800 12px/1 var(--sans);color:var(--ink2)}
+.eng{margin-top:14px;height:58px;border-radius:999px;background:rgba(255,255,255,.75);display:flex;align-items:center;padding:0 22px;font:600 20px/1 var(--disp);box-shadow:inset 3px 3px 6px rgba(43,34,64,.08)}
+.eng i{width:2px;height:24px;background:var(--ink);margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.cz .big{position:absolute;left:0;right:0;bottom:-40px;text-align:center;font:700 230px/1 var(--disp);letter-spacing:-.06em;color:rgba(255,255,255,.35);z-index:0;white-space:nowrap}
+.cz .callout{position:absolute;z-index:3;background:var(--ink);color:#fff;border-radius:999px;padding:10px 16px;font:600 15px/1 var(--disp)}
+
+.more{display:grid;grid-template-columns:1fr;gap:40px}
+.row5{display:grid;grid-template-columns:repeat(5,1fr);gap:22px}
+.mini{border-radius:34px;background:#fff;padding:10px 10px 18px;box-shadow:var(--clay);text-align:center}
+.mini canvas{width:100%;height:230px;border-radius:26px}
+.mini b{display:block;font:700 20px/1.1 var(--disp);margin-top:12px}
+.mini span{font-weight:800;font-size:13px;color:var(--ink2)}
+.mini.got{position:relative}
+.mini.got::after{content:"✓ owned";position:absolute;right:18px;top:18px;background:var(--mint);border-radius:999px;padding:6px 10px;font:800 11px/1 var(--sans)}
+</style></head>
+<body>
+<nav class="nav" data-on="character"></nav>
+<section class="pd">
+  <div class="stagebox">
+    <div class="bgword">peachy</div><div class="bgword b">bun bun</div>
+    <canvas id="tt"></canvas>
+    <div class="thumbs"><canvas class="on" data-v="0" width="76" height="76"></canvas><canvas data-v="1" width="76" height="76"></canvas><canvas data-v="2" width="76" height="76"></canvas><canvas data-v="3" width="76" height="76"></canvas></div>
+    <div class="hot" style="left:560px;top:150px"><i>+</i><span>Velvet-flocked ears<small>2 coats, hand-sprayed</small></span></div>
+    <div class="hot" style="left:610px;top:420px"><i>+</i><span>Hand-painted blush<small>no two cheeks alike</small></span></div>
+    <div class="hot" style="left:120px;top:610px"><i>+</i><span>Mirror clearcoat<small>UV-safe, won’t yellow</small></span></div>
+    <div class="dial">⟲ Drag to spin <span class="tr"><i></i><b></b></span><span class="deg">214°</span></div>
+  </div>
+  <div class="buy">
+    <div class="crumb">Shop / Sugar Rush / <b>Peachy Bun 18 cm</b></div>
+    <div class="art"><i>H</i>Hana Okabe · Sugar Rush series 03</div>
+    <h1>Peachy<br>Bun</h1>
+    <div class="rate"><span class="s">★★★★★</span>4.9 · 612 reviews · 3,180 on shelves</div>
+    <div class="price"><b>€89</b><span class="ed">Edition of 500</span><span style="font-weight:800;color:var(--ink2)">No. 214 / 500</span></div>
+    <div class="lbl">Finish <b>Glossy vinyl + flocked ears</b></div>
+    <div class="fin"><div class="on"><i class="dot" style="background:#ffb59a"></i><span>Glossy<small>vinyl</small></span></div><div><i class="dot" style="background:#f6b8a3;box-shadow:inset 0 0 8px rgba(255,255,255,.9)"></i><span>Flocked<small>+€12</small></span></div><div><i class="dot" style="background:linear-gradient(135deg,#ffe3ec,#d8f2ff,#eadfff)"></i><span>Pearl<small>+€20</small></span></div></div>
+    <div class="lbl">Size <b>18 cm · 410 g</b></div>
+    <div class="size"><div>9 cm<small>blind box · €14</small></div><div class="on">18 cm<small>open box · €89</small></div><div>40 cm<small>Mega · €320</small></div></div>
+    <div class="stock"><div class="t"><span>🔥 382 of 500 claimed</span><span style="color:var(--ink2)">118 left</span></div><div class="pb"><i></i></div></div>
+    <div class="add"><a class="btn peach" href="cart.html">Add to bag · €89 <span class="ar">+</span></a><span class="ico">♥</span></div>
+    <div class="perks"><span>✦ Ships in 48 h</span><span>✦ Certificate No. 214</span><span>✦ Free EU over €60</span></div>
+  </div>
+  <div class="cur cur2"><svg width="28" height="30" viewBox="0 0 28 30"><path d="M3 2l21 11-9 2.5L11 26z" fill="#2b2240" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></svg><span>⟲ Rotate</span></div>
+</section>
+
+<section class="sec">
+  <div class="rar">
+    <div><div class="eyebrow"><i></i>Rarity & odds</div><h2 style="margin-top:18px">How rare<br>is <span class="puff">Peachy?</span></h2>
+      <p>Each sealed Sugar Rush case of 144 boxes is packed by hand to these exact ratios. Odds are audited every production run.</p>
+      <div class="specs"><div><span>Height</span>18 cm · 7.1 in</div><div><span>Material</span>Rotocast vinyl, flocked ears</div><div><span>Paint</span>Hand-sprayed blush, 2 coats</div><div><span>Released</span>12 Sep 2026</div><div><span>Packaging</span>Window box + numbered card</div></div>
+    </div>
+    <div class="chart"><div class="hd"><b>Sugar Rush · pull rates</b><span class="chip" style="background:rgba(255,255,255,.1);color:#fff;box-shadow:none">per 144 boxes</span></div>
+      <div class="bars" id="bars"></div><div class="names" id="names"></div>
+      <div class="leg"><span><i style="background:#ffb59a"></i>Regular · 12 each</span><span><i style="background:#c7b6ff"></i>Rare · 6 each</span><span><i style="background:linear-gradient(90deg,#9fe3c6,#9cd2ff)"></i>Chase · 3</span><span><i style="background:#ffe58a"></i>Secret · 1</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="cz">
+  <div class="big">make it yours</div>
+  <canvas id="cz"></canvas>
+  <div class="l"><div class="eyebrow" style="color:var(--ink)"><i></i>Studio customiser</div><h2 style="margin-top:16px">Make it<br><span class="puff butter">yours.</span></h2>
+    <div class="grp"><b>Colourway</b><div class="cway"><div><i style="background:#ffb59a"></i>Peach Fuzz</div><div class="on"><i style="background:#9fe3c6"></i>Mint Chip</div><div><i style="background:#c7b6ff"></i>Lilac Haze</div><div><i style="background:#ffe58a"></i>Butter</div><div><i style="background:#9cd2ff"></i>Sky Day</div><div><i style="background:#3b2f5c"></i>Midnight</div></div></div>
+    <div class="grp"><b>Finish</b><div class="toggle"><span>Glossy</span><span class="on">Flocked</span><span>Pearl</span></div></div>
+  </div>
+  <div class="r">
+    <div class="grp" style="margin-top:0"><b>Accessory</b><div class="accs"><div><span>🎉</span>Party hat</div><div class="on"><span>👑</span>Crown</div><div><span>🎧</span>Phones</div><div><span>🧣</span>Scarf</div><div><span>👓</span>Specs</div><div><span>🌸</span>Flower</div></div></div>
+    <div class="grp"><b>Name on the base</b><div class="eng">BAO<i></i></div></div>
+    <div class="grp sum"><div class="eyebrow"><i></i>Your one-off</div><h3>Mint Chip Bun</h3><div class="li"><span>Peachy Bun · 18 cm</span>€89</div><div class="li"><span>Flocked finish</span>+€12</div><div class="li"><span>Gold crown</span>+€9</div><div class="li"><span>Engraving “BAO”</span>Free</div><div class="tot">€110 <small>made to order · 3 wks</small></div><a class="btn" style="width:100%;justify-content:center">Add custom to bag</a></div>
+  </div>
+  <div class="callout" style="left:760px;top:120px">Crown drops in… 👑</div>
+</section>
+
+<section class="sec" style="padding-bottom:140px">
+  <div class="more"><div style="display:flex;justify-content:space-between;align-items:flex-end"><h2>Complete<br><span class="puff mint">the gang.</span></h2><div style="text-align:right;font-weight:800;color:var(--ink2)">You own 3 of 12 Sugar Rush<div style="width:300px;height:12px;border-radius:999px;background:var(--cream2);margin-top:10px;overflow:hidden"><i style="display:block;width:25%;height:100%;background:var(--mint);border-radius:999px"></i></div></div></div>
+    <div class="row5"><div class="mini got"><canvas data-k="minto" width="236" height="230" style="background:#d8f5e8"></canvas><b>Minto</b><span>€34 · 1/12</span></div><div class="mini"><canvas data-k="lulu" width="236" height="230" style="background:#ebe4ff"></canvas><b>Lulu</b><span>€38 · rare</span></div><div class="mini got"><canvas data-k="sorbet" width="236" height="230" style="background:#ffe4ee"></canvas><b>Sorbet</b><span>€38 · rare</span></div><div class="mini"><canvas data-k="bean" width="236" height="230" style="background:#fff4c6"></canvas><b>Butterbean</b><span>€34 · 1/12</span></div><div class="mini"><canvas data-k="skip" width="236" height="230" style="background:#dcefff"></canvas><b>Skipper</b><span>€34 · 1/12</span></div></div>
+  </div>
+</section>
+
+<footer class="foot"></footer>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+await Promise.all([document.fonts.load('700 80px Fredoka'), document.fonts.load('700 20px Nunito')]);
+const K = Mochi3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+
+/* rarity bars */
+const R = [['Peachy', 15, '#ffb59a'], ['Minto', 15, '#9fe3c6'], ['Bean', 15, '#ffe58a'], ['Skipper', 15, '#9cd2ff'], ['Imp', 15, '#ff9fbf'], ['Dumpling', 15, '#ffe6d6'], ['Kiwi', 15, '#9fe3c6'], ['Honey', 15, '#ffe58a'], ['Lulu', 6, '#c7b6ff'], ['Sorbet', 6, '#c7b6ff'], ['Cloudlet', 6, '#c7b6ff'], ['Jelly', 5, 'linear-gradient(#9fe3c6,#9cd2ff)'], ['Secret', 1, '#ffe58a']];
+document.getElementById('bars').innerHTML = R.map((r, i) => `<div class="${i ? '' : 'me'}" style="height:${Math.max(r[1] / 15 * 100, 4)}%;background:${r[2]}"><em>${i ? r[1] : '15 / 144 · 10.4%'}</em></div>`).join('');
+document.getElementById('names').innerHTML = R.map(r => `<span>${r[0]}</span>`).join('');
+
+/* turntable */
+const ts = K.stage(document.getElementById('tt'), 856, 910, { fov: 26, key: 1.8 });
+ts.camera.position.set(0, 4.2, 19); ts.camera.lookAt(0, 3.0, 0);
+const ped = K.pedestal(2.6, '#fff6ef'); ts.scene.add(ped);
+const pedSh = K.shadow(3.6, .35); ts.scene.add(pedSh);
+const hero = K.make('peachy', { accentKind: 'flock', shadowOp: .35 }); hero.scale.setScalar(1.45); hero.position.y = .36; ts.scene.add(hero);
+// orbit ring of sparkles + gumdrops
+const orb = new THREE.Group(); ts.scene.add(orb);
+[K.C.butter, K.C.mint, K.C.lav, K.C.pink, K.C.sky].forEach((c, i) => { const s = i % 2 ? K.drop(c, .22) : K.star(c, .26, 'pearl'); const a = i / 5 * Math.PI * 2; s.position.set(Math.cos(a) * 3.6, 2.6 + Math.sin(a * 2) * 1.4, Math.sin(a) * 3.6); orb.add(s); });
+const ring = new THREE.Mesh(new THREE.TorusGeometry(3.6, .015, 6, 160), K.mat('#ffffff', 'glow')); ring.rotation.x = Math.PI / 2 - .12; ring.position.y = 2.6; ring.material = new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: .6 }); ts.scene.add(ring);
+
+/* customiser */
+const cs = K.stage(document.getElementById('cz'), 760, 900, { fov: 28 });
+cs.camera.position.set(0, 4.4, 17); cs.camera.lookAt(0, 2.9, 0);
+const ped2 = K.pedestal(2.3, '#ffffff'); cs.scene.add(ped2); const sh2 = K.shadow(3.2, .3); cs.scene.add(sh2);
+const cust = K.make('peachy', { color: K.C.mint, kind: 'flock', accent: '#ffffff', accentKind: 'vinyl' }); cust.scale.setScalar(1.3); cust.position.y = .36; cust.rotation.y = .25; cs.scene.add(cust);
+const crown = K.accessory('crown', 'hi'); crown.scale.setScalar(1.3 * 1.1); cs.scene.add(crown);
+const streak = new THREE.Group(); cs.scene.add(streak);
+for (let i = 0; i < 3; i++) { const m = new THREE.Mesh(new THREE.CapsuleGeometry(.04, .9, 4, 8), new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: .7 })); m.position.set(-.5 + i * .5, 0, 0); streak.add(m); }
+const bubM = new THREE.MeshPhysicalMaterial({ color: '#ffffff', roughness: 0, transmission: 1, thickness: .15, ior: 1.3, transparent: true, clearcoat: 1 });
+const options = [['party', -2.3, 5.0, K.C.pink, [-.25, -.62, 0], .62], ['phones', 2.3, 5.3, K.C.sky, [0, 0, 0], .36], ['glasses', -2.4, 2.4, K.C.butter, [0, .05, -1.0], .75], ['flower', 2.4, 2.3, K.C.mint, [-.72, -.62, -.42], 1.2]].map(([a, x, y, col, off, sc], i) => {
+  const g = new THREE.Group(); g.position.set(x, y, -.4); g.scale.setScalar(.74);
+  const bub = new THREE.Mesh(new THREE.SphereGeometry(.82, 40, 28), bubM); g.add(bub);
+  const half = new THREE.Mesh(new THREE.SphereGeometry(.8, 40, 20, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), K.mat(col, 'vinyl')); g.add(half);
+  const acc = K.accessory(a, 'hi', { phoneCup: K.C.peach }); const w = new THREE.Group(); acc.position.set(...off); w.add(acc); w.scale.setScalar(sc); w.position.y = .05; g.add(w);
+  g.userData.w = w; cs.scene.add(g); return g; });
+
+/* minis */
+const M = K.mini(236, 230);
+document.querySelectorAll('canvas[data-k]').forEach(cv => { const c = K.make(cv.dataset.k, { q: 'lo' }); c.rotation.y = -.3; M.draw(c, cv, { cam: [0, 2.6, 13], look: [0, 1.95, 0], fov: 26 }); });
+document.querySelectorAll('canvas[data-v]').forEach(cv => {
+  const v = +cv.dataset.v; let o;
+  if (v === 3) { o = K.blindBox({ color: K.C.peach, color2: K.C.butter, w: 2, h: 2.2 }); o.rotation.y = .6; M.draw(o, cv, { cam: [0, 3, 9.5], look: [0, 1.4, 0], fov: 30 }); return; }
+  o = K.make('peachy', { q: 'lo', shadow: false }); o.rotation.y = [0, -1.3, Math.PI][v]; M.draw(o, cv, { cam: [0, 2.6, 10.5], look: [0, 2.1, 0], fov: 30 });
+});
+
+const clock = new THREE.Clock(); let first = true;
+function tick() {
+  const t = clock.getElapsedTime();
+  hero.rotation.y = -.42 + .4 * Math.sin(t * .5); K.float(hero, t, { amp: .12 });
+  orb.rotation.y = t * .25; orb.children.forEach((c, i) => c.rotation.y = t + i);
+  ts.renderer.render(ts.scene, ts.camera);
+  cust.rotation.y = .25 + Math.sin(t * .6) * .35;
+  const dropY = 6.0 - ((t * .55) % 1) * 0.0; // crown hovering mid-drop
+  crown.position.set(-.2, 4.9 + .25 * Math.sin(t * 2), .1); crown.rotation.set(.18, t * .8, .12);
+  streak.position.set(-.2, 6.4 + .25 * Math.sin(t * 2), .1);
+  options.forEach((g, i) => { g.position.y += Math.sin(t * 1.3 + i * 2) * .004; g.rotation.z = .15 * Math.sin(t + i); g.userData.w.rotation.y = t * .6 + i; });
+  cs.renderer.render(cs.scene, cs.camera);
+  if (first) { first = false; window.__ready3d = true; }
+  requestAnimationFrame(tick);
+}
+tick();
+</script>
+</body></html>

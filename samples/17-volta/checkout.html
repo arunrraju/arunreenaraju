@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOLTA — Secure checkout</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,600;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="volta.css">
+<script src="volta3d.js"></script>
+<style>
+body{background:radial-gradient(60% 40% at 80% 0%,#1d2023,var(--ink) 70%)}
+.cnav{display:flex;align-items:center;justify-content:space-between;padding:30px 64px;border-bottom:1px solid var(--line)}
+.cnav .sec{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--grey)}
+.cnav .sec .ic{color:var(--volt)}
+.charge{display:flex;align-items:center;gap:14px}
+.charge .cell{width:150px}
+.charge .cell i{display:block;height:10px;background:rgba(255,255,255,.1);transform:skewX(-20deg);position:relative;overflow:hidden}
+.charge .cell.done i{background:var(--volt);box-shadow:0 0 12px rgba(230,255,0,.5)}
+.charge .cell.now i::after{content:"";position:absolute;inset:0;width:60%;background:linear-gradient(90deg,var(--volt),#f6ffa0);animation:chg 2.4s ease-in-out infinite}
+@keyframes chg{0%{width:15%}100%{width:85%}}
+.charge .cell span{display:block;margin-top:9px;font:500 10px/1 var(--mono);letter-spacing:.12em;color:var(--grey)}
+.charge .cell.done span,.charge .cell.now span{color:var(--white)}
+.charge .cap{width:6px;height:16px;background:rgba(255,255,255,.18)}
+
+.wrapc{display:grid;grid-template-columns:1fr 520px;gap:56px;padding:56px 64px 120px}
+.ttl{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:34px}
+.ttl h1{font:italic 800 140px/.8 var(--disp);text-transform:uppercase}
+.ttl p{color:var(--grey);font-size:14px;text-align:right}
+.blk{border-top:1px solid var(--line);padding:28px 0 30px}
+.blk .bh{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.blk .bh b{font:italic 800 38px/1 var(--disp);text-transform:uppercase;display:flex;align-items:center;gap:14px}
+.blk .bh b i{font:500 11px/1 var(--mono);font-style:normal;width:30px;height:30px;display:grid;place-items:center;background:var(--volt);color:var(--ink);clip-path:polygon(25% 0,100% 0,75% 100%,0 100%)}
+.blk .bh b i.d{background:rgba(255,255,255,.1);color:var(--white)}
+.blk .bh a{font-size:13px;color:var(--grey);text-decoration:underline;text-underline-offset:4px}
+.blk.done .val{display:flex;gap:40px;font-size:14px;color:rgba(244,246,248,.8)}
+.blk.done .val span{display:flex;gap:10px;align-items:center}
+.blk.done .val .ic{color:var(--volt)}
+.dels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.del{border:1px solid var(--line2);padding:18px 18px 16px;position:relative}
+.del .ic{color:var(--grey);width:22px;height:22px}
+.del b{display:block;font:italic 800 24px/1 var(--disp);text-transform:uppercase;margin:14px 0 6px}
+.del span{font-size:12px;color:var(--grey);display:block}
+.del em{position:absolute;right:16px;top:18px;font-style:normal;font:600 13px/1 var(--sans)}
+.del.on{border-color:var(--volt);background:linear-gradient(160deg,rgba(230,255,0,.1),transparent 60%)}
+.del.on .ic,.del.on em{color:var(--volt)}
+.del.on::after{content:"";position:absolute;right:-1px;bottom:-1px;width:28px;height:28px;background:var(--volt);clip-path:polygon(100% 0,100% 100%,0 100%)}
+.addr{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:16px 18px;background:rgba(255,255,255,.03);font-size:14px}
+.addr span{color:var(--grey)}
+.pays{display:flex;gap:6px;margin-bottom:20px}
+.pays span{flex:1;height:54px;display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--line2);font:600 13px/1 var(--sans)}
+.pays span.on{background:var(--white);color:var(--ink);border-color:var(--white)}
+.pays span small{font:500 9px/1 var(--mono);color:var(--volt);letter-spacing:.08em}
+.payrow{display:grid;grid-template-columns:1fr 380px;gap:30px;align-items:center}
+.field{margin-bottom:12px}
+.field label{display:block;font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--grey);margin-bottom:8px}
+.field div{height:54px;display:flex;align-items:center;padding:0 16px;background:rgba(255,255,255,.04);border:1px solid var(--line2);font-size:15px;color:rgba(244,246,248,.38);letter-spacing:.04em}
+.field div.focus{border-color:var(--volt);box-shadow:0 0 0 4px rgba(230,255,0,.1);color:var(--white)}
+.field div.focus::after{content:"";width:1.5px;height:20px;background:var(--volt);margin-left:2px;animation:blink 1s steps(2) infinite}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card3{height:236px;position:relative;transform:perspective(900px) rotateY(-16deg) rotateX(6deg);transform-style:preserve-3d;animation:tilt 6s ease-in-out infinite}
+@keyframes tilt{50%{transform:perspective(900px) rotateY(-8deg) rotateX(3deg)}}
+.card3 .f{position:absolute;inset:0;border-radius:16px;padding:24px 26px;overflow:hidden;background:linear-gradient(130deg,#2c2f33 0%,#17181b 55%,#0e0f10);border:1px solid rgba(255,255,255,.14);box-shadow:0 40px 80px rgba(0,0,0,.55),0 0 0 1px rgba(230,255,0,.12)}
+.card3 .f::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 22px,rgba(230,255,0,.05) 22px 23px)}
+.card3 .f::after{content:"";position:absolute;top:-40%;bottom:-40%;width:90px;left:-30%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:rotate(18deg);animation:gl 4s ease-in-out infinite}
+@keyframes gl{0%,40%{left:-30%}100%{left:130%}}
+.card3 .chip{width:46px;height:34px;border-radius:6px;background:linear-gradient(135deg,#e6ff00,#9fb000);margin-top:30px;position:relative}
+.card3 .num{font:500 20px/1 var(--mono);letter-spacing:.14em;margin-top:24px;color:rgba(244,246,248,.85)}
+.card3 .bt{display:flex;justify-content:space-between;align-items:flex-end;margin-top:22px;font:500 10px/1.5 var(--mono);color:var(--grey);letter-spacing:.1em}
+.card3 .bt b{display:block;color:var(--white);font-size:13px}
+.card3 .lg{position:absolute;right:24px;top:20px;font:italic 800 26px/1 var(--disp)}
+.trade{display:flex;align-items:center;gap:18px;margin-top:22px;padding:18px 20px;border:1px dashed rgba(230,255,0,.4);background:rgba(230,255,0,.04)}
+.trade .tg{width:48px;height:26px;border-radius:13px;background:var(--volt);position:relative;flex:none}
+.trade .tg::after{content:"";position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--ink)}
+.trade b{font-weight:600}
+.trade span{color:var(--grey);font-size:13px;display:block}
+.trade em{margin-left:auto;font:italic 800 30px/1 var(--disp);font-style:italic;color:var(--volt)}
+
+.sum{background:var(--g1);border:1px solid var(--line);position:relative;overflow:hidden}
+.sum .stage{height:330px;position:relative;background:radial-gradient(70% 80% at 50% 70%,#2c2f33,#17181b 70%);overflow:hidden}
+.sum .stage .bgt{position:absolute;left:24px;top:24px;font:italic 900 170px/.8 var(--disp);color:transparent;-webkit-text-stroke:1.5px rgba(230,255,0,.18);z-index:1}
+.sum .stage canvas{position:absolute;left:0;top:0;z-index:2}
+.sum .stage .tag{position:absolute;right:20px;top:20px;z-index:3}
+.sum .stage .cfg{position:absolute;left:20px;bottom:16px;z-index:3;display:flex;gap:6px}
+.sum .stage .cfg span{font:500 9px/1 var(--mono);letter-spacing:.1em;padding:6px 8px;background:rgba(15,16,17,.7);border:1px solid var(--line2)}
+.sum .in{padding:26px 30px 30px}
+.it{display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.it .th{width:64px;height:64px;background:var(--g2);position:relative;overflow:hidden}
+.it .th img{object-fit:contain}
+.it b{display:block;font:italic 800 24px/1 var(--disp);text-transform:uppercase}
+.it small{font-size:12px;color:var(--grey)}
+.it em{font-style:normal;font-weight:600}
+.promo{display:flex;justify-content:space-between;align-items:center;margin:18px 0 6px;padding:12px 14px;background:rgba(230,255,0,.08);border-left:3px solid var(--volt);font-size:13px}
+.promo b{font:500 12px/1 var(--mono);letter-spacing:.1em;color:var(--volt)}
+.tot .r{display:flex;justify-content:space-between;padding:8px 0;font-size:14px;color:var(--grey)}
+.tot .r b{color:var(--white);font-weight:600}
+.tot .big{display:flex;justify-content:space-between;align-items:flex-end;margin-top:12px;padding-top:18px;border-top:1px solid var(--line2)}
+.tot .big b{font:italic 900 70px/.8 var(--disp)}
+.tot .big span{font-size:12px;color:var(--grey);text-align:right}
+.sum .btn{width:100%;justify-content:center;margin-top:22px;height:66px;font-size:15px}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.trust div{padding:12px 10px;background:rgba(255,255,255,.03);font-size:11px;color:var(--grey);display:flex;gap:8px;align-items:center;line-height:1.3}
+.trust .ic{color:var(--volt);width:16px;height:16px}
+</style></head>
+<body>
+<header class="cnav">
+  <a class="logo">VOLTA<svg viewBox="0 0 20 26"><path d="M12 0 0 15h7l-3 11L20 9h-8l4-9Z" fill="#e6ff00"/></svg></a>
+  <div class="charge">
+    <div class="cell done"><i></i><span>01 · BAG ✓</span></div>
+    <div class="cell done"><i></i><span>02 · DELIVERY ✓</span></div>
+    <div class="cell now"><i></i><span>03 · PAYMENT</span></div>
+    <div class="cell"><i></i><span>04 · CHARGED</span></div>
+    <div class="cap"></div>
+  </div>
+  <div class="sec"><span data-ic="lock"></span>Secure checkout · 256-bit</div>
+</header>
+
+<div class="wrapc">
+  <div>
+    <div class="ttl"><h1>Almost<br><span class="volt">charged.</span></h1><p>Order VLT-26-04417<br>Built in Amsterdam · ships 6 Nov</p></div>
+
+    <div class="blk done"><div class="bh"><b><i class="d">✓</i>Contact</b><a>Edit</a></div>
+      <div class="val"><span><span data-ic="user"></span>Sanne de Vries</span><span><span data-ic="phone"></span>+31 6 •• •• 41 88</span><span>sanne.dv@example.nl</span></div></div>
+
+    <div class="blk"><div class="bh"><b><i class="d">✓</i>Delivery</b><a>Change address</a></div>
+      <div class="dels">
+        <div class="del on"><span data-ic="truck"></span><em>Free</em><b>Assembled at home</b><span>Thu 6 Nov · 08:00–12:00</span><span>Host sets up, fits &amp; pairs app</span></div>
+        <div class="del"><span data-ic="pin"></span><em>Free</em><b>Collect in studio</b><span>Tue 4 Nov · Westerpark</span><span>Fitting + test loop included</span></div>
+        <div class="del"><span data-ic="bolt"></span><em>+€49</em><b>Express 48 h</b><span>Mon 3 Nov · evening slot</span><span>Boxed, 10-minute set-up</span></div>
+      </div>
+      <div class="addr"><div>Eerste Helmersstraat 112-2, 1054 EJ Amsterdam<br><span>Third floor · no lift, host will carry it up</span></div><span data-ic="check" style="color:var(--volt)"></span></div></div>
+
+    <div class="blk"><div class="bh"><b><i>3</i>Payment</b><a>All payments encrypted</a></div>
+      <div class="pays"><span class="on"><span data-ic="card"></span>Card</span><span><span data-ic="phone"></span>Phone wallet</span><span>VOLTA Split <small>3 × 0%</small></span><span>Employer lease <small>−28%</small></span></div>
+      <div class="payrow">
+        <div>
+          <div class="field"><label>NAME ON CARD</label><div style="color:var(--white)">S. de Vries</div></div>
+          <div class="field"><label>CARD NUMBER</label><div class="focus">•••• •••• ••••</div></div>
+          <div class="f2"><div class="field"><label>EXPIRY</label><div>MM / YY</div></div><div class="field"><label>SECURITY CODE</label><div>CVC</div></div></div>
+        </div>
+        <div class="card3"><div class="f"><span class="lg">VOLTA<span class="volt">/</span></span><div class="chip"></div><div class="num">•••• •••• •••• ____</div><div class="bt"><div>CARD HOLDER<b>S. DE VRIES</b></div><div>VALID THRU<b>MM/YY</b></div></div></div></div>
+      </div>
+      <div class="trade"><div class="tg"></div><div><b>Trade in your current bike</b><span>2019 city e-bike · photos uploaded · collected on delivery day</span></div><em>−€420</em></div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="sum">
+      <div class="stage"><div class="bgt">R1</div><div id="s3d"></div><span class="tag"><span>Your build</span></span>
+        <div class="cfg"><span>VOLT LIME</span><span>AERO DISC</span><span>750 WH</span><span>SIZE M</span></div></div>
+      <div class="in">
+        <div class="it"><div class="th"><img class="snap" data-i="0" alt=""></div><div><b>R1 Gravel · custom</b><small>VLT-R1-8XK2 · GPS · fenders</small></div><em>€7,848</em></div>
+        <div class="it"><div class="th" data-img="1600366249664-acd65e33e5d2|300"></div><div><b>Halo MIPS helmet</b><small>Size M · matte white · brake light</small></div><em>€229</em></div>
+        <div class="it"><div class="th"><svg viewBox="0 0 64 64" width="64" height="64"><g transform="skewX(-10) translate(14 0)"><rect x="12" y="10" width="26" height="46" rx="5" fill="#3a3e43"/><rect x="12" y="40" width="26" height="3" fill="#e6ff00"/><rect x="19" y="6" width="12" height="5" rx="1" fill="#2a2c30"/></g></svg></div><div><b>Range extender</b><small>+360 Wh · bottle mount</small></div><em>€649</em></div>
+        <div class="promo"><span>Code <b>FIRSTCHARGE</b> applied</span><b>−€150</b></div>
+        <div class="tot">
+          <div class="r"><span>Subtotal</span><b>€8,726</b></div>
+          <div class="r"><span>Trade-in · collected 6 Nov</span><b class="volt">−€420</b></div>
+          <div class="r"><span>Assembled delivery</span><b>Free</b></div>
+          <div class="r"><span>VAT 21% included</span><b>€1,416</b></div>
+          <div class="big"><div><div class="mono grey" style="margin-bottom:10px">Total today</div><b>€8,156</b></div><span>or €227 / mo<br>36 months · 0% APR</span></div>
+        </div>
+        <a class="btn">Pay €8,156 <span data-ic="lock"></span></a>
+        <div class="trust"><div><span data-ic="shield"></span>5-year frame &amp; battery</div><div><span data-ic="rotate"></span>30-day ride-it-home return</div><div><span data-ic="wrench"></span>Free first service</div></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div data-footer></div>
+
+<script src="volta.js"></script>
+<script>volta('');</script>
+<script type="module">
+import * as THREE from 'three';
+await Promise.all([document.fonts.load('italic 800 40px "Barlow Condensed"'), document.fonts.load('600 18px Inter')]);
+const K = VOLTA3D(THREE, {});
+const C = { color: '#d4ec00', wheels: 'disc', battery: 2, fenders: true };
+const th = K.snapshot([{ ...C, ry: 0 }], { w: 200, h: 200, cam: [0, 0.2, 3.6], look: [0.05, 0.15, 0] });
+document.querySelectorAll('img.snap').forEach(im => { im.src = th[0]; });
+const s = K.stage(document.getElementById('s3d'), { w: 520, h: 330, fov: 24 });
+if (s) {
+  const b = K.bike(C); b.setWheels('disc'); b.M.accent.color.set('#1c1d1f'); b.M.accent.emissive.set('#000'); s.scene.add(b.root);
+  s.camera.position.set(0, 0.35, 3.7); s.camera.lookAt(0.02, 0.14, 0);
+  K.dust(s.scene, { spread: 2 });
+  s.run(t => { b.root.rotation.y = -0.6 + t * 0.25; b.spin(t); });
+}
+</script>
+</body></html>

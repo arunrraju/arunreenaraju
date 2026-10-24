@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Itinerary Builder — Riviera & Corsica · OCÉANE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="stylesheet" href="oceane.css">
+<style>
+html,body{height:1080px;overflow:hidden}
+body{background:#061626}
+#map{position:absolute;left:0;top:0;width:1440px;height:1080px}
+#map canvas{display:block}
+.vig{position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(90deg,rgba(6,18,31,.92) 0,rgba(6,18,31,.55) 26%,transparent 40%,transparent 70%,rgba(6,18,31,.6) 82%,rgba(6,18,31,.9)),linear-gradient(180deg,rgba(6,18,31,.75),transparent 18%,transparent 82%,rgba(6,18,31,.85))}
+.panel{position:absolute;z-index:10}
+.left{left:40px;top:104px;width:390px;bottom:132px;padding:26px 26px 20px;display:flex;flex-direction:column}
+.left h1{font:400 44px/1 var(--disp);letter-spacing:-.02em;margin:14px 0 6px}
+.left h1 i{color:var(--brass2)}
+.presets{display:flex;gap:6px;margin:16px 0 18px;flex-wrap:wrap}
+.presets .chip{height:28px;font-size:11.5px}
+.days{flex:1;overflow:hidden;position:relative}
+.day{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line);position:relative}
+.day .n{font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--faint)}
+.day .n b{display:block;font:italic 400 22px/1 var(--disp);color:var(--sail);letter-spacing:0;margin-top:4px}
+.day h5{font:500 15px/1.2 var(--sans)}
+.day h5 small{display:block;font:500 10px/1.4 var(--mono);letter-spacing:.12em;color:var(--dim);margin-top:3px}
+.day .nm{font:500 11px/1 var(--mono);color:var(--brass2);text-align:right}
+.day.done .n b{color:var(--brass2)}
+.day.cur{background:linear-gradient(90deg,rgba(201,164,92,.16),rgba(201,164,92,.02));margin:0 -26px;padding:14px 26px;border-top-color:rgba(201,164,92,.4)}
+.day.cur::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--brass2);box-shadow:0 0 14px var(--brass2)}
+.acts{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.acts span{font:500 10px/1 var(--mono);letter-spacing:.08em;padding:6px 8px;border-radius:6px;background:rgba(255,255,255,.08);color:var(--sail)}
+.add{margin-top:12px;border:1px dashed rgba(244,241,234,.3);border-radius:12px;padding:12px;text-align:center;font:500 11px/1 var(--mono);letter-spacing:.16em;color:var(--dim)}
+.rpanel{right:40px;top:104px;width:350px;padding:26px}
+.yrow{display:flex;gap:14px;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.yrow .th{width:76px;height:56px;border-radius:12px;background-size:cover;background-position:center}
+.yrow h4{font:italic 400 25px/1 var(--disp);white-space:nowrap}
+.yrow span{font:500 9.5px/1 var(--mono);letter-spacing:.1em;color:var(--dim);white-space:nowrap;display:block;margin-top:6px}
+.lines{margin-top:12px}
+.lines div{display:flex;justify-content:space-between;padding:9px 0;font-size:14px;color:var(--dim)}
+.lines div b{color:var(--sail);font-weight:500}
+.lines div.up b{color:#8fe0b8}
+.lines div.up b::after{content:" ▲";font-size:9px}
+.tot{border-top:1px solid var(--line2);margin-top:8px;padding-top:16px;display:flex;justify-content:space-between;align-items:flex-end}
+.tot span{font:500 10px/1.5 var(--mono);letter-spacing:.18em;color:var(--brass2)}
+.tot b{font:400 44px/1 var(--disp);letter-spacing:-.02em}
+.tick{font:500 10px/1 var(--mono);color:var(--faint);margin-top:6px;text-align:right}
+.rpanel .btn{width:100%;justify-content:center;margin-top:20px}
+.wx{right:40px;top:630px;width:350px;padding:20px 24px;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.wx .k{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.wx .k span{display:block;font:500 9px/1 var(--mono);letter-spacing:.18em;color:var(--faint);margin-bottom:6px}
+.wx .k b{font:500 15px/1 var(--sans);white-space:nowrap}
+.wx .alert{grid-column:1/-1;font-size:12.5px;color:var(--dim);border-top:1px solid var(--line);padding-top:12px}
+.wx .alert b{color:var(--coral);font-weight:600}
+.scrub{position:absolute;left:40px;right:40px;bottom:30px;height:84px;z-index:10;display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center;padding:0 30px;border-radius:999px}
+.scrub .play{width:48px;height:48px;border-radius:50%;background:var(--sail);color:var(--navy);display:grid;place-items:center;font-size:15px}
+.tl{position:relative;height:40px}
+.tl .base{position:absolute;left:0;right:0;top:19px;height:2px;background:rgba(255,255,255,.14)}
+.tl .prog{position:absolute;left:0;width:52%;top:19px;height:2px;background:linear-gradient(90deg,var(--brass),var(--brass2));box-shadow:0 0 12px var(--brass2)}
+.tl .d{position:absolute;top:0;transform:translateX(-50%);text-align:center;font:500 9.5px/1 var(--mono);letter-spacing:.12em;color:var(--faint)}
+.tl .d i{display:block;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);background:#0b1f33;margin:14px auto 6px}
+.tl .d.on{color:var(--brass2)}.tl .d.on i{border-color:var(--brass2);background:var(--brass2)}
+.tl .boat{position:absolute;left:52%;top:6px;transform:translateX(-50%);width:28px;height:28px;border-radius:50%;background:var(--brass2);box-shadow:0 0 0 8px rgba(232,207,148,.18),0 0 20px var(--brass2);display:grid;place-items:center;color:var(--navy);font-size:12px}
+.scrub .sum{font:500 11px/1.5 var(--mono);letter-spacing:.14em;color:var(--dim);text-align:right}
+.scrub .sum b{display:block;color:var(--sail);font:italic 400 22px/1 var(--disp);letter-spacing:0}
+.port{position:absolute;z-index:6;transform:translate(-50%,-100%);text-align:center;pointer-events:none}
+.port .t{display:inline-block;padding:7px 11px;border-radius:10px;background:rgba(6,18,31,.72);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);white-space:nowrap;font:500 12.5px/1 var(--sans)}
+.port .t small{display:block;font:500 9px/1 var(--mono);letter-spacing:.16em;color:var(--brass2);margin-bottom:4px}
+.port.cur .t{background:var(--sail);color:var(--navy);border-color:var(--sail);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.port.cur .t small{color:var(--teak)}
+.port .stem{width:1px;height:26px;margin:0 auto;background:linear-gradient(rgba(232,207,148,.9),rgba(232,207,148,.1))}
+.leg{position:absolute;z-index:6;transform:translate(-50%,-50%);font:500 10px/1 var(--mono);letter-spacing:.12em;color:var(--sail);background:rgba(42,140,154,.55);padding:5px 8px;border-radius:20px;white-space:nowrap}
+.mapui{position:absolute;z-index:8;left:470px;top:110px;display:flex;gap:8px}
+.mapui .chip{background:rgba(6,18,31,.55);backdrop-filter:blur(8px)}.mapui .chip.on{background:var(--sail);color:var(--navy)}
+.scale{position:absolute;z-index:8;left:470px;bottom:140px;font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--dim)}
+.scale i{display:block;width:120px;height:6px;border:1px solid rgba(244,241,234,.5);border-top:0;margin-bottom:6px;background:linear-gradient(90deg,rgba(244,241,234,.5) 50%,transparent 50%) 0 100%/100% 2px no-repeat}
+.cmpm{position:absolute;z-index:8;left:600px;bottom:150px;opacity:.9}
+.cursor.drag{left:560px;top:600px;width:84px;height:84px}
+</style>
+</head>
+<body>
+<div id="map"></div><div class="vig"></div>
+<header data-nav="itinerary" data-glass></header>
+
+<aside class="panel left glass">
+  <div class="eyebrow">Itinerary builder</div>
+  <h1>Riviera to <i>Corsica</i></h1>
+  <div class="dim" style="font-size:13.5px">7 nights · 6 ports · 286 nautical miles · written with Captain Marchetti</div>
+  <div class="presets"><span class="chip on">Riviera & Corsica</span><span class="chip">Amalfi</span><span class="chip">Cyclades</span><span class="chip">+ Custom</span></div>
+  <div class="days">
+    <div class="day done"><div class="n">DAY<b>01</b></div><div><h5>Monaco<small>EMBARK 15:00 · PORT HERCULE</small></h5></div><div class="nm">—</div></div>
+    <div class="day done"><div class="n">DAY<b>02</b></div><div><h5>Saint-Tropez<small>PAMPELONNE · LUNCH ASHORE</small></h5></div><div class="nm">38 nm</div></div>
+    <div class="day done"><div class="n">DAY<b>03</b></div><div><h5>Porquerolles<small>NOTRE-DAME BAY · E-FOILS</small></h5></div><div class="nm">32 nm</div></div>
+    <div class="day cur"><div class="n">DAY<b>04</b></div><div><h5>Calvi, Corsica<small>OVERNIGHT CROSSING · 5H40</small></h5><div class="acts"><span>Citadel walk</span><span>Revellata dive</span><span>+ Chef's market</span></div></div><div class="nm">96 nm</div></div>
+    <div class="day"><div class="n">DAY<b>05</b></div><div><h5>Scandola & Girolata<small>UNESCO RESERVE · TENDER ONLY</small></h5></div><div class="nm">24 nm</div></div>
+    <div class="day"><div class="n">DAY<b>06</b></div><div><h5>Bonifacio<small>LAVEZZI ISLANDS · SNORKEL</small></h5></div><div class="nm">68 nm</div></div>
+    <div class="day"><div class="n">DAY<b>07</b></div><div><h5>Porto Cervo<small>DISEMBARK 10:00 · SARDINIA</small></h5></div><div class="nm">28 nm</div></div>
+  </div>
+  <div class="add">+ ADD A DAY · DRAG TO REORDER</div>
+</aside>
+
+<aside class="panel rpanel glass">
+  <div class="yrow"><div class="th" style="background-image:url(https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=82&w=300)"></div><div><h4>M/Y Aurelia</h4><span>62 M · 12 GUESTS</span></div><a class="chip" style="margin-left:auto;height:28px;font-size:11px">Change</a></div>
+  <div class="lines">
+    <div><span>Charter fee · 7 nights</span><b>€355,000</b></div>
+    <div><span>APA (30%) · fuel, food, port</span><b>€106,500</b></div>
+    <div class="up"><span>Fuel · 286 nm @ 13 kn</span><b>€24,310</b></div>
+    <div><span>VAT · FR/IT waters, pro-rata</span><b>€46,820</b></div>
+    <div><span>Crew gratuity (suggested)</span><b>€35,500</b></div>
+  </div>
+  <div class="tot"><div><span>Estimated total</span><div class="tick">UPDATED · DAY 4 ADDED</div></div><b>€568,130</b></div>
+  <a class="btn brassbtn" href="enquire.html">Hold these dates <span class="ar">→</span></a>
+  <div class="dim" style="font-size:12px;text-align:center;margin-top:12px">Free 72-hour hold · no payment today</div>
+</aside>
+
+<aside class="panel wx glass">
+  <div data-compass="74"></div>
+  <div class="k"><div><span>Wind</span><b>NW 14 kn</b></div><div><span>Sea</span><b>0.8 m</b></div><div><span>Water</span><b>24°C</b></div></div>
+  <div class="alert"><b>Mistral watch, day 4.</b> Crossing timed for 02:00 departure — flat sea by sunrise.</div>
+</aside>
+
+<div class="mapui"><span class="chip on">Route</span><span class="chip">Anchorages</span><span class="chip">Dive sites</span><span class="chip">Wind</span></div>
+<div class="scale"><i></i>0 —— 20 NM</div>
+<div class="cmpm spin" data-compass="96"></div>
+<div id="labels"></div>
+<div class="cursor drag">Drag<br>route</div>
+
+<div class="scrub glass">
+  <div class="play">❚❚</div>
+  <div class="tl"><div class="base"></div><div class="prog"></div>
+    <div class="d on" style="left:0%">D1<i></i></div><div class="d on" style="left:16.6%">D2<i></i></div><div class="d on" style="left:33.3%">D3<i></i></div><div class="d on" style="left:50%">D4<i></i></div><div class="d" style="left:66.6%">D5<i></i></div><div class="d" style="left:83.3%">D6<i></i></div><div class="d" style="left:100%">D7<i></i></div>
+    <div class="boat">◆</div></div>
+  <div class="sum"><b>Underway · 41°58′N 8°02′E</b>ETA CALVI 07:40 · 13.2 KN</div>
+</div>
+
+<script src="oceane.js"></script>
+<script src="oceane3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { Water } from 'three/addons/objects/Water.js';
+import { Sky } from 'three/addons/objects/Sky.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+const O = makeO3(THREE, { Water, Sky, RoomEnvironment });
+const q = new URLSearchParams(location.search);
+const S = O.stage(document.getElementById('map'), { w: 1440, h: 1080, fov: 30, pos: (q.get('cp') || '1.7,31,16.6').split(',').map(Number), target: (q.get('ct') || '1.7,0,.9').split(',').map(Number), room: true, exposure: 1.0, shadows: true });
+S.scene.fog = new THREE.Fog('#061626', 34, 60);
+
+// sea: nautical chart texture
+const chart = O.canvasTex(2048, 2048, (x, w, h) => {
+  const g = x.createRadialGradient(w * .55, h * .5, 50, w * .5, h * .5, w * .7); g.addColorStop(0, '#12476a'); g.addColorStop(.5, '#0c3150'); g.addColorStop(1, '#071a2c');
+  x.fillStyle = g; x.fillRect(0, 0, w, h);
+  x.strokeStyle = 'rgba(244,241,234,.06)'; x.lineWidth = 1; for (let i = 0; i <= w; i += 85) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, h); x.stroke(); x.beginPath(); x.moveTo(0, i); x.lineTo(w, i); x.stroke(); }
+  x.strokeStyle = 'rgba(244,241,234,.13)'; x.lineWidth = 1.5; for (let i = 0; i <= w; i += 340) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, h); x.stroke(); x.beginPath(); x.moveTo(0, i); x.lineTo(w, i); x.stroke(); }
+  x.fillStyle = 'rgba(244,241,234,.22)'; x.font = '500 9px IBM Plex Mono';
+  for (let i = 0; i < 500; i++) { x.fillText(String(Math.round(400 + O.rnd() * 2400)), O.rnd() * w, O.rnd() * h); }
+  // contour swirls
+  x.strokeStyle = 'rgba(95,196,201,.12)'; x.lineWidth = 2;
+  for (let k = 0; k < 18; k++) { x.beginPath(); for (let a = 0; a <= 6.3; a += .05) { const r = 120 + k * 46 + Math.sin(a * 3 + k) * 22; const px = w * .62 + Math.cos(a) * r * 1.3, py = h * .48 + Math.sin(a) * r; a ? x.lineTo(px, py) : x.moveTo(px, py); } x.stroke(); }
+});
+const sea = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshPhysicalMaterial({ map: chart, roughness: .35, metalness: .1, clearcoat: 1, clearcoatRoughness: .2, transparent: true, opacity: .82 }));
+sea.rotation.x = -Math.PI / 2; sea.receiveShadow = true; S.scene.add(sea);
+const under = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshBasicMaterial({ color: '#04101c' })); under.rotation.x = -Math.PI / 2; under.position.y = -.5; S.scene.add(under);
+
+// land
+const isl = (o, x, z, ry = 0) => { const m = O.island(o); m.position.set(x, 0, z); m.rotation.y = ry; S.scene.add(m); return m; };
+isl({ rx: 13, rz: 3.2, h: 1.6, seed: 2, seg: 260 }, -1, -9.4);           // Provence / Riviera coast
+isl({ rx: 1.35, rz: 3.5, h: 1.0, seed: 5, seg: 220 }, 5.15, 2.75, -.1);    // Corsica
+isl({ rx: 2.1, rz: 3.2, h: .9, seed: 9, seg: 180 }, 6.2, 9.6, .1);        // Sardinia
+isl({ rx: .55, rz: .22, h: .18, seed: 3, seg: 50 }, -2.6, -5.0);         // Porquerolles
+isl({ rx: .4, rz: .18, h: .14, seed: 4, seg: 40 }, -1.6, -5.05);         // Port-Cros
+isl({ rx: .25, rz: .2, h: .06, seed: 7, seg: 30 }, 5.75, 6.55);          // Lavezzi
+isl({ rx: .3, rz: .45, h: .2, seed: 8, seg: 30 }, 8.4, -3.5);            // Capraia-ish
+
+// ports (x, z) and route
+const P = [['Monaco', 'D1', 5.0, -6.35], ['Saint-Tropez', 'D2', .9, -5.85], ['Porquerolles', 'D3', -2.55, -4.65], ['Calvi', 'D4', 3.75, .35], ['Girolata', 'D5', 3.4, 1.85], ['Bonifacio', 'D6', 5.3, 6.1], ['Porto Cervo', 'D7', 6.7, 7.35]];
+const ctrl = [[5.0, -6.2], [3.2, -5.9], [.9, -5.7], [-.8, -5.4], [-2.55, -4.5], [-.4, -2.6], [2.2, -.8], [3.6, .25], [3.25, 1.0], [3.25, 1.85], [3.05, 3.4], [3.45, 5.2], [4.6, 6.35], [5.35, 6.25], [6.2, 6.95], [6.7, 7.3]];
+const curve = new THREE.CatmullRomCurve3(ctrl.map(([x, z]) => new THREE.Vector3(x, .06, z)), false, 'centripetal');
+const tDone = .5;
+const brass = new THREE.MeshBasicMaterial({ color: '#f1d9a0', toneMapped: false });
+const done = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(curve.getSpacedPoints(200).slice(0, 101)), 200, .035, 8), brass); S.scene.add(done);
+const halo = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(curve.getSpacedPoints(200).slice(0, 101)), 200, .11, 8), new THREE.MeshBasicMaterial({ color: '#e8cf94', transparent: true, opacity: .16, depthWrite: false, blending: THREE.AdditiveBlending })); S.scene.add(halo);
+// dashed remainder
+{
+  const n = 60, im = new THREE.InstancedMesh(new THREE.BoxGeometry(.14, .02, .03), new THREE.MeshBasicMaterial({ color: '#f4f1ea', toneMapped: false, transparent: true, opacity: .8 }), n), m4 = new THREE.Matrix4(), qq = new THREE.Quaternion();
+  for (let i = 0; i < n; i++) { const t = tDone + (1 - tDone) * (i + .5) / n, p = curve.getPointAt(t), d = curve.getTangentAt(t); qq.setFromUnitVectors(new THREE.Vector3(1, 0, 0), d); m4.compose(p, qq, new THREE.Vector3(1, 1, 1)); im.setMatrixAt(i, m4); }
+  S.scene.add(im);
+}
+// pins
+const pinM = O.M.brass();
+P.forEach(([n, d, x, z], i) => {
+  const g = new THREE.Group(); g.position.set(x, 0, z); S.scene.add(g);
+  const st = new THREE.Mesh(new THREE.CylinderGeometry(.012, .012, .5, 6), pinM); st.position.y = .25; g.add(st);
+  const hd = new THREE.Mesh(new THREE.SphereGeometry(.07, 20, 14), i === 3 ? new THREE.MeshBasicMaterial({ color: '#fff3d6', toneMapped: false }) : pinM); hd.position.y = .52; g.add(hd);
+  const ring = new THREE.Mesh(new THREE.RingGeometry(.12, .15, 40), new THREE.MeshBasicMaterial({ color: i <= 3 ? '#e8cf94' : '#f4f1ea', transparent: true, opacity: .8, side: THREE.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = .07; g.add(ring);
+  if (i === 3) { const pulse = new THREE.Mesh(new THREE.RingGeometry(.2, .26, 48), new THREE.MeshBasicMaterial({ color: '#e8cf94', transparent: true, opacity: .45, side: THREE.DoubleSide })); pulse.rotation.x = -Math.PI / 2; pulse.position.y = .07; g.add(pulse); S.ticks.push(t => { const s = 1 + (t * .6 % 1) * 2.2; pulse.scale.set(s, s, s); pulse.material.opacity = .5 * (1 - (t * .6 % 1)); }); }
+});
+// the yacht, mid-crossing
+const Y = O.yacht({}); Y.scale.setScalar(.11); S.scene.add(Y);
+const tY = tDone - .035, pY = curve.getPointAt(tY), dY = curve.getTangentAt(tY);
+Y.position.set(pY.x, .0, pY.z); Y.rotation.y = -Math.atan2(dY.z, dY.x);
+const wk = O.wake(Y, { len: 30, wid: 10, opacity: 1 });
+// wind arrows (mistral from NW)
+{
+  const n = 70, im = new THREE.InstancedMesh(new THREE.ConeGeometry(.03, .22, 5), new THREE.MeshBasicMaterial({ color: '#cfe8ff', transparent: true, opacity: .35 }), n), m4 = new THREE.Matrix4();
+  const qa = new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.PI / 2, 0, -Math.PI / 4 - Math.PI / 2));
+  let k = 0; for (let i = 0; i < 10; i++) for (let j = 0; j < 7; j++) { m4.compose(new THREE.Vector3(-3 + i * 1.3 + (j % 2) * .6, .15, -3.5 + j * 1.4), qa, new THREE.Vector3(1, 1, 1)); im.setMatrixAt(k++, m4); }
+  S.scene.add(im);
+}
+const sun = new THREE.DirectionalLight('#fff1dc', 2.2); sun.position.set(-8, 12, -4); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -16, right: 16, top: 16, bottom: -16, far: 50 }); S.scene.add(sun);
+S.scene.add(new THREE.HemisphereLight('#cfe6ff', '#0b1f33', .5));
+
+S.onFirst = () => {
+  const legs = [[.2, '38 NM · 2H55'], [.35, '32 NM · 2H30'], [.42, '96 NM · 5H40'], [.62, '24 NM'], [.78, '68 NM · 5H10']];
+  document.getElementById('labels').innerHTML = P.map(([n, d, x, z], i) => { const [px, py] = S.project(new THREE.Vector3(x, .6, z)); return `<div class="port ${i === 3 ? 'cur' : ''}" style="left:${px}px;top:${py}px"><div class="t"><small>${d} · ${['FRI', 'SAT', 'SUN', 'MON', 'TUE', 'WED', 'THU'][i]}</small>${n}</div><div class="stem"></div></div>`; }).join('')
+    + legs.map(([t, s]) => { const p = curve.getPointAt(t); const [px, py] = S.project(p); return `<div class="leg" style="left:${px + 46}px;top:${py}px">${s}</div>`; }).join('');
+};
+S.loop(t => { Y.position.y = .014 + Math.sin(t) * .003; });
+</script>
+</body></html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Private Viewing — Kairos</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kairos.css">
+<script src="kairos3d.js"></script>
+<style>
+html,body{height:1080px;overflow:hidden}
+.wrap{position:absolute;inset:77px 0 0;background:radial-gradient(ellipse 40% 60% at 84% 30%,#16306a,var(--night) 70%)}
+.top{position:absolute;left:64px;top:44px;width:860px;display:flex;justify-content:space-between;align-items:flex-end}
+.top h1{font:400 64px/.92 var(--disp);letter-spacing:-.045em;color:var(--silver)}
+.stp{display:flex;gap:6px;padding-bottom:8px}
+.stp span{height:30px;padding:0 12px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;font:500 9.5px/1 var(--mono);letter-spacing:.16em;color:var(--dim)}
+.stp span.d{color:var(--silver)}.stp span.d::before{content:"✓";color:var(--blue);margin-right:6px}
+.stp span.on{background:var(--silver);color:var(--midnight)}
+.colA{position:absolute;left:64px;top:230px;width:350px}
+.colB{position:absolute;left:446px;top:230px;width:478px}
+.colC{position:absolute;left:960px;top:0;right:0;bottom:0;border-left:1px solid var(--line)}
+.lab{display:flex;justify-content:space-between;margin-bottom:12px}
+.lab .t{font:500 10px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--silver)}
+.lab .t i{font-style:normal;color:var(--blue);margin-right:8px}
+.bq{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:14px 16px;border:1px solid var(--line);margin-bottom:8px;position:relative}
+.bq svg.c{width:40px;height:40px}
+.bq b{display:block;font:400 15px/1.2 var(--disp);color:var(--silver);letter-spacing:-.01em}
+.bq small{font-size:12px;color:var(--dim)}
+.bq .tm{font:500 11px/1 var(--mono);color:var(--dim);text-align:right}
+.bq .tm em{display:block;font-style:normal;color:var(--silver);font-size:15px;margin-bottom:6px}
+.bq.on{border-color:rgba(91,140,255,.7);background:linear-gradient(90deg,rgba(91,140,255,.16),rgba(91,140,255,.02));box-shadow:0 0 40px rgba(91,140,255,.12)}
+.bq.on::before{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:3px;background:var(--blue);box-shadow:0 0 12px var(--blue)}
+.ex{display:grid;gap:8px;margin-top:26px}
+.ex div{display:flex;align-items:center;gap:12px;font-size:13.5px;color:var(--dim)}
+.ex i{width:18px;height:18px;border:1px solid var(--line-2);display:grid;place-items:center;font-style:normal;font-size:11px;color:#fff}
+.ex .on i{background:var(--blue);border-color:var(--blue)}
+.ex .on{color:var(--silver)}
+.cal{border:1px solid var(--line);padding:18px 18px 14px}
+.cal .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cal .mh b{font:400 18px var(--disp);color:var(--silver)}
+.cal .g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal .g span{height:40px;display:grid;place-items:center;font:400 13px var(--mono);color:var(--silver);position:relative}
+.cal .g span.h{height:22px;font-size:9.5px;letter-spacing:.16em;color:var(--mute)}
+.cal .g span.no{color:var(--mute);text-decoration:line-through}
+.cal .g span.a::after{content:"";position:absolute;bottom:5px;width:3px;height:3px;border-radius:50%;background:var(--blue)}
+.cal .g span.on{background:var(--silver);color:var(--midnight);font-weight:500}
+.cal .g span.o{color:transparent}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:14px}
+.slots span{height:46px;border:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;align-items:center;font:500 13px/1 var(--mono);color:var(--silver)}
+.slots span small{font:400 9px var(--mono);letter-spacing:.14em;color:var(--dim);margin-top:5px}
+.slots span.t{color:var(--mute);text-decoration:line-through}
+.slots span.on{border-color:var(--blue);background:rgba(91,140,255,.18);box-shadow:inset 0 0 0 1px var(--blue)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.fld{border:1px solid var(--line);padding:9px 14px}
+.fld span{display:block;font:500 9px/1 var(--mono);letter-spacing:.2em;color:var(--mute);text-transform:uppercase}
+.fld b{display:block;font:400 14px/1.4 var(--sans);color:var(--silver);margin-top:5px}
+.fld.f{border-color:rgba(157,185,255,.6)}
+.fld.f b::after{content:"";display:inline-block;width:1px;height:14px;background:var(--blue);margin-left:2px;vertical-align:middle;animation:pulse 1s steps(2) infinite}
+.vit{position:absolute;left:0;right:0;top:0;height:540px;overflow:hidden}
+.vit canvas{position:absolute;left:0;top:0;z-index:2}
+.vit .w{position:absolute;left:24px;top:150px;font:200 330px/.8 var(--disp);letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1.2px rgba(157,185,255,.32);z-index:1}
+.vit .sel{position:absolute;left:40px;right:40px;top:30px;z-index:4;display:flex;justify-content:space-between;align-items:center}
+.vit .arr{width:40px;height:40px;border:1px solid var(--line-2);border-radius:50%;display:grid;place-items:center;color:var(--silver)}
+.vit .glassbox{position:absolute;left:96px;right:96px;top:90px;bottom:28px;border:1px solid rgba(201,209,220,.16);background:linear-gradient(115deg,rgba(255,255,255,.07),transparent 30%,transparent 70%,rgba(157,185,255,.06));z-index:3;pointer-events:none}
+.vit .glassbox::before{content:"";position:absolute;left:18%;top:0;bottom:0;width:60px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);transform:skewX(-14deg)}
+.pass{position:absolute;left:40px;right:40px;top:560px;padding:22px 24px;z-index:4}
+.pass .r{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--line-2)}
+.pass .r b{display:block;white-space:nowrap;font:400 13.5px/1.2 var(--disp);color:var(--silver);margin-top:8px}
+.pass .code{display:grid;grid-template-columns:repeat(21,1fr);gap:1px;width:78px;height:78px;padding:6px;background:rgba(238,242,247,.06);box-sizing:content-box}
+.pass .code i{background:var(--silver)}
+.pass .code i.o{background:transparent}
+.pass::before,.pass::after{content:"";position:absolute;top:90px;width:18px;height:18px;border-radius:50%;background:var(--night)}
+.pass::before{left:-10px}.pass::after{right:-10px}
+.cta{position:absolute;left:40px;right:40px;bottom:36px;z-index:4}
+</style></head>
+<body>
+<div data-nav="appointment.html" data-p="1"></div>
+<div class="wrap">
+  <div class="grid-bg" style="opacity:.6;mask-image:none"></div>
+  <div class="top"><div><span class="tag">Private viewing · <b>by appointment only</b></span><h1 style="margin-top:20px">Hold it before<br><span class="outline">you own it.</span></h1></div>
+    <div class="stp"><span class="d">Boutique</span><span class="d">Date</span><span class="on">03 Details</span><span>04 Confirm</span></div></div>
+
+  <div class="colA">
+    <div class="lab"><span class="t"><i>01</i>Boutique</span><span class="tag">4 cities</span></div>
+    <div class="bq on"><svg class="c" viewBox="0 0 30 30" data-clk="0"></svg><div><b>Genève</b><small>Quai des Horlogers 14</small></div><div class="tm"><em data-clock>23:41</em>CET</div></div>
+    <div class="bq"><svg class="c" viewBox="0 0 30 30" data-clk="0"></svg><div><b>Paris</b><small>Rue du Mail 7 · salon</small></div><div class="tm"><em data-tz="0">23:41</em>CET</div></div>
+    <div class="bq"><svg class="c" viewBox="0 0 30 30" data-clk="8"></svg><div><b>Tokyo</b><small>Ginza 6-chōme · 3F</small></div><div class="tm"><em data-tz="8">07:41</em>JST</div></div>
+    <div class="bq"><svg class="c" viewBox="0 0 30 30" data-clk="3"></svg><div><b>Dubai</b><small>DIFC Gate · Level 2</small></div><div class="tm"><em data-tz="3">02:41</em>GST</div></div>
+    <div class="lab" style="margin-top:30px"><span class="t"><i>02</i>During your visit</span></div>
+    <div class="ex"><div class="on"><i>✓</i>Atelier tour with the watchmaker</div><div class="on"><i>✓</i>See your dial on the rose engine</div><div><i></i>Bring a watch for appraisal</div><div><i></i>Arrange a hotel car · Genève</div></div>
+    <div class="glass" style="margin-top:28px;padding:16px;display:flex;gap:14px;align-items:center"><div data-img="1725960103635-0a6709f97126" data-w="200" style="width:52px;height:52px;border-radius:50%;flex:none"></div><div><div style="color:var(--silver);font-size:14px">Your host · Élise Varnier</div><div style="color:var(--dim);font-size:12.5px;margin-top:4px">“Your three pieces will be regulated and waiting on the bench.”</div></div></div>
+  </div>
+
+  <div class="colB">
+    <div class="lab"><span class="t"><i>03</i>Date &amp; time</span><span class="tag">90 minutes · one guest</span></div>
+    <div class="cal"><div class="mh"><span class="arr" style="color:var(--dim)">←</span><b>November 2026</b><span style="color:var(--silver)">→</span></div>
+      <div class="g" id="cal"></div></div>
+    <div class="slots"><span class="t">10:00<small>TAKEN</small></span><span>11:30<small>OPEN</small></span><span class="on">14:00<small>SELECTED</small></span><span>15:30<small>OPEN</small></span><span class="t">17:00<small>TAKEN</small></span><span>18:30<small>AFTER HOURS</small></span></div>
+    <div class="lab" style="margin-top:22px"><span class="t"><i>04</i>Your details</span><span class="tag"><span data-ic="lock"></span> Private</span></div>
+    <div class="f2"><div class="fld"><span>Name</span><b>Hélène Varga</b></div><div class="fld"><span>Phone</span><b>+41 22 •• •• 18</b></div><div class="fld f" style="grid-column:span 2"><span>Note to the watchmaker</span><b>I'd like to compare the bleu and argenté dials side by side</b></div></div>
+  </div>
+
+  <div class="colC">
+    <div class="vit">
+      <div class="w">01</div>
+      <canvas id="v"></canvas>
+      <div class="glassbox"></div>
+      <div class="sel"><span class="arr">←</span><div style="text-align:center"><span class="tag">Piece to view · 1 of 3</span><div style="font:400 20px var(--disp);color:var(--silver);margin-top:8px">Meridian KT-01.42</div></div><span class="arr">→</span></div>
+    </div>
+    <div class="pass glass">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><span class="tag">Viewing pass · <b>KV-2611-026</b></span><div style="font:400 24px/1.1 var(--disp);color:var(--silver);margin-top:12px;letter-spacing:-.02em">Thu 12 Nov<br>14:00 CET</div><div style="color:var(--dim);font-size:13px;margin-top:6px">Genève · Quai des Horlogers 14</div></div><div class="code" id="code"></div></div>
+      <div class="r"><div><span class="tag">Host</span><b>Élise Varnier</b></div><div><span class="tag">Pieces</span><b>3 reserved</b></div><div><span class="tag">Duration</span><b>90 min</b></div></div>
+    </div>
+    <div class="cta"><a class="btn steel" style="width:100%;justify-content:center;height:60px">Confirm appointment <span data-ic="arrow"></span></a>
+      <div style="display:flex;justify-content:space-between;margin-top:14px"><span class="tag">No deposit required</span><span class="tag"><b>Add to calendar</b></span></div></div>
+  </div>
+</div>
+<script>
+  const days = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+  let h = days.map(d => `<span class="h">${d}</span>`).join('') + '<span class="o">.</span>'.repeat(6);
+  for (let d = 1; d <= 30; d++) { const wd = (d + 5) % 7; const cls = d === 12 ? 'on' : (d < 3 || wd === 6) ? 'no' : [4, 5, 9, 12, 13, 17, 19, 20, 24, 26].includes(d) ? 'a' : ''; h += `<span class="${cls}">${d}</span>`; }
+  document.getElementById('cal').innerHTML = h.replace('<span class="o">.</span>'.repeat(6), '<span class="o">.</span>'.repeat(6));
+  const q = []; let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  for (let y = 0; y < 21; y++) for (let x = 0; x < 21; x++) { const f = (a, b) => x >= a && x < a + 7 && y >= b && y < b + 7; const fin = f(0, 0) || f(14, 0) || f(0, 14); let on;
+    if (fin) { const lx = x % 14 % 7, ly = y % 14 % 7; on = lx === 0 || ly === 0 || lx === 6 || ly === 6 || (lx > 1 && lx < 5 && ly > 1 && ly < 5); } else on = rnd() > .52; q.push(`<i class="${on ? '' : 'o'}"></i>`); }
+  document.getElementById('code').innerHTML = q.join('');
+  const pad = n => String(n).padStart(2, '0');
+  const tz = () => { const d = new Date(); document.querySelectorAll('[data-tz]').forEach(e => { const t = new Date(d.getTime() + (+e.dataset.tz) * 3600e3); e.textContent = `${pad(t.getHours())}:${pad(t.getMinutes())}`; });
+    document.querySelectorAll('[data-clk]').forEach(e => { const t = new Date(d.getTime() + (+e.dataset.clk) * 3600e3); const hA = (t.getHours() % 12 + t.getMinutes() / 60) * 30, mA = t.getMinutes() * 6, sA = t.getSeconds() * 6;
+      e.innerHTML = `<circle cx="15" cy="15" r="14" fill="none" stroke="rgba(201,209,220,.35)"/>${[0, 90, 180, 270].map(a => `<path d="M15 2.5v2.5" stroke="#c9d1dc" transform="rotate(${a} 15 15)"/>`).join('')}<path d="M15 15V8.5" stroke="#eef2f7" stroke-width="1.5" transform="rotate(${hA} 15 15)"/><path d="M15 15V5" stroke="#c9d1dc" transform="rotate(${mA} 15 15)"/><path d="M15 17V4" stroke="#5b8cff" transform="rotate(${sA} 15 15)"/><circle cx="15" cy="15" r="1.3" fill="#5b8cff"/>`; }); };
+  tz(); setInterval(tz, 1000);
+</script>
+<script src="kairos.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = KAIROS3D(THREE, { RoundedBoxGeometry });
+const api = K.stage(document.getElementById('v'), {
+  w: 480, h: 540, opts: { metal: 'steel', dial: 'blue', strap: 'alligator' }, rot: [-.12, 0, 0], shadow: false,
+  cam: { pos: [0, 16, 262], target: [0, -10, 0], fov: 24, shift: [-.1, -.13] },
+  animate: (t, a) => { a.watch.rotation.y = -.42 + Math.sin(t * .5) * .3; }
+});
+api.ready.then(() => {
+  const plinth = new THREE.Mesh(new THREE.CylinderGeometry(30, 32, 6, 96), new THREE.MeshPhysicalMaterial({ color: 0x0b1226, metalness: .3, roughness: .18, clearcoat: 1, clearcoatRoughness: .05 }));
+  plinth.position.y = -50; api.scene.add(plinth);
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(30.2, .35, 12, 128), new THREE.MeshPhysicalMaterial({ color: 0x6f9bff, emissive: 0x2a52d6, emissiveIntensity: 1.6, metalness: .2, roughness: .3 }));
+  rim.rotation.x = Math.PI / 2; rim.position.y = -47; api.scene.add(rim);
+});
+</script>
+</body></html>

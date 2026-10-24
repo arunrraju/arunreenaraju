@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Bespoke Ring Builder · ÉCLAT</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Prata&family=DM+Serif+Display:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="eclat.css">
+<script src="eclat.js"></script><script src="eclat3d.js"></script>
+<style>
+html,body{height:1080px;overflow:hidden}
+.stage{position:relative;height:1080px;background:radial-gradient(40% 46% at 50% 50%,#24448f 0%,#0b1633 55%,#040817 100%)}
+.stage::before{content:"";position:absolute;inset:0;background:radial-gradient(30% 40% at 18% 80%,rgba(31,174,110,.18),transparent 70%),radial-gradient(30% 40% at 85% 15%,rgba(201,162,74,.12),transparent 70%)}
+#cv{position:absolute;left:0;top:0;z-index:2}
+.yours{position:absolute;left:0;right:0;top:250px;text-align:center;z-index:1;font:italic 400 400px/1 var(--ital);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.2px rgba(207,233,255,.4);white-space:nowrap}
+.panel{position:absolute;top:116px;bottom:32px;z-index:5;width:368px;padding:26px 24px;display:flex;flex-direction:column}
+.panel.l{left:32px}.panel.r{right:32px}
+.step{padding:16px 0;border-bottom:1px solid var(--line2)}
+.step:first-of-type{padding-top:4px}
+.step .h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.step .h b{font:400 15px/1 var(--disp);color:var(--gold2)}
+.step .h span{font:600 10.5px/1 var(--ui);letter-spacing:.24em;text-transform:uppercase}
+.step .h em{margin-left:auto;font-style:normal;font-size:12.5px;color:var(--pt2)}
+.opts{display:grid;gap:6px}
+.opts.s5{grid-template-columns:repeat(5,1fr)}
+.opts.s3{grid-template-columns:repeat(3,1fr)}
+.o{border:1px solid var(--line2);display:grid;place-items:center;gap:6px;padding:10px 4px;font-size:11.5px;color:var(--pt2);cursor:pointer;text-align:center;background:rgba(255,255,255,.02)}
+.o .shp{width:28px;height:28px}
+.o.on{border-color:var(--gold2);color:var(--pt);background:linear-gradient(160deg,rgba(201,162,74,.2),rgba(201,162,74,.04));box-shadow:0 0 22px rgba(201,162,74,.15)}
+.o .gem{width:18px;height:18px}
+.o .metal{width:22px;height:22px}
+.slider{position:relative;height:30px;margin-top:4px}
+.slider .tr{position:absolute;left:0;right:0;top:14px;height:2px;background:var(--line2)}
+.slider .fill{position:absolute;left:0;top:14px;height:2px;background:linear-gradient(90deg,var(--gold3),var(--gold2))}
+.slider .kn{position:absolute;top:4px;width:22px;height:22px;margin-left:-11px;background:radial-gradient(circle at 35% 30%,#fff,#c9d2d8);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.slider .kn::after{content:attr(data-v);position:absolute}
+.ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--pt3)}
+.r h3{font:400 34px/1 var(--disp);margin:14px 0 6px}
+.lines{margin:22px 0 0;display:grid;gap:0}
+.lines div{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line2);font-size:13px}
+.lines div span:first-child{color:var(--pt2)}
+.lines div small{display:block;color:var(--pt3);font-size:11.5px}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin:20px 0 4px}
+.total b{font:400 48px/1 var(--disp)}
+.r .btn{width:100%;justify-content:center;margin-top:12px}
+.gemo{margin-top:auto;display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;padding:14px;border:1px solid var(--line);background:rgba(201,162,74,.06)}
+.gemo .ph{width:52px;height:52px;border-radius:50%}
+.gemo p{font-size:12.5px;color:var(--pt2);line-height:1.45}
+.gemo b{color:var(--pt);font-weight:500}
+.dim-ann{position:absolute;z-index:4;font:600 10px/1 var(--ui);letter-spacing:.2em;text-transform:uppercase;color:var(--pt2);display:flex;align-items:center;gap:10px}
+.dim-ann i{display:block;background:rgba(238,241,243,.5)}
+.tool{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);z-index:6;display:flex;gap:8px;padding:8px}
+.tool span{height:42px;padding:0 16px;display:inline-flex;align-items:center;gap:8px;font:500 11px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--pt2)}
+.tool span.on{background:var(--pt);color:#06140f}
+.flow{position:absolute;left:432px;right:432px;top:120px;z-index:6;display:flex;justify-content:space-between;align-items:center}
+.flow div{display:flex;align-items:center;gap:8px;font:500 10.5px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--pt3)}
+.flow div b{width:22px;height:22px;display:grid;place-items:center;border:1px solid var(--line2);font:400 11px/1 var(--disp);color:var(--pt2)}
+.flow div.on{color:var(--pt)}.flow div.on b{background:var(--gold2);color:#1a1204;border-color:var(--gold2)}
+.flow i{flex:1;height:1px;background:var(--line2);margin:0 10px}
+.flow i.on{background:linear-gradient(90deg,var(--gold2),var(--line2))}
+.live{position:absolute;left:50%;top:176px;transform:translateX(-50%);z-index:6;display:flex;align-items:center;gap:12px;padding:10px 18px;font-size:12.5px}
+.live .pulse{width:8px;height:8px;border-radius:50%;background:#5df0a8;box-shadow:0 0 0 4px rgba(93,240,168,.2);animation:pulse 1.6s infinite}
+.toast{position:absolute;left:440px;top:880px;z-index:6;padding:14px 18px;display:flex;gap:12px;align-items:center;font-size:12.5px;animation:rise 4s ease-in-out infinite}
+@keyframes rise{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+</style></head>
+<body>
+<div class="stage">
+  <div data-nav></div>
+  <div class="yours">Yours.</div>
+  <div id="cv"></div>
+  <div data-sparkles="30" style="position:absolute;inset:0;z-index:3;pointer-events:none"></div>
+
+  <div class="flow"><div class="on"><b>1</b>Design</div><i class="on"></i><div><b>2</b>Gemologist · 24h</div><i></i><div><b>3</b>Cutting</div><i></i><div><b>4</b>Setting</div><i></i><div><b>5</b>Delivery</div></div>
+  <div class="live glass"><span class="pulse"></span><span id="liveTxt">Oval sapphire · 3.2 ct · 18k yellow gold · pavé</span></div>
+
+  <aside class="panel l glass">
+    <div class="eyebrow" style="margin-bottom:14px">Ring builder · N° 0417</div>
+    <div class="step"><div class="h"><b>01</b><span>Shape</span><em id="shapeLbl">Oval</em></div><div class="opts s5" data-k="shape">
+      <div class="o" data-v="round"><i data-shape="round"></i>Round</div><div class="o on" data-v="oval"><i data-shape="oval"></i>Oval</div><div class="o" data-v="emerald"><i data-shape="emerald"></i>Emerald</div><div class="o" data-v="cushion"><i data-shape="cushion"></i>Cushion</div><div class="o" data-v="pear"><i data-shape="pear"></i>Pear</div></div></div>
+    <div class="step"><div class="h"><b>02</b><span>Centre stone</span><em id="gemLbl">Ceylon sapphire</em></div><div class="opts s5" data-k="gem">
+      <div class="o" data-v="diamond"><span class="gem dia"></span>Diamond</div><div class="o on" data-v="sapphire"><span class="gem sap"></span>Sapphire</div><div class="o" data-v="emerald"><span class="gem emr"></span>Emerald</div><div class="o" data-v="ruby"><span class="gem rub"></span>Ruby</div><div class="o" data-v="padparadscha"><span class="gem pad"></span>Padpa.</div></div></div>
+    <div class="step"><div class="h"><b>03</b><span>Carat</span><em id="ctLbl">3.20 ct · 9.8 × 7.6 mm</em></div>
+      <div class="slider"><div class="tr"></div><div class="fill" style="width:55%"></div><div class="kn" style="left:55%"></div></div><div class="ticks"><span>1.0</span><span>2.0</span><span>3.0</span><span>4.0</span><span>5.0</span></div></div>
+    <div class="step"><div class="h"><b>04</b><span>Metal</span><em id="metLbl">18k yellow gold</em></div><div class="opts s3" data-k="metalKey">
+      <div class="o" data-v="platinum"><span class="metal pt"></span>Platinum</div><div class="o on" data-v="yellow"><span class="metal yg"></span>18k yellow</div><div class="o" data-v="rose"><span class="metal rg"></span>18k rose</div></div></div>
+    <div class="step"><div class="h"><b>05</b><span>Setting</span><em id="setLbl">Pavé shoulders</em></div><div class="opts s3" data-k="pave">
+      <div class="o" data-v="0">Solitaire</div><div class="o on" data-v="1">Pavé</div><div class="o" data-v="2" style="opacity:.45">Halo<small style="display:block;font-size:10px">soon</small></div></div></div>
+    <div class="step" style="border:0;padding-top:0"><div class="h"><b>06</b><span>Ring size · EU</span><em style="color:var(--gold2)">Free resizing</em></div><div class="opts" style="grid-template-columns:repeat(6,1fr)"><div class="o">50</div><div class="o">52</div><div class="o on">54</div><div class="o">56</div><div class="o">58</div><div class="o">60</div></div></div>
+    <div style="margin-top:auto;display:flex;gap:10px;align-items:center;font-size:12px;color:var(--pt3)"><span data-ic="sparkle"></span>Engraving: <span style="color:var(--pt);font:italic 400 16px var(--ital)">“toujours, A.”</span></div>
+  </aside>
+
+  <aside class="panel r glass">
+    <div class="eyebrow">Your design</div>
+    <h3 id="title">Saphir Royal</h3><span class="dim" style="font-size:13px">Bespoke N° 0417 · saved 2 min ago</span>
+    <div class="lines">
+      <div><span>Setting<small id="lnSet">18k yellow, pavé shoulders</small></span><span id="pSet">€3,540</span></div>
+      <div><span>Centre stone<small id="lnGem">Oval sapphire, 3.20 ct, unheated</small></span><span id="pGem">€10,270</span></div>
+      <div><span>Certificate<small>Independent lab report</small></span><span>Included</span></div>
+      <div><span>Engraving & Écrin box<small>Hand-engraved inside the band</small></span><span>Included</span></div>
+    </div>
+    <div class="total"><span class="mono">Total</span><b class="plat" id="tot">€13,810</b></div>
+    <div class="dim" style="font-size:12.5px">Ready <b style="color:var(--pt);font-weight:500">21 November</b> · Insured delivery included</div>
+    <a class="btn">Reserve · 10% deposit <span data-ic="arrow"></span></a>
+    <a class="btn ghost">Save & share design</a>
+    <div class="gemo" style="margin-top:22px"><div data-img="1772442125267-7640b4b5f2fe|200|62% 18%"></div><p><b>Margaux, your gemologist</b><br>“At 3.2 ct, an oval reads larger than a round. I'd keep the pavé fine.”</p></div>
+  </aside>
+
+  <div class="dim-ann" id="annA"><i style="width:60px;height:1px"></i>9.8 × 7.6 mm</div>
+  <div class="dim-ann" id="annB" style="white-space:nowrap"><i style="width:18px;height:1px"></i><span>2.4 mm band</span></div>
+  <div class="toast glass"><span data-ic="check" style="color:#5df0a8"></span>Stone reserved for 48 h<br><span class="dim" style="font-size:11.5px">SAP-3.20-OV-1187 · Colombo</span></div>
+  <div class="cursor" style="left:640px;top:600px"><div class="o"></div><span>Drag · rotate</span></div>
+  <div class="tool glass"><span class="on"><span data-ic="rotate"></span>Turntable</span><span><span data-ic="loupe"></span>Zoom</span><span><span data-ic="user"></span>On hand</span><span><span data-ic="ruler"></span>Dimensions</span></div>
+</div>
+<script>eclat('Bespoke');</script>
+<script type="module">
+import * as THREE from 'three';
+const E = Eclat(THREE);
+const st = E.stage(document.getElementById('cv'), { w: 1440, h: 1080, fov: 24, cam: [0, 2.6, 12.6], target: [0, 0.3, 0], theme: 'sapphire' });
+// turntable: platinum disc with a gold rim and tick marks
+const tt = new THREE.Group(); tt.position.y = -0.985; st.scene.add(tt);
+const disc = new THREE.Mesh(new THREE.CylinderGeometry(1.45, 1.5, 0.1, 128), E.velvet(0x060d22, 0x2a4aa8)); disc.position.y = -0.05; tt.add(disc);
+const rim = new THREE.Mesh(new THREE.TorusGeometry(1.48, 0.022, 10, 160), E.metal(0xd6ad55, 0.2)); rim.rotation.x = Math.PI / 2; tt.add(rim);
+const tick = new THREE.InstancedMesh(new THREE.BoxGeometry(0.012, 0.004, 0.12), new THREE.MeshBasicMaterial({ color: 0xecd08a }), 72);
+const m4 = new THREE.Matrix4();
+for (let i = 0; i < 72; i++) { const a = i / 72 * Math.PI * 2; m4.makeRotationY(-a); m4.setPosition(Math.cos(a) * 1.34, 0.002, Math.sin(a) * 1.34); if (i % 6) m4.scale(new THREE.Vector3(1, 1, 0.5)); tick.setMatrixAt(i, m4); }
+tt.add(tick);
+const sh = E.shadow(2.4, 1.0, .8); sh.position.y = 0.004; tt.add(sh);
+st.scene.add(E.sparkles(110, [9, 5, 3], { center: [0, 1, -2], size: 22, colors: [0xffffff, 0xa9c2ff, 0xffe2a0] }));
+const state = { shape: 'oval', gem: 'sapphire', carat: 3.2, metalKey: 'yellow', pave: true };
+let ring, fl;
+function build() {
+  if (ring) st.scene.remove(ring); if (fl) st.scene.remove(fl);
+  ring = E.buildRing(st, state); st.scene.add(ring);
+  fl = E.flares(3, new THREE.Vector3(0, ring.userData.stoneY + 0.15, 0.3), 0.6, 0.9); st.scene.add(fl);
+}
+build();
+st.onFrame(t => { ring.rotation.y = -0.75 + t * 0.16; tt.rotation.y = t * 0.16; fl.userData.tick(t); });
+E.start();
+window.ann = ann; function ann() {
+  const p = new THREE.Vector3(); ring.userData.stone.getWorldPosition(p); p.project(st.camera);
+  const a = document.getElementById('annA'); a.style.left = ((p.x + 1) / 2 * 1440 + 90) + 'px'; a.style.top = ((1 - p.y) / 2 * 1080 - 6) + 'px';
+  const b = new THREE.Vector3(1.0, -0.25, 0).project(st.camera); const bb = document.getElementById('annB'); bb.style.left = ((b.x + 1) / 2 * 1440 + 4) + "px"; bb.style.top = ((1 - b.y) / 2 * 1080) + 'px';
+}
+ann();
+// live price
+const RATE = { diamond: [3900, 1.35], sapphire: [2400, 1.25], emerald: [2900, 1.3], ruby: [3300, 1.35], padparadscha: [3600, 1.3] };
+const NAME = { diamond: 'lab-grown diamond', sapphire: 'Ceylon sapphire', emerald: 'Colombian emerald', ruby: 'Mozambique ruby', padparadscha: 'padparadscha' };
+const MET = { platinum: ['Platinum 950', 2600], yellow: ['18k yellow gold', 2400], rose: ['18k rose gold', 2400] };
+const SH = { round: 'Round', oval: 'Oval', emerald: 'Emerald-cut', cushion: 'Cushion', pear: 'Pear' };
+const fmt = n => '€' + (Math.round(n / 10) * 10).toLocaleString('en-US');
+function price() {
+  const [r, e] = RATE[state.gem]; const g = r * state.carat ** e; const s = MET[state.metalKey][1] + (state.pave ? 1140 : 0);
+  document.getElementById('pGem').textContent = fmt(g); document.getElementById('pSet').textContent = fmt(s); document.getElementById('tot').textContent = fmt(g + s);
+  document.getElementById('shapeLbl').textContent = SH[state.shape]; document.getElementById('gemLbl').textContent = NAME[state.gem][0].toUpperCase() + NAME[state.gem].slice(1);
+  document.getElementById('metLbl').textContent = MET[state.metalKey][0]; document.getElementById('setLbl').textContent = state.pave ? 'Pavé shoulders' : 'Plain band';
+  document.getElementById('lnSet').textContent = `${MET[state.metalKey][0]}, ${state.pave ? 'pavé shoulders' : 'plain band'}`;
+  document.getElementById('lnGem').textContent = `${SH[state.shape]} ${NAME[state.gem]}, ${state.carat.toFixed(2)} ct`;
+  if (window.ann) ann();
+  document.getElementById('liveTxt').textContent = `${SH[state.shape]} ${state.gem} · ${state.carat.toFixed(1)} ct · ${MET[state.metalKey][0].toLowerCase()} · ${state.pave ? 'pavé' : 'solitaire'}`;
+}
+price();
+document.querySelectorAll('.opts').forEach(g => g.addEventListener('click', e => {
+  const o = e.target.closest('.o'); if (!o || o.dataset.v === '2') return;
+  g.querySelectorAll('.o').forEach(x => x.classList.toggle('on', x === o));
+  const k = g.dataset.k; if (!k) return; state[k] = k === 'pave' ? o.dataset.v === '1' : o.dataset.v; build(); price();
+}));
+const sl = document.querySelector('.slider');
+sl.addEventListener('click', e => { const f = Math.min(1, Math.max(0, (e.clientX - sl.getBoundingClientRect().left) / sl.clientWidth)); state.carat = 1 + f * 4; sl.querySelector('.fill').style.width = sl.querySelector('.kn').style.left = f * 100 + '%'; document.getElementById('ctLbl').textContent = state.carat.toFixed(2) + ' ct'; build(); price(); });
+</script>
+</body></html>

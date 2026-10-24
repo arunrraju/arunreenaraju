@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Sound Lab — KEYFORM</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Doto:ROND,wght@0..100,100..900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kf.css">
+<style>
+.hero{position:relative;height:1000px;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero canvas{position:absolute;left:0;top:0;z-index:2}
+.hero .big{position:absolute;left:470px;top:290px;font:900 400px/.8 var(--dot);color:var(--or);z-index:1;letter-spacing:-.05em}
+.hero .big small{font-size:170px;color:var(--ink)}
+.hero .tl{position:absolute;left:56px;top:56px;z-index:4;width:520px}
+.hero .tl h1{font:600 104px/.86 var(--sans);letter-spacing:-.05em;margin-top:18px}
+.hero .tl h1 em{font-style:normal;color:var(--or)}
+.hero .tl p{font-size:17px;color:var(--ink2);margin-top:24px;max-width:420px}
+.hero .meter{position:absolute;left:56px;bottom:56px;z-index:4;width:470px}
+.hero .meter .row{display:flex;gap:4px;height:46px;align-items:flex-end}
+.hero .meter .row i{flex:1;border-radius:2px;background:rgba(43,43,43,.14)}
+.hero .meter .row i.a{background:var(--or)}
+.hero .meter .row i.b{background:var(--lil)}
+.hero .meter .lg{display:flex;justify-content:space-between;margin-top:10px}
+.hero .travel{position:absolute;right:56px;bottom:56px;z-index:4;width:300px}
+.hero .travel .tr{height:8px;border-radius:4px;background:rgba(43,43,43,.12);position:relative;margin:12px 0 8px}
+.hero .travel .tr i{position:absolute;left:0;top:0;bottom:0;width:38%;border-radius:4px;background:var(--or)}
+.hero .travel .tr b{position:absolute;left:47.5%;top:-6px;width:2px;height:20px;background:var(--ink)}
+.sec{padding:110px 56px}
+.lib{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.lib .c{padding:18px;display:flex;flex-direction:column;gap:12px;position:relative}
+.lib .c.on{background:var(--ink);color:#efede8;border-color:var(--ink)}
+.lib .top3{height:150px;border-radius:14px;display:grid;place-items:center;background:var(--paper);position:relative;overflow:hidden}
+.lib .c.on .top3{background:#3a3a38}
+.swv{width:92px;height:92px;border-radius:14px;background:linear-gradient(145deg,#ffffff,#e4e1da);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08),0 10px 18px -8px rgba(0,0,0,.35);display:grid;place-items:center;position:relative}
+.swv::before{content:"";position:absolute;inset:12px;border-radius:9px;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.swv i{position:relative;width:34px;height:34px}
+.swv i::before,.swv i::after{content:"";position:absolute;background:var(--st);border-radius:2px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.2)}
+.swv i::before{left:12px;top:0;width:10px;height:34px}.swv i::after{left:0;top:12px;width:34px;height:10px}
+.lib h4{font:600 18px/1.1 var(--sans)}
+.lib .kv{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;font:500 10px/1.25 var(--mono);letter-spacing:.04em;text-transform:uppercase}
+.lib .kv span{opacity:.6}
+.lib .c .ft{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.charts{display:grid;grid-template-columns:1.25fr 1fr;gap:18px}
+.chart{padding:28px}
+.chart svg{width:100%;display:block}
+.sig .r{display:grid;grid-template-columns:130px 1fr 60px;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.sig .r h5{font:600 15px/1.1 var(--sans)}
+.sig .r p{font:500 10px/1.2 var(--mono);color:var(--ink2);text-transform:uppercase;margin-top:3px}
+.sig .r .w{height:42px}
+.sig .r b{font:900 30px/1 var(--dot);text-align:right}
+.proto{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.proto .ph{border-radius:20px;height:380px}
+.proto .st{padding:28px;display:flex;flex-direction:column;justify-content:space-between}
+.proto .st ol{list-style:none;display:grid;gap:16px;counter-reset:s}
+.proto .st li{display:grid;grid-template-columns:44px 1fr;gap:10px;counter-increment:s}
+.proto .st li::before{content:"0" counter(s);font:900 28px/1 var(--dot);color:var(--or)}
+.proto .st li b{display:block;font:600 16px/1.2 var(--sans)}
+.proto .st li span{font-size:14px;color:var(--ink2)}
+.tester{margin:0 56px 110px;border-radius:30px;background:var(--or);color:#fff;padding:54px 56px;display:grid;grid-template-columns:1fr 560px;gap:40px;align-items:center;position:relative;overflow:hidden}
+.tester .grid12{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;transform:rotate(-4deg)}
+.tester .grid12 span{aspect-ratio:1;border-radius:14px;background:linear-gradient(#fff,#ecebe7);display:grid;place-items:center;box-shadow:inset 0 -6px 0 rgba(0,0,0,.12),0 6px 0 #c23e0c;position:relative}
+.tester .grid12 span i{width:26px;height:26px;position:relative}
+.tester .grid12 span i::before,.tester .grid12 span i::after{content:"";position:absolute;background:var(--st);border-radius:2px}
+.tester .grid12 span i::before{left:9px;top:0;width:8px;height:26px}.tester .grid12 span i::after{left:0;top:9px;width:26px;height:8px}
+.tester .grid12 span.dn{transform:translateY(5px);box-shadow:inset 0 -3px 0 rgba(0,0,0,.12),0 1px 0 #c23e0c}
+</style></head>
+<body>
+<div data-tick></div>
+<div data-nav></div>
+
+<section class="hero dotbg">
+  <div class="big">45<small>g</small></div>
+  <canvas id="sw"></canvas>
+  <div id="calls"></div>
+  <div class="tl">
+    <div class="lbl or">[ Lab ] Cross-section · KF Cream linear · ×14 scale</div>
+    <h1>Inside a<br><em>quiet</em> switch.</h1>
+    <p>Five parts, 4 mm of travel and a spring wound to 45 grams. We cut one in half so you can see why it lands soft — then we recorded all fourteen of them.</p>
+    <div style="display:flex;gap:12px;margin-top:30px"><a class="key or">Play the cross-section <small>▶</small></a><a class="key">Compare switches</a></div>
+  </div>
+  <div class="meter">
+    <div class="lbl" style="margin-bottom:12px">Live input · 38 dB(A) · keystroke 0217</div>
+    <div class="row" id="meter"></div>
+    <div class="lg lbl"><span>20 Hz</span><span class="or-t">412 Hz peak</span><span>20 kHz</span></div>
+  </div>
+  <div class="travel">
+    <div style="display:flex;justify-content:space-between"><span class="lbl">Travel</span><span class="lbl"><b style="color:var(--ink)">1.52</b> / 4.00 mm</span></div>
+    <div class="tr"><i></i><b></b></div>
+    <div style="display:flex;justify-content:space-between" class="lbl"><span>Top</span><span class="or-t">Actuation 1.9</span><span>Bottom out</span></div>
+  </div>
+  <span class="stk k" style="left:60px;top:770px;transform:rotate(-4deg)">Cut in half · do not try at home</span>
+</section>
+
+<section class="sec">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px"><div><div class="lbl or">[ 02 ] Switch library</div><h2 class="h2" style="margin-top:14px">Fourteen switches.<br><span class="dim">Six favourites.</span></h2></div><div style="display:flex;gap:8px"><span class="chip on">All <em>14</em></span><span class="chip">Linear <em>6</em></span><span class="chip">Tactile <em>5</em></span><span class="chip">Clicky <em>2</em></span><span class="chip">Silent <em>1</em></span></div></div>
+  <div class="lib">
+    <div class="card c on"><div class="top3"><div class="swv" style="--st:#ff5a1f"><i></i></div><span class="tag or" style="position:absolute;left:10px;top:10px">Our pick</span></div><h4>KF Cream</h4><div class="kv"><span>Type</span>Linear<span>Force</span>45 g<span>Sound</span>Deep thock<span>Travel</span>4.0 mm</div><div class="ft"><span class="price" style="font-size:16px">€0.65 / pc</span><div style="width:60px;height:24px;color:var(--or)" data-wave data-n="14" data-seed="1" data-kind="cream"></div></div></div>
+    <div class="card c"><div class="top3"><div class="swv" style="--st:#cbc3ff"><i></i></div></div><h4>KF Thock</h4><div class="kv"><span>Type</span>Tactile<span>Force</span>55 g<span>Sound</span>Round<span>Travel</span>3.8 mm</div><div class="ft"><span class="price" style="font-size:16px">€0.70 / pc</span><div style="width:60px;height:24px;color:var(--or)" data-wave data-n="14" data-seed="2" data-kind="thock"></div></div></div>
+    <div class="card c"><div class="top3"><div class="swv" style="--st:#5e8f86"><i></i></div></div><h4>KF Clack</h4><div class="kv"><span>Type</span>Clicky<span>Force</span>50 g<span>Sound</span>Crisp<span>Travel</span>4.0 mm</div><div class="ft"><span class="price" style="font-size:16px">€0.60 / pc</span><div style="width:60px;height:24px;color:var(--or)" data-wave data-n="14" data-seed="3" data-kind="clack"></div></div></div>
+    <div class="card c"><div class="top3"><div class="swv" style="--st:#2b2b2b"><i></i></div><span class="tag l" style="position:absolute;left:10px;top:10px">Office</span></div><h4>KF Hush</h4><div class="kv"><span>Type</span>Silent<span>Force</span>40 g<span>Sound</span>Muted<span>Travel</span>3.6 mm</div><div class="ft"><span class="price" style="font-size:16px">€0.80 / pc</span><div style="width:60px;height:24px;color:var(--or);opacity:.5" data-wave data-n="14" data-seed="4" data-kind="clack"></div></div></div>
+    <div class="card c"><div class="top3"><div class="swv" style="--st:#d4ad62"><i></i></div></div><h4>KF Brass</h4><div class="kv"><span>Type</span>Linear<span>Force</span>62 g<span>Sound</span>Marbly<span>Travel</span>3.5 mm</div><div class="ft"><span class="price" style="font-size:16px">€0.90 / pc</span><div style="width:60px;height:24px;color:var(--or)" data-wave data-n="14" data-seed="5" data-kind="thock"></div></div></div>
+    <div class="card c"><div class="top3"><div class="swv" style="--st:#efede8;background:linear-gradient(145deg,#3a3a38,#2b2b2b)"><i></i></div><span class="tag" style="position:absolute;left:10px;top:10px;background:var(--or)">Low stock</span></div><h4>KF Pebble</h4><div class="kv"><span>Type</span>Tactile<span>Force</span>67 g<span>Sound</span>Poppy<span>Travel</span>3.4 mm</div><div class="ft"><span class="price" style="font-size:16px">€0.85 / pc</span><div style="width:60px;height:24px;color:var(--or)" data-wave data-n="14" data-seed="6" data-kind="clack"></div></div></div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="charts">
+    <div class="card chart"><div style="display:flex;justify-content:space-between;align-items:center"><div><div class="lbl or">[ 03 ] Force curves</div><h3 class="h3" style="margin-top:8px">How each switch pushes back</h3></div><div style="display:flex;gap:14px" class="lbl"><span><i style="display:inline-block;width:18px;height:3px;background:#ff5a1f;vertical-align:middle"></i> Cream</span><span><i style="display:inline-block;width:18px;height:3px;background:#8d82ea;vertical-align:middle"></i> Thock</span><span><i style="display:inline-block;width:18px;height:3px;background:#5e8f86;vertical-align:middle"></i> Clack</span><span><i style="display:inline-block;width:18px;height:3px;background:#2b2b2b;vertical-align:middle"></i> Hush</span></div></div>
+      <svg id="fc" viewBox="0 0 760 380" style="margin-top:22px"></svg></div>
+    <div class="card chart sig"><div class="lbl or">[ 04 ] Sound signatures</div><h3 class="h3" style="margin:8px 0 10px">Same paragraph, four switches</h3>
+      <div class="r"><div><h5>KF Cream</h5><p>Linear · deep</p></div><div class="w" style="color:var(--or)" data-wave data-n="70" data-seed="12" data-kind="cream"></div><b>38</b></div>
+      <div class="r"><div><h5>KF Thock</h5><p>Tactile · round</p></div><div class="w" style="color:#8d82ea" data-wave data-n="70" data-seed="13" data-kind="thock"></div><b>41</b></div>
+      <div class="r"><div><h5>KF Clack</h5><p>Clicky · crisp</p></div><div class="w" style="color:#5e8f86" data-wave data-n="70" data-seed="14" data-kind="clack"></div><b>47</b></div>
+      <div class="r" style="border:0"><div><h5>KF Hush</h5><p>Silent · damped</p></div><div class="w" style="color:var(--ink);opacity:.5" data-wave data-n="70" data-seed="15" data-kind="clack"></div><b>29</b></div>
+      <div class="lbl" style="margin-top:12px;text-align:right">dB(A) at 30 cm · normalised</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="proto">
+    <div class="ph" data-img="1595044426077-d36d9236d54a|900"><span class="stk w" style="left:18px;bottom:18px;transform:rotate(-3deg)">Bench 02 · Eindhoven</span></div>
+    <div class="card st"><div><div class="lbl or">[ 05 ] Lab protocol</div><h3 class="h3" style="margin-top:8px">Every recording, the same way.</h3></div>
+      <ol><li><div><b>Same board, same desk</b><span>Model 75, brass plate, 4 mm felt mat.</span></div></li><li><div><b>One mic, 30 cm away</b><span>Calibrated omni, no reverb, no EQ.</span></div></li><li><div><b>Normalised loudness</b><span>Compare character, not volume.</span></div></li></ol></div>
+    <div class="ph" data-img="1612538811009-ed19118a2b53|900"><span class="stk y" style="right:18px;top:18px;transform:rotate(5deg)">1,200 keystrokes / switch</span></div>
+  </div>
+</section>
+
+<div class="tester">
+  <div><div class="lbl" style="color:#fff;opacity:.8">[ 06 ] Switch tester</div><h2 class="h2" style="margin:14px 0 18px">Twelve switches.<br>One tiny board.</h2><p style="font-size:17px;max-width:440px;opacity:.9">Press them all at your own desk. €19, refunded in full when you order your first Model 75.</p><div style="display:flex;gap:12px;margin-top:28px"><a class="key dk" href="cart.html">Add tester — €19</a><span class="key" style="color:var(--ink)">How refunds work</span></div></div>
+  <div class="grid12" id="g12"></div>
+</div>
+
+<div data-foot></div>
+
+<script src="kf.js"></script>
+<script>
+keyform('Sound Lab', { cart: 2 });
+// meter
+let s = 3; const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+document.getElementById('meter').innerHTML = Array.from({ length: 40 }, (_, i) => { const v = Math.exp(-Math.pow((i - 12) / 7, 2)) * 0.9 + Math.exp(-Math.pow((i - 27) / 4, 2)) * 0.35 + 0.08 + rnd() * 0.08; return `<i class="${i < 22 ? 'a' : i < 30 ? 'b' : ''}" style="height:${Math.min(100, v * 100)}%"></i>`; }).join('');
+// tester grid
+const st = ['#ff5a1f', '#cbc3ff', '#5e8f86', '#2b2b2b', '#d4ad62', '#efede8', '#ff8a5c', '#8d82ea', '#3a3a38', '#b9d8cf', '#e0532c', '#ffffff'];
+document.getElementById('g12').innerHTML = st.map((c, i) => `<span class="${[2, 7].includes(i) ? 'dn' : ''}"><i style="--st:${c}"></i></span>`).join('');
+// force curves
+(() => {
+  const X = mm => 60 + mm / 4 * 670, Y = g => 330 - g / 90 * 300;
+  let h = '<g font-family="JetBrains Mono" font-size="11" fill="#5f5d58">';
+  for (let g = 0; g <= 90; g += 15) h += `<path d="M60 ${Y(g)} H730" stroke="rgba(43,43,43,.1)"/><text x="48" y="${Y(g) + 4}" text-anchor="end">${g}</text>`;
+  for (let m = 0; m <= 4; m += 0.5) h += `<path d="M${X(m)} 30 V330" stroke="rgba(43,43,43,${m % 1 ? .05 : .1})"/>${m % 1 ? '' : `<text x="${X(m)}" y="350" text-anchor="middle">${m}.0</text>`}`;
+  h += '<text x="730" y="372" text-anchor="end">TRAVEL (MM)</text><text x="10" y="20">GRAMS</text></g>';
+  const curve = f => { let d = ''; for (let m = 0; m <= 4.001; m += 0.05) { d += (d ? 'L' : 'M') + X(m).toFixed(1) + ' ' + Y(f(m)).toFixed(1); } return d; };
+  const lin = (a, b) => m => a + (b - a) * m / 4;
+  const cream = m => m > 3.85 ? 52 + (m - 3.85) * 220 : 34 + m * 4.6;
+  const thock = m => m < 1.0 ? 38 + m * 22 : m < 1.6 ? 60 - (m - 1.0) * 26 : m > 3.6 ? 60 + (m - 3.6) * 70 : 44 + (m - 1.6) * 8;
+  const clack = m => m < 1.4 ? 36 + m * 20 : m < 1.55 ? 64 - (m - 1.4) * 160 : m > 3.7 ? 58 + (m - 3.7) * 80 : 40 + (m - 1.55) * 8.5;
+  const hush = m => m > 3.4 ? 46 + (m - 3.4) * 50 : 28 + m * 5.2;
+  h += `<path d="${curve(hush)}" stroke="#2b2b2b" stroke-width="2.5" fill="none" stroke-dasharray="6 5"/>`;
+  h += `<path d="${curve(clack)}" stroke="#5e8f86" stroke-width="2.5" fill="none"/>`;
+  h += `<path d="${curve(thock)}" stroke="#8d82ea" stroke-width="2.5" fill="none"/>`;
+  h += `<path d="${curve(cream)} L${X(4)} 330 L${X(0)} 330 Z" fill="rgba(255,90,31,.08)"/><path d="${curve(cream)}" stroke="#ff5a1f" stroke-width="4" fill="none"/>`;
+  h += `<circle cx="${X(1.9)}" cy="${Y(cream(1.9))}" r="7" fill="#ff5a1f" stroke="#fff" stroke-width="3"/><g transform="translate(${X(1.9) - 10},${Y(cream(1.9)) - 66})"><rect width="150" height="44" rx="8" fill="#2b2b2b"/><text x="12" y="18" fill="#fff" font-family="JetBrains Mono" font-size="10">ACTUATION</text><text x="12" y="34" fill="#ff8a5c" font-family="JetBrains Mono" font-size="12" font-weight="700">1.9 mm · 43 g</text></g>`;
+  h += `<path d="M${X(1.52)} 30 V330" stroke="#2b2b2b" stroke-width="1.5" stroke-dasharray="3 3"/><text x="${X(1.52) + 6}" y="44" font-family="JetBrains Mono" font-size="10" fill="#2b2b2b">LIVE · 1.52 mm</text>`;
+  document.getElementById('fc').innerHTML = h;
+})();
+</script>
+<script src="kf3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+const K = KF3D(THREE, RoomEnvironment, mergeGeometries);
+const W = 1440, H = 1000;
+const S = K.stage(document.getElementById('sw'), { w: W, h: H, fov: 26, pos: [13, 11, 34], target: [2.6, 3.4, 0], exposure: 1.05 });
+S.renderer.localClippingEnabled = true;
+S.key.position.set(-8, 20, 14);
+S.key.shadow.camera.left = -10; S.key.shadow.camera.right = 10; S.key.shadow.camera.top = 12; S.key.shadow.camera.bottom = -8;
+const sw = K.buildSwitch({ stem: '#ff5a1f', cut: true });
+sw.root.position.set(4.2, 1.2, 0);
+sw.root.rotation.y = -0.55;
+S.scene.add(sw.root);
+// giant keycap hovering above the stem, also cut
+const clip = [new THREE.Plane(new THREE.Vector3(0, 0, -1), 0)];
+const capG = K.capGeo(1);
+const cap = new THREE.Mesh(capG, new THREE.MeshPhysicalMaterial({ color: '#cbc3ff', roughness: 0.45, sheen: 0.5, sheenColor: new THREE.Color('#ffffff'), clearcoat: 0.15, side: THREE.DoubleSide }));
+cap.scale.setScalar(6.2);
+cap.position.set(0, 7.0, 0);
+cap.rotation.set(0.42, 0.55, -0.16);
+cap.castShadow = true;
+sw.root.add(cap);
+// stem mount inside the cap
+const mount = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.62, 2.4, 32, 1, true), new THREE.MeshPhysicalMaterial({ color: '#e7e4dd', roughness: 0.5, clippingPlanes: clip, side: THREE.DoubleSide }));
+mount.position.set(0, 1.4, 0); cap.add(mount); mount.scale.setScalar(1 / 6.2);
+// floating orange "esc" second cap in the distance for depth
+K.ground(S.scene, { sx: 22, sz: 14, y: -1.75, strength: 0.34, catcher: 0.05 });
+const { stem, spring, top } = sw.parts;
+const calls = document.getElementById('calls');
+const pins = [
+  { n: '01', t: 'Keycap', d: 'PBT, 1.5 mm walls, Lilac Haze', p: () => cap.localToWorld(new THREE.Vector3(0.3, 0.46, 0)), lx: 1384, ly: 130 },
+  { n: '02', t: 'Stem', d: 'POM, factory-lubed, 0.02 mm wobble', p: () => stem.localToWorld(new THREE.Vector3(1.0, 4.4, 0)), lx: 1384, ly: 360 },
+  { n: '03', t: 'Spring', d: '22 mm, gold-plated, 45 g bottom', p: () => spring.localToWorld(new THREE.Vector3(1.0, 1.6, 0)), lx: 1384, ly: 560 },
+  { n: '04', t: 'Housing', d: 'Nylon bottom · polycarbonate top', p: () => sw.parts.bottom.localToWorld(new THREE.Vector3(3, 1.6, -1)), lx: 1384, ly: 740 },
+  { n: '05', t: 'Leaf', d: 'Phosphor-bronze contacts', p: () => sw.parts.leaf.localToWorld(new THREE.Vector3(-1.9, 1.6, 1.2)), lx: 640, ly: 820 }
+];
+function place() {
+  S.scene.updateMatrixWorld(true);
+  calls.innerHTML = pins.map(c => {
+    const [x, y] = K.toScreen(c.p(), S.camera, W, H);
+    const right = c.lx > 900;
+    const sx = right ? c.lx - 222 : c.lx + 222, sy = c.ly + 12;
+    const dx = x - sx, dy = y - sy, len = Math.hypot(dx, dy), ang = Math.atan2(dy, dx) * 180 / Math.PI;
+    const box = right ? `right:${1440 - c.lx}px;flex-direction:row-reverse;text-align:right` : `left:${c.lx}px`;
+    return `<div class="lead" style="left:${sx}px;top:${sy}px;width:${len}px;transform:rotate(${ang}deg)"></div><div class="call" style="${box};top:${c.ly}px;width:212px"><b>${c.n}</b><div>${c.t}<span>${c.d}</span></div></div>`;
+  }).join('');
+}
+S.loop(t => {
+  const p = 0.38 + 0.12 * Math.sin(t * 1.4);
+  stem.position.y = -p * 1.4;
+  const sc = (3.0 - p * 1.4) / 3.0; spring.scale.y = sc; spring.position.y = 0.45 * (1 - sc);
+  cap.position.y = 7.0 - p * 1.4 + Math.sin(t * 0.8) * 0.15;
+  sw.root.rotation.y = -0.55 + Math.sin(t * 0.3) * 0.04;
+});
+place();
+</script>
+</body></html>

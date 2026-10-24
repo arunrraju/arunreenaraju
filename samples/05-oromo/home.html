@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Oromo — Coffee Roasters, Lisbon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="oromo.css">
+<style>
+.hero{position:relative;height:960px;background:var(--cream);z-index:3}
+.hero .txt{position:absolute;left:56px;top:96px;width:760px;z-index:5}
+.hero h1{font-size:136px;line-height:.9;letter-spacing:-.045em;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144;margin:26px 0 34px}
+.hero h1 em{color:var(--terra)}
+.hero h1 .s{font-weight:300}
+.hero .lede{font-size:19px;line-height:1.55;color:var(--soft);max-width:470px}
+.hero .cta{display:flex;gap:14px;margin-top:38px;align-items:center}
+.hero .proof{display:flex;gap:44px;margin-top:64px;padding-top:28px;border-top:1.5px solid var(--esp);width:480px}
+.hero .proof b{display:block;font:400 46px/1 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.03em}
+.hero .proof span{font-size:13px;color:var(--soft)}
+.riso{position:absolute;border-radius:50%;mix-blend-mode:multiply}
+.hero .r1{left:770px;top:150px;width:540px;height:540px;background:var(--terra);opacity:.9;border-radius:48% 52% 45% 55%/52% 46% 54% 48%}
+.hero .r2{left:1110px;top:70px;width:290px;height:290px;background:var(--mustard)}
+.hero .r3{left:760px;top:610px;width:300px;height:220px;background:var(--sage);border-radius:60% 40% 55% 45%/50% 60% 40% 50%;opacity:.9}
+.hero .arch{position:absolute;left:1030px;top:170px;width:350px;height:520px;border-radius:180px 180px 22px 22px;z-index:2;box-shadow:0 30px 60px rgba(43,26,18,.25);border:6px solid var(--paper)}
+.hero .arch img{object-position:38% 60%;filter:saturate(1.05) contrast(1.03)}
+.hero .steam{left:1090px;top:110px;width:220px;height:300px;z-index:3}
+.hero .mainbag{position:absolute;left:820px;top:262px;z-index:4;transform:rotate(-7deg)}
+.hero .backbag{position:absolute;left:740px;top:210px;z-index:3;transform:rotate(-19deg)}
+.hero .stp{position:absolute;left:1210px;top:610px;z-index:6;color:var(--esp);background:var(--paper);border-radius:50%;width:200px;height:200px;box-shadow:0 14px 30px rgba(43,26,18,.2)}
+.hero .stp .core{background:var(--terra);color:var(--paper);inset:28%}
+.hero .cur{left:1060px;top:520px}
+.hero .note{position:absolute;left:560px;top:790px;z-index:6;font-size:30px;line-height:1;color:var(--esp);transform:rotate(-5deg)}
+.hero .note small{display:block;font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;font-style:normal;color:var(--terra);margin-top:10px}
+.hero .arrow{left:700px;top:620px;width:160px;height:150px;z-index:6}
+.hero .beans{position:absolute;inset:0;z-index:5;pointer-events:none}
+.hero .stk1{left:1150px;top:770px;transform:rotate(5deg);background:var(--sage-2)}
+.hero .stk2{left:1270px;top:140px;transform:rotate(9deg);background:var(--paper);z-index:7}
+
+.wave{background:var(--terra);color:var(--paper);height:220px}
+.wave text{fill:var(--paper)}
+.wave .sub{fill:var(--esp)}
+
+.week{padding:140px 56px 130px;display:grid;grid-template-columns:360px 1fr 400px;gap:50px;align-items:center;position:relative}
+.week .pol{background:#fffaf0;padding:16px 16px 70px;box-shadow:0 22px 40px rgba(43,26,18,.18);transform:rotate(-3deg);position:relative}
+.week .pol .ph{height:430px}
+.week .pol .cap{position:absolute;left:22px;bottom:20px;font-size:24px}
+.week .pol .tape{position:absolute;left:50%;top:-18px;width:130px;height:36px;margin-left:-65px;background:rgba(224,169,59,.6);transform:rotate(4deg)}
+.week .stage{position:relative;height:640px;display:grid;place-items:center}
+.week .stage .disc{position:absolute;width:460px;height:460px;border-radius:50%;background:var(--sage);opacity:.85}
+.week .stage .disc2{position:absolute;width:460px;height:460px;border-radius:50%;border:2px dashed var(--esp);opacity:.35;transform:translate(16px,12px)}
+.week .stage .bag{z-index:2;transform:rotate(4deg)}
+.week .stage .cur{left:330px;top:150px;background:var(--esp)}
+.week .stage .stk{right:30px;bottom:96px;transform:rotate(-8deg)}
+.week h2{font-size:84px;line-height:.92;letter-spacing:-.04em;margin:18px 0 20px}
+.week .no{font:italic 300 200px/.7 var(--serif);color:transparent;-webkit-text-stroke:1.5px var(--terra);position:absolute;right:56px;top:0;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144}
+.notes{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0}
+.notes span{padding:8px 14px;border-radius:999px;font:500 14px/1 var(--sans)}
+.week .meters{display:grid;gap:12px;margin:26px 0 30px;padding:22px 0;border-top:1.5px solid var(--esp);border-bottom:1.5px solid var(--esp)}
+.week .buy{display:flex;align-items:center;gap:20px}
+.week .buy .pr{font:400 50px/1 var(--serif);letter-spacing:-.03em}
+.week .buy .pr small{font:500 14px var(--sans);color:var(--soft);margin-left:6px}
+
+.origins{padding:40px 56px 150px;position:relative}
+.origins .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px}
+.origins h2{font-size:120px;line-height:.86;letter-spacing:-.045em}
+.origins .hd p{max-width:380px;color:var(--soft);font-size:17px}
+.oc{display:grid;grid-template-columns:1fr 1.32fr 1fr;gap:26px;align-items:end}
+.ocard{position:relative;height:620px;border-radius:26px;overflow:hidden;color:var(--paper)}
+.ocard .ph{position:absolute;inset:0}
+.ocard .tint{position:absolute;inset:0;mix-blend-mode:multiply;opacity:.62}
+.ocard .ph img{filter:grayscale(.35) contrast(1.1)}
+.ocard .k{position:absolute;left:28px;top:26px;display:flex;gap:8px}
+.ocard .k span{padding:7px 12px;border-radius:999px;background:rgba(246,238,223,.92);color:var(--esp);font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.ocard h3{position:absolute;left:28px;bottom:84px;font:italic 400 96px/.85 var(--serif);letter-spacing:-.04em;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144}
+.ocard .ft{position:absolute;left:28px;right:28px;bottom:28px;display:flex;justify-content:space-between;font:500 14px/1 var(--sans)}
+.ocard.open{height:700px}
+.ocard.open .panel{position:absolute;left:24px;right:24px;bottom:24px;background:var(--paper);color:var(--esp);border-radius:20px;padding:26px 28px;display:grid;grid-template-columns:1fr 1fr;gap:18px 28px}
+.ocard.open h3{bottom:auto;top:250px;font-size:128px}
+.ocard.open .panel .full{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;border-top:1.5px solid var(--line);padding-top:16px}
+.ocard.open .panel b{display:block;font:400 34px/1 var(--serif);letter-spacing:-.02em}
+.ocard.open .panel span{font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+.ocard .cur{left:56%;top:110px}
+
+.subs{background:var(--esp);color:var(--cream);padding:140px 56px 150px;margin:30px 0 60px;display:grid;grid-template-columns:460px 1fr 360px;gap:40px;align-items:center;position:relative}
+.subs h2{font-size:92px;line-height:.88;letter-spacing:-.045em;color:var(--paper)}
+.subs h2 em{color:var(--mustard)}
+.subs p{color:rgba(239,227,204,.7);font-size:18px;margin:28px 0 36px;max-width:430px}
+.subs .fan{position:relative;height:560px}
+.subs .fan .bag{position:absolute}
+.subs .fan .b1{left:0;top:120px;transform:rotate(-14deg)}
+.subs .fan .b2{left:100px;top:50px;transform:rotate(-2deg);z-index:2}
+.subs .fan .b3{left:205px;top:130px;transform:rotate(12deg)}
+.subs .fan .stamp{position:absolute;left:0;top:-10px;z-index:4;color:var(--mustard);width:160px;height:160px}
+.subs .fan .stamp .core{background:var(--terra);color:var(--paper);font-size:30px}
+.subs .steps{display:grid;gap:14px}
+.subs .steps div{display:grid;grid-template-columns:54px 1fr auto;gap:16px;align-items:center;padding:22px 24px;border-radius:20px;border:1.5px solid rgba(239,227,204,.2)}
+.subs .steps div.on{background:var(--cream);color:var(--esp);border-color:var(--cream);transform:rotate(-1.5deg)}
+.subs .steps i{font:italic 400 40px/1 var(--serif);color:var(--terra);font-style:italic}
+.subs .steps b{display:block;font:400 26px/1.1 var(--serif)}
+.subs .steps small{font-size:13px;opacity:.7}
+.subs .steps em{font:600 14px var(--sans);font-style:normal}
+
+.cafe{padding:80px 56px 130px;display:grid;grid-template-columns:1.25fr 1fr;gap:60px;position:relative}
+.cafe .big{height:700px;border-radius:300px 300px 26px 26px;position:relative}
+.cafe .lat{position:absolute;left:430px;top:500px;width:260px;height:300px;background:#fffaf0;padding:12px 12px 52px;transform:rotate(6deg);box-shadow:0 20px 40px rgba(43,26,18,.22);z-index:3}
+.cafe .lat .ph{height:100%}
+.cafe .lat span{position:absolute;bottom:14px;left:16px;font-size:20px}
+.cafe .stk{left:90px;top:120px;transform:rotate(-7deg);background:var(--terra);color:var(--paper)}
+.cafe h2{font-size:96px;line-height:.9;letter-spacing:-.045em;margin:20px 0 26px}
+.board{background:var(--esp);color:var(--cream);border-radius:22px;padding:32px 34px;margin-top:34px;position:relative}
+.board h4{font:italic 400 30px/1 var(--serif);color:var(--mustard);margin-bottom:18px}
+.board div{display:flex;align-items:baseline;gap:10px;padding:9px 0;font-size:16px}
+.board div::after{content:"";order:2;flex:1;border-bottom:2px dotted rgba(239,227,204,.3)}
+.board div em{order:3;font:400 20px var(--serif);font-style:normal}
+.board div small{color:rgba(239,227,204,.55);font-size:13px}
+.cafe .addr{display:flex;gap:30px;margin-top:26px;font-size:15px;color:var(--soft)}
+.cafe .addr b{display:block;color:var(--esp);font-size:16px}
+
+.notesrow{padding:0 56px 140px;display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.pn{padding:34px 32px;border-radius:6px;position:relative;box-shadow:0 18px 30px rgba(43,26,18,.12)}
+.pn p{font:italic 400 27px/1.25 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1}
+.pn .who{display:flex;justify-content:space-between;align-items:center;margin-top:26px;font-size:13px;font-weight:600}
+.pn .stars{display:flex;color:var(--terra)}.pn .stars .ic{width:16px;height:16px}
+.pn::before{content:"";position:absolute;top:-14px;left:40%;width:110px;height:30px;background:rgba(239,227,204,.75);transform:rotate(-4deg)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="hero tear-b">
+  <div class="txt">
+    <div class="eyebrow terra">✺ Speciality coffee · Direct trade since 2019</div>
+    <h1>Grown <span class="it s">slow,</span><br><em class="it"><span data-ul>roasted</span></em> close,<br>poured <span class="it s">warm.</span></h1>
+    <p class="lede">Small-lot coffees from 37 farming families in Ethiopia, Colombia and Kenya — bought at 2.4× Fairtrade, roasted every Monday in Lisbon, at your door by Thursday.</p>
+    <div class="cta"><a class="btn t">Shop this week’s roast <span data-ic="arrow"></span></a><a class="btn g">Build a subscription</a></div>
+    <div class="proof"><div><b>4.9<span class="it terra" style="font-size:30px">/5</span></b><span>12,400 reviews</span></div><div><b>37</b><span>partner farms</span></div><div><b>2.4×</b><span>above Fairtrade price</span></div></div>
+  </div>
+  <i class="riso r1"></i><i class="riso r2"></i><i class="riso r3"></i>
+  <div class="arch" data-img="1781460877110-6988cbaf0eb0|900"></div>
+  <svg class="steam" viewBox="0 0 220 300"><path d="M70 290 C 40 240, 100 210, 70 160 S 80 70, 60 20"/><path d="M115 290 C 90 230, 150 200, 115 150 S 130 80, 120 30"/><path d="M160 290 C 135 245, 185 215, 155 170 S 170 90, 160 50"/></svg>
+  <div class="backbag" data-bag="Huila|Colombia · Washed|#8fa58a|#b48d5e|Red apple · panela|2|250 G|#2b1a12|#efb9a0|#e0a93b" data-w="230"></div>
+  <div class="mainbag" data-bag="Bench Maji|Ethiopia · Natural Gesha|#e0a93b|#d4b78b|Jasmine · bergamot · peach|1|250 G|#2b1a12|#c65d3b|#8fa58a" data-w="300"></div>
+  <div class="stp" data-stamp="Roasted weekly in Lisbon ✺ Roasted weekly in Lisbon ✺ ">Mon<br>06:00</div>
+  <div class="cur"><span><svg class="ic" viewBox="0 0 24 24">'+'</svg>SNIFF</span></div>
+  <svg class="doodle arrow draw" viewBox="0 0 160 150"><path d="M10 140 C 30 80, 80 110, 100 60 S 120 20, 140 18"/><path d="M118 10 L142 17 L130 40"/></svg>
+  <div class="note hand">this week’s roast!<small>Batch 27 · 214 bags left</small></div>
+  <span class="sticker stk1">✺ New harvest · Oct ’26</span>
+  <span class="sticker stk2">Natural · 2,200 m</span>
+  <div class="beans" data-beans="700,860,30;760,890,-40,.9;640,900,70,.8;1000,880,10;1080,905,-60,.85;940,830,110,.7;1350,860,40;1300,900,-20,.9;1400,820,80,.7;600,60,20,.6;980,70,-50,.7;1180,420,30,.6"></div>
+</section>
+
+<section class="wave" id="wave"></section>
+
+<section class="week">
+  <div class="no">27</div>
+  <div class="pol"><span class="tape"></span><div class="ph" data-img="1511537190424-bbbab87ac5eb|900"></div><div class="cap hand">Batch 27 · Mon 19 Oct, 06:41</div></div>
+  <div class="stage"><i class="disc2"></i><i class="disc"></i>
+    <div data-bag="Bench Maji|Ethiopia · Natural Gesha|#e0a93b|#d4b78b|Jasmine · bergamot · peach|1|250 G|#2b1a12|#c65d3b|#8fa58a" data-w="290"></div>
+    <div class="cur"><span>SNIFF</span></div>
+    <span class="sticker stk">Only 214 left</span>
+  </div>
+  <div>
+    <div class="eyebrow terra">This week’s roast · No. 27</div>
+    <h2>Bench Maji <span class="it terra">Gesha</span></h2>
+    <p style="color:var(--soft);font-size:17px">A floral, tea-like natural from Tsegaye Bekele’s hillside plot, 2,150 m above Mizan Teferi. Dried for 24 days on raised beds.</p>
+    <div class="notes"><span style="background:var(--blush)">Jasmine</span><span style="background:var(--mustard)">Bergamot</span><span style="background:#f2c49b">White peach</span><span style="background:var(--sage-2)">Black tea</span></div>
+    <div class="meters">
+      <div class="meter"><span class="lab">Acidity</span><span class="tr"><i style="width:82%"></i></span><b>8.2</b></div>
+      <div class="meter"><span class="lab">Sweetness</span><span class="tr"><i style="width:74%;background:var(--mustard)"></i></span><b>7.4</b></div>
+      <div class="meter"><span class="lab">Body</span><span class="tr"><i style="width:38%;background:var(--sage)"></i></span><b>3.8</b></div>
+    </div>
+    <div class="buy"><span class="pr">€38<small>/ 250 g</small></span><a class="btn">Add to cart <span data-ic="plus"></span></a></div>
+  </div>
+</section>
+
+<section class="origins">
+  <div class="hd"><h2>Three countries,<br><span class="it terra">37 families.</span></h2><p>We buy from the same farms every year, pay before the harvest, and print the price we paid on every bag. Hover a country to meet them.</p></div>
+  <div class="oc">
+    <div class="ocard"><div class="ph" data-img="1559556064-4161b6be179b|900"></div><i class="tint" style="background:var(--terra)"></i><div class="k"><span>14 farms</span><span>1,900–2,300 m</span></div><h3>Ethiopia</h3><div class="ft"><span>Sidama · Guji · Bench Maji</span><span>8 coffees →</span></div></div>
+    <div class="ocard open"><div class="ph" data-img="1633437805600-2c58bf56663c|1100"></div><i class="tint" style="background:var(--sage)"></i><div class="k"><span>12 farms</span><span>1,600–2,050 m</span></div><h3>Colombia</h3>
+      <div class="cur"><span>SNIFF</span></div>
+      <div class="panel"><div><span>Paid / kg green</span><b>€9.80</b></div><div><span>Since</span><b>2020</b></div><div><span>Process</span><b class="it">Washed, honey</b></div><div><span>Harvest</span><b class="it">Apr – Jun</b></div><div class="full"><span style="font-size:13px;letter-spacing:.04em;text-transform:none;font-weight:500;color:var(--esp)">Huila · Nariño · Tolima — meet Doña Rosalba &amp; 11 others</span><a class="btn" style="height:46px;padding:0 20px">Explore <span data-ic="arrow"></span></a></div></div></div>
+    <div class="ocard"><div class="ph" data-img="1762686852371-763b689910b2|900"></div><i class="tint" style="background:var(--mustard)"></i><div class="k"><span>11 farms</span><span>1,700–1,950 m</span></div><h3>Kenya</h3><div class="ft"><span>Nyeri · Kirinyaga · Embu</span><span>5 coffees →</span></div></div>
+  </div>
+</section>
+
+<section class="subs tear-t tear-b">
+  <div>
+    <div class="eyebrow" style="color:var(--mustard)">The Oromo subscription</div>
+    <h2 style="margin-top:22px">Never run out.<br><em class="it">Never get bored.</em></h2>
+    <p>Tell us how you brew and what you love. We’ll send a different single-origin every one, two or four weeks — ground for your kit, roasted days before it ships.</p>
+    <a class="btn t">Build your box <span data-ic="arrow"></span></a>
+  </div>
+  <div class="fan">
+    <div class="stamp" data-stamp="Save 15% ✺ Pause anytime ✺ Skip a week ✺ ">−15%</div>
+    <div class="bag b1" data-bag="Nyeri AA|Kenya · Washed|#c65d3b|#c4a074|Blackcurrant · grapefruit|2|250 G|#2b1a12|#e0a93b|#2b1a12" data-w="190"></div>
+    <div class="bag b2" data-bag="Guji|Ethiopia · Natural|#8fa58a|#d9bf94|Blueberry · cocoa nib|2|250 G|#2b1a12|#e0a93b|#efb9a0" data-w="215"></div>
+    <div class="bag b3" data-bag="Nariño|Colombia · Honey|#efb9a0|#b8915f|Caramel · orange|3|250 G|#2b1a12|#c65d3b|#8fa58a" data-w="190"></div>
+  </div>
+  <div class="steps">
+    <div><i>1</i><span><b>Your taste</b><small>Fruity, chocolatey or adventurous</small></span><em>✓</em></div>
+    <div class="on"><i>2</i><span><b>Every 2 weeks</b><small>2 × 250 g · ground for V60</small></span><em>€27.20</em></div>
+    <div><i>3</i><span><b>At your door</b><small>Free, roasted ≤ 4 days before</small></span><em>Thu</em></div>
+  </div>
+</section>
+
+<section class="cafe">
+  <div style="position:relative">
+    <div class="big" data-img="1738214344374-bfac4208640b|1300"></div>
+    <span class="sticker stk">Open daily · 8 – 18</span>
+    <div class="lat"><div class="ph" data-img="1676506129134-c8aef41eb4d3|600"></div><span class="hand">flat white, €3.20</span></div>
+  </div>
+  <div>
+    <div class="eyebrow terra">The café &amp; roastery</div>
+    <h2>Come smell<br>the <span class="it terra" data-ul>roaster.</span></h2>
+    <p style="color:var(--soft);font-size:17px;max-width:500px">Our 15 kg drum roaster sits behind the bar on Rua da Boavista. Monday mornings the whole street smells like toasted sugar — free cuppings at 10:00.</p>
+    <div class="board"><h4>On the bar today</h4>
+      <div>Espresso <small>Guji natural</small><em>€1.60</em></div>
+      <div>V60 filter <small>Bench Maji Gesha</small><em>€4.50</em></div>
+      <div>Flat white <small>house blend “Mercado”</small><em>€3.20</em></div>
+      <div>Cardamom bun <small>from Pão da Esquina</small><em>€2.80</em></div>
+    </div>
+    <div class="addr"><div><b>Rua da Boavista 84</b>Cais do Sodré, Lisbon</div><div><b>Cupping · Mon 10:00</b>Free, 12 seats</div></div>
+  </div>
+</section>
+
+<section class="notesrow">
+  <div class="pn" style="background:var(--blush);transform:rotate(-1.5deg)"><p>“The Nyeri tastes like someone squeezed a blackcurrant into my V60. I’ve stopped buying supermarket beans for good.”</p><div class="who"><span>Inês M. · Porto · subscriber since ’23</span><span class="stars">${'s'}</span></div></div>
+  <div class="pn" style="background:var(--sage-2);transform:rotate(1deg)"><p>“Every bag says what the farmer was paid. That one line made me switch. The coffee made me stay.”</p><div class="who"><span>Jonas K. · Berlin</span><span class="stars"></span></div></div>
+  <div class="pn" style="background:#f2d391;transform:rotate(-.5deg)"><p>“Arrives four days after roasting, ground perfectly for my Aeropress. Skip and swap is genuinely one tap.”</p><div class="who"><span>Amara O. · Lisbon</span><span class="stars"></span></div></div>
+</section>
+
+<div data-footer></div>
+<script src="oromo.js"></script>
+<script>
+oromo('Shop coffee');
+document.querySelectorAll('.stars').forEach(s => s.innerHTML = ic('star').repeat(5));
+document.querySelector('.hero .cur span').innerHTML = ic('nose') + 'SNIFF';
+// wavy marquee of origins
+const o = ['Sidama', 'Huila', 'Nyeri', 'Guji', 'Nariño', 'Kirinyaga', 'Yirgacheffe', 'Tolima', 'Bench Maji', 'Embu'];
+let d = 'M-40 120'; for (let x = -40; x < 4400; x += 360) d += ` Q ${x + 90} 50 ${x + 180} 120 T ${x + 360} 120`;
+const line = (o.map(n => `${n}  ✺  `).join('')).repeat(3);
+document.getElementById('wave').innerHTML = `<svg viewBox="0 0 1440 220" height="220"><defs><path id="wv" d="${d}"/></defs>
+<path d="${d}" fill="none" stroke="rgba(43,26,18,.25)" stroke-width="1.5" stroke-dasharray="2 8" transform="translate(0,40)"/>
+<text dy="18"><textPath href="#wv">${line}<animate attributeName="startOffset" from="0" to="-1700" dur="30s" repeatCount="indefinite"/></textPath></text></svg>`;
+</script>
+</body></html>

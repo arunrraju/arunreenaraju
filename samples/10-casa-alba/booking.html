@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Reserve — SAHRA</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;500;600&family=Unbounded:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sahra.css">
+<script src="sahra3d.js"></script>
+<style>
+html,body{height:1080px;overflow:hidden}
+.app{height:1080px;background:linear-gradient(180deg,#120f30,#3a2a4f 45%,#a8566a 62%,#3b2440)}
+.steps{position:absolute;left:72px;top:108px;z-index:10;display:flex;align-items:center;gap:0;font:500 11px/1 var(--ui);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.steps span{display:flex;align-items:center;gap:10px}
+.steps span i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:400 10px/1 var(--num);font-style:normal;letter-spacing:0;border:1px solid rgba(248,241,231,.3)}
+.steps span.d{color:var(--dim)}
+.steps span.d i{background:rgba(255,226,178,.18);border-color:#ffe2b2;color:#ffe2b2}
+.steps span.on{color:var(--white)}
+.steps span.on i{background:var(--white);color:var(--ink);border-color:var(--white);box-shadow:0 0 20px rgba(255,226,178,.6)}
+.steps b{display:block;width:56px;height:1px;background:rgba(248,241,231,.25);margin:0 16px}
+.steps b.d{background:linear-gradient(90deg,#ffe2b2,#c98a4b)}
+.ttl{position:absolute;left:72px;top:160px;z-index:10}
+.ttl h1{font:400 64px/1 var(--disp);letter-spacing:.01em}
+.pane{position:absolute;z-index:10;border-radius:28px;padding:26px}
+.cal{left:72px;top:262px;width:660px;height:640px}
+.cal .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.cal .hd .ar{display:flex;gap:8px}
+.cal .hd .ar span{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(248,241,231,.25);font-size:14px}
+.months{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.mo h4{font:400 22px/1 var(--disp);letter-spacing:.04em;margin-bottom:14px;display:flex;justify-content:space-between;align-items:baseline}
+.mo h4 small{font:500 10px/1 var(--ui);letter-spacing:.2em;color:var(--faint)}
+.grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.grid7 .wd{font:500 9px/1 var(--ui);letter-spacing:.14em;color:var(--faint);text-align:center;padding:4px 0 8px}
+.dc{height:48px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:400 13px/1 var(--num);color:var(--white);position:relative}
+.dc small{font:400 8.5px/1 var(--num);color:var(--faint)}
+.dc.so{color:rgba(248,241,231,.25)}
+.dc.so::after{content:"";position:absolute;left:22%;right:22%;top:50%;height:1px;background:rgba(248,241,231,.25);transform:rotate(-30deg)}
+.dc.so small{opacity:0}
+.dc.dk small{color:#d9c6ff}
+.dc.dk::before{content:"";position:absolute;top:5px;right:6px;width:5px;height:5px;border-radius:50%;background:#d9c6ff;box-shadow:0 0 6px #b7a0ff}
+.dc.in{background:rgba(255,226,178,.16);border-radius:0}
+.dc.st,.dc.en{background:linear-gradient(140deg,#ffe2b2,#e7a35e);color:var(--ink);box-shadow:0 8px 24px rgba(255,150,70,.4)}
+.dc.st small,.dc.en small{color:rgba(7,8,24,.65)}
+.dc.st{border-radius:10px 0 0 10px}.dc.en{border-radius:0 10px 10px 0}
+.dc.nm{box-shadow:inset 0 0 0 1px rgba(217,198,255,.45)}
+.dc.nm .moonDot{position:absolute;top:4px;left:6px;font-size:8px;color:#d9c6ff}
+.sky{margin-top:22px;padding-top:18px;border-top:1px solid rgba(217,198,255,.15)}
+.sky .bars{display:grid;grid-template-columns:repeat(14,1fr);gap:6px;align-items:end;height:64px;margin-top:14px}
+.sky .bars i{display:block;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,#d9c6ff,rgba(91,66,119,.5))}
+.sky .bars i.s{background:linear-gradient(180deg,#ffe2b2,#c98a4b)}
+.sky .lbl{display:grid;grid-template-columns:repeat(14,1fr);gap:6px;margin-top:6px;font:300 9px/1 var(--num);color:var(--faint);text-align:center}
+.legend2{display:flex;gap:20px;margin-top:16px;font-size:11px;color:var(--dim)}
+.legend2 span{display:flex;align-items:center;gap:8px}
+.legend2 i{width:10px;height:10px;border-radius:3px}
+
+.add{left:752px;top:262px;width:330px;height:640px}
+.ad{display:grid;grid-template-columns:42px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-top:1px solid rgba(217,198,255,.13)}
+.ad:first-of-type{border-top:0}
+.ad .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(255,236,210,.08);border:1px solid rgba(255,236,210,.18)}
+.ad b{display:block;font:400 16px/1.2 var(--disp);letter-spacing:.02em}
+.ad small{font-size:11.5px;color:var(--faint)}
+.ad .pr{font:300 12px/1 var(--num);color:var(--sand2);display:block;margin-top:5px}
+.tg{width:42px;height:24px;border-radius:20px;background:rgba(248,241,231,.15);position:relative}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#bdb3c9}
+.tg.on{background:linear-gradient(90deg,#e7a35e,#ffe2b2)}
+.tg.on::after{left:21px;background:#fff}
+.ad.sel{background:linear-gradient(90deg,rgba(255,226,178,.08),transparent);margin:0 -26px;padding:14px 26px}
+
+.sum{left:1102px;top:262px;width:266px;display:flex;flex-direction:column}
+.sum .im{height:120px;border-radius:18px;background-size:cover;background-position:center;position:relative;overflow:hidden;margin-bottom:16px}
+.sum .im span{position:absolute;left:10px;bottom:10px;font:500 9px/1 var(--ui);letter-spacing:.2em;padding:7px 10px;border-radius:20px;text-transform:uppercase}
+.sum h3{font:400 24px/1.05 var(--disp)}
+.sum .dt{font-size:12px;color:var(--dim);margin:6px 0 12px}
+.li{display:flex;justify-content:space-between;font-size:12.5px;color:var(--dim);padding:7px 0}
+.li span:last-child{font:300 12px/1.4 var(--num);color:var(--white)}
+.tot{margin-top:10px;border-top:1px solid rgba(217,198,255,.18);padding-top:14px}
+.tot .t{display:flex;justify-content:space-between;align-items:baseline}
+.tot .t b{font:300 30px/1 var(--num)}
+.tot .btn{width:100%;justify-content:center;margin-top:14px;height:50px}
+.tot p{font-size:10.5px;color:var(--faint);margin-top:10px;text-align:center;letter-spacing:.03em}
+.domeTag{transform:translate(-30%,30px);z-index:12}
+.toast{position:absolute;left:72px;top:928px;z-index:12;display:flex;align-items:center;gap:14px;padding:12px 20px 12px 12px;border-radius:40px;font-size:13px;animation:floaty 5s ease-in-out infinite}
+.toast i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(140deg,#ffe2b2,#e7a35e);color:var(--ink);font-style:normal;font-weight:600}
+.bkcur{left:216px;top:600px;width:74px;height:74px;margin:-37px 0 0 -37px;z-index:20}
+.secure{position:absolute;left:72px;bottom:36px;z-index:10;font:500 10px/1 var(--ui);letter-spacing:.24em;text-transform:uppercase;color:var(--dim);display:flex;gap:28px}
+</style></head>
+<body>
+<section class="stage app">
+  <canvas id="c1"></canvas>
+  <header data-nav="suites" data-mode="night"></header>
+  <div class="steps"><span class="d"><i>✓</i>Suite</span><b class="d"></b><span class="on"><i>2</i>Nights &amp; extras</span><b></b><span><i>3</i>Guests</span><b></b><span><i>4</i>Payment</span></div>
+  <div class="ttl"><h1>Choose your <span class="gold">nights</span> by the <span class="night-ink">moon.</span></h1></div>
+  <div class="anchor domeTag" id="a1"><div class="tag glass dark" style="position:relative"><span class="dot pulse"></span><span><b>Crest Observatory 03</b><small>your dome · lit for arrival</small></span></div></div>
+
+  <div class="pane glass dark cal">
+    <div class="hd"><div><div class="eyebrow" style="color:#d9c6ff">Crest Observatory · rates per night for two</div></div><div class="ar"><span>←</span><span>→</span></div></div>
+    <div class="months">
+      <div class="mo"><h4>November 2026 <small>3 NIGHTS</small></h4><div class="grid7" id="m1"></div></div>
+      <div class="mo"><h4>December 2026 <small>FESTIVE RATES</small></h4><div class="grid7" id="m2"></div></div>
+    </div>
+    <div class="legend2"><span><i style="background:linear-gradient(140deg,#ffe2b2,#e7a35e)"></i>Your stay</span><span><i style="background:#d9c6ff;border-radius:50%"></i>Dark-sky night</span><span><i style="border:1px solid #d9c6ff"></i>New moon</span><span style="color:var(--faint)">— Sold out</span></div>
+    <div class="sky">
+      <div style="display:flex;justify-content:space-between"><span class="eyebrow" style="color:#d9c6ff">Sky darkness forecast</span><span style="font-size:11px;color:var(--dim)">Your nights score <b style="font:300 13px var(--num);color:#ffe2b2">8.7 / 10</b></span></div>
+      <div class="bars"><i style="height:96%"></i><i style="height:94%"></i><i style="height:90%"></i><i style="height:86%"></i><i style="height:80%"></i><i class="s" style="height:76%"></i><i class="s" style="height:72%"></i><i class="s" style="height:66%"></i><i style="height:58%"></i><i style="height:50%"></i><i style="height:44%"></i><i style="height:38%"></i><i style="height:30%"></i><i style="height:26%"></i></div>
+      <div class="lbl"><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span style="color:#ffe2b2">14</span><span style="color:#ffe2b2">15</span><span style="color:#ffe2b2">16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span></div>
+    </div>
+  </div>
+
+  <div class="pane glass dark add">
+    <div class="eyebrow" style="margin-bottom:8px">Shape the stay</div>
+    <div class="ad sel"><span class="ic"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#ffe2b2"><path d="M3 17 L15 7"/><circle cx="17" cy="5" r="2"/></svg></span><span><b>Private astronomer</b><small>One night, 21:30 – 01:00</small><span class="pr">€650</span></span><span class="tg on"></span></div>
+    <div class="ad sel"><span class="ic"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#ffe2b2"><path d="M4 16 h14 M7 16 V9 a4 4 0 0 1 8 0 v7"/><path d="M11 3 v2"/></svg></span><span><b>Dune dinner for two</b><small>Seven courses on the crest</small><span class="pr">€480</span></span><span class="tg on"></span></div>
+    <div class="ad sel"><span class="ic"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#ffe2b2"><path d="M11 3 a6 6 0 0 1 6 6 c0 4 -6 8 -6 8 s-6 -4 -6 -8 a6 6 0 0 1 6 -6z"/><path d="M9 19 h4"/></svg></span><span><b>Sunrise balloon</b><small>Sat 15 Nov · 05:20 lift-off</small><span class="pr">€900</span></span><span class="tg on"></span></div>
+    <div class="ad"><span class="ic"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#ffe2b2"><path d="M2 11 h18 M11 4 v4 M6 8 h10"/><path d="M8 14 l-2 4 M14 14 l2 4"/></svg></span><span><b>Helicopter from Muscat</b><small>35 min instead of 3 h 40</small><span class="pr">€2,400</span></span><span class="tg"></span></div>
+    <div class="ad"><span class="ic"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#ffe2b2"><path d="M3 14 q4 -4 8 0 t8 0"/><path d="M3 18 q4 -4 8 0 t8 0"/><circle cx="11" cy="6" r="2"/></svg></span><span><b>Sand &amp; salt hammam</b><small>90 min ritual for two</small><span class="pr">€320</span></span><span class="tg"></span></div>
+    <div class="ad"><span class="ic"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#ffe2b2"><path d="M4 12 q7 -10 14 0 q-7 4 -14 0z"/><circle cx="14" cy="10" r="1"/></svg></span><span><b>Falconry at dawn</b><small>With Salim, our falconer</small><span class="pr">€280</span></span><span class="tg"></span></div>
+  </div>
+
+  <div class="pane glass dark sum">
+    <div class="eyebrow" style="color:#d9c6ff;margin-bottom:12px">Your stay · Crest 03</div>
+    <h3>Crest Observatory</h3>
+    <div class="dt">Fri 14 → Mon 17 Nov · 3 nights · 2 adults</div>
+    <div class="li"><span>3 nights · €4.2k + 2 × €3.8k</span><span>€11,800</span></div>
+    <div class="li"><span>Private astronomer</span><span>€650</span></div>
+    <div class="li"><span>Dune dinner</span><span>€480</span></div>
+    <div class="li"><span>Sunrise balloon</span><span>€900</span></div>
+    <div class="li"><span>Taxes &amp; fees · 9%</span><span>€1,245</span></div>
+    <div class="tot"><div class="t"><span style="font-size:12px;color:var(--dim)">Total</span><b>€15,075</b></div>
+      <a class="btn" href="confirmation.html">Continue <span class="ar">→</span></a>
+      <p>Pay 30% today · free cancellation to 31 Oct</p></div>
+  </div>
+  <div class="toast glass"><i>✓</i><span><b style="font-weight:600">Sunrise balloon added</b> · only 2 baskets left on 15 Nov</span></div>
+  <div class="cursor bkcur"><i></i><b>Select</b></div>
+  <div class="secure"><span>◆ Secure booking</span><span>Best rate, direct</span><span>Concierge · +968 2400 7700</span></div>
+</section>
+<script src="sahra.js"></script>
+<script>
+(function () {
+  const wd = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+  function build(el, off, days, rate) {
+    let h = wd.map(d => `<div class="wd">${d}</div>`).join('');
+    for (let i = 0; i < off; i++) h += '<div></div>';
+    for (let d = 1; d <= days; d++) { const c = rate(d, (off + d - 1) % 7); h += `<div class="dc ${c.cls || ''}">${c.nm ? '<span class="moonDot">●</span>' : ''}${d}<small>${c.r || ''}</small></div>`; }
+    el.innerHTML = h;
+  }
+  const so1 = [1, 2, 3, 4, 7, 8, 21, 22, 28, 29];
+  build(document.getElementById('m1'), 6, 30, (d, w) => {
+    const cls = []; let r = w >= 4 && w <= 5 ? '4.2k' : '3.8k';
+    if (d >= 5 && d <= 13) { cls.push('dk'); r = '4.6k'; }
+    if (d === 9) cls.push('nm');
+    if (so1.includes(d)) cls.push('so');
+    if (d === 14) cls.push('st'); else if (d === 16) cls.push('en'); else if (d === 15) cls.push('in');
+    return { cls: cls.join(' '), r, nm: d === 9 };
+  });
+  const so2 = [19, 20, 24, 25, 26, 27, 28, 29, 30, 31];
+  build(document.getElementById('m2'), 1, 31, (d, w) => {
+    const cls = []; let r = d >= 18 ? '6.2k' : (w >= 4 && w <= 5 ? '4.2k' : '3.8k');
+    if (d >= 5 && d <= 12) { cls.push('dk'); if (d < 18) r = '4.6k'; }
+    if (d === 9) cls.push('nm');
+    if (so2.includes(d)) cls.push('so');
+    return { cls: cls.join(' '), r, nm: d === 9 };
+  });
+})();
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+SAHRA3D(THREE, { RoomEnvironment, RoundedBoxGeometry }, document.getElementById('c1'), 'dusk', { domeX: 20, domeZ: -22, anchors: [{ el: document.getElementById('a1'), dome: [0, -0.5, 0] }] });
+</script>
+</body></html>

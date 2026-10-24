@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>The Atelier — Forma Atelier, Lisbon</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="forma.css">
+<style>
+.hero{height:1000px;position:relative;overflow:hidden;background:radial-gradient(ellipse 50% 55% at 50% 40%,#2f5646 0%,#1f3a2f 40%,#0b1712 100%)}
+.hero canvas{position:absolute;left:0;top:0;z-index:2}
+.hero .w1,.hero .w2{position:absolute;left:0;right:0;text-align:center;font:800 230px/.8 var(--display);letter-spacing:-.065em;white-space:nowrap;z-index:1;color:var(--plaster)}
+.hero .w1{top:228px}
+.hero .w2{top:432px;font-size:170px !important;font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.04em;color:var(--brass2)}
+.hero .front{z-index:3;color:transparent;-webkit-text-stroke:1.2px rgba(233,226,214,.5);mask-image:linear-gradient(180deg,transparent 40%,#000 70%);-webkit-mask-image:linear-gradient(180deg,transparent 40%,#000 70%)}
+.hero .meta{position:absolute;left:48px;top:128px;z-index:4;display:flex;gap:40px}
+.hero .meta div{font-size:12px;color:rgba(233,226,214,.6)}
+.hero .meta b{display:block;font:700 13px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--plaster);margin-bottom:6px}
+.hero .copy{position:absolute;left:48px;bottom:56px;width:380px;z-index:4}
+.hero .copy p{color:rgba(233,226,214,.75);font-size:16px;margin:14px 0 26px}
+.hero .film{position:absolute;right:48px;bottom:56px;z-index:4;display:flex;gap:16px;align-items:center;padding:10px 22px 10px 10px;background:rgba(11,23,18,.55);backdrop-filter:blur(14px);border:1px solid rgba(233,226,214,.16)}
+.hero .film .th{width:120px;height:76px;position:relative}
+.hero .film .th::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.25)}
+.hero .film .pl{position:absolute;inset:0;z-index:2;display:grid;place-items:center;color:var(--plaster)}
+.hero .film b{display:block;font:700 13px/1.2 var(--display);letter-spacing:.1em;text-transform:uppercase}
+.hero .film span{font-size:12px;color:rgba(233,226,214,.6)}
+.ann{position:absolute;inset:0;z-index:4;pointer-events:none}
+.ann svg{position:absolute;inset:0;width:1440px;height:1000px}
+.ann .l{position:absolute;width:240px;font-size:12px;line-height:1.45;color:rgba(233,226,214,.7)}
+.ann .l b{display:block;font:700 13px/1.2 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--plaster);margin-bottom:3px}
+.ann .l.left{text-align:right}
+
+.founder{background:var(--plaster);color:var(--ink);padding:140px 48px;display:grid;grid-template-columns:520px 1fr;gap:90px;align-items:center}
+.arch{height:700px;border-radius:260px 260px 0 0;position:relative;box-shadow:0 50px 100px rgba(20,15,14,.3)}
+.arch>img{border-radius:260px 260px 0 0}
+.arch::after{content:"";position:absolute;inset:-16px;border:1.5px solid var(--brass);border-radius:276px 276px 0 0;pointer-events:none}
+.arch .stamp{position:absolute;right:-60px;bottom:70px;width:150px;height:150px;border-radius:50%;background:var(--ox);color:var(--plaster);display:grid;place-items:center;z-index:2}
+.arch .stamp svg{position:absolute;inset:0;animation:spin 20s linear infinite}
+.arch .stamp text{font:700 12px var(--display);letter-spacing:.3em;fill:var(--brass2)}
+.arch .stamp b{font:400 44px/1 var(--serif);font-style:italic}
+.founder .tag{color:var(--ox)}
+.founder h2{font:800 150px/.8 var(--display);letter-spacing:-.06em;text-transform:uppercase;margin:24px 0 34px}
+.founder h2 .serif{display:block;color:var(--ox);font-size:130px;margin-left:120px}
+.founder blockquote{font:400 36px/1.15 var(--serif);font-style:italic;max-width:700px;margin-bottom:30px;color:#2a2220}
+.founder p{max-width:620px;color:#5e544d;font-size:16px}
+.founder .sig{margin-top:30px;display:flex;align-items:center;gap:30px}
+.founder .sig svg{width:220px;height:80px}
+.founder .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:44px;border-top:1px solid rgba(20,15,14,.16)}
+.founder .facts div{padding:18px 18px 0 0}
+.founder .facts b{display:block;font:800 24px/1 var(--display);letter-spacing:-.02em;margin-bottom:6px}
+.founder .facts span{font-size:13px;color:#6d625a}
+
+.process{background:var(--ox);padding:130px 48px 120px;position:relative;overflow:hidden}
+.process .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:70px}
+.process h2{font:800 130px/.8 var(--display);letter-spacing:-.06em;text-transform:uppercase}
+.process h2 .serif{color:var(--brass2);font-size:120px}
+.process .hd p{max-width:380px;color:rgba(233,226,214,.72)}
+.line{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.line::before{content:"";position:absolute;left:0;right:0;top:330px;height:1px;background:rgba(233,226,214,.25)}
+.line::after{content:"";position:absolute;left:0;width:62%;top:329px;height:3px;background:linear-gradient(90deg,var(--brass),var(--brass2));box-shadow:0 0 20px var(--brass)}
+.st{position:relative}
+.st .pic{height:300px;position:relative;background:radial-gradient(ellipse at 50% 40%,#7a2a24,#3a1210);border:1px solid rgba(233,226,214,.12);overflow:hidden}
+.st .pic img{object-fit:contain}
+.st .pic.ph img{object-fit:cover}
+.st .dot{position:absolute;top:322px;left:0;width:18px;height:18px;border-radius:50%;background:var(--ox);border:2px solid rgba(233,226,214,.4);z-index:2}
+.st.done .dot{background:var(--brass2);border-color:var(--brass2);box-shadow:0 0 18px var(--brass2)}
+.st.now .dot{background:var(--plaster);border-color:var(--brass2);box-shadow:0 0 0 8px rgba(224,192,138,.25)}
+.st .tx{padding-top:52px}
+.st .n{font:800 13px/1 var(--display);letter-spacing:.12em;color:var(--brass2)}
+.st h3{font:800 26px/1 var(--display);text-transform:uppercase;letter-spacing:-.02em;margin:10px 0 8px}
+.st p{font-size:14px;color:rgba(233,226,214,.68)}
+.st .hrs{display:inline-block;margin-top:14px;font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;padding:8px 10px;border:1px solid rgba(233,226,214,.25)}
+.st.now .pic{outline:2px solid var(--brass2);outline-offset:6px}
+
+.nums{background:var(--forest);display:grid;grid-template-columns:repeat(4,1fr)}
+.nums div{padding:70px 48px;border-right:1px solid rgba(233,226,214,.1)}
+.nums b{display:block;font:800 120px/.85 var(--display);letter-spacing:-.06em;color:var(--plaster)}
+.nums b em{font-style:normal;color:var(--brass2);font-size:.5em;letter-spacing:-.02em}
+.nums span{display:block;margin-top:14px;color:rgba(233,226,214,.65);font-size:14px;max-width:220px}
+
+.visit{position:relative;height:900px;overflow:hidden}
+.visit>.bg{position:absolute;inset:0}
+.visit>.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,23,18,.85),rgba(11,23,18,.2) 60%,rgba(90,31,27,.35))}
+.visit .in{position:relative;z-index:2;padding:130px 48px;display:grid;grid-template-columns:1fr 420px;gap:40px;height:100%}
+.visit h2{font:800 170px/.8 var(--display);letter-spacing:-.06em;text-transform:uppercase}
+.visit h2 .serif{color:var(--brass2);font-size:150px;display:block}
+.visit .card{align-self:end;background:var(--plaster);color:var(--ink);padding:30px}
+.visit .card .tag{color:var(--ox)}
+.visit .card h3{font:800 30px/1 var(--display);text-transform:uppercase;letter-spacing:-.02em;margin:12px 0 14px}
+.visit .card ul{list-style:none;font-size:14px;color:#5e544d;margin-bottom:22px}
+.visit .card li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(20,15,14,.12)}
+.visit .card li b{color:var(--ink);font-weight:600}
+.visit .card .btn{width:100%;justify-content:space-between}
+.visit .small{position:absolute;left:560px;top:540px;width:320px;height:250px;z-index:2;box-shadow:0 40px 80px rgba(0,0,0,.5);animation:float 7s ease-in-out infinite}
+.visit .small .cap{position:absolute;left:12px;bottom:12px;z-index:2;font:600 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;background:var(--ink);padding:8px 10px}
+</style></head>
+<body>
+<section class="hero">
+  <div data-nav></div>
+  <div class="w1" data-fit="1344">MADE SLOW</div>
+  <div class="w2">by hand, in Lisbon.</div>
+  <canvas id="hero"></canvas>
+  <div class="w1 front" data-fit="1344">MADE SLOW</div>
+  <div class="ann" id="ann"><svg id="annsvg"></svg></div>
+  <div class="meta"><div><b>Est. 2011</b>Rua da Boavista 118</div><div><b>12 artisans</b>4 workshops, 1 roof</div><div><b>Exploded view</b>Monolith table · N°04</div></div>
+  <div class="copy"><span class="tag brass"><span class="dot"></span>&nbsp; The atelier</span><p>Every Forma object is drawn in clay, built in steel and ash, dressed by hand and signed underneath. Nothing is outsourced, nothing is glued that could be joined.</p><a class="btn">Book a workshop visit <span class="sq"><i data-ic="arrow"></i></span></a></div>
+  <div class="film"><div class="th" data-img="1728633826211-4e04854e344e|400"><div class="pl"><i data-ic="play"></i></div></div><div><b>Thirty-one hours</b><span>A film about one chair · 3:12</span></div></div>
+</section>
+
+<section class="founder">
+  <div class="arch" data-img="1660796334938-cf0b03be7e6d|1100"><div class="stamp"><svg viewBox="0 0 150 150"><defs><path id="sc" d="M75,75 m-56,0 a56,56 0 1,1 112,0 a56,56 0 1,1 -112,0"/></defs><text><textPath href="#sc">SIGNED · NUMBERED · LISBON ·</textPath></text></svg><b>IV</b></div></div>
+  <div>
+    <span class="tag">( Founder &amp; lead designer )</span>
+    <h2>Inès<span class="serif">Varga</span></h2>
+    <blockquote>“I trained as a sculptor. I still make every piece as if it will stand alone in an empty room — because the best ones do.”</blockquote>
+    <p>Before Forma, Inès spent nine years casting bronze in foundries outside Porto. She designs each collection in clay at full scale, sits in every maquette for a week, and only then lets the atelier draw a single line.</p>
+    <div class="sig"><svg viewBox="0 0 220 80"><path d="M8 58c18-30 30-46 36-40s-14 44-6 44 22-40 30-38-8 34 0 34 18-26 26-28c6-2-2 22 6 22s14-14 22-24c4-6 10-8 8 0s-6 18 4 16 20-18 34-22 30 2 44-6" fill="none" stroke="#5a1f1b" stroke-width="2.2" stroke-linecap="round"/></svg><span class="tag" style="color:#8a7f76">Inès Varga · Lisbon</span></div>
+    <div class="facts"><div><b>2011</b><span>Founded in a former tram depot</span></div><div><b>38</b><span>Objects designed, 7 in production</span></div><div><b>1:1</b><span>Every maquette is full scale</span></div></div>
+  </div>
+</section>
+
+<section class="process">
+  <div class="hd"><h2>Clay to <span class="serif">collector.</span></h2><p>Your piece moves through five rooms of the atelier. You get a photograph at every door — this is chair N°041, currently in upholstery.</p></div>
+  <div class="line">
+    <div class="st done"><div class="pic"><img id="p1" alt=""></div><span class="dot"></span><div class="tx"><span class="n">01 · Week 1–2</span><h3>Clay maquette</h3><p>Full-scale form, sat in for a week before a line is drawn.</p><span class="hrs">40 hours</span></div></div>
+    <div class="st done"><div class="pic"><img id="p2" alt=""></div><span class="dot"></span><div class="tx"><span class="n">02 · Week 3–4</span><h3>Ash &amp; steel</h3><p>Steam-bent ash shell over a welded, hand-sprung frame.</p><span class="hrs">22 hours</span></div></div>
+    <div class="st now"><div class="pic"><img id="p3" alt=""></div><span class="dot"></span><div class="tx"><span class="n">03 · Now</span><h3>Dressed by hand</h3><p>Your fabric is cut from one dye lot and pulled over the shell.</p><span class="hrs">31 hours</span></div></div>
+    <div class="st"><div class="pic"><img id="p4" alt=""></div><span class="dot"></span><div class="tx"><span class="n">04 · Week 9</span><h3>Brass, brushed</h3><p>Turned from solid bar, then brushed in one direction only.</p><span class="hrs">9 hours</span></div></div>
+    <div class="st"><div class="pic ph" data-img="1728633826211-4e04854e344e|700"></div><span class="dot"></span><div class="tx"><span class="n">05 · Week 10</span><h3>Signed &amp; crated</h3><p>Numbered, signed, and packed in an oak crate built for it.</p><span class="hrs">6 hours</span></div></div>
+  </div>
+</section>
+
+<section class="nums">
+  <div><b>31<em>h</em></b><span>of upholstery inside every Orbe</span></div>
+  <div><b>12</b><span>artisans — no outsourcing, ever</span></div>
+  <div><b>0<em>%</em></b><span>glued foam; down, horsehair and springs</span></div>
+  <div><b>∞</b><span>frame warranty, passed to the next owner</span></div>
+</section>
+
+<section class="visit">
+  <div class="bg" data-img="1565626424178-c699f6601afd|1800"></div>
+  <div class="small" data-img="1774477178005-bff823e43be8|700"><span class="cap">The salon room</span></div>
+  <div class="in">
+    <div><span class="tag brass">( Visit )</span><h2 style="margin-top:24px">Sit in <span class="serif">everything.</span></h2></div>
+    <div class="card"><span class="tag">The gallery · Lisbon</span><h3>Rua da Boavista 118</h3><ul><li>Tue – Sat<b>11:00 – 19:00</b></li><li>Private viewings<b>By appointment</b></li><li>Workshop tours<b>Thursdays, 16:00</b></li><li>Fabric library<b>1,200 swatches</b></li></ul><a class="btn dark">Book a private viewing <span class="sq"><i data-ic="arrow"></i></span></a></div>
+  </div>
+</section>
+
+<div data-footer></div>
+
+<script src="forma.js"></script>
+<script>forma('Atelier');</script>
+<script src="forma3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const F = Forma3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+
+/* process stages, rendered once */
+const clay = new THREE.MeshPhysicalMaterial({ color: '#9c6f52', roughness: 0.95 });
+const steel = new THREE.MeshPhysicalMaterial({ color: '#4a4643', metalness: 0.9, roughness: 0.45 });
+const ash = F.wood('light');
+const so = { w: 300, h: 300, fit: 1.05, cam: [1.6, 1.0, 2.6], fov: 28, drop: 0.05 };
+document.getElementById('p1').src = F.snap(() => F.chair({ fabric: clay, metal: clay }), so);
+document.getElementById('p2').src = F.snap(() => { const c = F.chair({ fabric: ash, metal: steel }); c.userData.parts.cushion.visible = false; c.userData.parts.drum.visible = false; c.userData.parts.band.visible = false; return c; }, so);
+document.getElementById('p3').src = F.snap(() => { const c = F.chair({ fabric: F.fabric('boucle', '#e6ded0', [12, 3]), metal: steel }); c.userData.parts.cushion.position.y += 0.22; c.userData.parts.legs.visible = false; return c; }, so);
+document.getElementById('p4').src = F.snap(() => { const g = new THREE.Group(); const c = F.chair({ metal: F.metal('brass') }); c.userData.parts.legs.position.y = 0; g.add(c.userData.parts.legs); return g; }, { ...so, fit: 1.2, cam: [1.2, 1.4, 2.6], env: 1.1 });
+
+/* HERO: Monolith table, exploded and levitating */
+const H = F.stage(document.getElementById('hero'), { w: 1440, h: 1000, fov: 28, exposure: 1.05 });
+H.env = 0.55;
+const { scene, camera } = H;
+camera.position.set(0.15, 1.35, 5.4); camera.lookAt(0.15, 0.82, 0);
+const T = F.table({ top: F.marble('viola', [0.6, 0.6]) }); T.scale.setScalar(1.35); scene.add(T);
+const P = T.userData.parts;
+const dowels = new THREE.Group(); const brass = F.metal('brass');
+for (const x of [-0.34, 0.34]) for (const dz of [-0.05, 0.05]) { const d = F.mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.09, 16), brass); d.position.set(x + dz, 0.42, dz); dowels.add(d); }
+T.add(dowels);
+const chips = [];
+const R = F.rng(4);
+for (let i = 0; i < 9; i++) {
+  const m = F.mesh(new THREE.DodecahedronGeometry(0.03 + R() * 0.06, 0), i % 3 ? F.marble('viola') : F.travertine());
+  const a = R() * 6.28, r = 1.2 + R() * 0.9; m.userData = { a, r, y: 0.4 + R() * 1.5, s: 0.2 + R() * 0.3 };
+  scene.add(m); chips.push(m);
+}
+scene.add(Object.assign(F.blob(1.5, 1.0, 0.5)));
+F.shadowFloor(scene, 14, 0.4);
+F.spot(scene, { pos: [0.6, 5.2, 2.4], target: [0, 0.8, 0], intensity: 110, angle: 0.36 });
+F.rim(scene, [-3, 2.5, -3], '#b9e3c6', 3);
+F.rim(scene, [3, 2, -2], '#ffcf9a', 2.4);
+scene.add(new THREE.HemisphereLight('#fff0dc', '#0b1712', 0.5));
+const beam = F.beam({ top: [0.3, 4.6, 0.8], height: 4.6, radius: 1.6, opacity: 0.12 }); scene.add(beam);
+const dust = F.dust({ n: 420, r: 1.6, y0: 0.1, y1: 3.6, seed: 12 }); scene.add(dust);
+
+const ann = document.getElementById('ann'), svg = document.getElementById('annsvg');
+const L = [
+  { o: P.top, off: [0.62, 0.06, 0.2], side: 'right', x: 1120, y: 150, t: 'Slab N°0412', d: 'Calacatta Viola, Tuscany — the quarry bench is inked inside your crate.' },
+  { o: P.ped[1], off: [0.13, 0.12, 0.1], side: 'right', x: 1120, y: 560, t: 'Hand-turned drums', d: 'Roman travertine, nine hours each on the lathe.' },
+  { o: dowels, off: [0.34, 0.42, 0.05], side: 'right', x: 1120, y: 740, t: 'Brass dowels', d: 'No glue, no screws — the slab sits on four solid pins.' }
+];
+L.forEach(l => { l.el = document.createElement('div'); l.el.className = 'l ' + l.side; l.el.innerHTML = `<b>${l.t}</b>${l.d}`; l.el.style.left = (l.side === 'left' ? l.x - 240 : l.x) + 'px'; l.el.style.top = (l.y - 8) + 'px'; ann.appendChild(l.el); });
+const v = new THREE.Vector3();
+H.tick.push(t => {
+  T.position.y = 0.12 + Math.sin(t * 0.8) * 0.02; T.rotation.y = -0.35 + Math.sin(t * 0.2) * 0.15;
+  P.top.position.y = 0.33 + 0.36 + Math.sin(t * 0.8 + 0.7) * 0.025; P.top.rotation.set(0.16, 0, -0.07 + Math.sin(t * 0.6) * 0.02);
+  P.ped[0].position.set(-0.46, 0.02 + Math.sin(t * 0.8 + 1.4) * 0.02, 0.04); P.ped[0].rotation.z = 0.06;
+  P.ped[1].position.set(0.46, 0.06 + Math.sin(t * 0.8 + 2.1) * 0.02, -0.04); P.ped[1].rotation.z = -0.08;
+  dowels.position.y = 0.12 + Math.sin(t * 1.2) * 0.01;
+  chips.forEach(c => { const u = c.userData, a = u.a + t * u.s * 0.4; c.position.set(Math.cos(a) * u.r, u.y + Math.sin(t * u.s + u.a) * 0.08, Math.sin(a) * u.r * 0.6); c.rotation.set(t * u.s, t * u.s * 1.3, 0); });
+  F.driftDust(dust, t);
+  T.updateWorldMatrix(true, true);
+  svg.innerHTML = L.map(l => { v.set(...l.off); l.o.localToWorld(v); const p = H.project(v), ex = l.side === 'left' ? l.x + 14 : l.x - 14;
+    return `<path d="M${p.x},${p.y} L${ex + (l.side === 'left' ? 40 : -40)},${l.y} L${ex},${l.y}" fill="none" stroke="rgba(224,192,138,.75)"/><circle cx="${p.x}" cy="${p.y}" r="5" fill="#e0c08a"/><circle cx="${p.x}" cy="${p.y}" r="12" fill="none" stroke="rgba(224,192,138,.45)"/>`; }).join('');
+});
+H.start();
+</script>
+</body></html>

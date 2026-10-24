@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Builder — KEYFORM</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Doto:ROND,wght@0..100,100..900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kf.css">
+<style>
+html,body{height:1080px;overflow:hidden}
+.app{display:grid;grid-template-columns:1fr 470px;height:1004px}
+.cv{position:relative;overflow:hidden;border-right:1px solid var(--line)}
+.cv canvas{position:absolute;left:0;top:0;z-index:2}
+.cv .ghost{position:absolute;left:30px;bottom:96px;font:900 300px/.8 var(--dot);color:rgba(43,43,43,.07);z-index:1;letter-spacing:-.04em;white-space:nowrap}
+.cv .tl{position:absolute;left:40px;top:30px;z-index:4}
+.cv .tl h1{font:600 46px/.95 var(--sans);letter-spacing:-.04em;margin-top:10px}
+.cv .tl h1 span{color:var(--or)}
+.steps{position:absolute;right:30px;top:30px;z-index:4;display:flex;gap:6px}
+.steps span{display:flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:99px;font:500 12px/1 var(--mono);border:1px solid var(--line2);background:var(--card)}
+.steps span b{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:#fff;font-size:9px}
+.steps span.done b{background:var(--or)}
+.steps span.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.steps span.on b{background:#fff;color:var(--ink)}
+.cv .bot{position:absolute;left:30px;right:30px;bottom:26px;z-index:4;display:flex;gap:12px;align-items:stretch}
+.seg{display:flex;background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:4px;gap:4px}
+.seg span{padding:0 14px;display:flex;align-items:center;border-radius:9px;font:500 13px/1 var(--sans);white-space:nowrap}
+.seg span.on{background:var(--ink);color:#fff}
+.sp{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:8px 16px 8px 8px;flex:1}
+.sp .key{height:44px;width:44px;padding:0;border-radius:9px}
+.sp .wv{flex:1;height:34px;color:var(--or)}
+.kitlab{position:absolute;z-index:4;font:500 11px/1.35 var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.kitlab b{display:block;font:600 15px/1.2 var(--sans);text-transform:none;letter-spacing:-.01em}
+.panel{display:flex;flex-direction:column;background:var(--card)}
+.panel .scroll{flex:1;padding:26px 34px 0;display:flex;flex-direction:column;gap:22px}
+.grp h3{display:flex;align-items:baseline;gap:10px;font:600 18px/1 var(--sans);letter-spacing:-.01em;margin-bottom:12px}
+.grp h3 i{font:900 18px/1 var(--dot);color:var(--or);font-style:normal}
+.grp h3 em{margin-left:auto;font:500 11px/1 var(--mono);font-style:normal;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase}
+.cases{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.cases div{border:1px solid var(--line2);border-radius:12px;padding:10px 6px 9px;text-align:center;cursor:pointer;background:var(--paper)}
+.cases div .sw{display:block;width:34px;height:34px;margin:0 auto 7px}
+.cases div span{font:500 10px/1.15 var(--mono);text-transform:uppercase;letter-spacing:.03em;display:block}
+.cases div small{font:500 10px/1 var(--mono);color:var(--ink3)}
+.cases div.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);background:#fff}
+.sws{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sws div{border:1px solid var(--line2);border-radius:12px;padding:11px 12px;display:grid;grid-template-columns:1fr 56px;gap:4px;cursor:pointer;background:var(--paper)}
+.sws div.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);background:#fff}
+.sws b{font:600 14px/1.1 var(--sans)}
+.sws small{font:500 10px/1.3 var(--mono);color:var(--ink2);text-transform:uppercase;letter-spacing:.03em;grid-column:1}
+.sws svg{grid-row:1/3;grid-column:2;width:56px;height:34px}
+.cws{display:grid;gap:7px}
+.cw{display:flex;align-items:center;gap:12px;border:1px solid var(--line2);border-radius:12px;padding:8px 12px 8px 8px;cursor:pointer;background:var(--paper)}
+.cw.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);background:#fff}
+.cw .kk{display:flex;gap:3px}
+.cw .kk i{width:24px;height:24px;border-radius:5px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.5);border:1px solid rgba(0,0,0,.08)}
+.cw b{font:600 14px/1 var(--sans)}
+.cw small{font:500 10px/1 var(--mono);color:var(--ink2);margin-left:auto}
+.ex{display:grid;gap:7px}
+.ex div{display:flex;align-items:center;gap:12px;font:500 14px/1 var(--sans)}
+.tg{width:40px;height:24px;border-radius:99px;background:rgba(43,43,43,.16);position:relative;flex:none;cursor:pointer}
+.tg::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.2s}
+.tg.on{background:var(--or)}.tg.on::after{left:19px}
+.ex small{margin-left:auto;font:500 12px/1 var(--mono);color:var(--ink2)}
+.total{margin-top:auto;border-top:1.5px solid var(--ink);padding:20px 34px 26px;background:var(--paper)}
+.total .row{display:flex;justify-content:space-between;align-items:flex-end}
+.total .num{font:900 74px/.8 var(--dot);letter-spacing:-.03em}
+.total .key.or{width:100%;height:62px;margin-top:18px;font-size:17px}
+</style></head>
+<body>
+<div data-nav></div>
+<div class="app">
+  <div class="cv dotbg">
+    <div class="ghost">BUILD</div>
+    <div class="tl"><div class="lbl">Build № KF-75-0417 · auto-saved 12:04</div><h1>Model 75 <span id="hname">Orange / Paper</span></h1></div>
+    <div class="steps"><span class="done"><b>✓</b>Case</span><span class="done"><b>✓</b>Switch</span><span class="on"><b>3</b>Keycaps</span><span><b>4</b>Extras</span></div>
+    <canvas id="bd"></canvas>
+    <div class="kitlab" id="kitlab" style="left:70px;top:690px"><span class="or-t">Keycap kit preview</span><b id="kitname">Paper · 142 keys, PBT dye-sub</b></div>
+    <span class="stk y" style="left:40px;top:150px;transform:rotate(-5deg)">● Live 3D</span>
+    <div class="cur" style="left:560px;top:330px"><i><svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></svg></i><span>DRAG · 360°</span></div>
+    <div class="bot">
+      <div class="seg"><span class="on">3/4</span><span>Top</span><span>Side</span><span>Exploded</span></div>
+      <div class="sp"><span class="key or"><svg class="ic" viewBox="0 0 24 24"><path d="M8 5v14l11-7L8 5Z" fill="currentColor"/></svg></span><div><div style="font:600 14px/1.1 var(--sans)">Hear this build</div><div class="lbl" style="margin-top:3px" id="sndlab">Cream · brass plate · 38 dB</div></div><div class="wv" data-wave data-n="60" data-seed="4" data-kind="cream"></div></div>
+      <span class="key" style="height:auto">Share <svg class="ic" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="scroll">
+      <div class="grp"><h3><i>01</i>Case<em id="caseL">Safety Orange</em></h3>
+        <div class="cases" id="cases">
+          <div data-v="silver" data-p="0"><i class="sw" style="background:linear-gradient(135deg,#f1f0ec,#bdbbb5)"></i><span>Silver</span><small>incl.</small></div>
+          <div data-v="graphite" data-p="0"><i class="sw" style="background:linear-gradient(135deg,#5a5a5c,#2f2f31)"></i><span>Graphite</span><small>incl.</small></div>
+          <div data-v="orange" data-p="20" class="on"><i class="sw" style="background:linear-gradient(135deg,#ff8a5c,#e5440d)"></i><span>Orange</span><small>+€20</small></div>
+          <div data-v="lilac" data-p="20"><i class="sw" style="background:linear-gradient(135deg,#e1dcff,#a79ef0)"></i><span>Lilac</span><small>+€20</small></div>
+          <div data-v="paper" data-p="15"><i class="sw" style="background:linear-gradient(135deg,#faf8f3,#dcd8cf)"></i><span>Paper</span><small>+€15</small></div>
+        </div></div>
+      <div class="grp"><h3><i>02</i>Switches<em>× 84 · hot-swap</em></h3>
+        <div class="sws" id="sws">
+          <div data-v="Cream" data-p="0" class="on"><b>KF Cream</b><small>Linear · 45 g · incl.</small><svg viewBox="0 0 56 34"><path d="M2 32 L54 6" stroke="#ff5a1f" stroke-width="2.5" fill="none"/></svg></div>
+          <div data-v="Thock" data-p="0"><b>KF Thock</b><small>Tactile · 55 g · incl.</small><svg viewBox="0 0 56 34"><path d="M2 32 L16 14 L22 20 L54 4" stroke="#2b2b2b" stroke-width="2.5" fill="none"/></svg></div>
+          <div data-v="Clack" data-p="0"><b>KF Clack</b><small>Clicky · 50 g · incl.</small><svg viewBox="0 0 56 34"><path d="M2 32 L16 12 L18 24 L54 6" stroke="#2b2b2b" stroke-width="2.5" fill="none"/></svg></div>
+          <div data-v="Hush" data-p="12"><b>KF Hush</b><small>Silent · 40 g · +€12</small><svg viewBox="0 0 56 34"><path d="M2 32 C 20 30, 30 18, 54 10" stroke="#2b2b2b" stroke-width="2.5" fill="none"/></svg></div>
+        </div></div>
+      <div class="grp"><h3><i>03</i>Keycap set<em>PBT · 142 keys</em></h3>
+        <div class="cws" id="cws">
+          <div class="cw on" data-v="paper" data-p="0"><span class="kk"><i style="background:#f4f2ec"></i><i style="background:#cfccc3"></i><i style="background:#ff5a1f"></i><i style="background:#cbc3ff"></i></span><b>Paper</b><small>incl.</small></div>
+          <div class="cw" data-v="signal" data-p="0"><span class="kk"><i style="background:#3a3a37"></i><i style="background:#5e5d58"></i><i style="background:#ff5a1f"></i><i style="background:#efede8"></i></span><b>Signal</b><small>incl.</small></div>
+          <div class="cw" data-v="lilac" data-p="15"><span class="kk"><i style="background:#efecff"></i><i style="background:#cbc3ff"></i><i style="background:#ff5a1f"></i><i style="background:#8d82ea"></i></span><b>Lilac Haze</b><small>+€15</small></div>
+          <div class="cw" data-v="retro" data-p="25"><span class="kk"><i style="background:#ebe2cd"></i><i style="background:#a19c90"></i><i style="background:#e0532c"></i><i style="background:#5e8f86"></i></span><b>Retro 84</b><small>+€25</small></div>
+          <div class="cw" data-v="graphite" data-p="0"><span class="kk"><i style="background:#4b4b49"></i><i style="background:#2f2f2e"></i><i style="background:#cbc3ff"></i><i style="background:#ff5a1f"></i></span><b>Graphite</b><small>incl.</small></div>
+        </div></div>
+      <div class="grp"><h3><i>04</i>Extras</h3>
+        <div class="ex" id="ex">
+          <div><span class="tg on" data-p="39"></span>Brass back weight, mirror PVD<small>+€39</small></div>
+          <div><span class="tg on" data-p="29"></span>Coiled aviator cable, orange<small>+€29</small></div>
+          <div><span class="tg" data-p="30"></span>Hand-assembled &amp; tuned by us<small>+€30</small></div>
+        </div></div>
+    </div>
+    <div class="total">
+      <div class="row"><div><div class="lbl">Your build · VAT incl.</div><div class="num" id="tot" style="margin-top:10px">€437</div></div><div style="text-align:right"><div class="lbl">Ships with</div><div style="font:600 15px/1.3 var(--sans);margin-top:6px">Batch 07 · 12 Nov</div><div class="lbl or-t" style="margin-top:4px">412 cases left</div></div></div>
+      <a class="key or" href="cart.html">Add build to cart <small>↵ enter</small></a>
+    </div>
+  </div>
+</div>
+<script src="kf.js"></script>
+<script>keyform('Builder', { cart: 2 });</script>
+<script src="kf3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+const K = KF3D(THREE, RoomEnvironment, mergeGeometries);
+const W = 970, H = 1004;
+const S = K.stage(document.getElementById('bd'), { w: W, h: H, fov: 27, pos: [5, 23, 37], target: [0.3, 1.0, 1.4], exposure: 1.0 });
+const board = await K.buildBoard({
+  colorway: 'paper', caseColor: 'orange', hold: { 'enter': 0.9, 'J': 1 },
+  loose: [
+    { label: 'esc', role: 'acc', pos: [-4.4, 2.2, 7.4], rot: [0.55, 0.35, -0.12], scale: 1.75 },
+    { label: 'K', role: 'alpha', pos: [-1.2, 2.6, 8.0], rot: [0.5, -0.15, 0.08], scale: 1.75 },
+    { label: 'fn', role: 'mod', pos: [2.2, 2.2, 7.8], rot: [0.62, 0.25, 0.1], scale: 1.75 },
+    { label: '↑', role: 'acc2', pos: [5.5, 2.6, 7.4], rot: [0.5, -0.3, -0.12], scale: 1.75 }
+  ]
+});
+board.root.rotation.set(0, -0.32, 0);
+board.root.position.set(0.2, 0, -1.2);
+S.scene.add(board.root);
+K.ground(S.scene, { sx: 30, sz: 16, y: -0.05, strength: 0.4 });
+// UI wiring
+const state = { case: 'orange', cw: 'paper', sw: 'Cream' };
+const NAMES = { silver: 'Silver', graphite: 'Graphite', orange: 'Orange', lilac: 'Lilac', paper: 'Paper' };
+const CWN = { paper: 'Paper', signal: 'Signal', lilac: 'Lilac Haze', retro: 'Retro 84', graphite: 'Graphite' };
+function price() {
+  let p = 349;
+  document.querySelectorAll('#cases .on,#sws .on,#cws .on,#ex .tg.on').forEach(e => p += +e.dataset.p);
+  document.getElementById('tot').textContent = '€' + p;
+  document.getElementById('hname').textContent = `${NAMES[state.case]} / ${CWN[state.cw]}`;
+  document.getElementById('caseL').textContent = K.CASES[state.case].name;
+  document.getElementById('kitname').textContent = `${CWN[state.cw]} · 142 keys, PBT dye-sub`;
+  document.getElementById('sndlab').textContent = `${state.sw} · brass plate · ${({ Cream: 38, Thock: 41, Clack: 47, Hush: 29 })[state.sw]} dB`;
+}
+const pick = (sel, fn) => document.querySelectorAll(sel).forEach(el => el.addEventListener('click', () => { el.parentElement.querySelectorAll(':scope>.on').forEach(o => o.classList.remove('on')); el.classList.add('on'); fn(el.dataset.v); price(); }));
+pick('#cases>div', v => { state.case = v; board.setCase(v); });
+pick('#sws>div', v => { state.sw = v; });
+pick('#cws>div', v => { state.cw = v; board.setColorway(v); });
+document.querySelectorAll('#ex .tg').forEach(t => t.addEventListener('click', () => { t.classList.toggle('on'); price(); }));
+price();
+S.loop(t => { board.update(t + 3); board.root.rotation.y = -0.32 + Math.sin(t * 0.3) * 0.06; });
+</script>
+</body></html>

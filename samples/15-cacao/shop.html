@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Bars by Origin — Maison Cacao Noir</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Gilda+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cacao.css">
+<script src="cacao3d.js"></script>
+<style>
+.hero{position:relative;height:860px;overflow:hidden;background:radial-gradient(ellipse 42% 55% at 72% 50%,#4a2414 0%,#26110a 45%,var(--bg) 80%)}
+.hero .big{position:absolute;left:600px;top:120px;font:400 560px/.8 var(--disp);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1.5px rgba(200,161,90,.28);background:linear-gradient(180deg,rgba(200,161,90,.14),transparent 70%);-webkit-background-clip:text;background-clip:text;white-space:nowrap}
+.hero canvas{position:absolute;right:0;top:40px;z-index:2}
+.hero .copy{position:absolute;left:56px;top:230px;z-index:4;width:640px}
+.hero h1{font-size:132px;line-height:.88;margin:24px 0 30px;letter-spacing:-.03em}
+.hero p{color:var(--dim);font-size:17px;max-width:470px}
+.hero .count{display:flex;gap:46px;margin-top:46px}
+.hero .count b{display:block;font:400 46px/1 var(--disp)}
+.hero .count span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim2)}
+.hero .lbl{position:absolute;z-index:5;display:flex;align-items:center;gap:10px;font:700 10px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase}
+.hero .lbl i{width:46px;height:1px;background:var(--gold)}
+.hero .lbl b{display:block;font:400 20px/1 var(--serif);letter-spacing:0;text-transform:none;margin-top:6px}
+.hero .cursor{left:900px;top:600px}
+
+.belt{margin:0 56px;position:relative;height:300px;border-radius:26px;border:1px solid var(--line);overflow:hidden;background:linear-gradient(180deg,#1d0e09,#170a06)}
+.belt svg{position:absolute;inset:0}
+.belt .ttl{position:absolute;left:34px;top:28px;z-index:2}
+.belt .ttl b{display:block;font:400 30px/1 var(--serif);margin-top:10px}
+.belt .pin{position:absolute;z-index:3;transform:translate(-50%,-100%);text-align:center}
+.belt .pin .d{width:14px;height:14px;border-radius:50%;background:var(--gold);margin:8px auto 0;box-shadow:0 0 0 5px rgba(200,161,90,.2)}
+.belt .pin b{display:block;font:400 19px/1 var(--serif);white-space:nowrap}
+.belt .pin span{font:700 10px/1 var(--sans);letter-spacing:.16em;color:var(--dim)}
+.belt .pin.on .box{background:rgba(200,161,90,.16);border:1px solid rgba(200,161,90,.6);padding:10px 14px;border-radius:12px;backdrop-filter:blur(8px)}
+.belt .pin.on .d{background:var(--rasp);box-shadow:0 0 0 6px rgba(214,58,99,.25);animation:pulse 1.6s infinite}
+
+.filters{display:flex;justify-content:space-between;align-items:center;margin:56px 56px 36px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.filters .l{display:flex;gap:10px;align-items:center}
+.filters .chip{height:38px;padding:0 16px;font-size:12px}
+.filters .chip.on{background:var(--cream);color:#1d0d07;border-color:var(--cream)}
+.filters .chip.f{border-color:rgba(214,58,99,.6);color:var(--cream);background:rgba(214,58,99,.12)}
+.filters .sep{width:1px;height:26px;background:var(--line);margin:0 6px}
+.filters .r{display:flex;gap:20px;align-items:center;font-size:13px;color:var(--dim)}
+.filters .r b{color:var(--cream);font-weight:600}
+.filters .sort{height:38px;padding:0 16px;border-radius:30px;border:1px solid var(--line2);display:flex;align-items:center;gap:10px;color:var(--cream)}
+
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:0 56px}
+.pc{position:relative;border-radius:24px;border:1px solid var(--line);background:linear-gradient(180deg,#22100a,#180b07);padding:20px;overflow:hidden}
+.pc .stage{height:330px;border-radius:16px;position:relative;display:grid;place-items:center;overflow:hidden}
+.pc .stage::after{content:"";position:absolute;left:20%;right:20%;bottom:24px;height:30px;border-radius:50%;background:rgba(0,0,0,.55);filter:blur(14px)}
+.pc .stage .wrap{width:168px;height:268px;transform:rotate(-7deg) translateX(-34px);z-index:2}
+.pc .stage .cbar{position:absolute;width:150px;height:240px;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(6,1fr);transform:rotate(8deg) translate(54px,-10px);z-index:1}
+.pc .tag{position:absolute;left:14px;top:14px;z-index:4;background:rgba(21,9,5,.55);backdrop-filter:blur(6px)}
+.pc .pct{position:absolute;right:16px;top:12px;z-index:4;font:400 44px/1 var(--disp);color:rgba(243,230,211,.9)}
+.pc .pct small{font-size:18px}
+.pc .info{display:grid;grid-template-columns:1fr 104px;gap:16px;margin-top:20px}
+.pc h3{font-size:28px;white-space:nowrap}
+.pc .org{font-size:13px;color:var(--dim);margin-top:6px}
+.pc .notes{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.pc .radar{width:104px;height:104px}
+.pc .buy{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.pc .buy b{font:400 32px/1 var(--serif)}
+.pc .buy b small{font:500 12px var(--sans);color:var(--dim2);margin-left:6px}
+.pc .buy button{height:42px;padding:0 20px;border-radius:40px;border:1px solid var(--line2);font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.pc.hov{border-color:rgba(200,161,90,.55);box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 80px rgba(200,161,90,.12);transform:translateY(-10px)}
+.pc.hov .buy button{background:var(--gold);color:#1d0d07}
+.pc.hov .qv{position:absolute;left:20px;right:20px;top:210px;z-index:6;padding:14px 16px}
+.pc.hov .qv .sz{display:flex;gap:6px;margin-top:10px}
+.pc.hov .qv .sz span{flex:1;height:34px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center;font:700 11px/1 var(--sans)}
+.pc.hov .qv .sz span.on{border-color:var(--gold);color:var(--gold)}
+.pc.hov .cursor{right:40px;top:90px}
+.pc.hov .cursor .ring{width:74px;height:74px;font-size:9px}
+.promo{grid-column:span 2;position:relative;border-radius:24px;overflow:hidden;border:1px solid rgba(200,161,90,.35);min-height:560px}
+.promo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.promo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(21,9,5,.95) 0%,rgba(21,9,5,.75) 45%,rgba(21,9,5,.1))}
+.promo .in{position:absolute;left:48px;top:54px;bottom:48px;z-index:2;width:470px;display:flex;flex-direction:column}
+.promo h3{font-size:76px;margin:20px 0 18px}
+.promo p{color:var(--dim)}
+.promo .six{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:auto 0 28px}
+.promo .six div{aspect-ratio:1/1.4;border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font:400 18px/1 var(--disp);color:rgba(243,230,211,.9);box-shadow:0 10px 24px rgba(0,0,0,.4),inset 0 0 0 1px rgba(232,207,150,.35)}
+.promo .row{display:flex;align-items:center;gap:24px}
+.promo .row b{font:400 46px/1 var(--serif)}
+.promo .row s{color:var(--dim2)}
+.more{display:flex;justify-content:center;align-items:center;gap:24px;margin:60px 0 130px;color:var(--dim);font-size:13px}
+.more .bar{width:200px;height:2px;background:var(--line);position:relative}
+.more .bar i{position:absolute;left:0;top:0;bottom:0;width:39%;background:var(--gold)}
+.guide{margin:0 56px 130px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid var(--line);border-radius:26px;overflow:hidden}
+.guide div{padding:44px 40px;border-right:1px solid var(--line);position:relative}
+.guide div:last-child{border:0;background:linear-gradient(140deg,rgba(214,58,99,.18),rgba(200,161,90,.08))}
+.guide b{font:400 90px/1 var(--disp);color:transparent;-webkit-text-stroke:1px rgba(200,161,90,.6)}
+.guide h4{font:400 30px/1.1 var(--serif);margin:18px 0 10px}
+.guide p{color:var(--dim);font-size:14px}
+</style></head>
+<body>
+<div class="ann"><span>Tempered fresh every Tuesday</span><i></i><span>Cold-chain delivery across the EU</span><i></i><span>Free shipping over €60</span></div>
+<nav class="nav">
+  <div class="links"><a href="home.html">Home</a><a class="on" href="shop.html">Bars</a><a href="box-builder.html">Pralines</a><a href="craft.html">The Craft</a><a href="gifting.html">Gifting</a></div>
+  <a class="logo" href="home.html"><span class="seal">N</span><span><b>MAISON CACAO NOIR</b><small>BRUXELLES · MMIX</small></span></a>
+  <div class="act"><span>Search</span><span>Account</span><a class="bagbtn" href="gifting.html">Bag <em>3</em></a></div>
+</nav>
+
+<section class="hero">
+  <div class="big">72%</div>
+  <canvas class="gl" id="fan3d" width="980" height="820"></canvas>
+  <div class="copy">
+    <div class="eyebrow">Shop · 18 single-origin bars</div>
+    <h1>Bars by <span class="foil">origin.</span></h1>
+    <p>Same two ingredients, six completely different chocolates. Choose by the farm, the cacao percentage or the flavour you're craving tonight.</p>
+    <div class="count"><div><b class="cr">6</b><span>Origins</span></div><div><b class="cr">54–80</b><span>% cacao</span></div><div><b class="cr">€9–18</b><span>per bar</span></div></div>
+  </div>
+  <div class="lbl" style="left:610px;top:170px"><div style="text-align:right"><span class="dim">Dark milk · 54%</span><b>Ashanti Lait</b></div><i></i></div>
+  <div class="lbl" style="left:960px;top:130px"><i></i><div><span class="dim">Dark · 72%</span><b>Arriba Nacional</b></div></div>
+  <div class="lbl" style="left:820px;top:745px"><div style="text-align:right"><span class="dim">Dark · 78%</span><b>Ben Tre Delta</b></div><i></i></div>
+  <div class="cursor"><span class="ring">Drag</span></div>
+</section>
+
+<section class="belt">
+  <svg viewBox="0 0 1328 300" preserveAspectRatio="none" id="beltsvg"></svg>
+  <div class="ttl"><div class="eyebrow">The cacao belt · 20°N — 20°S</div><b>Pick a place on the map</b></div>
+</section>
+
+<div class="filters">
+  <div class="l"><span class="chip on">All bars · 18</span><span class="chip">Dark 70%+</span><span class="chip">Milk</span><span class="chip">With inclusions</span><span class="sep"></span><span class="chip f"><i style="background:#d63a63"></i>Fruity ×</span><span class="chip"><i style="background:#c8a15a"></i>Nutty</span><span class="chip"><i style="background:#f1e6c8"></i>Floral</span><span class="chip"><i style="background:#6b3a24"></i>Roasted</span><span class="chip"><i style="background:#a8bf5e"></i>Green</span></div>
+  <div class="r"><span>Showing <b>7</b> of 18</span><span class="sort">Sort · Cacao % ↓ <span class="gold">▾</span></span></div>
+</div>
+
+<section class="pgrid" id="grid"></section>
+<div class="more"><span>7 of 18 bars</span><span class="bar"><i></i></span><a class="btn ghost" style="height:48px">Load more bars</a></div>
+
+<section class="guide">
+  <div><b>01</b><h4>Start at 68–72%</h4><p>Fruity and floral, the easiest way into single origin. Try Sambirano or Arriba.</p></div>
+  <div><b>02</b><h4>Let it melt, don't chew</h4><p>Hold a square on your tongue for 30 seconds — the flavour arrives in three waves.</p></div>
+  <div><b>03</b><h4>Or taste all six</h4><p>The Tasting Flight: six 25 g squares, a flavour wheel and a farm card. €42.</p><a class="btn gold" style="margin-top:22px;height:48px" href="product.html">Begin tasting <span class="ar">→</span></a></div>
+</section>
+
+<footer class="foot">
+  <div class="big"><span class="foil">Cacao</span> <span class="gloss">Noir.</span></div>
+  <div class="grid">
+    <div><a class="logo" style="justify-self:start"><span class="seal">N</span><span><b>MAISON CACAO NOIR</b><small>BRUXELLES · MMIX</small></span></a><p class="dim" style="margin-top:22px;font-size:14px;max-width:280px">Bean-to-bar chocolate, made slowly from six single origins in our Brussels atelier.</p></div>
+    <div><h5>Shop</h5><ul><li>Single-origin bars</li><li>Praline coffrets</li><li>Tasting flights</li><li>Gift cards</li></ul></div>
+    <div><h5>House</h5><ul><li>The craft</li><li>Our farms</li><li>Atelier visits</li><li>Journal</li></ul></div>
+    <div><h5>Help</h5><ul><li>Cold-chain shipping</li><li>Storage & bloom</li><li>Allergens</li><li>Contact</li></ul></div>
+    <div><h5>Tasting letter</h5><p class="dim" style="font-size:14px">New harvests, atelier evenings, no spam.</p><div class="news"><span>your@email.com</span><b>Subscribe →</b></div></div>
+  </div>
+  <div class="legal"><span>© 2026 Maison Cacao Noir — a concept brand</span><span><a>Privacy</a><a>Terms</a><a>Cookies</a></span><span>Visa · Mastercard · Bancontact · Apple Pay</span></div>
+</footer>
+
+<script>
+// cacao belt map
+(function(){
+  const W=1328,H=300,svg=document.getElementById('beltsvg');let s='';
+  s+='<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8a15a" stop-opacity="0"/><stop offset=".5" stop-color="#c8a15a" stop-opacity=".13"/><stop offset="1" stop-color="#c8a15a" stop-opacity="0"/></linearGradient></defs>';
+  s+=`<rect x="0" y="90" width="${W}" height="150" fill="url(#bg)"/>`;
+  for(let y=30;y<H;y+=18)for(let x=12;x<W;x+=18){const lat=(165-y)/3.2,lon=(x/W)*360-180;
+    // rough continents mask
+    const land=(lon>-82&&lon<-34&&lat<12&&lat>-40&&!(lon>-50&&lat>4))||(lon>-18&&lon<50&&lat>-35&&lat<36&&!(lon>10&&lat<5&&lat>-0&&lon<8))||(lon>-100&&lon<-60&&lat>8&&lat<30)||(lon>60&&lon<150&&lat>-10&&lat<40&&!(lon>88&&lon<95&&lat<20))||(lon>112&&lon<155&&lat>-40&&lat<-12)||(lon>-125&&lon<-60&&lat>25)||(lon>-10&&lon<150&&lat>36);
+    if(land)s+=`<circle cx="${x}" cy="${y}" r="2.1" fill="rgba(243,230,211,${Math.abs(lat)<20?.42:.13})"/>`;}
+  s+=`<line x1="0" y1="165" x2="${W}" y2="165" stroke="rgba(200,161,90,.5)" stroke-dasharray="2 6"/><text x="${W-20}" y="158" text-anchor="end" fill="rgba(200,161,90,.8)" font-family="Manrope" font-size="10" letter-spacing="3">EQUATOR</text>`;
+  [101,229].forEach(y=>s+=`<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="rgba(243,230,211,.12)" stroke-dasharray="1 5"/>`);
+  svg.innerHTML=s;
+  const pins=[['Ecuador','72%',-79,-1.8],['Peru','75%',-78,-7],['Venezuela','70%',-67,10.5],['Ghana','54%',-1.5,6.5],['Madagascar','68%',48,-13.5,1],['Vietnam','78%',106,10]];
+  const belt=document.querySelector('.belt');
+  pins.forEach(([n,p,lon,lat,on])=>{const x=(lon+180)/360*W,y=165-lat*3.2;const d=document.createElement('div');d.className='pin'+(on?' on':'');d.style.left=(x+(n==='Peru'?-40:n==='Ecuador'?-30:0))+'px';d.style.top=(y+(n==='Peru'?52:0)+ (n==='Peru'?0:0))+'px';
+    d.innerHTML=n==='Peru'?`<div class="d" style="margin:0 auto 8px"></div><div class="box"><b>${n}</b><span>${p}</span></div>`:`<div class="box"><b>${n}</b><span>${p}${on?' · 2 bars':''}</span></div><div class="d"></div>`;
+    if(n==='Peru'){d.style.transform='translate(-50%,-14px)';}
+    belt.appendChild(d);});
+})();
+// product grid
+const bars=[
+ ['Arriba Nacional','Ecuador · Los Ríos · Finca La Esperanza',72,14,'#7a1f2e','repeating-linear-gradient(45deg,rgba(0,0,0,.18) 0 2px,transparent 2px 12px),radial-gradient(circle at 30% 20%,#a8344a,#5e1422)',[['Red fruit','#d63a63'],['Jasmine','#f1e6c8'],['Honey','#c8a15a']],[.9,.8,.4,.5,.3,.6],'Bestseller','#4a1a1a'],
+ ['Sambirano Valley','Madagascar · Ambanja · Akesson co-op',68,13,'#25361f','repeating-radial-gradient(circle at 50% 120%,rgba(168,191,94,.22) 0 2px,transparent 2px 14px),linear-gradient(160deg,#3c5530,#18240f)',[['Raspberry','#d63a63'],['Citrus','#f2b23a']],[1,.5,.3,.3,.2,.7],'Harvest 2025','#25331a',1],
+ ['Marañón Blanco','Peru · Cajamarca · rare white bean',75,18,'#c8a15a','repeating-linear-gradient(90deg,rgba(0,0,0,.1) 0 1px,transparent 1px 8px),linear-gradient(160deg,#e3c37e,#9a7433)',[['Caramel','#c8a15a'],['Green grape','#a8bf5e']],[.6,.7,.8,.4,.3,.9],'Limited · 900','#4a3a1a',0,1],
+ ['Ben Tre Delta','Vietnam · Mekong · smallholders',78,12,'#2b1f3a','conic-gradient(from 30deg at 50% 50%,#3b2b52,#1d1428,#4a3466,#1d1428,#3b2b52)',[['Smoke','#6b3a24'],['Tamarind','#f2b23a']],[.5,.2,.4,.9,.7,.3],'New','#241a33'],
+ ['Chuao Reserve','Venezuela · Aragua · reachable only by boat',70,17,'#1d2a44','repeating-linear-gradient(-30deg,rgba(200,161,90,.16) 0 1px,transparent 1px 10px),linear-gradient(160deg,#2a3c60,#0f1626)',[['Honey','#c8a15a'],['Almond','#e6d3b8']],[.4,.6,.9,.5,.4,.8],'Grand cru','#18223a'],
+ ['Ashanti Lait','Ghana · Ashanti · 54% dark milk',54,9,'#e9dcc4','radial-gradient(circle at 70% 30%,#fff7e6,#d8c4a0)',[['Malt','#c8a15a'],['Toffee','#9a5b37']],[.3,.3,.8,.6,.2,1],'Under €10','#3a2a1a',0,1],
+ ['Framboise–Pistache','Madagascar 66% · Bronte pistachio',66,12,'#b8325a','repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 3px,transparent 3px 14px),linear-gradient(160deg,#d64a72,#7a1430)',[['Raspberry','#d63a63'],['Pistachio','#a8bf5e']],[1,.4,.7,.3,.2,.8],'Inclusions','#4a1424'],
+];
+const axes=['Fruit','Floral','Nutty','Roast','Earth','Sweet'];
+function radar(v){const c=52,r=40;let g='';for(let k=1;k<=3;k++){g+=`<polygon points="${axes.map((_,i)=>{const a=-Math.PI/2+i*Math.PI/3;return (c+Math.cos(a)*r*k/3)+','+(c+Math.sin(a)*r*k/3)}).join(' ')}" fill="none" stroke="rgba(243,230,211,.12)"/>`}
+ const pts=v.map((x,i)=>{const a=-Math.PI/2+i*Math.PI/3;return (c+Math.cos(a)*r*x)+','+(c+Math.sin(a)*r*x)}).join(' ');
+ g+=`<polygon points="${pts}" fill="rgba(214,58,99,.28)" stroke="#e8758f" stroke-width="1.5"/>`;
+ axes.forEach((n,i)=>{const a=-Math.PI/2+i*Math.PI/3;g+=`<text x="${c+Math.cos(a)*50}" y="${c+Math.sin(a)*50+3}" text-anchor="middle" font-size="7.5" font-family="Manrope" font-weight="700" fill="rgba(243,230,211,.55)">${n.toUpperCase()}</text>`});
+ return `<svg class="radar" viewBox="-6 -6 116 116">${g}</svg>`;}
+const cells=Array(18).fill('<i></i>').join('');
+let html='';
+bars.forEach((b,n)=>{
+  const [name,org,pct,price,wc,pat,notes,rad,tag,stagec,hov,lightLabel]=b;
+  const dark=lightLabel?' style="border-color:rgba(42,22,16,.5)"':'',tc=lightLabel?' style="color:#2a1610"':'';
+  html+=`<article class="pc${hov?' hov':''}"><span class="chip tag">${tag}</span><div class="pct cr">${pct}<small>%</small></div>
+  <div class="stage" style="background:radial-gradient(circle at 50% 38%,${stagec},#140805 80%)"><div class="cbar" ${pct<60?'style="filter:sepia(.4) brightness(1.5)"':''}>${cells}</div>
+  <div class="wrap" style="background:${wc}"><div class="pat" style="background:${pat}"></div><div class="lab"${dark}><span class="s"${lightLabel?' style="border-color:#2a1610;color:#2a1610"':''}>N</span><b${tc}>${pct}</b><span${tc}>${org.split(' · ')[0]}</span><em${tc}>${name}</em></div></div>
+  ${hov?'<div class="cursor"><span class="ring">Taste</span></div>':''}</div>
+  ${hov?`<div class="qv glass"><div style="display:flex;justify-content:space-between;font-size:12px"><span class="eyebrow" style="font-size:9px">Quick add</span><span class="dim">Ships Tue · arrives Thu</span></div><div class="sz"><span class="on">80 g</span><span>3 × 80 g</span><span>1 kg pistoles</span></div></div>`:''}
+  <div class="info"><div><h3>${name}</h3><div class="org">${org}</div><div class="notes">${notes.map(([t,c])=>`<span class="chip"><i style="background:${c}"></i>${t}</span>`).join('')}</div></div>${radar(rad)}</div>
+  <div class="buy"><b>€${price}<small>/ 80 g</small></b><button>${hov?'Add to bag +':'Add'}</button></div></article>`;
+  if(n===2) html+=`<article class="promo"><img src="https://images.unsplash.com/photo-1619848566843-9027f3c7aac2?auto=format&fit=crop&q=82&w=1200" alt="Chocolate squares close-up"><div class="in"><div class="eyebrow">Tasting flight · 6 × 25 g</div><h3>Taste the <span class="foil">whole belt.</span></h3><p>Six origins side by side, from milky Ghana to smoky Vietnam — with a fold-out flavour wheel and notes from each farm.</p>
+  <div class="six"><div style="background:#7a1f2e">72</div><div style="background:#2a3a20">68</div><div style="background:#b58d48">75</div><div style="background:#2b1f3a">78</div><div style="background:#1d2a44">70</div><div style="background:#c9b48f;color:#2a1610">54</div></div>
+  <div class="row"><b>€42</b><s>€51 bought separately</s><a class="btn gold" href="product.html">Add the flight <span class="ar">→</span></a></div></div></article>`;
+});
+document.getElementById('grid').innerHTML=html;
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+await document.fonts.ready;
+const C = CACAO3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+C.fan(document.getElementById('fan3d'));
+</script>
+</body></html>

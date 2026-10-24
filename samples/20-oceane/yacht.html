@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>M/Y Aurelia — 62 m Superyacht Charter · OCÉANE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<script>window.__needs3d = true; window.__n3 = 2;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="stylesheet" href="oceane.css">
+<style>
+.hero{position:relative;height:1000px;overflow:hidden;background:#0a1828}
+#night{position:absolute;inset:0}
+#night canvas{display:block}
+.hero .shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(8,28,50,.9),rgba(6,18,31,.15) 30%,transparent 50%,rgba(6,18,31,.2) 70%,rgba(6,18,31,.95) 100%)}
+.crumbs{position:absolute;left:72px;top:122px;z-index:5;font:500 11px/1 var(--mono);letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+.crumbs b{color:var(--sail);font-weight:500}
+.hero .name{position:absolute;left:52px;top:150px;z-index:4;font:italic 400 300px/.9 var(--disp);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,234,.55);background:linear-gradient(180deg,rgba(244,241,234,.95) 0%,rgba(244,241,234,.6) 45%,rgba(244,241,234,0) 80%);-webkit-background-clip:text;background-clip:text}
+.hero .badge{position:absolute;left:72px;top:500px;z-index:5;display:flex;gap:10px}
+.hero .badge .chip{background:rgba(6,18,31,.45);backdrop-filter:blur(10px)}
+.book{position:absolute;right:72px;top:130px;z-index:6;width:380px;padding:28px}
+.book .pr{font:400 46px/1 var(--disp);margin:10px 0 4px}
+.book .pr small{font:500 12px/1 var(--mono);color:var(--dim);letter-spacing:.1em}
+.book .seas{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:20px 0}
+.book .seas div{border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.book .seas div.on{border-color:var(--brass);background:rgba(201,164,92,.1)}
+.book .seas span{display:block;font:500 9.5px/1 var(--mono);letter-spacing:.2em;color:var(--brass2);margin-bottom:8px}
+.book .seas b{font:500 15px/1 var(--sans)}
+.book .row{display:flex;justify-content:space-between;font-size:14px;padding:9px 0;border-top:1px solid var(--line);color:var(--dim)}
+.book .row b{color:var(--sail);font-weight:500}
+.book .btn{width:100%;justify-content:center;margin-top:18px}
+.cal{display:grid;grid-template-columns:repeat(14,1fr);gap:3px;margin-top:14px}
+.cal i{height:18px;border-radius:3px;background:rgba(255,255,255,.1)}
+.cal i.b{background:rgba(232,131,90,.55)}
+.cal i.s{background:linear-gradient(135deg,#e8cf94,#c9a45c)}
+.specs{position:absolute;left:0;right:0;bottom:0;z-index:6;display:grid;grid-template-columns:repeat(8,1fr);border-top:1px solid var(--line);background:rgba(6,18,31,.45);backdrop-filter:blur(14px)}
+.specs div{padding:26px 0 28px 30px;border-right:1px solid var(--line)}
+.specs div:first-child{padding-left:72px}
+.specs span{display:block;font:500 9.5px/1 var(--mono);letter-spacing:.22em;color:var(--brass2);margin-bottom:12px;text-transform:uppercase}
+.specs b{font:400 30px/1 var(--disp)}
+.specs b small{font:500 12px/1 var(--sans);color:var(--dim);margin-left:4px}
+
+.dp{position:relative;height:1140px;overflow:hidden;background:radial-gradient(70% 60% at 55% 55%,#173b5a,#0b1f33 70%)}
+.dp::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(244,241,234,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(244,241,234,.05) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(60% 60% at 55% 55%,#000,transparent)}
+#plan{position:absolute;left:0;top:60px;width:1440px;height:1000px}
+#plan canvas{display:block}
+.dp .hd{position:absolute;right:72px;top:110px;z-index:5;width:520px}
+.dp h2{font:400 92px/.9 var(--disp);letter-spacing:-.03em;margin:22px 0 22px}
+.dp h2 i{color:var(--brass2)}
+.decks{position:absolute;left:72px;top:520px;z-index:5;width:300px}
+.decks a{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);font:italic 400 24px/1 var(--disp);color:var(--dim)}
+.decks a span{font:500 10px/1 var(--mono);letter-spacing:.18em;font-style:normal}
+.decks a.on{color:var(--sail)}
+.decks a.on span{color:var(--brass2)}
+.decks a.on::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--brass2);box-shadow:0 0 12px var(--brass2);margin-right:-200px}
+.lbl3{position:absolute;z-index:6;font:500 10px/1.4 var(--mono);letter-spacing:.18em;color:var(--brass2);text-transform:uppercase;white-space:nowrap;padding-left:16px;border-left:1px solid var(--brass)}
+.lbl3 b{display:block;font:italic 400 22px/1.1 var(--disp);letter-spacing:0;text-transform:none;color:var(--sail)}
+.pop{position:absolute;z-index:7;width:300px;padding:22px}
+.pop h4{font:italic 400 30px/1 var(--disp);margin:8px 0 10px}
+.pop .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.pop .kv span{display:block;font:500 9px/1 var(--mono);letter-spacing:.2em;color:var(--faint);margin-bottom:5px}
+.pop .kv b{font-weight:500;font-size:14px}
+.legend{position:absolute;left:72px;bottom:60px;z-index:5;display:flex;gap:22px;font:500 10.5px/1 var(--mono);letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:8px;vertical-align:-2px}
+
+.crew{padding-top:140px;padding-bottom:120px}
+.sechd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px}
+.sechd h2{font:400 84px/.92 var(--disp);letter-spacing:-.03em;margin-top:22px}
+.sechd h2 i{color:var(--brass2)}
+.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.cm{border-radius:200px 200px 22px 22px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,#123552,#0b1f33 70%)}
+.cm .por{height:330px;position:relative;display:grid;place-items:center;overflow:hidden}
+.cm .por::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(95,196,201,.25),transparent 60%);top:-60px}
+.cm .por .ini{font:italic 400 150px/1 var(--disp);color:transparent;-webkit-text-stroke:1px rgba(232,207,148,.7);position:relative}
+.cm .por .ep{position:absolute;bottom:26px;display:flex;flex-direction:column;gap:5px;align-items:center}
+.cm .por .ep i{display:block;width:64px;height:5px;background:linear-gradient(90deg,#a37a3a,#f1d9a0,#a37a3a);border-radius:2px}
+.cm .por .ep i.s{width:64px;height:3px}
+.cm .tx{padding:22px 26px 26px}
+.cm .tx span{font:500 10px/1 var(--mono);letter-spacing:.2em;color:var(--brass2)}
+.cm .tx h4{font:italic 400 32px/1.05 var(--disp);margin:10px 0 10px}
+.cm .tx p{font-size:14px;color:var(--dim)}
+.cm .tx .langs{display:flex;gap:6px;margin-top:16px}
+.cm .tx .langs .chip{height:26px;font-size:11px;padding:0 10px}
+
+.amen{padding-bottom:140px}
+.ag{display:grid;grid-template-columns:1.1fr 1fr;gap:24px}
+.toys{border-radius:24px;padding:34px;border:1px solid var(--line);background:var(--deep)}
+.toys h3{font:italic 400 40px/1 var(--disp);margin-bottom:24px}
+.toys ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 30px}
+.toys li{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+.toys li span{font:500 11px/1 var(--mono);color:var(--brass2);letter-spacing:.1em}
+.ph2{border-radius:24px;overflow:hidden;position:relative;background-size:cover;background-position:center;min-height:420px}
+.ph2 .q{position:absolute;left:30px;right:30px;bottom:30px;padding:24px}
+.ph2 .q p{font:italic 400 24px/1.3 var(--disp)}
+.rates{margin-top:24px;border-radius:24px;border:1px solid var(--line);overflow:hidden}
+.rates table{width:100%;border-collapse:collapse}
+.rates th,.rates td{text-align:left;padding:20px 30px;border-bottom:1px solid var(--line)}
+.rates th{font:500 10px/1 var(--mono);letter-spacing:.2em;color:var(--brass2);text-transform:uppercase;background:rgba(255,255,255,.03)}
+.rates td{font-size:15px;color:var(--dim)}
+.rates td b{font:400 24px/1 var(--disp);color:var(--sail)}
+.rates tr:last-child td{border:0}
+.rates tr.hi td{background:rgba(201,164,92,.07)}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<header data-nav="fleet" data-glass></header>
+
+<section class="hero">
+  <div id="night"></div>
+  <div class="shade"></div>
+  <div class="crumbs">Fleet / Tri-deck / <b>M/Y Aurelia</b></div>
+  <div class="name">Aurelia</div>
+  <div class="badge"><span class="chip"><i class="dot"></i>&nbsp;Open 12 – 19 July</span><span class="chip">Malta flag</span><span class="chip">Zero-speed stabilisers</span></div>
+  <aside class="book glass">
+    <div class="eyebrow">Weekly charter</div>
+    <div class="pr">€310,000 <small>/ WEEK</small></div>
+    <div class="dim" style="font-size:13px">+ VAT, 30% APA · MYBA terms</div>
+    <div class="seas"><div class="on"><span>Med · Jul–Aug</span><b>€355,000</b></div><div><span>Med · May / Sep</span><b>€310,000</b></div></div>
+    <div class="mono dim" style="font-size:9.5px">July availability</div>
+    <div class="cal"><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="s"></i><i class="s"></i><i class="s"></i><i class="s"></i><i class="s"></i><i class="s"></i><i class="s"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i></div>
+    <div class="row" style="margin-top:16px"><span>Selected</span><b>12 – 19 July · 7 nights</b></div>
+    <div class="row"><span>Base port</span><b>Monaco</b></div>
+    <a class="btn brassbtn" href="enquire.html">Request these dates <span class="ar">→</span></a>
+  </aside>
+  <div id="hcall"></div>
+  <div class="specs">
+    <div><span>Length</span><b>62.4<small>m</small></b></div><div><span>Beam</span><b>11.2<small>m</small></b></div><div><span>Guests</span><b>12<small>6 cabins</small></b></div><div><span>Crew</span><b>18</b></div>
+    <div><span>Cruise / max</span><b>13<small>/ 17 kn</small></b></div><div><span>Range</span><b>4,500<small>nm</small></b></div><div><span>Built</span><b>2022<small>refit '25</small></b></div><div><span>Gross tonnage</span><b>1,180<small>GT</small></b></div>
+  </div>
+</section>
+
+<section class="dp">
+  <div id="plan"></div>
+  <div class="hd"><div class="eyebrow">Deck plan · exploded</div><h2>Five decks,<br><i>lifted apart.</i></h2><p class="dim" style="font-size:16px;max-width:420px">Every deck drawn to scale. Six guest suites, a full-beam owner's apartment forward on the main deck, and a sun deck pool that faces the wake.</p></div>
+  
+  <div id="dlabels"></div>
+  <div class="legend"><span><i style="background:#e6dccb"></i>Guest</span><span><i style="background:#b9cfd6"></i>Crew & service</span><span><i style="background:#a0703f"></i>Teak exterior</span><span><i style="background:#3cc6cc"></i>Pool</span></div>
+</section>
+
+<section class="crew w">
+  <div class="sechd"><div><div class="eyebrow">The crew · 18 on board</div><h2>The people who<br>make it <i>effortless.</i></h2></div><p class="dim" style="max-width:380px">Aurelia's senior crew have sailed together for four seasons. Average tenure: 6.2 years. Every one of them speaks at least two languages.</p></div>
+  <div class="cg">
+    <div class="cm"><div class="por"><div class="ini">LM</div><div class="ep"><i></i><i></i><i></i><i></i></div></div><div class="tx"><span>CAPTAIN · 22 YRS AT SEA</span><h4>Luca Marchetti</h4><p>Former regatta navigator. Knows every mistral-sheltered cove between Genoa and Bonifacio.</p><div class="langs"><span class="chip">IT</span><span class="chip">EN</span><span class="chip">FR</span></div></div></div>
+    <div class="cm"><div class="por"><div class="ini">MR</div><div class="ep"><i></i><i class="s"></i><i class="s"></i></div></div><div class="tx"><span>HEAD CHEF · EX-2 STARS</span><h4>Mathilde Rey</h4><p>Cooks from the morning market of each port. Pastry trained in Lyon, smokes her own fish on the aft deck.</p><div class="langs"><span class="chip">FR</span><span class="chip">EN</span></div></div></div>
+    <div class="cm"><div class="por"><div class="ini">SK</div><div class="ep"><i></i><i></i><i class="s"></i></div></div><div class="tx"><span>CHIEF STEW · WSET 3</span><h4>Saskia Kooij</h4><p>Runs a team of five. Sommelier certified, florist by hobby, keeps a notebook of every guest's coffee.</p><div class="langs"><span class="chip">NL</span><span class="chip">EN</span><span class="chip">DE</span></div></div></div>
+    <div class="cm"><div class="por"><div class="ini">TO</div><div class="ep"><i></i><i class="s"></i></div></div><div class="tx"><span>BOSUN · PADI INSTRUCTOR</span><h4>Tomás Okafor</h4><p>Water toys, tender runs and the dive programme. Teaches nervous swimmers to love the e-foil.</p><div class="langs"><span class="chip">PT</span><span class="chip">EN</span><span class="chip">ES</span></div></div></div>
+  </div>
+</section>
+
+<section class="amen w">
+  <div class="ag">
+    <div class="toys"><div class="eyebrow" style="margin-bottom:18px">Toy garage & amenities</div><h3>Everything, <i>already aboard.</i></h3>
+      <ul><li>Sea scooters<span>×2</span></li><li>Electric e-foils<span>×2</span></li><li>Jet ski, 3-seat<span>×2</span></li><li>Paddleboards<span>×4</span></li><li>Tender, 9.5 m limo<span>×1</span></li><li>Inflatable beach club<span>×1</span></li><li>Dive compressor<span>12 sets</span></li><li>Gym & massage room<span>Bridge</span></li><li>Starlink & 5G<span>Unlimited</span></li><li>Cinema, 4K / Atmos<span>Upper</span></li></ul></div>
+    <div class="ph2" style="background-image:url(https://images.unsplash.com/photo-1616207133639-cd5e4db9859f?auto=format&fit=crop&q=82&w=1100)"><div class="q glass"><div class="mono" style="color:var(--brass2);margin-bottom:10px">Upper aft deck · 7 pm</div><p>"Twelve of us around one table, the anchor down, and nobody reaching for a phone."</p></div></div>
+  </div>
+  <div class="rates"><table><tr><th>Season</th><th>Dates</th><th>Weekly rate</th><th>Daily (min. 3)</th><th>Cruising area</th></tr>
+    <tr><td>Med low</td><td>May · October</td><td><b>€310,000</b></td><td>€48,000</td><td>Côte d'Azur, Corsica, Sardinia</td></tr>
+    <tr class="hi"><td>Med high</td><td>June – September</td><td><b>€355,000</b></td><td>€54,000</td><td>Côte d'Azur, Amalfi, Balearics</td></tr>
+    <tr><td>Caribbean</td><td>December – April</td><td><b>€330,000</b></td><td>€51,000</td><td>St Barths, St Martin, BVI</td></tr></table></div>
+</section>
+
+<footer data-foot></footer>
+<script src="oceane.js"></script>
+<script src="oceane3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { Water } from 'three/addons/objects/Water.js';
+import { Sky } from 'three/addons/objects/Sky.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+const O = makeO3(THREE, { Water, Sky, RoomEnvironment });
+const q = new URLSearchParams(location.search);
+
+/* ---- hero: blue hour, lights on ---- */
+{
+  const S = O.stage(document.getElementById('night'), { w: 1440, h: 1000, fov: 26, pos: [3.5, 1.5, 21], target: [-.6, 2.6, 0], exposure: +(q.get('ex') || .9) });
+  const oc = O.ocean(S, { elev: +(q.get('el') || -3), az: 160, rayleigh: +(q.get('ra')||3.6), turbidity: +(q.get('tu')||3), mie: .004, g: .85, water: '#021a28', distortion: 2.6, sunColor: 0x8899bb });
+  const Y = O.yacht({ lit: true }); S.scene.add(Y);
+  Y.traverse(m => { if (m.material && m.material.emissiveMap) m.material.emissiveIntensity = 1.1; });
+  S.scene.add(new THREE.HemisphereLight('#8fb3d9', '#06121f', .9));
+  const key = new THREE.DirectionalLight('#c7d9ff', .8); key.position.set(-10, 8, 12); S.scene.add(key);
+  // underwater hull lights (teal glow) + deck light pools reflected
+  for (const x of [-4.4, -3.2, -2]) { const g = new THREE.Mesh(new THREE.CircleGeometry(1.1, 32), new THREE.MeshBasicMaterial({ color: '#2ad0d8', transparent: true, opacity: .32, depthWrite: false, blending: THREE.AdditiveBlending })); g.rotation.x = -Math.PI / 2; g.position.set(x, .03, 1.3); S.scene.add(g); }
+  S.onFirst = () => {
+    const L = Y.userData.L, pts = [[L[0].x1 - .8, L[0].y + .2, .8, 'Owner\'s suite', 'Main deck forward', 'down'], [-4.6, .6, .8, 'Beach club', 'Hammam · tender garage', 'down'], [L[2].x0, L[2].y + L[2].h + .1, .5, 'Sun deck pool', 'Counter-current · 9 m²', 'up']];
+    document.getElementById('hcall').innerHTML = pts.map(p => { const [x, y] = S.project(new THREE.Vector3(p[0], p[1], p[2])); const up = p[5] === 'up', len = 70;
+      return `<div class="callout" style="left:${x}px;top:${y}px"><i class="pin" style="left:-6px;top:-6px"></i><i class="ln" style="left:0;top:${up ? -len : 0}px;width:1px;height:${len}px;background:linear-gradient(${up ? 0 : 180}deg,rgba(232,207,148,.9),rgba(232,207,148,.1))"></i><div style="position:absolute;left:12px;top:${up ? -len - 40 : len - 6}px"><b>${p[3]}</b>${p[4]}</div></div>`; }).join('');
+  };
+  S.loop(t => { Y.position.y = Math.sin(t * .7) * .015; });
+}
+
+/* ---- exploded deck plan ---- */
+{
+  const S = O.stage(document.getElementById('plan'), { w: 1440, h: 1000, fov: 24, pos: (q.get('cp')||'8.2,17.5,21').split(',').map(Number), target: (q.get('ct')||'1.0,3.9,0').split(',').map(Number), room: true, exposure: 1.05, shadows: true });
+  const g = new THREE.Group(); S.scene.add(g); g.position.x = 1.6; g.rotation.y = .1;
+  const white = O.M.white(), wallM = new THREE.MeshPhysicalMaterial({ color: '#fbf8f2', roughness: .4, clearcoat: .4 });
+  const glassM = new THREE.MeshPhysicalMaterial({ color: '#8fd3e0', transparent: true, opacity: .16, roughness: .05, metalness: .2, depthWrite: false, side: THREE.DoubleSide });
+  const navy = O.M.paint('#0e2235');
+  const GU = '#e6dccb', CR = '#b9cfd6', TK = '#c49a6a';
+  // hull (open, cut at the deck line)
+  const Y = O.yacht({}); const hull = Y.getObjectByName('hull'); hull.material = navy.clone(); hull.material.side = THREE.DoubleSide; g.add(hull);
+  const tr = Y.getObjectByName('transom'); g.add(tr);
+  // lower deck floor inside hull
+  const lowerRooms = [
+    { x0: -4.6, x1: -2.7, z0: -.72, z1: .72, c: CR, label: 'Engine room', open: false },
+    { x0: -2.7, x1: -1.35, z0: -.78, z1: -.12, c: GU, bed: 1, label: 'Twin' }, { x0: -2.7, x1: -1.35, z0: .12, z1: .78, c: GU, bed: 1, label: 'Twin' },
+    { x0: -1.35, x1: .15, z0: -.82, z1: -.12, c: GU, bed: 1, label: 'VIP' }, { x0: -1.35, x1: .15, z0: .12, z1: .82, c: GU, bed: 1, label: 'VIP' },
+    { x0: .15, x1: 1.5, z0: -.8, z1: -.12, c: GU, bed: 1, label: 'Double' }, { x0: .15, x1: 1.5, z0: .12, z1: .8, c: GU, bed: 1, label: 'Double' },
+    { x0: 1.5, x1: 3.4, z0: -.62, z1: .62, c: CR, label: 'Crew mess · 9 cabins' },
+  ];
+  const lvl = (rooms, shapeFn, x0, x1, hw, y, wallH, name) => {
+    const G = new THREE.Group(); G.position.y = y; g.add(G);
+    const tex = O.planTex(rooms, { x0, x1, hw }); tex.repeat.set(1 / (x1 - x0), 1 / (2 * hw)); tex.offset.set(-x0 / (x1 - x0), .5);
+    const floor = new THREE.Mesh(new THREE.ExtrudeGeometry(shapeFn(), { depth: .06, bevelEnabled: true, bevelThickness: .012, bevelSize: .012, bevelSegments: 2, curveSegments: 30 }), [new THREE.MeshStandardMaterial({ map: tex, roughness: .7 }), white]);
+    floor.geometry.rotateX(-Math.PI / 2); floor.receiveShadow = true; G.add(floor);
+    const w = O.walls(rooms, wallM, wallH); w.position.y = .07; G.add(w);
+    G.userData = { x0, x1, hw, name };
+    return G;
+  };
+  // lower deck
+  const lowShape = () => { const s = new THREE.Shape(); const N = 40, pts = []; for (let i = 0; i <= N; i++) { const x = O.lerp(-4.7, 3.7, i / N); pts.push([x, O.halfW(x) * .9]); } s.moveTo(pts[0][0], -pts[0][1]); pts.forEach(p => s.lineTo(p[0], -p[1])); for (let i = N; i >= 0; i--) s.lineTo(pts[i][0], pts[i][1]); return s; };
+  const lower = lvl(lowerRooms, lowShape, -4.7, 3.7, .9, .02, .24, 'Lower');
+  // main deck (on hull deck line, includes aft deck + foredeck)
+  const mainRooms = [
+    { x0: -4.85, x1: -3.3, z0: -.85, z1: .85, c: TK, teak: 1, open: true, dine: 1, label: 'Aft deck' },
+    { x0: -3.3, x1: -1.1, z0: -.76, z1: .76, c: GU, sofa: 1, label: 'Main salon' },
+    { x0: -1.1, x1: .5, z0: -.76, z1: .76, c: GU, dine: 1, label: 'Dining · 12' },
+    { x0: .5, x1: 1.25, z0: -.76, z1: 0, c: CR, label: 'Galley' }, { x0: .5, x1: 1.25, z0: 0, z1: .74, c: GU, label: 'Office' },
+    { x0: 1.25, x1: 2.65, z0: -.66, z1: .66, c: '#efe0c4', bed: 1, label: "Owner's suite" },
+    { x0: 2.8, x1: 4.3, z0: -.5, z1: .5, c: TK, teak: 1, open: true, loungers: 3, label: 'Foredeck' },
+  ];
+  const deckShape = () => { const s = new THREE.Shape(); const N = 50, pts = []; for (let i = 0; i <= N; i++) { const x = O.lerp(-4.95, 4.6, i / N); pts.push([x, O.halfW(x) * .97]); } s.moveTo(pts[0][0], -pts[0][1]); pts.forEach(p => s.lineTo(p[0], -p[1])); for (let i = N; i >= 0; i--) s.lineTo(pts[i][0], pts[i][1]); return s; };
+  const main = lvl(mainRooms, deckShape, -4.95, 4.6, .97, 1.9, .3, 'Main');
+  // upper deck
+  const upRooms = [
+    { x0: -3.05, x1: -2.45, z0: -.7, z1: .7, c: TK, teak: 1, open: true, label: 'Aft lounge' },
+    { x0: -2.45, x1: -.5, z0: -.7, z1: .7, c: GU, sofa: 1, label: 'Sky lounge' },
+    { x0: -.5, x1: .75, z0: -.7, z1: .7, c: GU, sofa: 1, label: 'Cinema' },
+    { x0: .75, x1: 1.9, z0: -.6, z1: .6, c: CR, label: 'Captain' },
+  ];
+  const upper = lvl(upRooms, () => O.planShape(-3.05, 2.05, .74, 1.35), -3.05, 2.05, .74, 3.5, .28, 'Upper');
+  // bridge deck
+  const brRooms = [
+    { x0: -2.1, x1: -1.45, z0: -.6, z1: .6, c: TK, teak: 1, open: true, pool: 1, label: 'Pool' },
+    { x0: -1.45, x1: .1, z0: -.58, z1: .58, c: GU, label: 'Spa · gym' },
+    { x0: .1, x1: 1.3, z0: -.55, z1: .55, c: CR, label: 'Wheelhouse' },
+  ];
+  const bridge = lvl(brRooms, () => O.planShape(-2.1, 1.35, .62, 1.1), -2.1, 1.35, .62, 4.9, .26, 'Bridge');
+  // sun deck
+  const sunRooms = [{ x0: -1.1, x1: .7, z0: -.4, z1: .4, c: TK, teak: 1, open: true, loungers: 2, label: 'Sun deck' }];
+  const sund = lvl(sunRooms, () => O.planShape(-1.1, .8, .42, .7), -1.1, .8, .42, 6.1, .1, 'Sun');
+  // glass outlines on enclosed levels
+  [[upper, -2.45, 2.0, .7, 1.35], [bridge, -1.45, 1.3, .58, 1.1]].forEach(([G, a, b, hw, fl]) => { const m = O.slab(O.planShape(a, b, hw, fl), .3, glassM, .07, 0); G.add(m); });
+  // highlight owner's suite
+  const hl = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.4, .34, 1.32)), new THREE.LineBasicMaterial({ color: '#e8cf94' }));
+  hl.position.set(1.95, .24, 0); main.add(hl);
+  const glow = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.32), new THREE.MeshBasicMaterial({ color: '#e8cf94', transparent: true, opacity: .22, depthWrite: false, blending: THREE.AdditiveBlending })); glow.rotation.x = -Math.PI / 2; glow.position.set(1.95, .075, 0); main.add(glow);
+  // exploded guide lines
+  const gl = new THREE.LineDashedMaterial({ color: '#c9a45c', dashSize: .08, gapSize: .06, transparent: true, opacity: .7 });
+  for (const [x, z] of [[-3.3, .78], [-3.3, -.78], [2.0, .6], [2.0, -.6], [-1.45, .62]]) { const geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x, .3, z), new THREE.Vector3(x, 6.1, z)]); const l = new THREE.Line(geo, gl); l.computeLineDistances(); g.add(l); }
+  // floor shadow catcher
+  const sh = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ opacity: .25 })); sh.rotation.x = -Math.PI / 2; sh.position.y = -.4; sh.receiveShadow = true; S.scene.add(sh);
+  const sun = new THREE.DirectionalLight('#fff3e0', 1.6); sun.position.set(6, 14, 8); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -9, right: 9, top: 9, bottom: -9 }); S.scene.add(sun);
+  S.scene.add(new THREE.HemisphereLight('#dfefff', '#0b1f33', .6));
+  // water line ring under hull
+  const wl = new THREE.Mesh(new THREE.RingGeometry(5.6, 5.63, 128), new THREE.MeshBasicMaterial({ color: '#5fc4c9', transparent: true, opacity: .4 })); wl.rotation.x = -Math.PI / 2; wl.scale.set(1.15, .45, 1); wl.position.set(1.6, -.38, 0); S.scene.add(wl);
+  S.onFirst = () => {
+    const lab = [[lower, -4.2, .6, 'Lower deck', '4 guest suites · crew'], [main, -4.4, .25, 'Main deck', "Salon · dining · owner's"], [upper, -2.9, .3, 'Upper deck', 'Sky lounge · cinema'], [bridge, -2.0, .3, 'Bridge deck', 'Pool · spa · wheelhouse'], [sund, -1.0, .2, 'Sun deck', 'Loungers · bar']];
+    let html = lab.map(([G, x, y, t, s], i) => { const v = new THREE.Vector3(x, .1, 0); G.localToWorld(v); const [px, py] = S.project(v); const top = py + 60; return `<div class="lbl3" style="left:72px;top:${top - 22}px"><b>${t}</b>${s}</div><i style="position:absolute;z-index:5;left:300px;top:${top}px;width:${px - 310}px;height:1px;background:repeating-linear-gradient(90deg,rgba(232,207,148,.7) 0 6px,transparent 6px 11px)"></i><i style="position:absolute;z-index:5;left:${px - 14}px;top:${top - 4}px;width:9px;height:9px;border-radius:50%;background:#e8cf94;box-shadow:0 0 10px #e8cf94"></i>`; }).join('');
+    const v = new THREE.Vector3(2.3, .5, .4); main.localToWorld(v); const [px, py] = S.project(v);
+    html += `<div class="callout" style="left:${px}px;top:${py + 60}px"><i class="pin" style="left:-6px;top:-6px"></i><i class="ln" style="left:0;top:0;width:150px;transform:rotate(-58deg);transform-origin:0 0"></i></div>
+      <div class="pop glass" style="left:1100px;top:${py + 60 - 300}px"><div class="mono" style="color:var(--brass2)">Main deck · forward</div><h4>Owner's suite</h4><p class="dim" style="font-size:13.5px">Full-beam apartment with 270° glass, a private study and twin marble bathrooms.</p><div class="kv"><div><span>Area</span><b>64 m²</b></div><div><span>Bed</span><b>Super king</b></div><div><span>Bath</span><b>His & hers</b></div><div><span>View</span><b>Bow, 270°</b></div></div></div>`;
+    document.getElementById('dlabels').innerHTML = html;
+  };
+  S.loop(t => { g.rotation.y = .1 + Math.sin(t * .25) * .02; });
+}
+</script>
+</body></html>

@@ -9,6 +9,8 @@
   const text = (sel, v) => { const el = $(sel); if (el && v) el.textContent = v; };
   const html = (sel, v) => { const el = $(sel); if (el && v) el.innerHTML = v; };
   const isExternal = (url) => /^https?:/i.test(url);
+  // The big outlined character on a work card: one letter, or a number up to two digits
+  const glyph = (v) => { const t = String(v ?? '').trim(); return (t.match(/^\d{1,2}/) || [t.charAt(0)])[0].toUpperCase(); };
 
   // Gradient sets for the generated work art, used in turn.
   const PALETTES = [
@@ -76,7 +78,7 @@ ${indent}</li>`;
         return `
           <li class="card" style="--a:${a};--b:${b};--c:${cc}">
             <a class="card__link" href="${esc(href)}" data-case="${i}" data-cursor="Open">
-              <div class="card__art"${art}><span class="card__glyph">${esc((w.letter || w.title || '').trim().charAt(0).toUpperCase())}</span></div>
+              <div class="card__art"${art}><span class="card__glyph">${esc(glyph(w.letter || w.title))}</span></div>
               <div class="card__meta">
                 <h3 class="card__title">${esc(w.title)}</h3>
                 <p class="card__desc">${esc(w.description)}</p>

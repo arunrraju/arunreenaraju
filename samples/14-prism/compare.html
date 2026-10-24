@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Compare & tech — Under the glass · PRISM</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prism.css">
+<style>
+.ex{position:relative;height:1100px;overflow:hidden}
+.ex canvas{position:absolute;left:0;top:0;z-index:2}
+.ex .tt{position:absolute;left:64px;top:140px;z-index:3;width:600px}
+.ex h1{font:600 120px/.86 var(--disp);letter-spacing:-.07em;margin-top:22px}
+.ex .tt p{color:var(--ink2);font-size:17px;max-width:420px;margin-top:24px}
+.ex .bgn{position:absolute;right:-40px;bottom:-60px;font:700 420px/.8 var(--disp);letter-spacing:-.08em;z-index:1;opacity:.9}
+.lbl{position:absolute;z-index:4;display:flex;align-items:center;gap:0}
+.lbl .dt{width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(185,166,255,.4),0 0 16px #b9a6ff;flex:none}
+.lbl .ln{width:1.5px;background:linear-gradient(#b9a6ff,rgba(185,166,255,.15));position:absolute;left:5px}
+.lbl .card{position:absolute;left:-14px;border-radius:18px;padding:10px 14px;width:210px}
+.lbl .card b{font:600 14px/1.1 var(--disp);letter-spacing:-.02em;display:flex;gap:8px;align-items:center}
+.lbl .card b em{font:600 10px/1 var(--sans);font-style:normal;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;flex:none}
+.lbl .card span{font-size:12px;color:var(--ink2);display:block;margin-top:5px}
+.ex .ctl{position:absolute;left:64px;bottom:70px;z-index:4;display:flex;gap:12px;align-items:center}
+.slider{width:300px;height:56px;border-radius:99px;display:flex;align-items:center;padding:0 22px;gap:14px;font:600 12px/1 var(--sans);color:var(--ink2)}
+.slider .tr{flex:1;height:6px;border-radius:9px;background:rgba(20,20,28,.1);position:relative}
+.slider .tr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:78%;border-radius:9px;background:var(--holo);background-size:200%}
+.slider .tr::after{content:"";position:absolute;left:78%;top:50%;width:24px;height:24px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 4px 12px rgba(70,60,130,.3),0 0 0 4px rgba(185,166,255,.3)}
+.line{padding:110px 64px 40px}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:30px}
+.sh h2{font:600 76px/.94 var(--disp);letter-spacing:-.06em;margin-top:18px}
+.sh p{max-width:380px;color:var(--ink2)}
+.strip{position:relative;height:330px;margin:0 -24px}
+.strip canvas{position:absolute;left:0;top:0}
+.cols{display:grid;grid-template-columns:260px repeat(3,1fr);gap:0;border-radius:40px;background:#fff;box-shadow:0 30px 70px rgba(70,60,130,.09);border:1px solid #fff;position:relative;overflow:hidden}
+.cols>div{padding:0}
+.cols .hd{height:200px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;border-bottom:1px solid var(--line)}
+.cols .hd h3{font:600 30px/1 var(--disp);letter-spacing:-.05em}
+.cols .hd .pr{font:600 22px/1 var(--disp);letter-spacing:-.04em}
+.cols .hd .pr small{display:block;font:500 12px/1.3 var(--sans);color:var(--ink3);margin-top:6px;letter-spacing:0}
+.row{height:64px;display:flex;align-items:center;padding:0 28px;border-bottom:1px solid var(--line);font-size:14px}
+.cols .k .row{color:var(--ink2);font-weight:500}
+.cols .k .hd{justify-content:flex-end}
+.row b{font-weight:600}
+.row .y{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--holo);background-size:200%;font-size:12px;margin-right:10px}
+.row .n{color:var(--ink3)}
+.cols .one{background:linear-gradient(180deg,#f3efff,#eefafb 60%,#fff6fb);position:relative;box-shadow:inset 0 0 0 2px #c9bbff}
+.cols .one .badge{position:absolute;top:22px;right:22px}
+.cols .ft{padding:24px 28px}
+.bench{padding:100px 64px 60px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.bc{border-radius:40px;padding:40px}
+.bc h3{font:600 34px/1 var(--disp);letter-spacing:-.05em;margin:14px 0 30px}
+.bar{display:grid;grid-template-columns:160px 1fr 70px;gap:16px;align-items:center;margin-bottom:16px;font-size:13px;color:var(--ink2)}
+.bar i{height:34px;border-radius:12px;background:rgba(20,20,28,.06);position:relative;overflow:hidden}
+.bar i::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--w);border-radius:12px;background:#d3d5e0}
+.bar.us i::after{background:var(--holo);background-size:200%;animation:holo 6s linear infinite;box-shadow:inset 0 2px 0 rgba(255,255,255,.6)}
+.bar.us{color:var(--ink);font-weight:600}
+.bar b{font:600 16px/1 var(--disp);color:var(--ink);text-align:right}
+.mats{padding:40px 64px 110px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mat{height:340px;border-radius:36px;overflow:hidden;position:relative;background-size:cover;background-position:center;padding:24px;display:flex;flex-direction:column;justify-content:flex-end}
+.mat .lab{border-radius:24px;padding:18px 20px}
+.mat .lab b{display:block;font:600 34px/1 var(--disp);letter-spacing:-.05em}
+.mat .lab span{font-size:13px;color:var(--ink2)}
+</style></head>
+<body data-page="compare">
+<div data-nav></div>
+<section class="ex">
+  <div class="haze"><i></i><i></i><i></i></div>
+  <div class="bgn chrome">P1</div>
+  <div class="tt"><span class="eyebrow">( Tech ) Exploded view · 6 layers, 31 mm</span><h1>Under<br>the <span class="holo-ink">glass.</span></h1><p>Six layers, laminated into one curved piece thinner than a paperback. Drag the slider to pull Prism One apart and see what sits between you and everything else.</p></div>
+  <canvas id="ex"></canvas>
+  <div id="lbls"></div>
+  <div class="ctl"><div class="slider glass"><span>Closed</span><span class="tr"></span><span>Exploded</span></div><span class="btn light">Rotate <span class="ar">↻</span></span></div>
+</section>
+
+<section class="line">
+  <div class="sh"><div><span class="eyebrow">( Compare ) The lineup</span><h2>Pick your <span class="holo-ink">reality.</span></h2></div><p>Every Prism runs Prism OS 3 and every app. The differences are in the glass, the pixels and the weight.</p></div>
+  <div class="strip"><canvas id="line"></canvas></div>
+  <div class="cols">
+    <div class="k"><div class="hd"><span class="eyebrow">Spec</span></div>
+      <div class="row">Display, per eye</div><div class="row">Passthrough</div><div class="row">Chip</div><div class="row">Field of view</div><div class="row">Weight</div><div class="row">Battery</div><div class="row">Eye tracking</div><div class="row">Clearsight inserts</div><div class="row">Front glass</div><div class="ft"></div></div>
+    <div><div class="hd"><div><span class="eyebrow">Light</span><h3 style="margin-top:12px">Prism Air</h3></div><div class="pr">€1,290<small>or €53.75/mo</small></div></div>
+      <div class="row"><b>2.2K LCD</b>&nbsp;· mini-LED</div><div class="row">24 ms, colour</div><div class="row">P1 Lite</div><div class="row">104°</div><div class="row">412 g</div><div class="row">2.5 h</div><div class="row"><span class="n">— Hands only</span></div><div class="row"><span class="y">✓</span>Readers only</div><div class="row">Matte pearl polymer</div><div class="ft"><span class="btn light" style="width:100%;justify-content:center">Choose Air</span></div></div>
+    <div class="one"><span class="chip badge"><span class="dot"></span>Most chosen</span><div class="hd"><div><span class="eyebrow">Signature</span><h3 style="margin-top:12px" class="holo-ink">Prism One</h3></div><div class="pr">€2,490<small>or €103.75/mo</small></div></div>
+      <div class="row"><b>4K micro-OLED</b>&nbsp;· 3,660 ppi</div><div class="row"><b>12 ms</b>&nbsp;, 4K colour</div><div class="row">P1 + R2</div><div class="row">108°</div><div class="row">498 g</div><div class="row">3.5 h, hot-swap</div><div class="row"><span class="y">✓</span>4 IR cameras</div><div class="row"><span class="y">✓</span>Full Rx, 48 h</div><div class="row">Iridescent laminated</div><div class="ft"><a class="btn dark" href="configure.html" style="width:100%;justify-content:center">Configure One <span class="ar">→</span></a></div></div>
+    <div><div class="hd"><div><span class="eyebrow">Pro</span><h3 style="margin-top:12px">One Studio</h3></div><div class="pr">€3,190<small>or €132.92/mo</small></div></div>
+      <div class="row"><b>4K micro-OLED</b>&nbsp;· 120 Hz</div><div class="row">10 ms, 4K colour</div><div class="row">P1 Max + R2</div><div class="row">112°</div><div class="row">521 g</div><div class="row">3 h + tether</div><div class="row"><span class="y">✓</span>6 IR cameras</div><div class="row"><span class="y">✓</span>Full Rx, 48 h</div><div class="row">Graphite laminated</div><div class="ft"><span class="btn light" style="width:100%;justify-content:center">Choose Studio</span></div></div>
+  </div>
+</section>
+
+<section class="bench">
+  <div class="bc glass"><span class="eyebrow">Benchmark · lower is better</span><h3>Photon-to-photon latency</h3>
+    <div class="bar us"><span>Prism One</span><i style="--w:24%"></i><b>12 ms</b></div>
+    <div class="bar"><span>Category average ’25</span><i style="--w:76%"></i><b>38 ms</b></div>
+    <div class="bar"><span>Prism Air</span><i style="--w:48%"></i><b>24 ms</b></div>
+    <div class="bar"><span>Phone-based viewers</span><i style="--w:100%"></i><b>52 ms</b></div></div>
+  <div class="bc glass" style="background:linear-gradient(160deg,#14141c,#2b2547);color:#fff;border-color:#2b2547"><span class="eyebrow" style="color:#a9abbd">Benchmark · higher is better</span><h3>Text you can read at 2 m</h3>
+    <div class="bar us" style="color:#fff"><span>Prism One</span><i style="--w:94%;background:rgba(255,255,255,.08)"></i><b style="color:#fff">11 pt</b></div>
+    <div class="bar" style="color:#a9abbd"><span>Category average ’25</span><i style="--w:58%;background:rgba(255,255,255,.08)"></i><b style="color:#fff">18 pt</b></div>
+    <div class="bar" style="color:#a9abbd"><span>Prism Air</span><i style="--w:70%;background:rgba(255,255,255,.08)"></i><b style="color:#fff">15 pt</b></div>
+    <div class="bar" style="color:#a9abbd"><span>Printed page</span><i style="--w:100%;background:rgba(255,255,255,.08)"></i><b style="color:#fff">9 pt</b></div></div>
+</section>
+
+<section class="mats">
+  <div class="mat" style="background-image:url(https://images.unsplash.com/photo-1545431781-3e1b506e9a37?auto=format&fit=crop&q=82&w=600)"><div class="lab glass"><b>100%</b><span>recycled aluminium frame, anodised in Denmark</span></div></div>
+  <div class="mat" style="background-image:url(https://images.unsplash.com/photo-1785069518065-937c09182d12?auto=format&fit=crop&q=82&w=600)"><div class="lab glass"><b>7 layers</b><span>of nano-film in the laminated front glass</span></div></div>
+  <div class="mat" style="background-image:url(https://images.unsplash.com/photo-1613357949652-e07714cb4473?auto=format&fit=crop&q=82&w=600)"><div class="lab glass"><b>78%</b><span>recycled yarn in every 3D-knit strap</span></div></div>
+  <div class="mat" style="background-image:url(https://images.unsplash.com/photo-1637150899351-0ce1779710c7?auto=format&fit=crop&q=82&w=600)"><div class="lab glass"><b>0 g</b><span>plastic in the box. Moulded fibre, soy inks</span></div></div>
+</section>
+<div data-foot></div>
+<script src="prism.js"></script>
+<script src="prism3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = P3D(THREE, { mergeVertices, RoundedBoxGeometry });
+await K.fontsReady;
+/* exploded */
+{
+  const W = 1440, H = 1100;
+  const S = K.stage(document.getElementById('ex'), { w: W, h: H, fov: 30, pos: [0, 0.55, 7.2], target: [0, 0.05, 0] });
+  const ex = K.exploded();
+  ex.rotation.set(0.1, -1.08, 0.02); ex.position.set(-0.3, -0.45, 0.6); ex.scale.setScalar(0.7);
+  // spread layers along their axis and stagger height slightly
+  ex.stack.forEach((L, i) => { L.position.z = -i * 0.8; L.position.y = 0.07 * i; });
+  S.scene.add(ex);
+  const blobs = [K.blob(0.22, { seed: 2 }), K.blob(0.14, { seed: 5, c: '#e6fbfd' }), K.blob(0.3, { seed: 8, c: '#efe9ff' })];
+  [[0.6, 1.25, -1.2], [1.6, -1.4, 0.6], [3.4, 1.4, -2.5]].forEach((p, i) => { blobs[i].position.set(...p); S.scene.add(blobs[i]); });
+  const sp = K.sparkles(160, [9, 4, 4], 0.05); sp.position.x = 2; S.scene.add(sp);
+  const sh = K.shadow(S.scene, { sx: 6.5, sz: 1.6, y: -1.35, a: 0.2 }); sh.position.x = 2; sh.rotation.z = 0.25;
+  const info = [
+    ['01', 'Laminated front glass', '7 nano-layers, iridescent outside', 0.55],
+    ['02', 'Aluminium frame', '100% recycled, 0.8 mm walls', 0.6],
+    ['03', 'Dual micro-OLED', '3,840 × 3,072 per eye', 0.3],
+    ['04', 'Pancake lenses', '3 elements, 108° field of view', 0.32],
+    ['05', 'P1 + R2 logic board', '3 nm compute, 12 ms fusion', 0.25],
+    ['06', 'Cloud light seal', 'Breathable knit, S–XL', 0.52]
+  ];
+  const box = document.getElementById('lbls');
+  const place = () => {
+    ex.updateMatrixWorld(true);
+    box.innerHTML = ex.stack.map((L, i) => {
+      const [x, y] = S.toScreen(L.localToWorld(new THREE.Vector3(0, info[i][3], 0)));
+      const up = i % 2 === 0 || x > 1180, len = up ? 120 + (i % 3) * 30 : 110 + (i % 3) * 24;
+      const card = (up ? `top:${-len - 58}px` : `top:${len}px`) + (x > 1180 ? `;left:-196px` : ``);
+      const ln = up ? `top:${-len}px;height:${len}px` : `top:6px;height:${len}px`;
+      return `<div class="lbl" style="left:${x - 6}px;top:${y - 6}px"><span class="dt"></span><span class="ln" style="${ln}"></span><div class="card glass" style="${card}"><b><em>${info[i][0]}</em>${info[i][1]}</b><span>${info[i][2]}</span></div></div>`;
+    }).join('');
+  };
+  S.loop(t => { blobs.forEach((b, i) => b.update(t + i)); ex.stack.forEach((L, i) => L.position.y = 0.07 * i + Math.sin(t * 0.8 + i) * 0.015); place(); });
+}
+/* lineup strip */
+{
+  const S = K.stage(document.getElementById('line'), { w: 1440, h: 330, fov: 15, pos: [0, 0.6, 9.5], target: [0, -0.02, 0] });
+  const a = K.headset({ frame: 'pearl', strap: 'cloud', glow: 0.2 }), o = K.headset({ frame: 'silver', strap: 'lilac' }), s = K.headset({ frame: 'graphite', strap: 'graphite', glow: 0.2 });
+  a.scale.setScalar(0.92); o.scale.setScalar(1.02); s.scale.setScalar(1.02);
+  a.position.set(-2.05, 0.05, 0); o.position.set(0.82, 0.1, 0); s.position.set(3.65, 0.1, 0);
+  [a, o, s].forEach(h => { h.rotation.set(0.12, 0.85, 0); S.scene.add(h); });
+  [-2.05, 0.82, 3.65].forEach(x => { K.shadow(S.scene, { sx: 2.6, sz: 0.8, y: -0.62, a: 0.25 }).position.x = x; });
+  S.loop(t => { [a, o, s].forEach((h, i) => h.position.y = 0.08 + Math.sin(t * 0.8 + i) * 0.02); });
+}
+</script>
+</body></html>

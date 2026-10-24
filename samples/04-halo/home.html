@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>HALO — The ring that reads your rest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="halo.css">
+<style>
+.hero{position:relative;height:1040px;overflow:hidden;background:radial-gradient(90% 70% at 70% 45%,#fff 0%,var(--bg) 60%)}
+.hero h1{position:absolute;left:64px;top:168px;font-size:150px;font-weight:200;letter-spacing:-.065em;line-height:.9;z-index:3}
+.hero h1 span{display:block}
+.hero h1 .l2{padding-left:0}
+.hero .stage{position:absolute;left:750px;top:410px;width:520px;z-index:5}
+.hero .orb{position:absolute;inset:0;z-index:4;pointer-events:none}
+.hero .orb .chip{position:absolute;left:0;top:0;will-change:transform}
+.hero .halo-glow{position:absolute;left:670px;top:330px;width:680px;height:560px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.95),rgba(255,255,255,0));z-index:1}
+.hero .orbit-line{position:absolute;left:680px;top:400px;width:660px;height:380px;border-radius:50%;border:1px solid rgba(125,102,242,.22);z-index:2}
+.hero .orbit-line.b{left:630px;top:360px;width:760px;height:460px;border-style:dashed;border-color:rgba(36,35,44,.08)}
+.hero .copy{position:absolute;left:64px;top:560px;width:440px;z-index:6}
+.hero .copy p{font-size:18px;line-height:1.6;color:var(--ink-2);margin:22px 0 34px}
+.hero .copy .row{display:flex;gap:12px}
+.hero .hr{position:absolute;left:64px;bottom:64px;width:420px;padding:22px 24px;z-index:6;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:center}
+.hero .hr .hd{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center}
+.hero .hr .bpm b{font:200 54px/1 var(--display);letter-spacing:-.05em}
+.hero .hr .bpm small{display:block;font-size:12px;color:var(--dim)}
+.hero .fin{position:absolute;right:64px;bottom:64px;padding:16px 16px 16px 26px;z-index:6;display:flex;align-items:center;gap:22px;border-radius:999px}
+.hero .fin .lbl small{display:block;font:600 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.hero .fin .lbl b{font:400 17px/1 var(--display)}
+.hero .fin .sp{display:flex;gap:12px}
+.hero .fin .sp .sphere{width:40px;height:40px}
+.hero .meta{position:absolute;right:64px;top:150px;text-align:right;z-index:6}
+.hero .meta .num{font-size:15px;letter-spacing:.2em;font-weight:500}
+.hero .meta p{font-size:13px;color:var(--dim);margin-top:6px}
+.hero .scroll{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:10px;font:600 10px/1 var(--sans);letter-spacing:.24em;color:var(--dim)}
+.hero .scroll i{width:26px;height:42px;border-radius:20px;border:1.5px solid rgba(36,35,44,.25);position:relative}
+.hero .scroll i::after{content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:3px;background:var(--violet);animation:sc 1.8s ease-in-out infinite}
+@keyframes sc{60%{transform:translateY(12px);opacity:0}}
+
+.band{margin:0 40px;border-radius:999px;padding:26px 0;position:relative;overflow:hidden}
+.band .tr span{font:300 34px/1 var(--display);letter-spacing:-.03em;display:inline-flex;align-items:center;gap:56px}
+.band .tr span::after{content:"";width:16px;height:16px;border-radius:50%;background:conic-gradient(var(--lilac),var(--peach),var(--mint),var(--sky),var(--lilac))}
+
+.state{padding:170px 64px 150px;position:relative;overflow:hidden}
+.state p{font:200 76px/1.14 var(--display);letter-spacing:-.05em;max-width:1280px;position:relative;z-index:2}
+.state p .g{color:rgba(36,35,44,.2)}
+.state .pic{display:inline-block;width:180px;height:86px;border-radius:999px;vertical-align:middle;position:relative;top:-8px;margin:0 6px;box-shadow:var(--shadow)}
+.state .mini{display:inline-block;width:132px;height:86px;vertical-align:middle;position:relative;top:-10px;margin:0 6px}
+.state .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:100px;position:relative;z-index:2}
+.state .stats div{border-top:1px solid var(--line-2);padding-top:22px}
+.state .stats b{font:200 72px/1 var(--display);letter-spacing:-.05em}
+.state .stats b sup{font-size:22px;letter-spacing:0;margin-left:4px;vertical-align:top;position:relative;top:10px}
+.state .stats p{font:400 14px/1.5 var(--sans);color:var(--dim);margin-top:10px;letter-spacing:0}
+
+.dash{position:relative;padding:40px 40px 150px;overflow:hidden}
+.dash .hd{display:flex;justify-content:space-between;align-items:flex-end;padding:0 24px 60px}
+.dash h2{font-size:104px;font-weight:200}
+.dash .hd p{max-width:380px;color:var(--ink-2);font-size:16px}
+.bento{display:grid;grid-template-columns:400px 1fr 380px;grid-template-rows:330px 300px;gap:20px;position:relative;z-index:2}
+.bento>.glass{padding:30px;position:relative;overflow:hidden}
+.bento .ttl{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.bento .ttl h4{font:400 20px/1 var(--display);letter-spacing:-.02em}
+.bento .sleep{grid-row:1/3;display:flex;flex-direction:column;align-items:center}
+.bento .sleep .legend{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-top:auto}
+.bento .sleep .legend div{padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.6)}
+.bento .sleep .legend small{display:flex;gap:7px;align-items:center;font-size:11px;color:var(--dim);font-weight:600;letter-spacing:.06em}
+.bento .sleep .legend small i{width:8px;height:8px;border-radius:50%}
+.bento .sleep .legend b{font:300 22px/1.3 var(--display);letter-spacing:-.03em}
+.bento .hrv .big{display:flex;align-items:baseline;gap:10px}
+.bento .hrv .big b{font:200 64px/1 var(--display);letter-spacing:-.05em}
+.bento .hrv .days{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);font-weight:600;padding:4px 8px 0}
+.bento .ready{display:flex;flex-direction:column;align-items:center}
+.bento .ready p{text-align:center;font-size:13px;color:var(--ink-2);margin-top:10px;max-width:260px}
+.bento .hyp .stg{display:flex;gap:18px;font-size:11px;color:var(--dim);font-weight:600;margin-top:12px}
+.bento .hyp .stg i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.bento .temp{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bento .temp>div{border-radius:22px;padding:18px;background:rgba(255,255,255,.55)}
+.bento .temp b{font:200 44px/1 var(--display);letter-spacing:-.05em;display:block;margin:14px 0 6px}
+.bento .temp small{font-size:12px;color:var(--dim)}
+.bento .temp .icn{width:40px;height:40px;border-radius:14px;display:grid;place-items:center}
+
+.feat{display:grid;grid-template-columns:640px 1fr;gap:90px;padding:60px 64px 150px;align-items:center;position:relative}
+.feat .ph{height:760px;position:relative}
+.feat .ph .blob{position:absolute;inset:0;box-shadow:var(--shadow)}
+.feat .ph .tag{position:absolute;z-index:3}
+.feat h2{font-size:84px;font-weight:200;margin:22px 0 54px}
+.feat ol{list-style:none;counter-reset:f}
+.feat li{display:grid;grid-template-columns:70px 1fr auto;gap:20px;padding:26px 0;border-top:1px solid var(--line-2);align-items:start}
+.feat li:last-child{border-bottom:1px solid var(--line-2)}
+.feat li .n{font:300 15px/1 var(--display);color:var(--dim);padding-top:8px}
+.feat li h3{font-size:30px;font-weight:300;margin-bottom:8px}
+.feat li p{color:var(--ink-2);font-size:15px;max-width:440px}
+.feat li .icn{width:52px;height:52px;border-radius:50%;display:grid;place-items:center}
+.feat li.open{background:linear-gradient(90deg,rgba(201,184,255,.18),rgba(255,255,255,0));margin:0 -24px;padding:26px 24px;border-radius:24px;border-color:transparent}
+
+.life{padding:20px 0 160px;position:relative;overflow:hidden}
+.life .hd{display:flex;justify-content:space-between;align-items:flex-end;padding:0 64px 60px}
+.life h2{font-size:96px;font-weight:200;max-width:900px}
+.life .ctrl{display:flex;gap:10px}
+.life .ctrl span{width:58px;height:58px;border-radius:50%;display:grid;place-items:center}
+.life .ctrl span.on{background:var(--ink);color:#fff}
+.life .track{display:flex;gap:22px;padding-left:64px}
+.life .card{flex:none;width:400px;height:540px;border-radius:var(--r-xl);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.life .card:nth-child(2){width:330px;height:540px;border-radius:200px 200px var(--r-xl) var(--r-xl)}
+.life .card:nth-child(3){width:470px}
+.life .card:nth-child(4){border-radius:var(--r-xl) 200px var(--r-xl) var(--r-xl);width:340px}
+.life .card:nth-child(2) .time{left:50%;transform:translateX(-50%);top:44px}
+.life .card .cap{position:absolute;left:18px;right:18px;bottom:18px;padding:16px 18px;border-radius:24px;display:flex;justify-content:space-between;align-items:center;z-index:2}
+.life .card .cap small{display:block;font-size:12px;color:var(--ink-2)}
+.life .card .cap b{font:400 18px/1.2 var(--display);letter-spacing:-.02em}
+.life .card .cap .v{font:200 34px/1 var(--display);letter-spacing:-.05em}
+.life .card .time{position:absolute;left:22px;top:22px;z-index:2}
+.life .bar{margin:50px 64px 0;height:3px;border-radius:3px;background:rgba(36,35,44,.08);position:relative}
+.life .bar i{position:absolute;left:0;top:0;bottom:0;width:38%;border-radius:3px;background:linear-gradient(90deg,var(--lilac),var(--peach))}
+
+.voices{padding:40px 64px 140px;position:relative;overflow:hidden}
+.voices .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px}
+.voices h2{font-size:96px;font-weight:200}
+.voices .score{display:flex;align-items:center;gap:20px}
+.voices .score b{font:200 84px/1 var(--display);letter-spacing:-.05em}
+.voices .stars{display:flex;gap:3px;color:#f2a477}
+.voices .stars .ic{width:16px;height:16px}
+.vgrid{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:20px;position:relative;z-index:2}
+.vgrid .glass{padding:34px;display:flex;flex-direction:column}
+.vgrid blockquote{font:300 25px/1.35 var(--display);letter-spacing:-.03em;margin:22px 0 30px}
+.vgrid .glass:first-child blockquote{font-size:34px}
+.vgrid .who{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:22px;border-top:1px solid var(--line)}
+.av{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;font:500 16px/1 var(--display);color:var(--ink);flex:none;box-shadow:inset 0 0 0 3px rgba(255,255,255,.8)}
+.vgrid .who b{display:block;font-size:15px}
+.vgrid .who small{color:var(--dim);font-size:12px}
+.vgrid .stat{margin-left:auto;text-align:right}
+.vgrid .stat b{font:300 22px/1 var(--display)}
+
+.press{margin:0 40px;border-radius:var(--r-xl);padding:90px 80px;position:relative;overflow:hidden;text-align:center}
+.press q{display:block;font:200 62px/1.12 var(--display);letter-spacing:-.05em;max-width:1080px;margin:28px auto 26px;position:relative;z-index:2;quotes:"\201C" "\201D"}
+.press .src{font:600 12px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--ink-2);position:relative;z-index:2}
+.press .logos{display:flex;justify-content:space-between;align-items:center;margin-top:70px;padding-top:40px;border-top:1px solid rgba(36,35,44,.1);position:relative;z-index:2;color:var(--ink-2)}
+.press .logos span{font-size:22px;opacity:.75}
+.press .logos .on{opacity:1;color:var(--ink)}
+.press .dots{display:flex;gap:8px;justify-content:center;margin-top:30px;position:relative;z-index:2}
+.press .dots i{width:8px;height:8px;border-radius:50%;background:rgba(36,35,44,.15)}
+.press .dots i.on{width:34px;border-radius:5px;background:var(--ink)}
+
+.cta{display:grid;grid-template-columns:1fr 560px;gap:40px;padding:150px 64px 140px;align-items:center;position:relative;overflow:hidden}
+.cta h2{font-size:118px;font-weight:200;letter-spacing:-.065em}
+.cta p{font-size:18px;color:var(--ink-2);max-width:520px;margin:28px 0 40px}
+.cta .card{padding:36px;position:relative;z-index:2}
+.cta .card .rw{position:relative;width:300px;margin:-10px auto 10px}
+.cta .card .line{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid var(--line);font-size:15px}
+.cta .card .line b{font:300 22px/1 var(--display)}
+</style></head>
+<body>
+<section class="hero">
+  <div data-aurora="780,140,520;980,520,440;520,640,380,.55;1180,180,360"></div>
+  <div data-nav></div>
+  
+  <h1><span>Rest,</span><span class="l2 au">measured.</span></h1>
+  <div class="meta"><div class="num">GEN 3 · 2.4 G</div><p>Titanium · 7-day battery · 100 m</p></div>
+  <div class="halo-glow"></div>
+  <div class="orbit-line b"></div><div class="orbit-line"></div>
+  <div class="stage"><div class="ringwrap float" data-ring="ti|.42|96"></div><div class="ring-shadow"></div></div>
+  <div class="orb">
+    <div class="chip glass" data-a="200"><span class="d t-lilac" data-ic="moon"></span><div><b>86 <span class="dim" style="font-size:13px">/100</span></b><small>Sleep score</small></div></div>
+    <div class="chip glass" data-a="262"><span class="d t-mint" data-ic="wave"></span><div><b>64 ms</b><small>HRV · +9</small></div></div>
+    <div class="chip glass" data-a="318"><span class="d t-peach" data-ic="heart"></span><div><b>52 bpm</b><small>Resting HR</small></div></div>
+    <div class="chip glass" data-a="22"><span class="d t-sky" data-ic="thermo"></span><div><b>+0.2°</b><small>Skin temp</small></div></div>
+    <div class="chip glass" data-a="92"><span class="d t-lilac" data-ic="bolt"></span><div><b>91</b><small>Readiness</small></div></div>
+    <div class="chip glass" data-a="148"><span class="d t-mint" data-ic="drop"></span><div><b>97%</b><small>Blood oxygen</small></div></div>
+  </div>
+  <div class="cursor" style="left:1290px;top:320px">SPIN</div>
+  <div class="copy"><span class="eyebrow">The HALO Ring · Gen 3</span>
+    <p>Five medical-grade sensors folded into 2.4 grams of titanium. Wear it to bed — wake up to a calm, clear read on your sleep, recovery and heart.</p>
+    <div class="row"><a class="btn dark" href="product.html">Shop HALO — from €349 <span data-ic="arrow"></span></a><a class="btn ghost" href="science.html"><span data-ic="play"></span> How it reads you</a></div></div>
+  <div class="hr glass"><div class="hd"><span class="live">Live heart rate</span><span class="dim" style="font-size:12px">02:14 · deep sleep</span></div>
+    <div class="bpm"><b class="beat" style="display:inline-block" data-count="54">54</b><small>bpm</small></div><div data-w="pulse" data-width="270" data-h="64" style="width:270px"></div></div>
+  <div class="scroll"><i></i>SCROLL</div>
+  <div class="fin glass"><div class="lbl"><small>4 finishes</small><b>Brushed Titanium</b></div><div class="sp"><i class="sphere sp-ti on"></i><i class="sphere sp-gr"></i><i class="sphere sp-ro"></i><i class="sphere sp-au"></i></div></div>
+</section>
+
+<div class="band glass marq"><div class="tr"><span>Sleep staging</span><span>Heart-rate variability</span><span>Skin temperature</span><span>Blood oxygen</span><span>Readiness</span><span>Cycle insights</span><span>Stress & resilience</span><span>7-day battery</span><span>Sleep staging</span><span>Heart-rate variability</span><span>Skin temperature</span><span>Blood oxygen</span><span>Readiness</span><span>Cycle insights</span><span>Stress & resilience</span><span>7-day battery</span></div></div>
+
+<section class="state">
+  <div data-aurora="900,60,420,.45;-100,420,380,.4"></div>
+  <span class="eyebrow">Why a ring</span>
+  <p style="margin-top:34px">The finger holds the clearest pulse on the body. So we built <span class="mini" data-ring="ro|.42|96|0|12"></span> a ring light enough to forget, that turns every night into <span class="pic" data-img="1688382575775-9aaa5025524e|500"></span> a quiet conversation <span class="g">with your body — and every morning into one simple, honest answer.</span></p>
+  <div class="stats">
+    <div><b><span data-count="2.4" data-dec="1">2.4</span><sup>g</sup></b><p>Lighter than a paperclip, in aerospace titanium</p></div>
+    <div><b><span data-count="7">7</span><sup>days</sup></b><p>Battery on a single 80-minute charge</p></div>
+    <div><b><span data-count="250">250</span><sup>Hz</sup></b><p>Pulse sampling for beat-to-beat HRV</p></div>
+    <div><b><span data-count="79">79</span><sup>%</sup></b><p>Agreement with lab polysomnography on sleep stages</p></div>
+  </div>
+</section>
+
+<section class="dash">
+  <div data-aurora="160,240,520;700,420,560,.6;1080,80,480;360,700,420,.5"></div>
+  <div class="hd"><div><span class="eyebrow">Your morning, in three numbers</span><h2 style="margin-top:22px">Wake up <span class="au">informed.</span></h2></div><p>HALO turns 40 million data points a night into a sleep score, a readiness gauge and a trend you can actually feel.</p></div>
+  <div class="bento">
+    <div class="glass sleep"><div class="ttl" style="width:100%"><h4>Sleep</h4><span class="pill">Tue 14 Oct</span></div>
+      <div data-w="ring" data-v="86" data-s="250" data-sw="18" data-label="Sleep score · optimal" style="margin:24px 0"></div>
+      <div class="legend"><div><small><i style="background:#7d66f2"></i>Deep</small><b>1h 48m</b></div><div><small><i style="background:#c9b8ff"></i>REM</small><b>2h 06m</b></div><div><small><i style="background:#b9d8ff"></i>Light</small><b>3h 41m</b></div><div><small><i style="background:#ffc9b0"></i>Awake</small><b>22m</b></div></div></div>
+    <div class="glass hrv"><div class="ttl"><h4>Heart-rate variability</h4><span class="pill">7 nights</span></div>
+      <div class="big"><b data-count="64">64</b><span class="dim">ms average</span><span class="pill" style="background:#e3f8ef;color:#2b9d7a;margin-left:8px">▲ 9 ms vs last week</span></div>
+      <div data-w="line" data-pts="51,55,49,58,57,61,64" data-width="560" data-h="150" data-c="lilac" style="width:100%"></div>
+      <div class="days"><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span><span>Mon</span><span>Tue</span></div></div>
+    <div class="glass ready"><div class="ttl" style="width:100%"><h4>Readiness</h4><span class="live">Synced</span></div>
+      <div data-w="gauge" data-v="91" data-s="290" style="margin-top:18px"></div>
+      <p>Your body recovered well. A good day for that long run you’ve been planning.</p></div>
+    <div class="glass hyp"><div class="ttl"><h4>Last night, stage by stage</h4><span class="dim" style="font-size:12px">23:12 → 07:09</span></div>
+      <div data-w="hypno" data-width="560" data-h="160" style="width:100%"></div>
+      <div class="stg"><span><i style="background:#ffc9b0"></i>Awake</span><span><i style="background:#c9b8ff"></i>REM</span><span><i style="background:#b9d8ff"></i>Light</span><span><i style="background:#7d66f2"></i>Deep</span></div></div>
+    <div class="glass temp"><div><span class="icn t-peach" data-ic="heart"></span><b><span data-count="52">52</span><small> bpm</small></b><small>Lowest resting heart rate, at 03:40</small></div><div><span class="icn t-sky" data-ic="thermo"></span><b>+<span data-count="0.2" data-dec="1">0.2</span>°</b><small>Skin temperature vs your baseline</small></div></div>
+  </div>
+</section>
+
+<section class="feat">
+  <div class="ph"><div class="blob" data-img="1758273239475-2eb6b706f157|1200"></div>
+    <div class="tag chip glass" style="right:-40px;top:120px"><span class="d t-lilac" data-ic="moon"></span><div><b>8h 17m</b><small>Time asleep</small></div></div>
+    <div class="tag chip glass" style="left:-20px;bottom:150px"><span class="d t-mint" data-ic="bolt"></span><div><b>Ready · 91</b><small>Go for the long run</small></div></div>
+  </div>
+  <div><span class="eyebrow">Made for the hours you never see</span><h2>Everything a sleep lab measures. <span class="au">None of the wires.</span></h2>
+    <ol>
+      <li class="open"><span class="n">01</span><div><h3>Sleep staging</h3><p>Deep, REM, light and awake, minute by minute — scored against the same signals a sleep lab uses.</p></div><span class="icn t-lilac" data-ic="moon"></span></li>
+      <li><span class="n">02</span><div><h3>Readiness, every morning</h3><p>One number that weighs your HRV, temperature and last night’s rest.</p></div><span class="icn t-mint" data-ic="bolt"></span></li>
+      <li><span class="n">03</span><div><h3>Heart health, all day</h3><p>Resting HR, HRV and gentle alerts when something drifts from your normal.</p></div><span class="icn t-peach" data-ic="heart"></span></li>
+      <li><span class="n">04</span><div><h3>Cycle & temperature</h3><p>Nightly skin temperature reveals cycle phases and early signs of strain.</p></div><span class="icn t-sky" data-ic="thermo"></span></li>
+    </ol></div>
+</section>
+
+<section class="life">
+  <div class="hd"><div><span class="eyebrow">A day with HALO</span><h2 style="margin-top:22px">From 5 a.m. runs to <span class="au">11 p.m. wind-downs.</span></h2></div><div class="ctrl"><span class="glass" data-ic="left"></span><span class="on" data-ic="arrow"></span></div></div>
+  <div class="track">
+    <div class="card" data-img="1744060204728-f68e434a3edf|900"><span class="pill time">05:48 · Run</span><div class="cap glass"><div><small>Strain · zone 3</small><b>Easy 8 km</b></div><span class="v">12.4</span></div></div>
+    <div class="card" data-img="1544367567-0f2fcb009e0b|800"><span class="pill time">07:30 · Breathe</span><div class="cap glass"><div><small>Stress</small><b>Low, steady</b></div><span class="v">18</span></div></div>
+    <div class="card" data-img="1732107195798-4cb9db201131|1000"><span class="pill time">19:10 · Unwind</span><div class="cap glass"><div><small>HRV after session</small><b>Recovered</b></div><span class="v">+9 ms</span></div></div>
+    <div class="card" data-img="1686828752370-c0398d724e82|800"><span class="pill time">23:12 · Sleep</span><div class="cap glass"><div><small>Deep sleep</small><b>Above your norm</b></div><span class="v">1h 48</span></div></div>
+    <div class="card" data-img="1603455778956-d71832eafa4e|900"><span class="pill time">06:02 · Again</span><div class="cap glass"><div><small>Readiness</small><b>Good to go</b></div><span class="v">91</span></div></div>
+  </div>
+  <div class="bar"><i></i></div>
+</section>
+
+<section class="voices">
+  <div data-aurora="-120,200,460,.5;1000,320,460,.5"></div>
+  <div class="hd"><div><span class="eyebrow">Members, not users</span><h2 style="margin-top:22px">Slept in by <span class="au">410,000</span> people.</h2></div>
+    <div class="score"><b>4.8</b><div><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><small class="dim">from 22,481 verified reviews</small></div></div></div>
+  <div class="vgrid">
+    <div class="glass"><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><blockquote>“I stopped arguing with my alarm. HALO showed me my deep sleep happens before 2 a.m. — so now I protect that window, and I wake up a different person.”</blockquote><div class="who"><span class="av t-lilac">MV</span><div><b>Marta Vidal</b><small>Architect, Barcelona · member 14 months</small></div><div class="stat"><b>+38m</b><small class="dim" style="display:block;font-size:11px">deep sleep</small></div></div></div>
+    <div class="glass"><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><blockquote>“Readiness told me to rest two days before a fever showed up. That temperature curve is uncanny.”</blockquote><div class="who"><span class="av t-mint">JO</span><div><b>Jonas Ohlsen</b><small>Marathoner, Oslo</small></div></div></div>
+    <div class="glass"><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><blockquote>“It’s the first wearable I forget I’m wearing. Rose titanium with my wedding band looks like it belongs.”</blockquote><div class="who"><span class="av t-peach">AK</span><div><b>Aiko Kurata</b><small>Product designer, Lyon</small></div></div></div>
+  </div>
+</section>
+
+<section class="press glass">
+  <div data-aurora="-80,-120,460,.55;980,160,480,.55;460,260,380,.35"></div>
+  <span class="eyebrow">In the press</span>
+  <q>The most beautiful health tracker we’ve ever slept in — and the first one that made us want to go to bed earlier.</q>
+  <div class="src">Modern Pulse · Best of Wellness 2026</div>
+  <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+  <div class="logos"><span style="font:600 22px/1 var(--display);letter-spacing:.3em">FIELDNOTE</span><span class="on" style="font:200 28px/1 var(--display);letter-spacing:-.04em">modern<b style="font-weight:600">pulse</b></span><span style="font:italic 400 26px/1 Georgia,serif">The Quiet Review</span><span style="font:500 20px/1 var(--sans);letter-spacing:.12em">NORTHBOUND&nbsp;TECH</span><span style="font:300 24px/1 var(--display)">kinetic<span class="au" style="font-weight:600">/</span>daily</span></div>
+</section>
+
+<section class="cta">
+  <div data-aurora="760,120,520;1100,420,420;200,380,360,.4"></div>
+  <div style="position:relative;z-index:2"><span class="eyebrow">Start tonight</span><h2 style="margin-top:24px">Sleep on it.<br><span class="au">Literally.</span></h2><p>Free sizing kit, free shipping, 30 nights to decide. Your first month of membership is on us.</p>
+    <div style="display:flex;gap:12px"><a class="btn dark" href="sizing.html">Get your free sizing kit <span data-ic="arrow"></span></a><a class="btn ghost" href="product.html">Choose a finish</a></div></div>
+  <div class="card glass"><div class="rw float" data-ring="au|.42|96"></div>
+    <div class="line"><span>HALO Ring · Aurum</span><b>€549</b></div>
+    <div class="line"><span>Membership · first month</span><b>€0</b></div>
+    <div class="line"><span>Then, cancel anytime</span><b>€5.99<small class="dim" style="font-size:13px">/mo</small></b></div>
+    <a class="btn dark" style="width:100%;justify-content:center;margin-top:14px" href="checkout.html">Reserve yours <span data-ic="arrow"></span></a></div>
+</section>
+
+<div data-footer></div>
+<script src="halo.js"></script>
+<script>halo('', { bag: 0, progress: 12 }); orbit('.hero .orb .chip', { cx: 1010, cy: 590, rx: 330, ry: 190, period: 120 });</script>
+</body></html>

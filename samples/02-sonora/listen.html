@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Listening Room — Sonora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sonora.css">
+<style>
+html,body{height:1080px;overflow:hidden;background:var(--ink)}
+.app{height:1080px;display:flex;flex-direction:column}
+.app .nav{flex:none}
+.room{flex:1;display:grid;grid-template-columns:repeat(12,1fr);margin:0 40px;min-height:0}
+.col-l{grid-column:1/4;border-right:1px solid var(--wline);padding:24px 26px 0 0;display:flex;flex-direction:column}
+.col-c{grid-column:4/10;padding:24px 34px 0;position:relative;display:flex;flex-direction:column}
+.col-r{grid-column:10/13;border-left:1px solid var(--wline);padding:24px 0 0 26px;display:flex;flex-direction:column}
+.k{font:500 11px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--grey-2)}
+.k b{color:var(--sig);font-weight:500}
+h1.disp{font-size:42px;margin:16px 0 22px}
+.tracks{border-top:1px solid var(--paper)}
+.tr{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--wline)}
+.tr .n{font:400 11px/1 var(--mono);color:var(--grey-2)}
+.tr b{display:block;font:600 14px/1.2 var(--sans)}
+.tr small{font:400 10px/1.3 var(--mono);color:var(--grey-2);text-transform:uppercase}
+.tr .d{font:400 11px/1 var(--mono);color:var(--grey-2);text-align:right}
+.tr .d em{display:block;font-style:normal;font-size:9px;margin-top:4px;color:var(--grey)}
+.tr.on{background:var(--sig);color:var(--ink);margin:0 -10px;padding:11px 10px;border-color:var(--sig)}
+.tr.on .n,.tr.on small,.tr.on .d,.tr.on .d em{color:var(--ink)}
+.tr.on .n .bars{height:14px;width:18px;color:var(--ink);gap:2px}
+.src{margin-top:auto;border-top:1px solid var(--wline);padding:16px 0 18px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
+.src .dev{width:56px;height:56px;background:#b9c5ae}
+.src b{display:block;font:600 14px/1.2 var(--sans)}
+.src small{font:400 10px/1.5 var(--mono);color:var(--grey-2);text-transform:uppercase}
+.batt{display:flex;gap:2px;margin-top:6px}.batt i{width:10px;height:5px;background:var(--sig)}.batt i.o{background:rgba(242,241,238,.2)}
+
+.now{display:flex;justify-content:space-between;align-items:flex-start}
+.now h2{font-size:62px;line-height:.86;margin-top:14px}
+.now .fmt{text-align:right;font:500 11px/1.6 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.now .fmt b{display:inline-block;background:var(--paper);color:var(--ink);padding:3px 7px;font-weight:600;margin-bottom:6px}
+.vis{position:relative;height:350px;margin-top:26px;display:grid;place-items:center}
+.vis .rings{left:50%;top:50%;width:440px;height:440px;margin:-220px 0 0 -220px}
+.vis .rings b:nth-of-type(1){inset:40px}.vis .rings b:nth-of-type(2){inset:100px}
+.cover{width:220px;height:220px;background:var(--sig);color:var(--ink);position:relative;z-index:2;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 30px 60px rgba(0,0,0,.5)}
+.cover .g{position:absolute;inset:0;background-image:linear-gradient(90deg,rgba(11,11,11,.18) 1px,transparent 1px),linear-gradient(rgba(11,11,11,.18) 1px,transparent 1px);background-size:27.5px 27.5px}
+.cover b{font:800 44px/.8 var(--sans);font-stretch:125%;letter-spacing:-.05em;position:relative}
+.cover span{font:500 10px/1.3 var(--mono);text-transform:uppercase;position:relative;display:flex;justify-content:space-between}
+.cover .circ{position:absolute;right:16px;top:44px;width:64px;height:64px;border-radius:50%;background:var(--ink)}
+.cover .circ::after{content:"";position:absolute;inset:25px;border-radius:50%;background:var(--sig)}
+.vis .spec{position:absolute;left:0;right:0;bottom:0;height:120px;color:rgba(242,241,238,.12);z-index:1}
+.vis .tag{position:absolute;z-index:3;font:500 10px/1.3 var(--mono);text-transform:uppercase;color:var(--grey-2);border-left:1px solid var(--sig);padding-left:8px}
+.vis .tag b{display:block;color:var(--paper);font:300 30px/1 var(--sans);font-stretch:62%;margin-top:4px}
+.wvbox{position:relative;margin-top:22px}
+.wvbox .head{position:absolute;top:-14px;bottom:-14px;left:41%;width:2px;background:var(--paper);z-index:2}
+.wvbox .head::before{content:"";position:absolute;top:-6px;left:-5px;width:12px;height:12px;background:var(--sig)}
+.wvbox .marks{display:flex;justify-content:space-between;font:400 10px/1 var(--mono);color:var(--grey);margin-top:14px}
+.wvbox .sel{position:absolute;top:-6px;bottom:-6px;left:58%;width:14%;background:rgba(255,77,0,.12);border-left:1px dashed var(--sig);border-right:1px dashed var(--sig)}
+.wvbox .sel span{position:absolute;top:-18px;left:4px;font:500 9px/1 var(--mono);color:var(--sig)}
+.ctrl{display:grid;grid-template-columns:auto 1fr auto;align-items:center;margin-top:40px;gap:18px}
+.ctrl .flap{font-size:40px}
+.ctrl .flap span{background:#1c1c1c;color:var(--paper)}
+.ctrl .flap span::after{background:var(--ink);box-shadow:calc(.72em - 1px) 0 0 var(--ink)}
+.ctrl .flap span.c{width:.3em;background:none}.ctrl .flap span.c::before,.ctrl .flap span.c::after{display:none}
+.ctrl .btns{display:flex;justify-content:center;align-items:center;gap:6px}
+.ctrl .btns span{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--wline)}
+.ctrl .btns span.pl{width:68px;height:68px;background:var(--sig);color:var(--ink);border:0}
+.ctrl .btns span.pl .ic{width:30px;height:30px}
+.ctrl .tot{font:500 12px/1.5 var(--mono);text-align:right;color:var(--grey-2);text-transform:uppercase}
+.ctrl .tot b{display:block;font:300 42px/.9 var(--sans);font-stretch:62%;color:var(--paper)}
+
+.eqp{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;height:250px;margin-top:16px;border-top:1px solid var(--paper);border-bottom:1px solid var(--wline);padding:16px 0 12px;position:relative}
+.eqp::before{content:"";position:absolute;left:0;right:0;top:calc(16px + 41%);border-top:1px dashed rgba(242,241,238,.25)}
+.eqp>div{display:flex;flex-direction:column;align-items:center;gap:8px;font:400 10px/1 var(--mono);color:var(--grey-2)}
+.eqp .tk{flex:1;width:2px;background:rgba(242,241,238,.2);position:relative}
+.eqp .tk s{position:absolute;left:0;right:0;background:var(--sig)}
+.eqp .tk i{position:absolute;left:-9px;width:20px;height:12px;background:var(--paper);transform:translateY(-50%)}
+.eqp .tk i::after{content:"";position:absolute;left:4px;right:4px;top:5px;height:1px;background:var(--ink)}
+.eqp .v{color:var(--paper)}
+.eqp>div.on .tk i{background:var(--sig)}
+.eqp>div.on .v{color:var(--sig)}
+.pre{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.pre span{height:28px;padding:0 10px;display:flex;align-items:center;border:1px solid var(--wline);font:500 10px/1 var(--mono);text-transform:uppercase}
+.pre span.on{background:var(--paper);color:var(--ink)}
+.anc{margin-top:22px;border-top:1px solid var(--paper);padding-top:14px}
+.ab{display:grid;grid-template-columns:1fr 1fr;margin-top:12px;border:1px solid var(--paper)}
+.ab span{height:64px;display:flex;flex-direction:column;justify-content:center;padding:0 14px;font:500 10px/1.3 var(--mono);text-transform:uppercase}
+.ab span b{font:800 22px/1 var(--sans);font-stretch:125%;letter-spacing:-.03em;margin-bottom:4px}
+.ab span.on{background:var(--sig);color:var(--ink)}
+.meter{margin-top:16px}
+.meter .row{display:grid;grid-template-columns:76px 1fr 52px;gap:10px;align-items:center;padding:7px 0;font:400 10px/1 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.meter .row .m{height:12px;display:flex;gap:2px}
+.meter .row .m i{flex:1;background:rgba(242,241,238,.12)}
+.meter .row .m i.a{background:var(--paper)}.meter .row .m i.s{background:var(--sig)}
+.meter .row span:last-child{text-align:right;color:var(--paper)}
+.status{flex:none;height:62px;margin:0 40px;border-top:1px solid var(--paper);display:grid;grid-template-columns:repeat(12,1fr);align-items:center;font:500 11px/1 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.status .vol{grid-column:10/13;display:flex;align-items:center;gap:12px;color:var(--paper)}
+.status .vol .t{flex:1;height:2px;background:rgba(242,241,238,.2);position:relative}
+.status .vol .t s{position:absolute;left:0;top:-1px;height:4px;width:64%;background:var(--sig)}
+.status .vol .t s::after{content:"";position:absolute;right:-6px;top:-4px;width:12px;height:12px;background:var(--paper)}
+.app .cursor{left:470px;top:610px}
+.notes{display:grid;grid-template-columns:repeat(4,1fr);margin-top:auto;border-top:1px solid var(--wline)}
+.notes div{padding:14px 12px 16px 0;font:400 10px/1.4 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.notes b{display:block;font:300 28px/1 var(--sans);font-stretch:62%;color:var(--paper);margin-top:6px;text-transform:none}
+.curve{margin-top:18px;border-top:1px solid var(--paper);padding-top:14px}
+.curve svg{display:block;width:100%;height:120px;margin-top:10px}
+.save{display:flex;gap:8px;margin-top:auto;padding-bottom:18px}
+.save span{flex:1;height:46px;display:flex;align-items:center;justify-content:center;gap:10px;font:500 11px/1 var(--mono);text-transform:uppercase;border:1px solid var(--paper)}
+.save span.on{background:var(--paper);color:var(--ink)}
+</style></head>
+<body data-nogrid>
+<div class="app dark">
+<div data-nav></div>
+<main class="room">
+  <aside class="col-l">
+    <div class="k"><b>[03]</b> Listening Room · Session 14</div>
+    <h1 class="disp">Reference<br>tracks</h1>
+    <div class="tracks">
+      <div class="tr"><span class="n">01</span><div><b>Sihl Undertow</b><small>Nora Baumann Trio</small></div><span class="d">04:21<em>FLAC 24/96</em></span></div>
+      <div class="tr on"><span class="n"><span data-bars="5|2"></span></span><div><b>Limmat, 05:12 AM</b><small>Ensemble Hardturm</small></div><span class="d">03:58<em>FLAC 24/96</em></span></div>
+      <div class="tr"><span class="n">03</span><div><b>Föhn</b><small>Kaspar Wyss</small></div><span class="d">06:02<em>DSD 128</em></span></div>
+      <div class="tr"><span class="n">04</span><div><b>Glass Index</b><small>Alba Meier</small></div><span class="d">03:14<em>FLAC 24/192</em></span></div>
+      <div class="tr"><span class="n">05</span><div><b>Bassline for Oerlikon</b><small>Teo &amp; the Quiet</small></div><span class="d">05:40<em>FLAC 24/96</em></span></div>
+      <div class="tr"><span class="n">06</span><div><b>Low Frequency Atlas</b><small>Studio Sonora</small></div><span class="d">02:30<em>Test · sweep</em></span></div>
+      <div class="tr"><span class="n">07</span><div><b>Kreis 5 at Night</b><small>Mira Steiner</small></div><span class="d">04:47<em>FLAC 24/48</em></span></div>
+      <div class="tr"><span class="n">08</span><div><b>Pink Noise, −20 dBFS</b><small>Calibration</small></div><span class="d">01:00<em>WAV 24/96</em></span></div>
+      <div class="tr"><span class="n">09</span><div><b>Uetliberg Choir</b><small>Vokalensemble Zürich-West</small></div><span class="d">07:12<em>FLAC 24/96</em></span></div>
+    </div>
+    <div class="src"><span class="dev" data-img="1693621947585-7b7d94149af4|200"></span><div><b>Kontur H1 · Salbei</b><small>Connected · LDAC 990 kbps</small><div class="batt"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="o"></i><i class="o"></i></div></div></div>
+  </aside>
+
+  <section class="col-c">
+    <div class="now">
+      <div><div class="k">Now playing · 02 / 09</div><h2 class="disp">Limmat,<br>05:12 <span class="sig">AM</span></h2></div>
+      <div class="fmt"><b>HI-RES</b><br>FLAC · 24 bit / 96 kHz<br>4,608 kbps · Bit-perfect<br>Ensemble Hardturm</div>
+    </div>
+    <div class="vis">
+      <div class="spec" data-bars="72|5"></div>
+      <div class="rings"><b></b><b></b><i></i><i></i><i></i><i></i></div>
+      <div class="cover"><div class="g"></div><span><em style="font-style:normal">SNR-014</em><em style="font-style:normal">A</em></span><span class="circ"></span><b>LIM<br>MAT</b><span><em style="font-style:normal">Ensemble Hardturm</em><em style="font-style:normal">2026</em></span></div>
+      <div class="tag" style="left:0;top:20px">Peak<b>−0.4 dBFS</b></div>
+      <div class="tag" style="left:0;top:110px">Dynamic range<b>DR 14</b></div>
+      <div class="tag" style="right:0;top:20px;text-align:right;border-left:0;border-right:1px solid var(--sig);padding:0 8px 0 0">Latency<b>38 ms</b></div>
+      <div class="tag" style="right:0;top:110px;text-align:right;border-left:0;border-right:1px solid var(--sig);padding:0 8px 0 0">Loudness<b>−14 LUFS</b></div>
+    </div>
+    <div class="wvbox">
+      <div data-wave="180|.41|120|7" data-rest="rgba(242,241,238,.25)"></div>
+      <div class="sel"><span>LOOP A–B</span></div>
+      <span class="head"></span>
+      <div class="marks"><span>00:00</span><span>INTRO</span><span>VERSE</span><span>CHORUS</span><span>BRIDGE</span><span>OUTRO</span><span>03:58</span></div>
+    </div>
+    <div class="ctrl">
+      <div class="flap"><span>0</span><span>1</span><span class="c">:</span><span>3</span><span class="flip sig">7</span></div>
+      <div class="btns"><span><i data-ic="shuffle"></i></span><span><i data-ic="prev"></i></span><span class="pl"><i data-ic="pause"></i></span><span><i data-ic="next"></i></span><span><i data-ic="repeat"></i></span></div>
+      <div class="tot">Remaining<b>−02:21</b></div>
+    </div>
+    <div class="notes"><div>Level at ear<b>78 dB SPL</b></div><div>Session<b>00:42:10</b></div><div>Fatigue index<b class="sig">Low</b></div><div>Up next<b>Föhn</b></div></div>
+    <div class="cursor sigc"><span class="eq"><s></s><s></s><s></s><s></s></span>LISTEN</div>
+  </section>
+
+  <aside class="col-r">
+    <div class="k" style="display:flex;justify-content:space-between"><span><b>[EQ]</b> Parametric · 8 band</span><span style="color:var(--paper)">On</span></div>
+    <div class="eqp" id="eq"></div>
+    <div class="pre"><span>Flat</span><span class="on">Tonmeister</span><span>Studio</span><span>Bass +3</span><span>Night</span></div>
+    <div class="anc">
+      <div class="k" style="display:flex;justify-content:space-between"><span><b>[A/B]</b> Noise cancelling</span><span style="color:var(--paper)">Compare</span></div>
+      <div class="ab"><span class="on"><b>A · ON</b>Adaptive · −42 dB</span><span><b>B · OFF</b>Passive only</span></div>
+      <div class="meter">
+        <div class="row"><span>Outside</span><div class="m" id="m1"></div><span>68 dB</span></div>
+        <div class="row"><span>At ear · A</span><div class="m" id="m2"></div><span class="sig">26 dB</span></div>
+        <div class="row"><span>Voice pass</span><div class="m" id="m3"></div><span>Low</span></div>
+      </div>
+    </div>
+    <div class="curve"><div class="k" style="display:flex;justify-content:space-between"><span><b>[FR]</b> Resulting curve</span><span style="color:var(--paper)">±6 dB</span></div><svg viewBox="0 0 314 120" preserveAspectRatio="none"><g stroke="#f2f1ee" stroke-opacity=".12"><path d="M0 30H314M0 60H314M0 90H314M39 0V120M78 0V120M118 0V120M157 0V120M196 0V120M235 0V120M275 0V120"/></g><path d="M0 60H314" stroke="#f2f1ee" stroke-opacity=".4" stroke-dasharray="3 3"/><path d="M0 36 C30 38 50 44 80 56 S120 70 150 66 S190 60 215 58 S250 48 270 42 S300 30 314 26 L314 120 L0 120Z" fill="#ff4d00" fill-opacity=".14"/><path d="M0 36 C30 38 50 44 80 56 S120 70 150 66 S190 60 215 58 S250 48 270 42 S300 30 314 26" fill="none" stroke="#ff4d00" stroke-width="2.5"/><circle cx="236" cy="50" r="5" fill="#0b0b0b" stroke="#ff4d00" stroke-width="2"/></svg></div>
+    <div class="save"><span>Reset</span><span class="on">Save to Kontur</span></div>
+  </aside>
+</main>
+<div class="status"><span style="grid-column:1/4;display:flex;gap:10px;align-items:center"><i style="width:8px;height:8px;background:var(--sig);display:block" class="blink"></i>Live · Room 03 · 3 listeners</span><span style="grid-column:4/7">Output · Kontur H1 → Bit-perfect</span><span style="grid-column:7/10">Spatial off · Crossfeed 30%</span><div class="vol"><span data-ic="vol"></span><div class="t"><s></s></div><span>64</span></div></div>
+</div>
+<script src="sonora.js"></script>
+<script>
+sonora('Listening Room', { light: true });
+const bands = [['31', 2.5], ['63', 1.5], ['125', 0], ['250', -1], ['500', -.5], ['1k', 0], ['4k', 1.5], ['16k', 3]];
+document.getElementById('eq').innerHTML = bands.map(([f, v], i) => {
+  const pos = 41 - v / 6 * 41; // 0 dB at 41%
+  const top = Math.min(pos, 41), h = Math.abs(pos - 41);
+  return `<div class="${i === 6 ? 'on' : ''}"><span class="v">${v > 0 ? '+' : ''}${v}</span><div class="tk"><s style="top:${top}%;height:${h}%"></s><i style="top:${pos}%"></i></div><span>${f}</span></div>`;
+}).join('');
+const meter = (id, n, cls) => { document.getElementById(id).innerHTML = Array.from({ length: 20 }, (_, i) => `<i class="${i < n ? cls : ''}"></i>`).join(''); };
+meter('m1', 17, 'a'); meter('m2', 6, 's'); meter('m3', 4, 'a');
+</script>
+</body></html>

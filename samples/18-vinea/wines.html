@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>The Wines — Domaine Vinea</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vinea.css">
+<script src="v3d.js"></script>
+<style>
+.top{position:relative;height:860px;overflow:hidden}
+.top canvas{position:absolute;left:0;top:0;z-index:1}
+.top .tx{position:absolute;left:72px;top:96px;z-index:3;width:520px}
+.top .crumb{font:600 12px/1 var(--sans);letter-spacing:.14em;color:var(--pf);margin-bottom:34px}
+.top .crumb b{color:var(--goldl);font-weight:600}
+.top h1{font-size:150px;line-height:.84;letter-spacing:-.025em}
+.top h1 em{display:block;color:var(--goldl);margin-left:110px}
+.top .tx p{color:var(--pd);margin:34px 0 34px;max-width:420px;font-size:17px}
+.top .cnt{display:flex;gap:40px;border-top:1px solid var(--line);padding-top:24px}
+.top .cnt b{display:block;font:400 48px/1 var(--disp)}
+.top .cnt span{font:700 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--pd)}
+.top .tabs{position:absolute;z-index:3;bottom:30px;left:640px;right:72px;display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.top .tab{padding:20px 22px;border-top:1px solid var(--line2);display:flex;justify-content:space-between;align-items:center}
+.top .tab b{font:400 30px/1 var(--disp)}
+.top .tab small{display:block;font:600 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--pd);margin-top:8px}
+.top .tab.on{border-top:2px solid var(--gold);background:linear-gradient(180deg,rgba(184,149,90,.14),transparent)}
+.top .tab i{width:14px;height:14px;border-radius:50%}
+.top .ping{position:absolute;z-index:3;display:flex;align-items:center;gap:10px;font:600 11px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--pd)}
+.top .ping::before{content:"";width:46px;height:1px;background:var(--gold)}
+.top .ping b{display:block;color:var(--par);font:400 20px/1 var(--disp);letter-spacing:0;text-transform:none}
+.top .cursor{left:870px;top:300px}
+
+.bar{position:relative;z-index:5;margin:0 72px;padding:22px 26px;display:flex;align-items:center;gap:12px;background:rgba(36,19,26,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line)}
+.bar .lbl{font:700 10px/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-right:6px}
+.bar .chip{white-space:nowrap}.chip i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.bar .sep{width:1px;height:30px;background:var(--line2);margin:0 10px}
+.bar .sort{margin-left:auto;white-space:nowrap;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--pd)}
+.bar .sort b{color:var(--par);font-weight:600}
+.range{display:flex;align-items:center;gap:12px;font:400 18px/1 var(--disp)}
+.range .tr{width:170px;height:2px;background:var(--line2);position:relative}
+.range .tr i{position:absolute;left:28%;right:22%;top:0;height:2px;background:var(--gold)}
+.range .tr b{position:absolute;top:-7px;width:16px;height:16px;border-radius:50%;background:var(--par);box-shadow:0 0 0 4px rgba(184,149,90,.35)}
+
+.vchart{margin:34px 72px 0;display:grid;grid-template-columns:200px 1fr;gap:30px;align-items:end}
+.vchart .h{padding-bottom:6px}
+.vchart .h b{display:block;font:400 30px/1.1 var(--disp);margin-top:10px}
+.vc{display:grid;grid-template-columns:repeat(14,1fr);gap:8px;align-items:end;height:150px;position:relative}
+.vc div{display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}
+.vc .b{width:100%;background:linear-gradient(180deg,rgba(184,149,90,.5),rgba(184,149,90,.06));border-top:2px solid var(--gold)}
+.vc div.off .b{background:linear-gradient(180deg,rgba(239,228,208,.12),rgba(239,228,208,.02));border-top-color:rgba(239,228,208,.3)}
+.vc div.off span{color:var(--pf)}
+.vc span{font:400 16px/1 var(--disp)}
+.vc em{font:700 10px/1 var(--sans);font-style:normal;letter-spacing:.1em;color:var(--pd)}
+.vc div.star .b{background:linear-gradient(180deg,#8c2a3d,rgba(140,42,61,.15));border-top-color:#e06a80;box-shadow:0 -10px 30px -6px rgba(224,106,128,.5)}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;padding:60px 72px 140px}
+.card{position:relative;display:flex;flex-direction:column}
+.card .st{position:relative;height:430px;border-radius:200px 200px 3px 3px;overflow:hidden;border:1px solid var(--line2);display:flex;justify-content:center}
+.card .st::before{content:"";position:absolute;inset:0;background:var(--bg)}
+.card .st::after{content:"";position:absolute;left:50%;bottom:30px;width:200px;height:34px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent)}
+.card .st [data-bottle]{position:absolute;bottom:44px;width:96px;height:310px;z-index:2}
+.card .st .yr{position:absolute;top:58px;left:0;right:0;text-align:center;font:400 120px/1 var(--disp);color:transparent;-webkit-text-stroke:1px rgba(239,228,208,.18);z-index:1}
+.card .st .tag{position:absolute;left:18px;top:auto;bottom:16px;z-index:3;font:700 9px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;padding:7px 10px;border:1px solid rgba(239,228,208,.25);border-radius:999px;background:rgba(18,10,12,.4)}
+.card .st .pts{position:absolute;right:16px;bottom:14px;z-index:3;width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;font:400 18px/1 var(--disp);color:var(--goldl);background:rgba(18,10,12,.5)}
+.card .in{padding:20px 4px 0}
+.card .in .mono{color:var(--pd);font-size:10px}
+.card h3{font-size:30px;margin:10px 0 6px}
+.card .nt{font:italic 400 14px/1.4 var(--it);color:var(--pd)}
+.card .pr{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--line2)}
+.card .pr b{font:400 26px/1 var(--disp)}
+.card .pr span{font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--goldl);display:flex;align-items:center;gap:8px}
+.card .pr span::before{content:"+";width:26px;height:26px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-size:14px;letter-spacing:0}
+.card.hov{transform:translateY(-12px)}
+.card.hov .st{border-color:var(--gold);box-shadow:0 40px 70px -30px rgba(140,42,61,.8),0 0 0 1px rgba(184,149,90,.5)}
+.card.hov [data-bottle]{bottom:178px;height:230px;width:72px}.card.hov .pts{display:none}.card.hov .st::after{bottom:166px}.card.hov .qv{position:absolute;left:14px;right:14px;bottom:14px;z-index:4;padding:16px;background:rgba(18,10,12,.66);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(220,192,138,.3)}
+.qv .sz{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 12px}
+.qv .sz span{height:38px;border:1px solid var(--line);display:grid;place-items:center;font:600 11px/1.15 var(--sans);text-align:center;color:var(--pd)}
+.qv .sz span.on{border-color:var(--gold);color:var(--par)}
+.qv .btn{height:44px;width:100%;justify-content:center}
+.feat{grid-column:span 2;position:relative;overflow:hidden;border:1px solid var(--line);min-height:560px}
+.feat img{position:absolute;inset:0;filter:brightness(.62) saturate(1.1)}
+.feat::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(18,10,12,.95),rgba(18,10,12,.1) 60%),radial-gradient(50% 60% at 80% 20%,rgba(255,170,90,.18),transparent)}
+.feat .fx{position:absolute;left:40px;right:40px;bottom:36px;z-index:2}
+.feat h3{font-size:72px;margin:16px 0 14px}
+.feat h3 em{color:var(--goldl)}
+.feat .row{display:flex;justify-content:space-between;align-items:flex-end;gap:30px}
+.feat .seal{position:absolute;right:36px;top:36px;width:120px;height:120px;z-index:2}
+.feat .cd{display:flex;gap:12px;margin-top:18px}
+.feat .cd div{width:72px;padding:10px 0;text-align:center;border:1px solid var(--line);background:rgba(18,10,12,.5)}
+.feat .cd b{display:block;font:400 30px/1 var(--disp)}.feat .cd small{font:700 9px/1 var(--sans);letter-spacing:.2em;color:var(--pd)}
+.pick{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);background:linear-gradient(140deg,#2a0c15,#120a0c)}
+.pick .ph{position:relative}
+.pick .ph img{position:absolute;inset:0;filter:brightness(.85)}
+.pick .tx{padding:44px 40px;display:flex;flex-direction:column}
+.pick h3{font-size:54px;margin:18px 0}
+.pick h3 em{color:var(--goldl)}
+.pick ul{list-style:none;margin:10px 0 26px}
+.pick li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px;color:var(--pd)}
+.pick li b{color:var(--par);font-weight:500}
+.pg{display:flex;justify-content:center;align-items:center;gap:24px;padding:0 0 130px;font:400 22px/1 var(--disp);color:var(--pf)}
+.pg b{color:var(--par)}
+.pg .ln{width:220px;height:1px;background:var(--line2);position:relative}.pg .ln::after{content:"";position:absolute;left:0;top:0;width:66%;height:1px;background:var(--gold)}
+</style></head>
+<body>
+<div class="ann"><span><i class="dot"></i>Harvest 2026 is resting in barrel — <b>pre-release allocations open 3 November</b></span><span>Cellar-temperature delivery across the EU · Free over €250</span></div>
+<nav class="nav"><div class="l"><a class="on" href="wines.html">The Wines</a><a href="wine.html">Grand Cru</a><a href="club.html">Cellar Society</a></div>
+<a class="logo" href="home.html"><span class="cr" data-crest></span><b>DOMAINE VINEA</b></a>
+<div class="r"><a href="estate.html">Estate &amp; Tours</a><a href="#"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a><a class="case-btn" href="checkout.html">Case <i>4</i></a></div></nav>
+
+<section class="top">
+  <canvas id="wines3d"></canvas>
+  <div class="tx">
+    <div class="crumb">Domaine Vinea / <b>The wines</b></div>
+    <h1>The cellar <em>list.</em></h1>
+    <p>Twelve wines from nine parcels, released only when they are ready. Shop by colour, by vintage, or let the cellar master choose your case.</p>
+    <div class="cnt"><div><b>12</b><span>Wines</span></div><div><b>14</b><span>Vintages</span></div><div><b>€38</b><span>From</span></div></div>
+  </div>
+  <div class="ping" style="left:1150px;top:200px"><span>New release<b>Aube 2023</b></span></div>
+  <div class="cursor"><i>Rotate</i></div>
+  <div class="tabs">
+    <div class="tab on"><div><b>Rouge</b><small>6 wines · Pinot Noir</small></div><i style="background:#7a1426;box-shadow:0 0 14px #c2384e"></i></div>
+    <div class="tab"><div><b>Rosé</b><small>2 wines · Saignée</small></div><i style="background:#e99a8e"></i></div>
+    <div class="tab"><div><b>Pétillant</b><small>3 wines · Méthode trad.</small></div><i style="background:#c9a36a"></i></div>
+  </div>
+</section>
+
+<div class="bar">
+  <span class="lbl">Colour</span><span class="chip on"><i style="background:#7a1426"></i>Rouge</span><span class="chip"><i style="background:#e99a8e"></i>Rosé</span><span class="chip"><i style="background:#c9a36a"></i>Pétillant</span>
+  <span class="sep"></span><span class="lbl">Vintage</span><div class="range"><span>2013</span><div class="tr"><i></i><b style="left:calc(28% - 8px)"></b><b style="left:calc(78% - 8px)"></b></div><span>2020</span></div>
+  <span class="sep"></span><span class="chip">Grand Cru</span><span class="chip">Ready to drink</span>
+  <div class="sort">Sort <b>Vintage, oldest first</b> <svg class="ico" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+</div>
+
+<div class="vchart">
+  <div class="h"><div class="mono">Vintage chart</div><b>Our harvests, <em>scored.</em></b></div>
+  <div class="vc" id="vc"></div>
+</div>
+
+<section class="grid" id="grid"></section>
+<div class="pg"><span>Showing <b>12</b> of 12 wines</span><span class="ln"></span><span>Library on request</span></div>
+
+<footer class="foot"><div class="glow"></div>
+  <div class="top">
+    <div class="news"><h4>The Cellar Letter</h4><p>Harvest notes, release dates and the occasional <em>library bottle</em> — four letters a year.</p><form><span>Your email address</span><b>SUBSCRIBE</b></form></div>
+    <div><h4>Wines</h4><ul><li>Grand Cru</li><li>Premier Cru</li><li>Rosé</li><li>Sparkling</li><li>Library releases</li></ul></div>
+    <div><h4>Estate</h4><ul><li>Our story</li><li>The nine parcels</li><li>Cellar tours</li><li>Harvest supper</li><li>Press</li></ul></div>
+    <div><h4>Service</h4><ul><li>Delivery &amp; temperature</li><li>Cellar Society</li><li>Gift cases</li><li>Contact the cellar</li><li>Drink responsibly</li></ul></div>
+  </div>
+  <div class="big"><span class="seal" data-seal="DOMAINE VINEA · CÔTE DE VINEA · " data-mono="V"></span><h2>VINEA</h2></div>
+  <div class="legal"><span>© 2026 Domaine Vinea · Concept project</span><span>L’abus d’alcool est dangereux pour la santé — enjoy with moderation.</span><span>Privacy · Terms · Accessibility</span></div>
+</footer>
+
+<script>
+(function(){
+  const vc = [[2010,96,'Classic'],[2011,88],[2012,91],[2013,86],[2014,90],[2015,98,'Legend'],[2016,94],[2017,93],[2018,95],[2019,98,'Star'],[2020,96],[2021,89],[2022,93],[2023,94]];
+  document.getElementById('vc').innerHTML = vc.map(([y,s,l])=>`<div class="${y<2013||y>2020?'off':''} ${l==='Star'||l==='Legend'?'star':''}"><em>${s}</em><i class="b" style="height:${(s-80)*5.4}px"></i><span>${y}</span></div>`).join('');
+  const bg = {red:'radial-gradient(80% 60% at 50% 55%,#5e1426,#24091a 60%,#140a0d)',old:'radial-gradient(80% 60% at 50% 55%,#4a2016,#1e0e0b 60%,#140a0d)',rose:'radial-gradient(80% 60% at 50% 55%,#c8786c,#5a2830 60%,#1a0c10)',spark:'radial-gradient(80% 60% at 50% 55%,#6a5530,#2a2012 60%,#120c08)',bdn:'radial-gradient(80% 60% at 50% 55%,#3e4a2a,#1a2012 60%,#0e100a)'};
+  const W = [
+    ['red','Clos des Ombres','Grand Cru','2019','€420',98,'Black cherry · violet · cedar','Allocation'],
+    ['old','Les Chandelles','Premier Cru','2020','€148',95,'Raspberry · rose hip · clove','Hover'],
+    ['red','Coteau Saint-Aubert','Village','2018','€96',93,'Red plum · forest floor','Ready now'],
+    ['red','Vieilles Vignes','Côte de Vinea','2021','€64',92,'Cranberry · tea leaf · smoke',''],
+    'FEAT',
+    ['old','Cuvée de la Cire','Grand Cru Réserve','2017','€210',96,'Fig · leather · truffle','Wax-sealed'],
+    ['rose','Aube','Rosé de Saignée','2023','€42',92,'Wild strawberry · grapefruit','New'],
+    ['spark','Mille Bougies','Crémant Brut','NV','€54',92,'Brioche · pear · chalk','Bestseller'],
+    ['bdn','Blanc de Noirs','Extra Brut','2016','€128',95,'Hazelnut · quince · sea salt','5 yrs lees'],
+    ['red','La Veillée','Pinot Noir','2022','€38',90,'Cherry · pepper · bright','Everyday'],
+    ['rose','Pétale','Rosé de Pressurage','2023','€38',90,'Peach · rose petal · saline',''],
+    ['spark','Bulles d’Ombre','Rosé Brut','2018','€86',93,'Redcurrant · blood orange','Magnum'],
+    ['old','Clos des Ombres','Library release','2010','€390',97,'Dried cherry · cigar box','3 left'],
+    'PICK'
+  ];
+  document.getElementById('grid').innerHTML = W.map(w=>{
+    if(w==='FEAT') return `<article class="feat"><img src="https://images.unsplash.com/photo-1765850257843-aa029ab7769c?auto=format&fit=crop&q=82&w=1100" alt="Bottles resting in the cellar"><span class="seal" data-seal="LIBRARY RELEASE · MMXV · " data-mono="XV"></span><div class="fx"><div class="mono">From the family cellar · Library release</div><h3>Grand Cru <em>2015,</em><br>reopened.</h3><div class="row"><p class="dim" style="max-width:360px">480 bottles of our legendary 2015 vintage, cellared beneath the house for ten years. Released once, to members first.</p><div><div class="mono" style="color:var(--pd)">Release opens in</div><div class="cd"><div><b>04</b><small>DAYS</small></div><div><b>11</b><small>HRS</small></div><div><b>38</b><small>MIN</small></div></div></div></div></div></article>`;
+    if(w==='PICK') return `<article class="pick"><div class="ph"><img src="https://images.unsplash.com/photo-1669711517916-9c0767aaa08b?auto=format&fit=crop&q=82&w=700" alt="Cellar master tasting from the barrel"></div><div class="tx"><div class="mono">Can’t choose?</div><h3>Let the cellar master <em>pick.</em></h3><ul><li>Six bottles, mixed <b>€320</b></li><li>One Grand Cru included <b>Always</b></li><li>Handwritten tasting notes <b>Yes</b></li></ul><a class="btn p" href="club.html" style="margin-top:auto">Build a case <span class="ar"></span></a></div></article>`;
+    const [b,n,c,y,p,s,nt,t]=w; const hov=t==='Hover';
+    return `<article class="card ${hov?'hov':''}"><div class="st" style="--bg:${bg[b]}"><span class="yr">${y}</span><span data-bottle="${b}" data-name="${n}" data-year="${y}" data-cru="${c}"></span>${t&&!hov?`<span class="tag">${t}</span>`:''}<span class="pts">${s}</span>${hov?`<div class="qv"><div class="mono" style="font-size:10px">Quick add</div><div class="sz"><span class="on">75 cl<br>€148</span><span>Magnum<br>€310</span><span>Case 6<br>€840</span></div><span class="btn par">Add to case</span></div>`:''}</div><div class="in"><div class="mono">${c} · ${y}</div><h3>${n}</h3><div class="nt">${nt}</div><div class="pr"><b>${p}</b><span>Add</span></div></div></article>`;
+  }).join('');
+})();
+</script>
+<script src="vinea.js"></script>
+<script type="module">
+import * as THREE from 'three';
+const V = window.V3D(THREE);
+await V.fonts();
+const W = 1440, H = 860;
+const renderer = V.renderer(document.getElementById('wines3d'), W, H);
+const scene = new THREE.Scene();
+scene.environment = V.studioEnv(renderer);
+const camera = new THREE.PerspectiveCamera(24, W / H, 0.1, 100);
+camera.position.set(0, 2.1, 12.6); camera.lookAt(0, 1.75, 0);
+const back = V.backdrop({ w: 14, h: 8, cx: .66, cy: .5, r: .36, text: 'Cave', textSize: 440, textX: .63, textY: .6, stops: [[0, '#4e1222'], [0.35, '#290a13'], [0.75, '#150a0d'], [1, '#120a0c']] });
+back.position.set(0, 1.55, -3.5); scene.add(back);
+
+const red = V.bottle({ labelOpts: { name: 'Clos des Ombres', year: '2019' } });
+red.position.set(1.75, 0, 0.2); red.rotation.y = -0.25; scene.add(red);
+const rose = V.bottle({ shape: 'bordeaux', glass: 0xfff1ec, atten: 0xffe4dc, attenDist: 3, transmission: 0.96, wine: 0xf0846f, wineGlow: 0x6a1c14, capsule: 0xd8b48a, capRing: 0xf6e3c0, level: 2.2, collarOpts: { bg: '#e8c8b0', accent: '#7a2a32', year: '2023' }, labelOpts: { name: 'Aube', cru: 'Rosé de Saignée', year: '2023', bg: '#f6ece0', ink: '#6b2030', accent: '#b9786a', ac: 'ROSÉ DE SAIGNÉE · CÔTE DE VINEA' } });
+rose.position.set(3.15, 0, -0.55); rose.rotation.y = 0.2; scene.add(rose);
+const spark = V.bottle({ shape: 'sparkling', glass: 0x1a3a22, capsule: 0xb8955a, capRough: 0.18, capRing: 0x2a1a10, level: 2.1, labelOpts: { name: 'Mille Bougies', cru: 'Crémant Brut', year: 'NV', bg: '#161010', ink: '#efe0c0', accent: '#c9a36a', dark: true, ac: 'MÉTHODE TRADITIONNELLE · BRUT', small: 'CINQ ANS SUR LATTES · 750 ML · 12,5 % VOL.' } });
+spark.position.set(0.3, 0, -0.6); spark.rotation.y = -0.1; scene.add(spark);
+for (const [b, s] of [[red, 1], [rose, .85], [spark, .85]]) { const sh = V.shadow(1.9, 1.2, .9 * s); sh.position.set(b.position.x, 0.003, b.position.z); scene.add(sh); }
+const plinth = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.6, 0.12, 96), new THREE.MeshPhysicalMaterial({ color: 0x0e0608, roughness: 0.5, clearcoat: 0.5, clearcoatRoughness: 0.4, metalness: 0, envMapIntensity: 0.08 }));
+plinth.position.set(1.7, -0.06, -0.2); scene.add(plinth);
+const ring = new THREE.Mesh(new THREE.TorusGeometry(2.6, 0.012, 8, 160), new THREE.MeshStandardMaterial({ color: 0xc9a36a, metalness: 1, roughness: 0.25 })); ring.rotation.x = Math.PI / 2; ring.position.set(1.7, 0.001, -0.2); scene.add(ring);
+const key = new THREE.SpotLight(0xffe2bd, 110, 0, 0.6, 0.8, 2); key.position.set(-3, 7, 6); key.target.position.set(1.7, 1, 0); scene.add(key, key.target);
+const rim = new THREE.DirectionalLight(0xffa860, 2.6); rim.position.set(4, 3, -5); scene.add(rim);
+scene.add(new THREE.AmbientLight(0x3a1a20, 0.6));
+let t = 0, first = true;
+function frame() {
+  t += 0.016;
+  red.rotation.y = -0.25 + Math.sin(t * .4) * .2; rose.rotation.y = 0.2 + Math.sin(t * .35 + 1) * .2; spark.rotation.y = -0.1 + Math.sin(t * .3 + 2) * .2;
+  renderer.render(scene, camera);
+  if (first) { first = false; window.__ready3d = true; }
+  requestAnimationFrame(frame);
+}
+frame();
+</script>
+</body></html>

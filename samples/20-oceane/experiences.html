@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Experiences — Toys, Dives & Chef's Tables · OCÉANE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="stylesheet" href="oceane.css">
+<style>
+body{background:#062033}
+.hero{position:relative;height:1040px;overflow:hidden;background:#0a4a5c}
+#deep{position:absolute;inset:0}
+#deep canvas{display:block}
+.hero .ov{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(6,32,51,.5),transparent 22%,transparent 75%,rgba(6,32,51,.9)),radial-gradient(80% 60% at 50% 30%,transparent 50%,rgba(3,18,30,.5))}
+.hero h1{position:absolute;left:72px;bottom:150px;z-index:5;font:400 210px/.8 var(--disp);letter-spacing:-.045em}
+.hero h1 i{display:block;color:transparent;-webkit-text-stroke:1.3px rgba(232,248,250,.75);margin-left:150px}
+.hero .lede{position:absolute;right:72px;bottom:150px;z-index:5;width:330px;color:rgba(232,248,250,.82);font-size:17px}
+.hero .depth{position:absolute;right:72px;top:150px;z-index:5;width:110px;font:500 10px/1 var(--mono);letter-spacing:.14em;color:rgba(232,248,250,.7);text-align:right}
+.hero .depth .sc{position:relative;height:420px;border-right:1px solid rgba(232,248,250,.35);margin:14px 0 10px;background:repeating-linear-gradient(180deg,rgba(232,248,250,.4) 0 1px,transparent 1px 21px) right/12px 100% no-repeat}
+.hero .depth .now{position:absolute;right:-6px;top:58%;display:flex;align-items:center;gap:10px;transform:translateY(-50%)}
+.hero .depth .now b{font:italic 400 34px/1 var(--disp);color:var(--sail);letter-spacing:0}
+.hero .depth .now i{width:11px;height:11px;border-radius:50%;background:var(--lagoon);box-shadow:0 0 0 6px rgba(95,196,201,.25),0 0 16px var(--lagoon)}
+.hero .tag{position:absolute;z-index:6;padding:12px 16px;border-radius:14px;font:500 10px/1.5 var(--mono);letter-spacing:.14em;color:rgba(232,248,250,.75);text-transform:uppercase}
+.hero .tag b{display:block;font:italic 400 20px/1.1 var(--disp);letter-spacing:0;text-transform:none;color:var(--sail)}
+.cats{display:flex;gap:10px;justify-content:center;padding:34px 0;border-bottom:1px solid var(--line);background:#062033;position:relative;z-index:3}
+.cats .chip{height:42px;padding:0 20px;font-size:13px}
+.cats .chip b{font:500 10px/1 var(--mono);color:var(--brass2);margin-left:4px}
+.sechd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px}
+.sechd h2{font:400 88px/.92 var(--disp);letter-spacing:-.03em;margin-top:22px}
+.sechd h2 i{color:var(--brass2)}
+.toys{padding-top:130px;padding-bottom:130px}
+.tg{display:grid;grid-template-columns:1.35fr 1fr;gap:24px}
+.feature{border-radius:28px;overflow:hidden;position:relative;min-height:700px;background-size:cover;background-position:center}
+.feature::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,32,51,.1),rgba(6,32,51,.92) 85%)}
+.feature .in{position:absolute;left:40px;right:40px;bottom:40px;z-index:2}
+.feature h3{font:italic 400 66px/.95 var(--disp)}
+.feature .specs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:26px;border-top:1px solid rgba(255,255,255,.2)}
+.feature .specs div{padding:18px 0 0}
+.feature .specs span{display:block;font:500 9.5px/1 var(--mono);letter-spacing:.2em;color:var(--brass2);margin-bottom:8px}
+.feature .specs b{font:400 30px/1 var(--disp)}
+.feature .speed{position:absolute;top:36px;right:36px;z-index:2;width:170px;height:170px}
+.list{display:flex;flex-direction:column;gap:14px}
+.xi{display:grid;grid-template-columns:110px 1fr auto;gap:22px;align-items:center;padding:16px;border-radius:22px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.xi .im{width:110px;height:110px;border-radius:16px;background-size:cover;background-position:center}
+.xi .ic{width:110px;height:110px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(140deg,#0f3e55,#0b2236)}
+.xi h4{font:italic 400 28px/1 var(--disp)}
+.xi p{font-size:13.5px;color:var(--dim);margin-top:6px}
+.xi .pr{text-align:right;font:500 10px/1.5 var(--mono);letter-spacing:.14em;color:var(--dim);padding-right:10px}
+.xi .pr b{display:block;font:500 17px/1 var(--sans);color:var(--sail);letter-spacing:0;margin-bottom:6px}
+.xi .pr b.inc{color:#8fe0b8}
+.xi.on{border-color:var(--brass);background:linear-gradient(90deg,rgba(201,164,92,.12),rgba(201,164,92,.02))}
+.check{width:26px;height:26px;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);display:inline-grid;place-items:center;font-size:13px;margin-top:10px}
+.xi.on .check{background:var(--brass2);border-color:var(--brass2);color:var(--navy)}
+
+.dive{padding-top:20px;padding-bottom:130px}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.plot{border-radius:28px;border:1px solid var(--line);padding:34px;background:linear-gradient(180deg,#0b3348,#06192a)}
+.plot h3{font:italic 400 42px/1 var(--disp);margin:12px 0 6px}
+.plot svg{display:block;margin-top:24px}
+.plot .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.plot .kv span{display:block;font:500 9.5px/1 var(--mono);letter-spacing:.2em;color:var(--faint);margin-bottom:8px}
+.plot .kv b{font:400 26px/1 var(--disp)}
+.dphoto{border-radius:28px;overflow:hidden;position:relative;background-size:cover;background-position:center}
+.dphoto .card{position:absolute;left:30px;right:30px;bottom:30px;padding:26px}
+.dphoto .card h4{font:italic 400 30px/1.1 var(--disp);margin:8px 0}
+.levels{display:flex;gap:8px;margin-top:16px}
+.levels span{flex:1;text-align:center;padding:10px 0;border-radius:10px;border:1px solid rgba(255,255,255,.18);font:500 10px/1.3 var(--mono);letter-spacing:.1em}
+.levels span.on{background:var(--sail);color:var(--navy);border-color:var(--sail)}
+
+.table{position:relative;padding:140px 0;background:linear-gradient(180deg,#062033,#0b1f33);overflow:hidden}
+.table .teak{position:absolute;right:-80px;top:80px;width:820px;height:760px;border-radius:40px;background:repeating-linear-gradient(90deg,#8d5f33 0 46px,#2a1a0e 46px 48px),linear-gradient(#a0703f,#7a5230);background-blend-mode:multiply;transform:rotate(-6deg);box-shadow:0 60px 120px rgba(0,0,0,.5);opacity:.95}
+.table .teak::after{content:"";position:absolute;inset:0;border-radius:40px;background:repeating-linear-gradient(90deg,rgba(255,220,170,.06) 0 3px,transparent 3px 11px),radial-gradient(80% 60% at 30% 30%,rgba(255,220,170,.25),transparent 70%)}
+.menucard{position:absolute;right:160px;top:170px;width:440px;padding:46px 44px;background:#f4f1ea;color:var(--navy);border-radius:6px;transform:rotate(-3deg);box-shadow:0 40px 80px rgba(0,0,0,.45)}
+.menucard .logo{color:var(--navy);justify-content:center;margin-bottom:20px}
+.menucard h5{text-align:center;font:500 10px/1 var(--mono);letter-spacing:.3em;color:var(--teak);margin-bottom:26px}
+.menucard .c{text-align:center;padding:14px 0;border-top:1px solid rgba(11,31,51,.12)}
+.menucard .c small{display:block;font:500 9px/1 var(--mono);letter-spacing:.24em;color:var(--teak);margin-bottom:8px}
+.menucard .c p{font:italic 400 21px/1.3 var(--disp)}
+.menucard .c em{display:block;font:normal 500 11.5px/1.4 var(--sans);color:rgba(11,31,51,.6);margin-top:4px}
+.glassw{position:absolute;right:620px;top:600px;width:110px;height:200px;z-index:2}
+.table .tx{width:560px;position:relative;z-index:2}
+.table .tx h2{font:400 92px/.92 var(--disp);letter-spacing:-.03em;margin:22px 0 26px}
+.table .tx h2 i{color:var(--brass2)}
+.chefs{display:flex;gap:14px;margin-top:40px}
+.chefs div{flex:1;padding:18px;border-radius:18px;border:1px solid var(--line)}
+.chefs b{display:block;font:italic 400 22px/1.1 var(--disp);margin-bottom:6px}
+.chefs span{font:500 10px/1.5 var(--mono);letter-spacing:.12em;color:var(--dim)}
+
+.tray{position:relative;margin:0 auto 130px;width:1296px;padding:28px 34px;display:grid;grid-template-columns:auto 1fr auto auto;gap:34px;align-items:center;border-radius:28px}
+.tray .pk{display:flex;gap:8px;flex-wrap:wrap}
+.tray .pk .chip{background:rgba(255,255,255,.06)}.tray .pk .chip.on{background:var(--sail)}
+.tray .sum{text-align:right;font:500 10px/1.5 var(--mono);letter-spacing:.16em;color:var(--brass2)}
+.tray .sum b{display:block;font:400 40px/1 var(--disp);color:var(--sail);letter-spacing:-.02em}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<header data-nav="experiences" data-glass></header>
+
+<section class="hero">
+  <div id="deep"></div>
+  <div class="ov"></div>
+  <div class="depth">DEPTH<div class="sc"><div class="now"><b>14 m</b><i></i></div></div>LAVEZZI · 41°20′N</div>
+  <div id="tags"></div>
+  <h1>Below the<i>waterline.</i></h1>
+  <p class="lede">The yacht is only half the charter. Dive the reef beneath the anchor chain, fly a sea scooter over the posidonia, then climb back aboard to a chef who has been waiting with the grill lit.</p>
+</section>
+
+<div class="cats"><span class="chip on">All experiences <b>42</b></span><span class="chip">Water toys <b>14</b></span><span class="chip">Diving <b>9</b></span><span class="chip">Chef's table <b>6</b></span><span class="chip">Wellness <b>5</b></span><span class="chip">Ashore <b>8</b></span></div>
+
+<section class="toys w">
+  <div class="sechd"><div><div class="eyebrow">( 01 ) The toy garage</div><h2>Fast, quiet, <i>electric.</i></h2></div><p class="dim" style="max-width:380px">Every Océane yacht over 40 m carries a full electric toy garage. Our bosuns teach the first ride; nobody needs a licence.</p></div>
+  <div class="tg">
+    <div class="feature" style="background-image:url(https://images.unsplash.com/photo-1766207474098-03689bd2a8a2?auto=format&fit=crop&q=82&w=1200)">
+      <svg class="speed" viewBox="0 0 170 170"><circle cx="85" cy="85" r="78" fill="rgba(6,32,51,.5)" stroke="rgba(255,255,255,.2)"/><circle cx="85" cy="85" r="66" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="8"/><circle cx="85" cy="85" r="66" fill="none" stroke="url(#sg)" stroke-width="8" stroke-linecap="round" stroke-dasharray="300 415" transform="rotate(130 85 85)"/><defs><linearGradient id="sg"><stop offset="0" stop-color="#2a8c9a"/><stop offset="1" stop-color="#e8cf94"/></linearGradient></defs><text x="85" y="90" text-anchor="middle" fill="#f4f1ea" font-family="Playfair Display" font-size="44" font-style="italic">40</text><text x="85" y="112" text-anchor="middle" fill="#e8cf94" font-family="IBM Plex Mono" font-size="9" letter-spacing="2">KN · CHASE BOAT</text></svg>
+      <div class="in"><div class="eyebrow">Signature toy</div><h3>The chase boat:<br>forty knots to lunch</h3>
+        <div class="specs"><div><span>Top speed</span><b>40 kn</b></div><div><span>Range</span><b>120 nm</b></div><div><span>Seats</span><b>8 guests</b></div><div><span>Skipper</span><b>Included</b></div></div></div></div>
+    <div class="list">
+      <div class="xi on"><div class="ic"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#e8cf94" stroke-width="1.4"><path d="M8 38c8-10 24-14 44-8l4 4-8 4H14z"/><path d="M14 38l-4 8M30 26l4-8"/><circle cx="40" cy="31" r="2"/></svg></div><div><h4>Sea scooter</h4><p>Underwater scooter to 40 m — fly with the fish.</p><span class="check">✓</span></div><div class="pr"><b class="inc">Included</b>× 2 ON BOARD</div></div>
+      <div class="xi"><div class="im" style="background-image:url(https://images.unsplash.com/photo-1543140313-318677635120?auto=format&fit=crop&q=82&w=300)"></div><div><h4>Jet ski safari</h4><p>Guided run to Lavezzi with the tender in support.</p><span class="check"></span></div><div class="pr"><b>+ €1,400</b>HALF DAY · 4 SKIS</div></div>
+      <div class="xi on"><div class="im" style="background-image:url(https://images.unsplash.com/photo-1527904188605-3424bcc2d107?auto=format&fit=crop&q=82&w=300)"></div><div><h4>Floating beach club</h4><p>Inflatable lagoon, slides and a swim-up bar.</p><span class="check">✓</span></div><div class="pr"><b class="inc">Included</b>DEPLOYS IN 20 MIN</div></div>
+      <div class="xi"><div class="im" style="background-image:url(https://images.unsplash.com/photo-1509295433237-4b4851f2ab67?auto=format&fit=crop&q=82&w=300)"></div><div><h4>Sunset sail</h4><p>A classic 18 m sloop meets the yacht at anchor.</p><span class="check"></span></div><div class="pr"><b>+ €3,900</b>3 HOURS · 10 GUESTS</div></div>
+      <div class="xi"><div class="ic"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#e8cf94" stroke-width="1.4"><path d="M10 30h40l4-6H22z"/><path d="M28 24v-8h10l6 8M8 36c6 4 12 4 18 0s12-4 18 0 12 4 14 2"/></svg></div><div><h4>Helicopter transfer</h4><p>Nice airport to the aft deck pad in 14 minutes.</p><span class="check"></span></div><div class="pr"><b>+ €6,200</b>PER LEG · 5 SEATS</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="dive w">
+  <div class="sechd"><div><div class="eyebrow">( 02 ) Diving with a PADI instructor</div><h2>Every dive, <i>logged.</i></h2></div><a class="btn ghost">Dive programme →</a></div>
+  <div class="dg">
+    <div class="plot"><div class="mono" style="color:var(--brass2)">Dive 03 · Revellata wall · Calvi</div><h3>Sunday, 09:40 — 52 minutes</h3><p class="dim" style="font-size:14px">Your instructor's computer uploads the profile to your charter log after every dive.</p>
+      <svg width="590" height="250" viewBox="0 0 590 250">
+        <defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fc4c9" stop-opacity=".45"/><stop offset="1" stop-color="#5fc4c9" stop-opacity="0"/></linearGradient></defs>
+        <g stroke="rgba(244,241,234,.08)"><line x1="40" y1="20" x2="590" y2="20"/><line x1="40" y1="75" x2="590" y2="75"/><line x1="40" y1="130" x2="590" y2="130"/><line x1="40" y1="185" x2="590" y2="185"/><line x1="40" y1="240" x2="590" y2="240"/></g>
+        <g fill="rgba(244,241,234,.45)" font-family="IBM Plex Mono" font-size="10"><text x="0" y="24">0 m</text><text x="0" y="79">6 m</text><text x="0" y="134">12 m</text><text x="0" y="189">18 m</text><text x="0" y="244">24 m</text></g>
+        <path d="M40 20 C70 40 90 150 120 180 S170 205 200 198 S250 160 290 170 S350 200 380 190 S430 140 460 120 S500 80 520 62 L540 62 L560 30 L590 20 L590 240 L40 240Z" fill="url(#dg)"/>
+        <path d="M40 20 C70 40 90 150 120 180 S170 205 200 198 S250 160 290 170 S350 200 380 190 S430 140 460 120 S500 80 520 62 L540 62 L560 30 L590 20" fill="none" stroke="#5fc4c9" stroke-width="2.5"/>
+        <g font-family="IBM Plex Mono" font-size="9.5" letter-spacing="1"><circle cx="200" cy="198" r="5" fill="#e8cf94"/><text x="210" y="222" fill="#e8cf94">GROUPER · 21 M</text><circle cx="380" cy="190" r="5" fill="#e8cf94"/><text x="300" y="232" fill="#e8cf94">RED GORGONIANS</text><circle cx="530" cy="62" r="5" fill="#f4f1ea"/><text x="430" y="52" fill="#f4f1ea">SAFETY STOP 3'</text></g>
+      </svg>
+      <div class="kv"><div><span>Max depth</span><b>21.4 m</b></div><div><span>Water</span><b>22°C</b></div><div><span>Visibility</span><b>28 m</b></div><div><span>Air used</span><b>140 bar</b></div></div></div>
+    <div class="dphoto" style="background-image:url(https://images.unsplash.com/photo-1506837072420-3532d56f98db?auto=format&fit=crop&q=82&w=1100)">
+      <div class="card glass"><div class="mono" style="color:var(--brass2)">Courses on board</div><h4>From first breath to night dives</h4><p class="dim" style="font-size:14px">Try-dive in the pool of the bay, PADI Open Water in four days, or guided wall and wreck dives for certified divers.</p>
+        <div class="levels"><span>Try dive<br>DAY 1</span><span class="on">Open Water<br>4 DAYS</span><span>Advanced<br>3 DAYS</span><span>Night<br>DAY 6</span></div></div></div>
+  </div>
+</section>
+
+<section class="table">
+  <div class="teak"></div>
+  <div class="menucard"><div class="logo"><span data-logo style="width:30px;height:30px;display:block"></span></div><h5>DINNER AT ANCHOR · GIROLATA</h5>
+    <div class="c"><small>FROM THE MARKET</small><p>Red prawn crudo, blood orange, fennel pollen</p><em>Vermentino, Clos Signadore 2023</em></div>
+    <div class="c"><small>FROM THE LINE</small><p>Wild sea bass baked in fig leaves, brocciu gnocchi</p><em>Patrimonio blanc 2022</em></div>
+    <div class="c"><small>FROM THE GRILL</small><p>Corsican veal, myrtle jus, charred wild greens</p><em>Ajaccio rouge 2019</em></div>
+    <div class="c"><small>TO FINISH</small><p>Chestnut soufflé, honey from the maquis</p><em>Muscat du Cap Corse</em></div></div>
+  <div class="w"><div class="tx"><div class="eyebrow">( 03 ) The chef's table</div><h2>Shopped at dawn, <i>served at anchor.</i></h2><p class="dim" style="font-size:17px">Your chef sends a menu each afternoon, built from what the fishermen landed and what you loved the night before. Allergies, children's menus and wine pairing arranged before you board.</p>
+    <div class="chefs"><div><b>Mathilde Rey</b><span>AURELIA · FRENCH COASTAL</span></div><div><b>Kenji Arata</b><span>KYTHERA · OMAKASE</span></div><div><b>Dario Venn</b><span>SOLENNE · LIGURIAN</span></div></div>
+    <a class="btn brassbtn" style="margin-top:36px">Request a sample menu <span class="ar">→</span></a></div></div>
+</section>
+
+<div class="tray glass">
+  <div><div class="eyebrow">Your experiences</div><div style="font:italic 400 30px/1 var(--disp);margin-top:10px">Aurelia · 12–19 July</div></div>
+  <div class="pk"><span class="chip on">Seabob ✓</span><span class="chip on">Beach club ✓</span><span class="chip on">Open Water × 4</span><span class="chip">+ Jet ski safari</span><span class="chip">+ Helicopter</span></div>
+  <div class="sum">Add-ons to quote<b>+ €4,800</b></div>
+  <a class="btn brassbtn" href="enquire.html">Add to enquiry <span class="ar">→</span></a>
+</div>
+
+<footer data-foot></footer>
+<script src="oceane.js"></script>
+<script src="oceane3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { Water } from 'three/addons/objects/Water.js';
+import { Sky } from 'three/addons/objects/Sky.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+const O = makeO3(THREE, { Water, Sky, RoomEnvironment });
+const q = new URLSearchParams(location.search);
+const S = O.stage(document.getElementById('deep'), { w: 1440, h: 1040, fov: 50, pos: (q.get('cp') || '-3,1.6,15').split(',').map(Number), target: (q.get('ct') || '1.5,6.2,0').split(',').map(Number), room: true, exposure: 1.1 });
+const FOG = new THREE.Color('#0b5466');
+S.scene.fog = new THREE.FogExp2(FOG, .045); S.scene.background = FOG;
+const SURF = 13;
+const causticGLSL = `
+float caustic(vec2 uv, float t){ vec2 p = mod(uv*6.28318, 6.28318) - 250.0; vec2 i = p; float c = 1.0; float inten = .005;
+  for (int n = 0; n < 4; n++){ float tt = t * (1.0 - (3.5 / float(n+1))); i = p + vec2(cos(tt - i.x) + sin(tt + i.y), sin(tt - i.y) + cos(tt + i.x));
+    c += 1.0/length(vec2(p.x / (sin(i.x+tt)/inten), p.y / (cos(i.y+tt)/inten))); }
+  c /= 4.0; c = 1.17 - pow(c, 1.4); return pow(abs(c), 8.0); }`;
+const U = { time: { value: 3 }, fogColor: { value: FOG }, fogDensity: { value: .045 } };
+// seabed with dunes + caustics
+{
+  const g = new THREE.PlaneGeometry(120, 120, 160, 160); g.rotateX(-Math.PI / 2);
+  const p = g.attributes.position; for (let i = 0; i < p.count; i++) { const x = p.getX(i), z = p.getZ(i); p.setY(i, Math.sin(x * .35 + z * .12) * .25 + O.fbm(x * .08, z * .08, 2, 4) * 2.4 - 1.2); }
+  g.computeVertexNormals();
+  const m = new THREE.ShaderMaterial({ uniforms: U, vertexShader: `varying vec3 vW; varying vec3 vN; varying float vD; void main(){ vec4 w = modelMatrix*vec4(position,1.); vW = w.xyz; vN = normal; vec4 mv = viewMatrix*w; vD = -mv.z; gl_Position = projectionMatrix*mv; }`,
+    fragmentShader: `uniform float time; uniform vec3 fogColor; uniform float fogDensity; varying vec3 vW; varying vec3 vN; varying float vD; ${causticGLSL}
+      void main(){ vec3 sand = vec3(.78,.72,.58); float l = .45 + .55*max(dot(normalize(vN), normalize(vec3(.3,1.,.2))),0.);
+        float c = caustic(vW.xz*.11, time*.5) + caustic(vW.xz*.11 + .37, time*.5 + 1.7)*.6;
+        vec3 col = sand*l*vec3(.7,.95,.95) + vec3(.8,1.,1.)*c*2.2;
+        float f = 1. - exp(-pow(fogDensity*vD, 2.)*.8); gl_FragColor = vec4(mix(col, fogColor, clamp(f,0.,1.)), 1.); }` });
+  S.scene.add(new THREE.Mesh(g, m));
+}
+// the surface, seen from below (Snell's window)
+{
+  const m = new THREE.ShaderMaterial({ uniforms: U, side: THREE.DoubleSide, vertexShader: `varying vec3 vW; varying float vD; void main(){ vec4 w = modelMatrix*vec4(position,1.); vW = w.xyz; vec4 mv = viewMatrix*w; vD = -mv.z; gl_Position = projectionMatrix*mv; }`,
+    fragmentShader: `uniform float time; uniform vec3 fogColor; varying vec3 vW; varying float vD; ${causticGLSL}
+      void main(){ float c = caustic(vW.xz*.06, time*.4); float d = length(vW.xz - cameraPosition.xz);
+        float win = smoothstep(26., 4., d);
+        vec3 col = mix(vec3(.05,.42,.5), vec3(.8,.98,1.), win*.85) + c*vec3(.6,.9,.95)*(.4+win);
+        float f = 1. - exp(-pow(.03*vD, 2.)); gl_FragColor = vec4(mix(col, fogColor*1.2, clamp(f,0.,.85)), 1.); }` });
+  const s = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), m); s.rotation.x = Math.PI / 2; s.position.y = SURF; S.scene.add(s);
+}
+// the yacht above, hull breaking the surface
+const Y = O.yacht({}); Y.position.set(3.5, SURF, -4); Y.rotation.y = .5; S.scene.add(Y);
+Y.traverse(m => { if (m.isMesh && m.material && m.material.fog === undefined) { } });
+// anchor chain to the seabed
+{
+  const n = 70, link = new THREE.TorusGeometry(.09, .03, 6, 12); link.scale(1.6, 1, 1);
+  const im = new THREE.InstancedMesh(link, new THREE.MeshStandardMaterial({ color: '#4a5560', metalness: .9, roughness: .45 }), n), m4 = new THREE.Matrix4(), qq = new THREE.Quaternion();
+  const a = new THREE.Vector3(3.5 + 3.8 * Math.cos(.5), SURF - .2, -4 - 3.8 * Math.sin(.5)), b = new THREE.Vector3(-2, -1, -1);
+  const curve = new THREE.QuadraticBezierCurve3(a, new THREE.Vector3(1.5, 3, -2), b);
+  for (let i = 0; i < n; i++) { const t = i / (n - 1), p = curve.getPoint(t), d = curve.getTangent(t); qq.setFromUnitVectors(new THREE.Vector3(1, 0, 0), d); const r = new THREE.Quaternion().setFromAxisAngle(d, i % 2 ? Math.PI / 2 : 0); m4.compose(p, r.multiply(qq), new THREE.Vector3(1, 1, 1)); im.setMatrixAt(i, m4); }
+  S.scene.add(im);
+  const anc = new THREE.Mesh(new THREE.TorusGeometry(.45, .07, 8, 24, Math.PI), new THREE.MeshStandardMaterial({ color: '#3d464f', metalness: .9, roughness: .5 })); anc.position.copy(b).add(new THREE.Vector3(-.2, .3, 0)); anc.rotation.set(Math.PI, 0, .4); S.scene.add(anc);
+}
+// light shafts
+{
+  const m = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, uniforms: U,
+    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader: `uniform float time; varying vec2 vUv; void main(){ float e = sin(vUv.x*3.14159); float a = pow(e, 3.)*pow(vUv.y, 1.6)*.34*(.75+.25*sin(time*.8+vUv.x*9.)); gl_FragColor = vec4(vec3(.75,1.,.97)*a, a); }` });
+  for (let i = 0; i < 9; i++) { const w = 1.5 + O.rnd() * 2.5; const g = new THREE.PlaneGeometry(w, 22, 1, 1); const s = new THREE.Mesh(g, m); s.position.set(-8 + i * 2.6, SURF - 9, -6 + O.rnd() * 6); s.rotation.set(0, O.rnd() * 1.5, .18 + O.rnd() * .1); S.scene.add(s); }
+}
+// fish school (a slow torus)
+const fishG = (() => { const g = new THREE.SphereGeometry(.1, 10, 6); g.scale(1.7, .42, .2); return g; })();
+const NF = 420, fish = new THREE.InstancedMesh(fishG, new THREE.MeshStandardMaterial({ color: '#cfe3e8', metalness: .85, roughness: .25 }), NF), F = [];
+for (let i = 0; i < NF; i++) F.push({ a: O.rnd() * 6.283, r: 2.2 + O.rnd() * 1.8, y: (O.rnd() - .5) * 2.2, s: .8 + O.rnd() * .4, o: O.rnd() * 6 });
+S.scene.add(fish);
+const fm = new THREE.Matrix4(), fq = new THREE.Quaternion(), fv = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
+const C = new THREE.Vector3(-4.5, 5.5, 2);
+S.ticks.push(t => {
+  U.time.value = 3 + t;
+  F.forEach((f, i) => { const a = f.a + t * .35 * f.s; fv.set(C.x + Math.cos(a) * f.r * 1.4, C.y + f.y + Math.sin(a * 2 + f.o) * .3, C.z + Math.sin(a) * f.r); fq.setFromAxisAngle(up, -a - Math.PI); fm.compose(fv, fq, new THREE.Vector3(f.s, f.s, f.s)); fish.setMatrixAt(i, fm); });
+  fish.instanceMatrix.needsUpdate = true;
+});
+// bubbles
+{
+  const n = 160, im = new THREE.InstancedMesh(new THREE.SphereGeometry(.05, 8, 6), new THREE.MeshPhysicalMaterial({ color: '#ffffff', transmission: 0, transparent: true, opacity: .55, roughness: 0, metalness: .2, clearcoat: 1 }), n), B = [];
+  for (let i = 0; i < n; i++) B.push({ x: 1.2 + (O.rnd() - .5) * 1.2, z: 6 + (O.rnd() - .5) * 1.2, s: .4 + O.rnd() * 1.4, o: O.rnd() * 14 });
+  S.scene.add(im); const m4 = new THREE.Matrix4();
+  S.ticks.push(t => { B.forEach((b, i) => { const y = ((b.o + t * .9) % 14); m4.makeScale(b.s, b.s, b.s).setPosition(b.x + Math.sin(y * 2 + b.o) * .15, y - 1, b.z); im.setMatrixAt(i, m4); }); im.instanceMatrix.needsUpdate = true; });
+}
+S.scene.add(new THREE.HemisphereLight('#bff7ff', '#0a3a48', 1.2));
+const dl = new THREE.DirectionalLight('#e6ffff', 1.2); dl.position.set(2, 20, 4); S.scene.add(dl);
+S.onFirst = () => {
+  const tags = [[C.x + 2, C.y + 1.5, C.z, 'Shoal of salema', 'Lavezzi reserve · 12 m', -40, -60], [-2, -.6, -1, 'Anchor at rest', 'Sand, never posidonia', 40, -140], [3.5, SURF - .8, -4, 'Aurelia overhead', 'Zero-speed stabilisers on', 30, 30]];
+  document.getElementById('tags').innerHTML = tags.map(([x, y, z, t, s, dx, dy]) => { const [px, py] = S.project(new THREE.Vector3(x, y, z)); return `<div class="tag glass" style="left:${px + dx}px;top:${py + dy}px"><b>${t}</b>${s}</div>`; }).join('');
+};
+S.loop();
+</script>
+</body></html>

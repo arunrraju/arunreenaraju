@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Villa Halcyon — Dollhouse tour</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="azure.css">
+<script src="azure3d.js"></script>
+<style>
+html,body{height:1080px;overflow:hidden}
+body{background:radial-gradient(ellipse 60% 70% at 58% 52%,#ffffff 0,#f4f2ec 60%,#e9e5dc 100%)}
+.bp{position:absolute;inset:0;background-image:linear-gradient(rgba(15,94,122,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(15,94,122,.07) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:radial-gradient(ellipse 60% 60% at 60% 55%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse 60% 60% at 60% 55%,#000 30%,transparent 80%)}
+.bigtype{position:absolute;right:40px;top:120px;font:200 210px/.8 var(--display);letter-spacing:-.07em;color:transparent;-webkit-text-stroke:1px rgba(16,18,20,.12);text-align:right}
+#doll3d{position:absolute;left:0;top:0;width:1440px;height:1080px;z-index:2}
+.top{position:absolute;left:0;right:0;top:0;z-index:20;height:80px;display:flex;align-items:center;gap:24px;padding:0 32px;border-bottom:1px solid var(--line);background:rgba(247,246,242,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.top .t{font:300 20px/1 var(--display);letter-spacing:-.02em}
+.top .t small{font:500 10px/1 var(--mono);letter-spacing:.12em;color:var(--mute);margin-left:10px}
+.modes{display:flex;gap:4px;padding:4px;border-radius:999px;background:#fff;border:1px solid var(--line);margin-left:auto}
+.modes a{height:38px;padding:0 16px;border-radius:999px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.modes a.on{background:var(--ink);color:#fff}
+.x{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;font-size:18px}
+.side{position:absolute;left:32px;top:112px;bottom:32px;width:330px;z-index:10;display:flex;flex-direction:column;gap:12px}
+.panel{background:rgba(255,255,255,.78);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border:1px solid #fff;border-radius:22px;box-shadow:0 20px 50px rgba(16,18,20,.08)}
+.lv{padding:10px}
+.lv a{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;padding:10px;border-radius:14px}
+.lv a b{width:44px;height:44px;border-radius:12px;background:var(--paper-2);display:grid;place-items:center;font:400 15px/1 var(--display)}
+.lv a span{font-size:14px;font-weight:500}
+.lv a span small{display:block;font:500 10px/1.3 var(--mono);color:var(--mute);letter-spacing:.06em;font-weight:500}
+.lv a em{font:500 12px/1 var(--mono);font-style:normal;color:var(--mute)}
+.lv a.on{background:var(--ink);color:#fff}
+.lv a.on b{background:var(--pool);color:#fff}
+.lv a.on span small,.lv a.on em{color:rgba(255,255,255,.65)}
+.room{padding:18px;flex:1;display:flex;flex-direction:column}
+.room .ph{height:150px;border-radius:14px;overflow:hidden;position:relative;margin-top:14px}
+.room h3{font:300 34px/1 var(--display);letter-spacing:-.04em;margin-top:8px}
+.room .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-top:16px}
+.room .kv div{font:500 9px/1.2 var(--mono);letter-spacing:.1em;color:var(--mute)}
+.room .kv b{display:block;font:400 17px/1.1 var(--display);color:var(--ink);letter-spacing:-.01em;margin-top:4px}
+.room .fin{display:flex;gap:6px;margin-top:14px}
+.room .fin i{width:30px;height:30px;border-radius:8px;border:1px solid var(--line)}
+.lbl{position:absolute;z-index:8;width:0;height:0}
+.lbl .c{position:absolute;left:0;bottom:8px;transform:translateX(-50%);white-space:nowrap;background:rgba(255,255,255,.92);border-radius:10px;padding:6px 10px;font:500 11px/1.2 var(--sans);box-shadow:0 6px 18px rgba(16,18,20,.12);border:1px solid rgba(16,18,20,.06)}
+.lbl .c small{font:500 9px/1 var(--mono);color:var(--mute);margin-left:6px}
+.lbl::after{content:"";position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background:var(--ink)}
+.lbl.hi .c{background:var(--pool);color:#fff;font-size:13px;padding:9px 14px;border:0;box-shadow:0 12px 30px rgba(15,94,122,.35)}
+.lbl.hi .c small{color:rgba(255,255,255,.75)}
+.lbl.hi::after{background:var(--pool);box-shadow:0 0 0 6px rgba(15,94,122,.2)}
+.lvtag{position:absolute;z-index:7;font:500 11px/1 var(--mono);letter-spacing:.12em;color:var(--pool);display:flex;align-items:center;gap:10px;white-space:nowrap}
+.lvtag::before{content:"";width:60px;height:1px;background:var(--pool)}
+.lvtag b{font:200 30px/1 var(--display);letter-spacing:-.03em;color:var(--ink)}
+.dock{position:absolute;left:394px;right:32px;bottom:32px;z-index:10;height:76px;display:flex;align-items:center;gap:22px;padding:0 22px}
+.slider{flex:1;display:flex;align-items:center;gap:14px;font:500 11px/1 var(--mono);color:var(--mute);letter-spacing:.06em}
+.slider .tr{flex:1;height:4px;border-radius:2px;background:var(--stone);position:relative}
+.slider .tr b{position:absolute;left:0;top:0;bottom:0;border-radius:2px;background:var(--pool)}
+.slider .tr i{position:absolute;top:-9px;width:22px;height:22px;margin-left:-11px;border-radius:50%;background:#fff;border:2px solid var(--pool);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.slider .tr.sun{background:linear-gradient(90deg,#c9d8e2,#fff1d6 40%,#f6c48c 85%,#e9995a)}
+.slider .tr.sun i{border-color:var(--sun)}
+.dock .vbtn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line-2);display:grid;place-items:center;background:#fff}
+.mini{position:absolute;right:32px;bottom:132px;z-index:10;width:250px;padding:16px}
+.mini svg{display:block;margin-top:10px}
+.measure{position:absolute;z-index:9;font:500 11px/1 var(--mono);color:#fff;background:var(--sun);padding:6px 10px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 16px rgba(233,153,90,.4)}
+.cursor.sm{width:84px;height:84px;margin:-42px 0 0 -42px}
+</style></head>
+<body>
+<div class="bp"></div>
+<div class="bigtype">DOLL<br>HOUSE</div>
+<div id="doll3d"></div>
+<div id="labels"></div>
+
+<header class="top">
+  <div class="logo"><i></i>AZURE</div>
+  <div style="width:1px;height:28px;background:var(--line-2)"></div>
+  <div class="t">Villa Halcyon<small>3D TOUR · SCANNED 14 SEP 2026 · ±8 MM</small></div>
+  <div class="modes"><a class="on"><svg class="ic" viewBox="0 0 24 24" style="width:16px"><path d="M4 8l8-4 8 4-8 4-8-4zM4 13l8 4 8-4M4 17l8 4 8-4"/></svg>Dollhouse</a><a>Floor plan</a><a>Walk-through</a><a>Sun study</a><a>VR</a></div>
+  <a class="pill ink" href="stay.html">Book a viewing</a>
+  <a class="x" href="villa.html">×</a>
+</header>
+
+<aside class="side">
+  <div class="panel lv">
+    <div class="lab" style="padding:8px 10px 6px">Levels · exploded</div>
+    <a><b>R</b><span>Sky terrace<small>PLUNGE POOL · PERGOLA</small></span><em>176 m²</em></a>
+    <a class="on"><b>L1</b><span>Upper<small>3 SUITES · DRESSING</small></span><em>176 m²</em></a>
+    <a><b>L0</b><span>Ground<small>LIVING · KITCHEN · LIBRARY</small></span><em>198 m²</em></a>
+    <a><b>−1</b><span>Spa level<small>POOL · HAMMAM · CINEMA</small></span><em>198 m²</em></a>
+  </div>
+  <div class="panel room">
+    <div style="display:flex;justify-content:space-between;align-items:center"><span class="lab">Selected room · L1</span><span class="tag" style="height:24px"><i></i>Sea on 2 sides</span></div>
+    <h3>Principal suite</h3>
+    <div class="ph" data-img="1613553474179-e1eda3ea5734" data-w="600"><span class="tag" style="position:absolute;left:10px;bottom:10px;height:24px">Photo matched to scan</span></div>
+    <div class="kv"><div>AREA<b>72 m²</b></div><div>CEILING<b>2.85 m</b></div><div>FACING<b>S · W</b></div><div>VIEW ARC<b>164°</b></div><div>EN SUITE<b>Bath + dressing</b></div><div>SUN AT 19:40<b>Full</b></div></div>
+    <div class="lab" style="margin-top:16px">Finishes</div>
+    <div class="fin"><i style="background:#f3f0ea"></i><i style="background:#d8c7a9"></i><i style="background:#9a6b47"></i><i style="background:#2a2c2e"></i><i style="background:#0f5e7a"></i></div>
+    <a class="btn" style="margin-top:auto;justify-content:space-between;height:54px">Walk into this room<span class="o" style="width:40px;height:40px"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+  </div>
+</aside>
+
+<div class="panel mini"><div style="display:flex;justify-content:space-between"><span class="lab">Key plan · L1</span><span class="mono" style="font-size:10px;color:var(--pool)">N ↑</span></div>
+  <svg viewBox="0 0 220 96" width="218" height="96"><rect x="2" y="10" width="216" height="78" fill="#f7f6f2" stroke="#101214" stroke-width="3"/><rect x="4" y="12" width="86" height="74" fill="#0f5e7a" opacity=".85"/><path d="M90 10 V88 M128 10 V88 M90 50 H128 M176 10 V88 M176 58 H218" stroke="#101214" stroke-width="2" fill="none"/><text x="47" y="54" fill="#fff" font-family="Outfit" font-size="11" text-anchor="middle">Suite</text><circle cx="40" cy="70" r="5" fill="#fff"/><path d="M40 70 L70 92 L10 92 Z" fill="#fff" opacity=".35"/></svg>
+  <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--mute)"><span>You are here</span><span>Camera 38° · 41 m</span></div></div>
+
+<div class="panel dock">
+  <div class="vbtn"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg></div>
+  <div class="slider"><span>EXPLODE</span><div class="tr"><b style="width:68%"></b><i style="left:68%"></i></div><span style="color:var(--ink)">6.2 m</span></div>
+  <div class="slider"><span>SUN</span><div class="tr sun"><i style="left:84%"></i></div><span style="color:var(--ink)">19:40 · AUG</span></div>
+  <div class="vbtn"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20l6-16 4 10 6 6"/></svg></div>
+  <div class="vbtn" style="background:var(--ink);color:#fff;border-color:var(--ink)"><svg class="ic" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+</div>
+<div class="cursor sm" style="left:540px;top:880px"><span>DRAG</span></div>
+<script src="azure.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = window.AZ3D(THREE, { RoundedBoxGeometry });
+const S = K.stage(document.getElementById('doll3d'), { w: 1440, h: 1080, fov: 26, exposure: 1.0, env: 'day', envIntensity: 0.6, staticShadows: true });
+if (S) {
+  const M = K.mats('day');
+  const wm = K.water({ sky: '#e8f2f3', sun: [-0.5, 0.6, 0.45], scale: 0.3 });
+  const F = K.floors(M, { gap: 6.4, waterMat: wm }); S.scene.add(F.group);
+  F.group.position.y = -9;
+  const catcher = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.ShadowMaterial({ opacity: 0.14 })); catcher.rotation.x = -Math.PI / 2; catcher.position.y = -9.6; catcher.receiveShadow = true; S.scene.add(catcher);
+  K.lights(S.scene, 'day', { at: [-30, 60, 40], size: 30, target: [0, 0, -4] });
+  // connecting dashed core lines between levels
+  const gm = new THREE.LineDashedMaterial({ color: 0x0f5e7a, dashSize: 0.4, gapSize: 0.3, transparent: true, opacity: 0.7 });
+  [[-6, 0], [16, 0], [-6, -9], [16, -9], [-14, 0.5], [8, 0.5], [-14, -7.5], [8, -7.5]].forEach(([x, z], i) => { const y0 = i < 4 ? -9 : -9 + 6.4, y1 = i < 4 ? -9 + 6.4 * 1 : -9 + 6.4 * 3; const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x, y0, z), new THREE.Vector3(x, y1, z)]); const l = new THREE.Line(g, gm); l.computeLineDistances(); S.scene.add(l); });
+  const box = document.getElementById('labels');
+  const skip = new Set(['stair', 'wc', 'closet', 'wine']);
+  F.labels.forEach(L => {
+    if (skip.has(L.type)) return;
+    const el = document.createElement('div'); el.className = 'lbl' + (L.name === 'Principal suite' ? ' hi' : '');
+    el.innerHTML = `<div class="c">${L.name}<small>${L.sqm} m²</small></div>`; box.appendChild(el);
+    const at = L.at.clone(); at.y += F.group.position.y; S.pin(at, el);
+  });
+  // level tags at the left edge of each slab
+  F.plan.forEach((P, i) => {
+    const el = document.createElement('div'); el.className = 'lvtag'; el.innerHTML = `<b>${P.code}</b>${P.name.toUpperCase()}`; box.appendChild(el);
+    S.pin(new THREE.Vector3(P.fp[1] + 1.5, -9 + i * 6.4, P.fp[3]), el);
+  });
+  // a measurement between the suite walls
+  const meas = document.createElement('div'); meas.className = 'measure'; meas.textContent = '9.00 m'; box.appendChild(meas);
+  S.pin(new THREE.Vector3(-9.5, -9 + 6.4 * 2 + 2.6, 0.5), meas);
+  const mg = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-14, -9 + 12.8 + 2.6, 0.6), new THREE.Vector3(-5, -9 + 12.8 + 2.6, 0.6)]);
+  S.scene.add(new THREE.Line(mg, new THREE.LineBasicMaterial({ color: 0xe9995a })));
+  const cam = S.camera; cam.setViewOffset(1440 + 300, 1080, 0, 0, 1440, 1080);
+  S.run(t => {
+    wm.uniforms.uT.value = t;
+    const a = -0.72 + Math.sin(t * 0.1) * 0.03;
+    cam.position.set(Math.sin(a) * 72 + 1, 44, Math.cos(a) * 72 - 4);
+    cam.lookAt(1, 0.5, -4);
+  });
+}
+</script>
+</body></html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Sugar Rush Series — Mochi Monsters</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mochi.css">
+<script src="mochi.js"></script>
+<script src="mochi3d.js"></script>
+<style>
+.top{position:relative;margin:24px 24px 0;height:860px;border-radius:56px;overflow:hidden;background:
+  radial-gradient(600px 500px at 78% 40%,rgba(255,255,255,.75),transparent 70%),
+  radial-gradient(500px 400px at 10% 100%,rgba(255,229,138,.7),transparent 70%),
+  linear-gradient(135deg,#ffc4ad,#ffb59a 45%,#ffa98b);box-shadow:var(--clay)}
+.top .nav{left:16px;right:16px;top:2px}
+.top canvas{position:absolute;right:0;top:80px;width:860px;height:780px;z-index:2}
+.top .tx{position:absolute;left:56px;top:170px;z-index:3;width:600px}
+.top h1{font:700 196px/.8 var(--disp);letter-spacing:-.055em;margin:22px 0 26px}
+.top h1 .puff{--d:#d86e4f;color:#fff8ef}
+.top h1 .puff.b{--d:#2b2240;color:#ffe58a}
+.top .lede{font-size:19px;max-width:500px;color:rgba(43,34,64,.78)}
+.top .facts{display:grid;grid-template-columns:repeat(4,auto);gap:10px;margin:30px 0 32px;justify-content:start}
+.top .facts div{background:rgba(255,255,255,.55);border-radius:22px;padding:12px 16px;box-shadow:var(--clay-sm)}
+.top .facts b{display:block;font:700 26px/1 var(--disp)}
+.top .facts span{font:800 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:rgba(43,34,64,.6)}
+.top .ctas{display:flex;gap:14px}
+.top .bub{position:absolute;z-index:4;background:#fff;border-radius:24px 24px 24px 6px;padding:12px 16px;box-shadow:var(--clay-sm);font-weight:800;font-size:14px}
+.top .bub b{display:block;font:600 18px/1.1 var(--disp)}
+.top .vert{position:absolute;right:30px;bottom:40px;z-index:4;writing-mode:vertical-rl;font:800 12px/1 var(--sans);letter-spacing:.3em;color:rgba(43,34,64,.55)}
+
+.bar{display:flex;align-items:center;gap:10px;padding:46px 64px 30px}
+.bar .tabs{display:flex;gap:8px;padding:7px;border-radius:999px;background:var(--cream2);box-shadow:inset 3px 3px 6px rgba(43,34,64,.07),inset -3px -3px 6px rgba(255,255,255,.9)}
+.bar .tabs span{height:46px;padding:0 20px;border-radius:999px;display:flex;align-items:center;gap:8px;font:600 16px/1 var(--disp)}
+.bar .tabs span.on{background:#fff;box-shadow:var(--clay-sm)}
+.bar .tabs small{font:800 11px/1 var(--sans);background:var(--ink);color:#fff;border-radius:999px;padding:4px 7px}
+.bar .tabs .soon small{background:var(--lav);color:var(--ink)}
+.bar .sp{flex:1}
+.bar .sort{font-weight:800;color:var(--ink2);font-size:14px}
+.chips{display:flex;gap:10px;padding:0 64px 40px;align-items:center}
+.chips .lbl{font:800 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin-right:6px}
+.chips .div{width:1px;height:28px;background:var(--line);margin:0 8px}
+.chips .cnt{margin-left:auto;font-weight:800;color:var(--ink2)}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:0 64px}
+.card{position:relative;border-radius:40px;background:#fff;padding:12px 12px 22px;box-shadow:var(--clay)}
+.card .stage{position:relative;height:340px;border-radius:30px;overflow:hidden}
+.card .stage::before{content:"";position:absolute;left:50%;bottom:30px;width:200px;height:40px;transform:translateX(-50%);border-radius:50%;background:rgba(255,255,255,.5)}
+.card canvas{position:relative;width:100%;height:340px}
+.card .tag{position:absolute;left:14px;top:14px;z-index:2}
+.card .hrt{position:absolute;right:14px;top:14px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.85);display:grid;place-items:center;z-index:2;box-shadow:var(--clay-sm)}
+.card .row{display:flex;justify-content:space-between;align-items:flex-start;padding:18px 12px 0}
+.card h3{font:700 26px/1.05 var(--disp);letter-spacing:-.02em}
+.card .by{font-size:14px;color:var(--ink2);font-weight:700;margin-top:4px}
+.card .pr{font:700 24px/1 var(--disp)}
+.card .pr small{display:block;font:800 11px/1.4 var(--sans);color:var(--ink2);text-align:right}
+.card .sw{display:flex;gap:6px;padding:12px 12px 0}
+.card .sw .dot{width:18px;height:18px}
+.card.hov{transform:translateY(-18px) rotate(-1.2deg);box-shadow:0 50px 80px -30px rgba(43,34,64,.45),var(--clay);z-index:3}
+.card.hov .qa{position:absolute;left:24px;right:24px;top:278px;z-index:3;display:flex;gap:8px}
+.card.hov .qa .btn{flex:1;justify-content:center;height:52px;font-size:16px}
+.card.hov .qa .ico{width:52px;height:52px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:var(--clay-sm);font-size:20px}
+.card .rot{position:absolute;left:50%;top:150px;z-index:3;transform:translateX(-50%);display:flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border-radius:999px;padding:9px 14px;font:600 14px/1 var(--disp)}
+.card.sec .stage{background:radial-gradient(circle at 50% 45%,#5a4a8a,#2b2240 70%)}
+.card.sec .q{position:absolute;inset:0;display:grid;place-items:center;font:700 150px/1 var(--disp);color:rgba(255,255,255,.07);z-index:0}
+.card.sec h3{color:var(--ink)}
+.card.sold .stage::after{content:"";position:absolute;inset:0;background:rgba(255,248,239,.35)}
+.card.sold .stk{position:absolute;right:18px;top:120px;z-index:3;width:120px;height:120px;border-radius:50%;background:var(--berry);color:#fff;display:grid;place-items:center;text-align:center;font:700 20px/1 var(--disp);transform:rotate(12deg);box-shadow:var(--clay-sm)}
+.promo{grid-column:span 2;position:relative;border-radius:40px;overflow:hidden;background:var(--ink);color:#fff8ef;padding:40px;box-shadow:var(--clay)}
+.promo canvas{position:absolute;right:-10px;bottom:-6px;width:400px;height:440px}
+.promo h3{font:700 64px/.9 var(--disp);letter-spacing:-.04em;max-width:340px;margin:18px 0 18px}
+.promo h3 span{color:var(--butter)}
+.promo p{color:rgba(255,248,239,.7);max-width:300px}
+.promo .pr{display:flex;align-items:baseline;gap:12px;margin:26px 0 22px;font:700 44px/1 var(--disp)}
+.promo .pr s{font-size:20px;color:rgba(255,248,239,.45)}
+.promo .pr small{font:800 12px/1 var(--sans);background:var(--mint);color:var(--ink);border-radius:999px;padding:7px 10px}
+.card .pill{display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:999px;background:var(--ink);color:var(--butter);font:800 11px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase}
+.more{display:flex;flex-direction:column;align-items:center;gap:16px;padding:60px 0 140px}
+.more .pb{width:320px;height:10px;border-radius:999px;background:var(--cream2);overflow:hidden}
+.more .pb i{display:block;width:28%;height:100%;background:linear-gradient(90deg,var(--peach),var(--lav));border-radius:999px}
+.more span{font-weight:800;color:var(--ink2)}
+</style></head>
+<body>
+<section class="top">
+  <nav class="nav" data-on="shop"></nav>
+  <div class="tx">
+    <div class="eyebrow" style="color:var(--ink)"><i></i>Series 03 · by Hana Okabe · in stock</div>
+    <h1><span class="puff">Sugar</span><br><span class="puff b">Rush.</span></h1>
+    <p class="lede">Twelve sugar-high monsters and one shimmering secret, sculpted in Lisbon and hand-painted in tiny batches. Glossy vinyl, flocked fuzz and a pearl chase.</p>
+    <div class="facts"><div><b>12+1</b><span>monsters</span></div><div><b>9 cm</b><span>tall</span></div><div><b>€14</b><span>per box</span></div><div><b>1/144</b><span>secret</span></div></div>
+    <div class="ctas"><a class="btn" href="unbox.html">Open a box · €14 <span class="ar">→</span></a><a class="btn soft" href="cart.html">Sealed case · €158</a></div>
+  </div>
+  <canvas id="hero"></canvas>
+  <div class="bub" style="left:1010px;top:150px">Who’s in the box?<b>Shake to guess ✦</b></div>
+  <div class="vert">SUGAR RUSH · SS 2026 · EDITION OF 6,000</div>
+</section>
+
+<div class="bar">
+  <div class="tabs"><span class="on">Sugar Rush <small>13</small></span><span>Cloud Club <small>11</small></span><span>Tiny Devils <small>9</small></span><span class="soon">Moonlit Garden <small>Nov 14</small></span></div>
+  <div class="sp"></div>
+  <span class="sort">Sort by</span><span class="chip">Newest first ▾</span><span class="chip" style="padding:0 12px">▦</span>
+</div>
+<div class="chips">
+  <span class="lbl">Finish</span><span class="chip on"><i class="dot" style="background:#ffb59a"></i>Glossy vinyl</span><span class="chip"><i class="dot" style="background:#9fe3c6"></i>Flocked</span><span class="chip"><i class="dot" style="background:linear-gradient(135deg,#ffd6e6,#c9f1ff,#e7dcff)"></i>Pearl</span>
+  <span class="div"></span><span class="lbl">Rarity</span><span class="chip">Regular</span><span class="chip">Rare</span><span class="chip">Secret ✦</span>
+  <span class="div"></span><span class="chip">In stock only ✓</span>
+  <span class="cnt">36 monsters · 3 series</span>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="more"><div class="pb"><i></i></div><span>Showing 10 of 36</span><a class="btn soft">Load more monsters</a></div>
+
+<footer class="foot"></footer>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+await Promise.all([document.fonts.load('700 80px Fredoka'), document.fonts.load('700 20px Nunito')]);
+const K = Mochi3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+
+/* ---------- product grid (one hidden WebGL context renders every card) ---------- */
+const cards = [
+  ['peachy', 'Peachy Bun', '€34', 'common', '1/12', '#ffe3d6', ['#ffb59a', '#9fe3c6', '#ffe58a']],
+  ['minto', 'Minto', '€34', 'common', '1/12 · flocked', '#d8f5e8', ['#9fe3c6', '#ff9fbf', '#c7b6ff'], 'hov'],
+  ['lulu', 'Lulu', '€38', 'rare', '1/24', '#ebe4ff', ['#c7b6ff', '#ffe58a']],
+  ['bean', 'Butterbean', '€34', 'common', '1/12', '#fff4c6', ['#ffe58a', '#ffb59a']],
+  'promo',
+  ['skip', 'Skipper', '€34', 'common', '1/12', '#dcefff', ['#9cd2ff', '#ffb59a', '#9fe3c6']],
+  ['imp', 'Little Imp', '€34', 'common', '1/12 · flocked', '#ffe1ec', ['#ff9fbf', '#2b2240'], 'sold'],
+  ['dumpling', 'Dumpling', '€34', 'common', '1/12 · flocked', '#fff1e6', ['#fff3e6', '#ff9fbf']],
+  ['sorbet', 'Sorbet', '€38', 'rare', '1/24', '#ffe4ee', ['#ff9fbf', '#ffe58a', '#9cd2ff']],
+  ['jelly', 'Jellybean', '€48', 'ultra', '1/48 · pearl', '#efe8ff', ['#c7b6ff', '#9fe3c6']],
+  ['glimmer', '??? Secret', '€320', 'secret', '1/144 · resale avg.', '', [], 'sec'],
+];
+const grid = document.getElementById('grid');
+grid.innerHTML = cards.map((c, i) => c === 'promo'
+  ? `<div class="promo"><span class="tag" style="background:var(--mint)">No-doubles promise</span><h3>The whole gang, <span>sealed.</span></h3><p>A case of 12 boxes is guaranteed to hold the full series — plus a 1-in-12 shot at the secret.</p><div class="pr">€158 <s>€168</s><small>SAVE €10</small></div><a class="btn peach">Add sealed case <span class="ar">+</span></a><canvas id="case" width="400" height="440"></canvas></div>`
+  : `<div class="card ${c[7] || ''}"><div class="stage"${c[5] ? ` style="background:${c[5]}"` : ''}>${c[7] === 'sec' ? '<div class="q">?</div>' : ''}<span class="tag ${c[3]}">${c[3] === 'ultra' ? 'Chase' : c[3]}</span><span class="hrt">${i === 2 ? '<span style="color:#ff6f91">♥</span>' : '♡'}</span><canvas data-k="${c[0]}" data-i="${i}" width="296" height="340"></canvas>
+      ${c[7] === 'hov' ? '<div class="rot">⟲ Drag to spin</div><div class="qa"><a class="btn">Quick add · €34</a><span class="ico">◎</span></div>' : ''}${c[7] === 'sold' ? '<div class="stk">Sold<br>out!</div>' : ''}</div>
+      <div class="row"><div><h3>${c[1]}</h3><div class="by">${c[7] === 'sec' ? 'Hidden in 1 of 144 boxes' : 'Hana Okabe · 9 cm'}</div></div><div class="pr">${c[2]}<small>${c[4]}</small></div></div>
+      <div class="sw">${c[6].map(s => `<i class="dot" style="background:${s}"></i>`).join('')}${c[7] === 'sec' ? '<span class="pill">✦ pull it to reveal</span>' : ''}</div></div>`).join('');
+
+const M = K.mini(296, 340);
+const live = [];
+document.querySelectorAll('canvas[data-k]').forEach(cv => {
+  const k = cv.dataset.k, sec = k === 'glimmer';
+  const c = K.make(k, { q: 'lo', sil: sec, shadowOp: sec ? .5 : .3 });
+  c.rotation.y = -.35; if (cv.closest('.hov')) live.push([c, cv]);
+  const tall = ['peachy', 'glimmer', 'skip'].includes(k);
+  M.draw(c, cv, { cam: [0, 2.6, tall ? 13.2 : 12], look: [0, tall ? 2.05 : 1.85, 0], fov: 26 });
+});
+{ const g = new THREE.Group(); const cols = [K.C.peach, K.C.mint, K.C.butter, K.C.lav, K.C.sky, K.C.pink];
+  let n = 0; for (let y = 0; y < 3; y++) for (let x = 0; x < 3 - y; x++) { const b = K.blindBox({ color: cols[n % 6], color2: cols[(n + 2) % 6], lidColor: cols[(n + 3) % 6], w: 1.45, h: 1.5 }); b.position.set((x - (2 - y) / 2) * 1.7, y * 2.0, 0); b.rotation.y = .5 + (n % 2 ? .12 : -.1); g.add(b); n++; }
+  g.add(K.shadow(4, .35)); const st = K.star(K.C.butter, .45, 'pearl'); st.position.set(1.8, 5.6, 0); g.add(st);
+  M.draw(g, document.getElementById('case'), { cam: [3, 4.5, 15], look: [0, 2.3, 0], fov: 30 }); }
+
+/* ---------- hero lineup on stepped podiums ---------- */
+const hs = K.stage(document.getElementById('hero'), 860, 780, { fov: 28 });
+hs.camera.position.set(0, 5.2, 22); hs.camera.lookAt(0, 3.1, 0);
+const P = K.mat('#fff4ec', 'vinyl'), P2 = K.mat('#ffe9de', 'vinyl');
+const pods = [[-4.2, 0, .9, 'minto', 1.3], [-1.6, 1.2, 1.2, 'lulu', 1.5], [1.4, 2.2, 1.0, 'peachy', 1.6], [4.0, .6, 1.1, 'sorbet', 1.35], [-1.4, 0, 3.2, 'bean', .9], [3.6, 0, 3.4, 'skip', .9]];
+const cs = [];
+pods.forEach(([x, h, z, k, s], i) => {
+  if (h > 0) { const p = new THREE.Mesh(new RoundedBoxGeometry(2.6, h, 2.6, 4, .3), i % 2 ? P : P2); p.position.set(x, h / 2, z - .2); hs.scene.add(p); const sh = K.shadow(2.2, .25); sh.position.set(x, 0, z - .2); hs.scene.add(sh); }
+  const c = K.make(k); c.scale.setScalar(s * .78); c.position.set(x, h, z); c.rotation.y = -x * .08; hs.scene.add(c); cs.push([c, i]);
+});
+const bx = K.blindBox({ color: K.C.lav, lidColor: K.C.butter, w: 1.5, h: 1.6 }); bx.position.set(1.2, 0, 4.3); bx.rotation.y = .5; bx.scale.setScalar(.72); hs.scene.add(bx);
+const bxs = K.shadow(1.5, .3); bxs.position.copy(bx.position); hs.scene.add(bxs);
+const stars = [[K.C.butter, -5.6, 6.4], [K.C.mint, 5.4, 7.2], [K.C.lav, 1.0, 8.2]].map(([c, x, y], i) => { const s = K.star(c, .45, i === 2 ? 'pearl' : 'vinyl'); s.position.set(x, y, -1); hs.scene.add(s); return s; });
+const conf = K.confetti(70, [14, 10, 5]); conf.position.z = -2; hs.scene.add(conf);
+
+const clock = new THREE.Clock(); let first = true;
+function tick() {
+  const t = clock.getElapsedTime() + .4;
+  cs.forEach(([c, i]) => K.bounce(c, t, { T: 1.4 + i * .13, ph: i * .21, amp: .45 }));
+  bx.userData.lid.position.y = 1.8 + .35 + .2 * Math.sin(t * 2.3); bx.userData.lid.rotation.set(.2, 0, -.25 + .1 * Math.sin(t * 2.3)); bx.rotation.z = .04 * Math.sin(t * 11);
+  stars.forEach((s, i) => { s.rotation.y = t * .7 + i; s.position.y += Math.sin(t + i) * .003; });
+  conf.userData.update(t, { fall: .45 });
+  hs.renderer.render(hs.scene, hs.camera);
+  live.forEach(([c, cv]) => { c.rotation.y = -.35 + Math.sin(t * .8) * .6; K.bounce(c, t, { T: 1.6, amp: .3 }); M.draw(c, cv, { cam: [0, 2.6, 12], look: [0, 1.85, 0], fov: 26 }); });
+  if (first) { first = false; window.__ready3d = true; }
+  requestAnimationFrame(tick);
+}
+tick();
+</script>
+</body></html>

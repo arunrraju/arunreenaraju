@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VANTA Σ1 — Configurator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vanta.css">
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<style>
+html,body{height:1080px;overflow:hidden}
+.app{position:absolute;top:76px;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 452px}
+.stage{position:relative;overflow:hidden;background:radial-gradient(60% 50% at 50% 62%,rgba(255,43,214,.18),transparent 70%),radial-gradient(80% 40% at 50% 75%,rgba(0,229,255,.12),transparent 70%),var(--bg)}
+.steps{position:absolute;left:48px;right:48px;top:30px;display:flex;align-items:center;gap:0;z-index:5}
+.steps span{flex:1;font:500 11px/1 var(--mono);letter-spacing:.14em;color:var(--dim2);padding:14px 0 0;border-top:2px solid rgba(238,246,255,.1);display:flex;gap:8px}
+.steps span b{font-weight:500}
+.steps span.d{color:var(--dim);border-color:var(--cy)}.steps span.d b{color:var(--cy)}
+.steps span.on{color:var(--wh);border-color:var(--mg);box-shadow:0 -6px 18px -8px var(--mg)}.steps span.on b{color:var(--mg)}
+.ttl{position:absolute;left:48px;top:104px;z-index:5}
+.ttl h1{font:600 80px/.88 var(--disp);letter-spacing:-.03em;text-transform:uppercase;margin-top:16px}
+.ttl h1 span{display:block;color:var(--mg);text-shadow:0 0 40px rgba(255,43,214,.55)}
+.ttl p{font:400 12px/1.6 var(--mono);color:var(--dim);margin-top:16px;letter-spacing:.04em}
+.view{position:absolute;right:48px;top:110px;z-index:5;text-align:right}
+.view .deg{font:600 54px/1 var(--disp);letter-spacing:-.02em}
+.view .deg small{font:500 13px var(--mono);color:var(--cy)}
+.view .opts{display:flex;gap:6px;margin-top:14px;justify-content:flex-end}
+.view .opts span{width:52px;height:40px;border:1px solid var(--line);display:grid;place-items:center;font:500 10px/1 var(--mono);color:var(--dim);letter-spacing:.1em}
+.view .opts span.on{border-color:var(--cy);color:#02060b;background:var(--cy)}
+#cfg3d{position:absolute;left:0;top:0;width:988px;height:1004px;z-index:2}
+#cfg3d canvas{display:block}
+.stage .bigt{position:absolute;left:-10px;top:300px;z-index:1;font:700 250px/.8 var(--disp);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1.5px rgba(255,43,214,.28);white-space:nowrap;text-transform:uppercase}
+#hotlinks{position:absolute;inset:0;z-index:5;pointer-events:none;width:988px;height:1004px}
+.hot{position:absolute;z-index:6;width:26px;height:26px;margin:-13px 0 0 -13px;border:1px solid var(--cy);display:grid;place-items:center;background:rgba(5,7,13,.6);color:var(--cy)}
+.hot .ic{width:14px;height:14px}
+.hot::after{content:"";position:absolute;inset:-8px;border:1px solid rgba(0,229,255,.4);animation:pulse 1.6s infinite}
+.hot.on{border-color:var(--mg);color:var(--mg)}.hot.on::after{border-color:rgba(255,43,214,.5)}
+.tip{position:absolute;z-index:7;width:240px;padding:16px 18px}
+.tip .lbl{display:block}
+.tip b{display:block;font:600 19px/1.2 var(--disp);margin:8px 0 4px}
+.tip .pr{display:flex;justify-content:space-between;font:500 12px/1 var(--mono);color:var(--dim);margin-top:10px}
+.tip .pr span:last-child{color:var(--mg)}
+.tel{position:absolute;left:48px;right:48px;bottom:30px;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tel div{padding:16px 18px}
+.tel b{display:block;font:600 26px/1 var(--disp);margin-top:10px}
+.tel b small{font:500 11px var(--mono);margin-left:6px}
+.tel .up{color:#3dff9a}.tel .dn{color:var(--mg)}
+.stage .cursor{left:590px;top:420px;transition:none}
+.stage .cursor b{background:var(--mg);color:#fff}
+.stage .cursor::before{border-color:var(--mg);box-shadow:0 0 24px rgba(255,43,214,.5)}
+.stage .cursor::after{background:var(--mg);box-shadow:0 0 14px var(--mg)}
+.stage .cursor i{background:var(--mg)}
+.coord.a{left:48px;top:1000px;display:none}
+
+/* side panel */
+.side{border-left:1px solid var(--line);background:linear-gradient(180deg,#070b15,#05070d);display:flex;flex-direction:column;position:relative}
+.side .sc{padding:26px 30px 0;flex:1;overflow:hidden}
+.grp{margin-bottom:22px}
+.grp .gh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.grp .gh h3{font:600 17px/1 var(--disp);text-transform:uppercase;letter-spacing:.1em;display:flex;gap:10px;align-items:baseline}
+.grp .gh h3 em{font:500 10px/1 var(--mono);color:var(--cy);font-style:normal}
+.grp .gh span{font:500 11px/1 var(--mono);color:var(--dim);letter-spacing:.06em}
+.paints{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.paints .sw>div{aspect-ratio:1;position:relative;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%)}
+.paints .sel-wrap{position:relative}
+.pn{display:flex;justify-content:space-between;margin-top:12px;padding:12px 14px;border:1px solid var(--line);font:500 12px/1 var(--mono)}
+.pn b{font:600 15px/1 var(--disp);letter-spacing:.04em}
+.sw{position:relative;cursor:pointer}
+.wheels>div{cursor:pointer}.wheels img{width:84px;height:84px;margin:-4px auto 4px;display:block}
+.sw.on::before{content:"";position:absolute;inset:-6px;background:linear-gradient(135deg,#fff,var(--mg) 40%,var(--mg));clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);z-index:0}.sw.on{filter:drop-shadow(0 0 12px var(--mg));transform:scale(1.04)}
+.sw.on::after{content:"";position:absolute;inset:-3px;background:#05070d;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);z-index:0}
+.sw>div{position:relative;z-index:1}
+.wheels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.wheels>div{border:1px solid var(--line);padding:12px 10px 10px;text-align:center;position:relative}
+.wheels svg{width:68px;height:68px;margin:0 auto 6px;display:block}
+.wheels b{display:block;font:600 13px/1.2 var(--disp);letter-spacing:.04em}
+.wheels small{font:500 10px/1 var(--mono);color:var(--dim)}
+.wheels>div.on{border-color:var(--cy);background:rgba(0,229,255,.07);box-shadow:0 0 30px rgba(0,229,255,.25),inset 0 0 20px rgba(0,229,255,.1)}
+.wheels>div.on small{color:var(--cy)}
+.wheels>div.on::after{content:"";position:absolute;right:6px;top:6px;width:8px;height:8px;background:var(--cy);box-shadow:0 0 10px var(--cy)}
+.inter{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.inter div{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line2);font:500 13px/1.2 var(--disp)}
+.inter div i{width:28px;height:28px;flex:none;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.inter div small{display:block;font:400 10px/1.3 var(--mono);color:var(--dim)}
+.inter div.on{border-color:var(--cy);background:rgba(0,229,255,.06)}
+.tog{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px}
+.tog small{display:block;font:400 10.5px/1.4 var(--mono);color:var(--dim)}
+.tog .r{display:flex;align-items:center;gap:14px;font:500 12px/1 var(--mono)}
+.tog .s{width:40px;height:20px;border:1px solid var(--dim2);position:relative}
+.tog .s::after{content:"";position:absolute;left:3px;top:3px;width:12px;height:12px;background:var(--dim2)}
+.tog .s.on{border-color:var(--cy);background:rgba(0,229,255,.15)}.tog .s.on::after{left:23px;background:var(--cy);box-shadow:0 0 10px var(--cy)}
+.sum{padding:20px 30px 26px;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(0,229,255,.04),rgba(255,43,214,.06))}
+.sum .row{display:flex;justify-content:space-between;font:400 12px/1 var(--mono);color:var(--dim);margin-bottom:8px}
+.sum .tot{display:flex;justify-content:space-between;align-items:flex-end;margin:14px 0 16px}
+.sum .tot b{font:600 46px/1 var(--disp);letter-spacing:-.02em}
+.sum .tot .delta{font:500 12px/1 var(--mono);color:#3dff9a;background:rgba(61,255,154,.1);padding:6px 8px;animation:blink 1.2s steps(2) 3}
+.sum .btn{width:100%;justify-content:space-between}
+</style></head>
+<body>
+<div data-nav></div>
+<div class="app">
+  <section class="stage">
+    <div id="cfg3d"></div>
+    <svg id="hotlinks" viewBox="0 0 988 1004"></svg>
+    <div class="steps"><span class="d"><b>01</b>PAINT ✓</span><span class="d"><b>02</b>WHEELS ✓</span><span class="on"><b>03</b>INTERIOR</span><span><b>04</b>AERO PACK</span><span><b>05</b>REVIEW</span></div>
+    <div class="ttl"><div class="lbl cy">// Your Σ1 · Chassis 047 held · 23:41:08</div><h1>Σ1<span class="glitch" id="pname" data-t="Magenta flux">Magenta flux</span></h1><p>Six-layer chromaflair · hand-polished · 212 hours</p></div>
+    <div class="view"><div class="lbl">Camera</div><div class="deg"><span id="deg">34</span><small>°</small></div><div class="opts" id="cams"><span data-cam="frt">FRT</span><span data-cam="tq" class="on">3/4</span><span data-cam="side">SIDE</span><span data-cam="rear">REAR</span><span data-cam="top">TOP</span></div></div>
+    <div class="hot on" id="h1"><span data-ic="plus"></span></div>
+    <div class="hot" id="h2"><span data-ic="plus"></span></div>
+    <div class="hot" id="h3"><span data-ic="plus"></span></div>
+    <div class="tip panel br" id="tip" style="left:700px;top:392px;--bc:var(--mg)"><span class="lbl mg">Hotspot · Brakes</span><b>Cyan anodised calipers</b><span class="dim" style="font-size:13px">Carbon-ceramic, 420 mm front</span><div class="pr"><span>Selected</span><span>+ €8,400</span></div></div>
+    <div class="cursor"><i></i><i></i><i></i><i></i><b>DRAG · ROTATE</b></div>
+    <div class="tel">
+      <div class="panel br"><span class="lbl">Mass delta</span><b>+4 <small class="dn">KG</small></b></div>
+      <div class="panel br"><span class="lbl">Range est.</span><b>538 <small class="dn">KM ▼2</small></b></div>
+      <div class="panel br"><span class="lbl">0–100 km/h</span><b>1.9 <small class="up">S ●</small></b></div>
+      <div class="panel br"><span class="lbl">Build slot</span><b>Q3 <small class="cy">2027</small></b></div>
+    </div>
+  </section>
+
+  <aside class="side">
+    <div class="sc">
+      <div class="grp">
+        <div class="gh"><h3><em>01</em>Paint</h3><span>6 finishes</span></div>
+        <div class="paints" id="paints"></div>
+        <div class="pn"><b id="pn">Magenta Flux</b><span class="mg" id="pp">+ €64,000</span></div>
+      </div>
+      <div class="grp">
+        <div class="gh"><h3><em>02</em>Wheels</h3><span>F 20″ · R 21″</span></div>
+        <div class="wheels" id="wheels"></div>
+      </div>
+      <div class="grp">
+        <div class="gh"><h3><em>03</em>Interior</h3><span class="cy">Editing</span></div>
+        <div class="inter">
+          <div><i style="background:#14161c"></i><span>Obsidian<small>Alcantara · incl.</small></span></div>
+          <div class="on"><i style="background:linear-gradient(135deg,#e9e2d4,#a89e8c)"></i><span>Bone hide<small class="cy">+ €14,000</small></span></div>
+          <div><i style="background:repeating-linear-gradient(45deg,#222 0 3px,#3a3a3a 3px 6px)"></i><span>Carbon shell<small>+ €22,000</small></span></div>
+          <div><i style="background:linear-gradient(135deg,#ff2bd6,#3a0634)"></i><span>Flux stitch<small>+ €3,200</small></span></div>
+        </div>
+      </div>
+      <div class="grp" style="margin-bottom:0">
+        <div class="gh"><h3><em>04</em>Packs</h3><span>3 available</span></div>
+        <div class="tog"><div>Track Pack<small>Fixed wing · slicks · telemetry suite</small></div><div class="r"><span class="cy">€180,000</span><span class="s on"></span></div></div>
+        <div class="tog"><div>Front-axle lift<small>+60 mm in 2.4 s · GPS memory</small></div><div class="r"><span class="dim">€9,800</span><span class="s"></span></div></div>
+        <div class="tog" style="border:0"><div>Exposed carbon body<small>Tinted weave · 34 panels</small></div><div class="r"><span class="dim">€310,000</span><span class="s"></span></div></div>
+      </div>
+    </div>
+    <div class="sum">
+      <div class="row"><span>Σ1 base · ex-works</span><span>€2,100,000</span></div>
+      <div class="row"><span>Options · 5 selected</span><span class="cy">€304,900</span></div>
+      <div class="row"><span>Deposit due today</span><span>€250,000</span></div>
+      <div class="tot"><div><span class="lbl">Live total</span><br><b>€<span data-count="2404900">2,404,900</span></b></div><span class="delta">▲ €14,000</span></div>
+      <a class="btn mgb">Reserve chassis 047 <span data-ic="arrow"></span></a>
+    </div>
+  </aside>
+</div>
+<script src="vanta.js"></script>
+<script src="vanta3d.js"></script>
+<script>vanta('configure');</script>
+<script src="configure3d.js"></script>
+</body></html>

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>The Estate &amp; Cellar Tours — Domaine Vinea</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vinea.css">
+<script src="v3d.js"></script>
+<style>
+.hero{position:relative;height:1040px;overflow:hidden}
+.hero canvas{position:absolute;left:0;top:0;z-index:0}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(18,10,12,.55),transparent 16%,transparent 62%,rgba(18,10,12,.6) 86%,var(--ink))}
+.hero .tx{position:absolute;left:72px;bottom:96px;z-index:3;width:600px}
+.hero .tx h1{font-size:96px;line-height:.92;text-shadow:0 10px 40px rgba(0,0,0,.6)}
+.hero .tx h1 em{color:var(--goldl)}
+.hero .tx p{color:rgba(239,228,208,.82);font-size:17px;margin:24px 0 30px;max-width:470px}
+.hero .meta{position:absolute;right:72px;bottom:96px;z-index:3;display:grid;grid-template-columns:repeat(3,auto);gap:44px;text-align:left}
+.hero .meta b{display:block;font:400 48px/1 var(--disp)}
+.hero .meta span{font:700 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--pd)}
+.hero .pin{position:absolute;z-index:3;display:flex;align-items:center;gap:10px}
+.hero .pin i{width:12px;height:12px;border-radius:50%;background:var(--goldl);box-shadow:0 0 0 6px rgba(220,192,138,.25),0 0 18px var(--gold);animation:pulse 2.4s infinite}
+.hero .pin .ln{width:1px;height:70px;background:linear-gradient(var(--gold),transparent);position:absolute;left:5px;top:12px}
+.hero .pin div{padding:9px 13px;background:rgba(18,10,12,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(220,192,138,.3);font:600 10px/1.3 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:rgba(239,228,208,.8)}
+.hero .pin div b{display:block;font:400 18px/1.1 var(--disp);letter-spacing:0;text-transform:none;color:var(--par)}
+.hero .sun{position:absolute;left:300px;top:212px;z-index:3;text-align:left;font:700 10px/1.8 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:rgba(239,228,208,.8)}
+.hero .sun b{display:block;font:400 30px/1 var(--disp);letter-spacing:0;color:var(--par)}
+
+.story{padding:150px 72px 120px;position:relative}
+.story .intro{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:90px}
+.story h2{font-size:108px}
+.story h2 em{color:var(--goldl)}
+.story .intro p{font:400 26px/1.45 var(--disp);color:var(--pd)}
+.tl{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:44px;height:1px;background:var(--line)}
+.tl::after{content:"";position:absolute;left:0;width:78%;top:44px;height:1px;background:linear-gradient(90deg,var(--gold),var(--goldl));box-shadow:0 0 12px var(--gold)}
+.ev{position:relative}
+.ev .yr{font:400 72px/1 var(--disp);color:transparent;-webkit-text-stroke:1px var(--goldl);background:var(--ink);padding-right:14px;position:relative;z-index:2;display:inline-block}
+.ev.on .yr{color:var(--goldl);-webkit-text-stroke:0}
+.ev .ph{height:300px;margin:28px 0 22px;overflow:hidden;position:relative;border-radius:160px 160px 2px 2px}
+.ev .ph img{filter:saturate(.9) brightness(.9)}
+.ev h3{font-size:30px;margin-bottom:10px}
+.ev p{font-size:14px;color:var(--pd)}
+.ev .seal{position:absolute;right:10px;top:250px;width:96px;height:96px;z-index:3}
+.ev .dot{position:absolute;left:0;top:38px;width:12px;height:12px;background:var(--gold);transform:rotate(45deg);z-index:3;display:none}
+
+.quote{margin:30px 72px 0;padding:110px 120px;position:relative;overflow:hidden;border:1px solid var(--line);text-align:center}
+.quote img{position:absolute;inset:0;filter:brightness(.35) saturate(.9)}
+.quote::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 50% 50%,rgba(74,15,28,.55),rgba(18,10,12,.7))}
+.quote p{position:relative;z-index:2;font:400 58px/1.12 var(--disp);letter-spacing:-.01em}
+.quote p em{color:var(--goldl)}
+.quote .by{position:relative;z-index:2;margin-top:34px;font:700 11px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--goldl)}
+.quote .sig{position:relative;z-index:2;font:italic 400 40px/1 var(--it);color:var(--par);opacity:.85;margin-top:18px}
+
+.tours{padding:160px 72px 140px}
+.tours .sh{margin-bottom:56px}
+.tours .sh h2{font-size:108px}
+.book{display:grid;grid-template-columns:1fr 470px;gap:30px}
+.tcards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tc{border:1px solid var(--line2);display:flex;flex-direction:column;position:relative}
+.tc .ph{height:330px;position:relative;overflow:hidden}
+.tc .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(18,10,12,.85),transparent 55%)}
+.tc .ph .d{position:absolute;left:18px;bottom:16px;z-index:2;font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--par)}
+.tc .bd{padding:22px 22px 24px;display:flex;flex-direction:column;flex:1}
+.tc h3{font-size:32px;margin-bottom:10px}
+.tc p{font-size:14px;color:var(--pd);margin-bottom:18px}
+.tc ul{list-style:none;font-size:13px;color:var(--pd);display:grid;gap:7px;margin-bottom:20px}
+.tc ul li::before{content:"◆";color:var(--gold);font-size:8px;margin-right:10px;vertical-align:2px}
+.tc .pr{margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line2);padding-top:16px}
+.tc .pr b{font:400 34px/1 var(--disp)}
+.tc .pr span{font-size:12px;color:var(--pd)}
+.tc.on{border-color:var(--gold);box-shadow:0 40px 80px -40px rgba(140,42,61,.9);background:linear-gradient(180deg,rgba(74,15,28,.3),transparent)}
+.tc.on .sel{position:absolute;right:16px;top:16px;z-index:3;width:38px;height:38px;border-radius:50%;background:var(--goldl);color:var(--ink);display:grid;place-items:center;font-size:16px}
+.tc .badge{position:absolute;left:16px;top:16px;z-index:3;font:700 9px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;padding:8px 10px;background:var(--bur2);color:var(--par)}
+.cal{padding:28px 28px 26px;background:var(--ink2)}
+.cal .hd{display:flex;justify-content:space-between;align-items:center;margin:14px 0 18px}
+.cal .hd b{font:400 32px/1 var(--disp)}
+.cal .hd span{display:flex;gap:8px}
+.cal .hd span i{width:36px;height:36px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-style:normal;color:var(--gold)}
+.cal .g{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}
+.cal .g .w{font:700 10px/1 var(--sans);letter-spacing:.16em;color:var(--pf);padding:6px 0}
+.cal .g span{height:46px;display:grid;place-items:center;font:400 18px/1 var(--disp);color:var(--pd);position:relative}
+.cal .g span.o{color:var(--pf);opacity:.35}
+.cal .g span.a{color:var(--par);border:1px solid var(--line2)}
+.cal .g span.a::after{content:"";position:absolute;bottom:6px;width:4px;height:4px;border-radius:50%;background:var(--vine)}
+.cal .g span.f::after{background:var(--bur3)}
+.cal .g span.s{background:var(--goldl);color:var(--ink);border-color:var(--goldl)}
+.cal .g span.s::after{background:var(--ink)}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:20px 0 16px}
+.slots span{height:46px;border:1px solid var(--line2);display:flex;flex-direction:column;align-items:center;justify-content:center;font:400 17px/1 var(--disp)}
+.slots span small{font:600 9px/1 var(--sans);letter-spacing:.14em;color:var(--pd);margin-top:4px;text-transform:uppercase}
+.slots span.on{border-color:var(--gold);background:rgba(184,149,90,.12)}
+.slots span.x{opacity:.35;text-decoration:line-through}
+.guests{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-block:1px solid var(--line2);font-size:14px;color:var(--pd)}
+.guests .st{display:flex;align-items:center;gap:16px;font:400 22px/1 var(--disp);color:var(--par)}
+.guests .st i{width:32px;height:32px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font:400 15px/1 var(--sans);font-style:normal;color:var(--gold)}
+.cal .sum{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0}
+.cal .sum b{font:400 40px/1 var(--disp)}
+.cal .btn{width:100%;justify-content:space-between}
+.cal .note{font-size:12px;color:var(--pd);margin-top:12px;text-align:center}
+
+.visit{display:grid;grid-template-columns:1.2fr 1fr;margin:0 72px 150px;border:1px solid var(--line)}
+.visit .map{position:relative;background:radial-gradient(80% 80% at 40% 50%,#2a1016,#140a0d);min-height:480px;overflow:hidden}
+.visit .map svg{position:absolute;inset:0;width:100%;height:100%}
+.visit .tx{padding:60px}
+.visit h2{font-size:64px;margin:18px 0 24px}
+.visit dl{display:grid;gap:0}
+.visit dl div{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line2);font-size:14px}
+.visit dt{color:var(--pd)}.visit dd{font:400 18px/1.2 var(--disp);text-align:right}
+</style></head>
+<body>
+<section class="hero">
+  <canvas id="land3d"></canvas>
+  <div class="ann" style="position:relative"><span><i class="dot"></i>Harvest supper · Saturday 19 September 2026 — <b>14 seats left</b></span><span>Open Tuesday to Sunday · 10:00 – 19:00</span></div>
+  <nav class="nav" style="border-bottom-color:rgba(239,228,208,.14)"><div class="l"><a href="wines.html">The Wines</a><a href="wine.html">Grand Cru</a><a href="club.html">Cellar Society</a></div>
+  <a class="logo" href="home.html"><span class="cr" data-crest></span><b>DOMAINE VINEA</b></a>
+  <div class="r"><a class="on" href="estate.html">Estate &amp; Tours</a><a href="#"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a><a class="case-btn" href="checkout.html">Case <i>4</i></a></div></nav>
+  <div class="pin" style="left:956px;top:520px"><i></i><div>The house &amp; cellars<b>Château Vinea, 1812</b></div></div>
+  <div class="pin" style="left:420px;top:690px"><i></i><div>Grand Cru parcel<b>Clos des Ombres · 2.1 ha</b></div></div>
+  <div class="tx"><div class="mono" style="color:var(--goldl)">The estate · Côte de Vinea</div><h1 style="margin-top:22px">Fourteen hectares, <em>one family.</em></h1><p>Two centuries on the same south-east slope. Walk the rows at golden hour, then descend into the vaulted cellars beneath the house.</p><a class="btn p" href="#book">Book a cellar tour <span class="ar"></span></a></div>
+  <div class="meta"><div><b>290 m</b><span>Altitude</span></div><div><b>9</b><span>Parcels</span></div><div><b>1961</b><span>Oldest vines</span></div></div>
+</section>
+
+<section class="story">
+  <div class="intro"><div><div class="mono">Our story · Since 1812</div><h2 style="margin-top:22px">Eleven <em>generations,</em> one hill.</h2></div><p>The Vauquelin family planted its first rows above the Saône in 1812. The house, the cellars and most of the habits have changed very little since.</p></div>
+  <div class="tl">
+    <div class="ev"><span class="yr">1812</span><div class="ph"><img src="https://images.unsplash.com/photo-1596142332133-327e2a0ff006?auto=format&fit=crop&q=82&w=700" alt="Vineyard rows on the hill"></div><h3>The first rows</h3><p>Étienne Vauquelin buys a walled plot of limestone and plants Pinot Noir by hand.</p></div>
+    <div class="ev"><span class="yr">1961</span><div class="ph"><img src="https://images.unsplash.com/photo-1537640538966-79f369143f8f?auto=format&fit=crop&q=82&w=700" alt="Ripe Pinot Noir grapes in sunlight"></div><h3>The Clos replanted</h3><p>The vines that make our Grand Cru today go into the ground. Some are now 64 years old.</p></div>
+    <div class="ev"><span class="yr">2008</span><div class="ph"><img src="https://images.unsplash.com/photo-1605673349837-1d83a7740e30?auto=format&fit=crop&q=82&w=700" alt="Hand harvesting grapes among the leaves"></div><h3>Certified organic</h3><p>No synthetic sprays, cover crops between rows, and horses back in the steepest parcels.</p></div>
+    <div class="ev on"><span class="yr">2026</span><div class="ph"><img src="https://images.unsplash.com/photo-1602001236480-febeadc61a74?auto=format&fit=crop&q=82&w=700" alt="Hands holding a bunch of dark grapes"></div><span class="seal" data-seal="VENDANGES · MMXXVI · " data-mono="26"></span><h3>The 214th harvest</h3><p>Picked over eleven mornings in September. Resting in barrel now, released in 2028.</p></div>
+  </div>
+</section>
+
+<section class="quote"><img src="https://images.unsplash.com/photo-1529877612930-6e7df7e2b02f?auto=format&fit=crop&q=82&w=1600" alt=""><p>“We don’t make the wine. We keep the hill healthy, pick at the right hour, <em>and try not to get in the way.</em>”</p><div class="by">Hélène Vauquelin · Vigneronne, 11th generation</div><div class="sig">Hélène V.</div></section>
+
+<section class="tours" id="book">
+  <div class="sh"><div><div class="mono">Visit the cellars</div><h2 style="margin-top:22px">Come down <em class="gold">by candlelight.</em></h2></div><p class="dim" style="max-width:380px">Every visit ends in the 18th-century barrel vault, eight metres beneath the house, with a tasting led by the family.</p></div>
+  <div class="book">
+    <div class="tcards">
+      <div class="tc"><div class="ph"><img src="https://images.unsplash.com/photo-1761489179799-c8ecad6ec719?auto=format&fit=crop&q=82&w=600" alt="Sunlit vineyard row"><span class="d">75 min · daily</span></div><div class="bd"><h3>Vines &amp; Vault</h3><p>A walk through the Clos, then four wines in the cellar.</p><ul><li>Four wines, incl. Premier Cru</li><li>Up to 12 guests</li><li>English · Français</li></ul><div class="pr"><b>€45</b><span>per guest</span></div></div></div>
+      <div class="tc on"><span class="sel">✓</span><span class="badge">Most booked</span><div class="ph"><img src="https://images.unsplash.com/photo-1561906814-23da9a8bfee0?auto=format&fit=crop&q=82&w=600" alt="Candlelit barrel vault"><span class="d">2 hrs · Thu – Sun</span></div><div class="bd"><h3>Candlelit Vault</h3><p>Taste from the barrel, then the 2019 Grand Cru by candlelight.</p><ul><li>Six wines, incl. Grand Cru</li><li>Barrel sample with the cellar master</li><li>Up to 8 guests</li></ul><div class="pr"><b>€95</b><span>per guest</span></div></div></div>
+      <div class="tc"><div class="ph"><img src="https://images.unsplash.com/photo-1621409113136-51ae6dcbb7c5?auto=format&fit=crop&q=82&w=600" alt="Wine poured into a glass in the courtyard"><span class="d">4 hrs · Saturdays</span></div><div class="bd"><h3>Harvest Supper</h3><p>Five courses at the long table, paired with library wines.</p><ul><li>Library 2010 &amp; 2015</li><li>Dinner with the family</li><li>Up to 24 guests</li></ul><div class="pr"><b>€240</b><span>per guest</span></div></div></div>
+    </div>
+    <aside class="cal frm"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+      <div class="mono">Candlelit Vault · choose a date</div>
+      <div class="hd"><b>November <em style="color:var(--goldl)">2026</em></b><span><i>‹</i><i>›</i></span></div>
+      <div class="g" id="cal"></div>
+      <div class="slots"><span class="x">11:00<small>Full</small></span><span class="on">16:30<small>3 seats left</small></span><span>19:00<small>By candle</small></span></div>
+      <div class="guests"><span>Guests</span><div class="st"><i>−</i>2<i>+</i></div></div>
+      <div class="sum"><span class="dim">Sat 14 Nov · 16:30 · 2 guests</span><b>€190</b></div>
+      <a class="btn p" href="checkout.html">Reserve the visit <span class="ar"></span></a>
+      <div class="note">Free cancellation up to 48 hours before · Members visit free</div>
+    </aside>
+  </div>
+</section>
+
+<section class="visit">
+  <div class="map"><svg viewBox="0 0 760 480" fill="none">
+    
+    <path d="M0 330 C 140 300, 220 360, 360 320 S 600 250, 760 280" stroke="rgba(120,160,200,.5)" stroke-width="10" stroke-linecap="round"/>
+    <path d="M0 330 C 140 300, 220 360, 360 320 S 600 250, 760 280" stroke="rgba(18,10,12,.6)" stroke-width="1"/>
+    <text x="560" y="300" fill="rgba(160,190,220,.6)" font-family="Libre Caslon Text" font-style="italic" font-size="16">la Saône</text>
+    <path d="M60 120 L 300 200 L 420 160 L 700 230" stroke="rgba(239,228,208,.35)" stroke-dasharray="6 6"/>
+    <g stroke="rgba(184,149,90,.5)">
+      <path d="M200 160 l70 -24 l40 50 l-74 26z" fill="rgba(140,42,61,.35)"/><path d="M320 120 l90 -10 l20 60 l-96 14z" fill="rgba(125,148,80,.18)"/><path d="M450 170 l80 -20 l30 50 l-90 22z" fill="rgba(125,148,80,.18)"/><path d="M110 210 l70 0 l10 50 l-80 8z" fill="rgba(220,192,138,.12)"/><path d="M560 100 l90 0 l10 54 l-96 6z" fill="rgba(125,148,80,.18)"/>
+    </g>
+    <g font-family="Karla" font-size="11" letter-spacing="2" fill="rgba(239,228,208,.6)"><text x="206" y="232">CLOS DES OMBRES</text><text x="330" y="160">LES CHANDELLES</text><text x="456" y="232">SAINT-AUBERT</text><text x="104" y="286">LES AUBES</text></g>
+    <circle cx="300" cy="200" r="9" fill="#dcc08a"/><circle cx="300" cy="200" r="20" stroke="rgba(220,192,138,.5)"/><circle cx="300" cy="200" r="34" stroke="rgba(220,192,138,.2)"/>
+    <text x="324" y="226" fill="#efe4d0" font-family="Libre Caslon Display" font-size="22">Château Vinea</text>
+    <g stroke="rgba(184,149,90,.6)"><circle cx="680" cy="400" r="34"/><path d="M680 360v80M640 400h80"/></g><text x="675" y="355" fill="#b8955a" font-family="Karla" font-size="12">N</text>
+  </svg></div>
+  <div class="tx"><div class="mono">Finding us</div><h2>Chemin des <em style="color:var(--goldl)">Ombres</em></h2>
+    <dl><div><dt>Address</dt><dd>1 Chemin des Ombres, Vinea-sur-Saône</dd></div><div><dt>From the station</dt><dd>12 min by car · we collect</dd></div><div><dt>Opening hours</dt><dd>Tue – Sun · 10:00 – 19:00</dd></div><div><dt>Accessibility</dt><dd>Lift to the vault · step-free tasting</dd></div><div><dt>Cellar door</dt><dd>+33 3 85 00 18 12</dd></div></dl>
+  </div>
+</section>
+
+<footer class="foot"><div class="glow"></div>
+  <div class="top">
+    <div class="news"><h4>The Cellar Letter</h4><p>Harvest notes, release dates and the occasional <em>library bottle</em> — four letters a year.</p><form><span>Your email address</span><b>SUBSCRIBE</b></form></div>
+    <div><h4>Wines</h4><ul><li>Grand Cru</li><li>Premier Cru</li><li>Rosé</li><li>Sparkling</li><li>Library releases</li></ul></div>
+    <div><h4>Estate</h4><ul><li>Our story</li><li>The nine parcels</li><li>Cellar tours</li><li>Harvest supper</li><li>Press</li></ul></div>
+    <div><h4>Service</h4><ul><li>Delivery &amp; temperature</li><li>Cellar Society</li><li>Gift cases</li><li>Contact the cellar</li><li>Drink responsibly</li></ul></div>
+  </div>
+  <div class="big"><span class="seal" data-seal="DOMAINE VINEA · CÔTE DE VINEA · " data-mono="V"></span><h2>VINEA</h2></div>
+  <div class="legal"><span>© 2026 Domaine Vinea · Concept project</span><span>L’abus d’alcool est dangereux pour la santé — enjoy with moderation.</span><span>Privacy · Terms · Accessibility</span></div>
+</footer>
+<script>
+(function(){
+  let h=['M','T','W','T','F','S','S'].map(d=>`<span class="w">${d}</span>`).join('');
+  // Nov 2026 starts on a Sunday
+  [26,27,28,29,30,31].forEach(d=>h+=`<span class="o">${d}</span>`);
+  const avail=[5,6,7,8,12,13,14,15,19,20,21,22,26,27,28,29], full=[7,21];
+  for(let d=1;d<=30;d++){const c=d===14?'a s':avail.includes(d)?('a'+(full.includes(d)?' f':'')):'';h+=`<span class="${c}">${d}</span>`;}
+  [1,2,3,4,5,6].forEach(d=>h+=`<span class="o">${d}</span>`);
+  document.getElementById('cal').innerHTML=h;
+})();
+</script>
+<script src="vinea.js"></script>
+<script type="module">
+import * as THREE from 'three';
+const V = window.V3D(THREE);
+await V.fonts();
+const W = 1440, H = 1040;
+const renderer = V.renderer(document.getElementById('land3d'), W, H);
+renderer.toneMappingExposure = 1.0;
+const scene = new THREE.Scene();
+const sunDir = new THREE.Vector3(-0.42, 0.075, -1).normalize();
+scene.add(V.sky(sunDir));
+scene.fog = new THREE.Fog(0xd48a64, 55, 190);
+const camera = new THREE.PerspectiveCamera(42, W / H, 0.5, 900);
+camera.position.set(2, 15, 30); camera.lookAt(-2, 3.5, -28);
+
+// terrain
+const G = new THREE.PlaneGeometry(220, 190, 230, 200); G.rotateX(-Math.PI / 2); G.translate(0, 0, -65);
+const P = G.attributes.position; const col = new Float32Array(P.count * 3); const c = new THREE.Color();
+const parcels = [
+  { cx: -15, cz: 8, w: 18, d: 14, a: 0.12 }, { cx: 7, cz: 6, w: 18, d: 13, a: -0.1 }, { cx: -4, cz: -10, w: 22, d: 12, a: 0.55 },
+  { cx: 19, cz: -12, w: 16, d: 14, a: -0.42 }, { cx: -26, cz: -12, w: 14, d: 16, a: 0.3 }, { cx: 1, cz: -28, w: 24, d: 14, a: 0.05 },
+  { cx: -27, cz: -34, w: 18, d: 14, a: -0.5 }, { cx: 27, cz: -32, w: 18, d: 16, a: 0.4 }, { cx: 8, cz: -50, w: 26, d: 14, a: -0.2 },
+  { cx: -18, cz: -54, w: 20, d: 12, a: 0.3 }, { cx: 34, cz: -10, w: 14, d: 14, a: 0.2 }, { cx: -40, cz: 2, w: 14, d: 18, a: -0.2 }
+];
+const inParcel = (x, z) => parcels.some(p => { const dx = x - p.cx, dz = z - p.cz; const lx = dx * Math.cos(p.a) - dz * Math.sin(p.a), lz = dx * Math.sin(p.a) + dz * Math.cos(p.a); return Math.abs(lx) < p.w / 2 + .4 && Math.abs(lz) < p.d / 2 + .4; });
+for (let i = 0; i < P.count; i++) {
+  const x = P.getX(i), z = P.getZ(i); const y = V.H(x, z); P.setY(i, y);
+  const n = 0.5 + 0.5 * Math.sin(x * 0.21 + z * 0.13) * Math.cos(z * 0.17 - x * 0.05);
+  if (inParcel(x, z)) c.setRGB(0.3 + n * 0.06, 0.2, 0.12); else c.setRGB(0.16 + n * 0.2, 0.26 + n * 0.12, 0.07 + n * 0.02);
+  col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
+}
+G.setAttribute('color', new THREE.BufferAttribute(col, 3)); G.computeVertexNormals();
+scene.add(new THREE.Mesh(G, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .95 })));
+
+// vine rows as instanced hedges following the terrain
+const hedge = new THREE.SphereGeometry(0.5, 8, 5); hedge.scale(1, 0.32, 0.3); hedge.translate(0, -0.02, 0); if (0) new THREE.CylinderGeometry(0.13, 0.17, 1, 6, 1); 
+const mats = []; const colors = []; const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0);
+for (const p of parcels) {
+  const far = p.cz < -30; const sp = far ? 1.15 : 1.05, seg = far ? 1.5 : 0.9;
+  for (let lz = -p.d / 2; lz <= p.d / 2; lz += sp) for (let lx = -p.w / 2; lx < p.w / 2; lx += seg) {
+    const x = p.cx + lx * Math.cos(p.a) + lz * Math.sin(p.a), z = p.cz - lx * Math.sin(p.a) + lz * Math.cos(p.a);
+    const y = V.H(x, z); q.setFromAxisAngle(up, p.a);
+    const jq = new THREE.Quaternion().setFromAxisAngle(up, p.a + Math.sin(x * 7.1 + z * 3.3) * 0.08); m4.compose(new THREE.Vector3(x, y + 0.36, z), jq, new THREE.Vector3(seg * 1.35, 2.3 + Math.sin(x * 5 + z * 2) * .45, 0.9 + Math.sin(x * 2.3 - z) * .25)); mats.push(m4.clone());
+    const k = 0.5 + 0.5 * Math.sin(x * 0.4 + z * 0.3); colors.push(0.16 + k * .12, 0.3 + k * .12, 0.07);
+  }
+}
+const vines = new THREE.InstancedMesh(hedge, new THREE.MeshStandardMaterial({ roughness: .85, color: 0xffffff }), mats.length);
+mats.forEach((m, i) => { vines.setMatrixAt(i, m); vines.setColorAt(i, new THREE.Color(colors[i * 3], colors[i * 3 + 1], colors[i * 3 + 2])); });
+scene.add(vines);
+
+// cypress alley + round trees
+const cyp = new THREE.ConeGeometry(0.55, 4.2, 8); cyp.translate(0, 2.1, 0);
+const cypPos = []; for (let i = 0; i < 16; i++) { const z = 14 - i * 4.2; const x = 26 + Math.sin(i * .5) * 3 - i * .9; cypPos.push([x, z]); }
+for (let i = 0; i < 10; i++) cypPos.push([-6 + i * 1.6, -40 - i * .4]);
+const cypM = new THREE.InstancedMesh(cyp, new THREE.MeshStandardMaterial({ color: 0x1e2a14, roughness: .9 }), cypPos.length);
+cypPos.forEach(([x, z], i) => { m4.compose(new THREE.Vector3(x, V.H(x, z) - .2, z), new THREE.Quaternion(), new THREE.Vector3(1, 0.9 + (i % 3) * .15, 1)); cypM.setMatrixAt(i, m4); }); scene.add(cypM);
+const tree = new THREE.IcosahedronGeometry(1.4, 1); tree.translate(0, 1.6, 0);
+const tp = []; for (let i = 0; i < 70; i++) { const fr = v => v - Math.floor(v); const x = fr(Math.sin(i * 12.9898) * 43758.5453) * 140 - 70, z = fr(Math.sin(i * 78.233) * 12345.678) * 100 - 90; if (!inParcel(x, z) && z < 4) tp.push([x, z]); }
+const treeM = new THREE.InstancedMesh(tree, new THREE.MeshStandardMaterial({ color: 0x2e3a18, roughness: .9, flatShading: true }), tp.length);
+tp.length = 0; tp.forEach(([x, z], i) => { m4.compose(new THREE.Vector3(x, V.H(x, z) - .3, z), new THREE.Quaternion(), new THREE.Vector3(1 + (i % 4) * .3, 0.9 + (i % 3) * .3, 1 + (i % 2) * .3)); treeM.setMatrixAt(i, m4); });
+
+// the château on its hill
+const ch = new THREE.Group(); const hx = 17, hz = -40; ch.position.set(hx, V.H(hx, hz) - .3, hz);
+const wallM = new THREE.MeshStandardMaterial({ color: 0xe0c8a0, roughness: .8 }), roofM = new THREE.MeshStandardMaterial({ color: 0x3a3438, roughness: .6, metalness: .2 });
+const bx = (w, h, d, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), wallM); m.position.set(x, y + h / 2, z); ch.add(m); const r = new THREE.Mesh(new THREE.ConeGeometry(Math.max(w, d) * .74, h * .7, 4), roofM); r.rotation.y = Math.PI / 4; r.scale.set(w / Math.max(w, d), 1, d / Math.max(w, d)); r.position.set(x, y + h + h * .35, z); ch.add(r); };
+bx(7, 2.6, 3, 0, 0, 0); bx(3, 2.2, 3, -4.6, 0, 1); bx(2.6, 1.8, 4, 4.4, 0, 1.2);
+const tw = new THREE.Mesh(new THREE.CylinderGeometry(.9, .9, 4.2, 16), wallM); tw.position.set(-2.4, 2.1, 1.6); ch.add(tw);
+const tr = new THREE.Mesh(new THREE.ConeGeometry(1.1, 2.2, 16), roofM); tr.position.set(-2.4, 5.3, 1.6); ch.add(tr);
+const winM = new THREE.MeshBasicMaterial({ color: 0xffc070, toneMapped: false });
+for (let i = 0; i < 6; i++) { const w = new THREE.Mesh(new THREE.PlaneGeometry(.32, .5), winM); w.position.set(-2.5 + i, 1.2, 1.51); ch.add(w); }
+ch.rotation.y = -0.3; scene.add(ch);
+
+// the name of the hill, half hidden behind the far ridge
+const tc = document.createElement('canvas'); tc.width = 2048; tc.height = 640; const tg = tc.getContext('2d'); tg.textAlign = 'center'; tg.font = '400 560px "Libre Caslon Display"'; try { tg.letterSpacing = '40px'; } catch (e) { }
+const tgr = tg.createLinearGradient(0, 80, 0, 600); tgr.addColorStop(0, 'rgba(255,236,205,.92)'); tgr.addColorStop(1, 'rgba(255,200,150,.55)'); tg.fillStyle = tgr; tg.fillText('VINEA', 1044, 560);
+const ttx = new THREE.CanvasTexture(tc); ttx.colorSpace = THREE.SRGBColorSpace;
+const word = new THREE.Mesh(new THREE.PlaneGeometry(96, 30), new THREE.MeshBasicMaterial({ map: ttx, transparent: true, fog: false, toneMapped: false, depthWrite: false, opacity: .9 }));
+word.position.set(8, 13, -128); word.lookAt(camera.position.x, 13, camera.position.z); scene.add(word);
+
+// lights
+const sun = new THREE.DirectionalLight(0xffa25e, 4.2); sun.position.copy(sunDir).multiplyScalar(100); scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xd8a8a0, 0x1a1410, 0.75));
+const front = new THREE.DirectionalLight(0xa08aa0, 0.9); front.position.set(10, 20, 40); scene.add(front);
+
+// pollen in the low sun
+const N = 500, pp = new Float32Array(N * 3);
+for (let i = 0; i < N; i++) { pp[i * 3] = (Math.random() - .5) * 40; pp[i * 3 + 1] = 2 + Math.random() * 10; pp[i * 3 + 2] = Math.random() * 30 - 10; }
+const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3));
+const dc = document.createElement('canvas'); dc.width = dc.height = 64; const dg = dc.getContext('2d'); const gr = dg.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(255,230,180,1)'); gr.addColorStop(1, 'rgba(255,200,140,0)'); dg.fillStyle = gr; dg.fillRect(0, 0, 64, 64);
+const pollen = new THREE.Points(pg, new THREE.PointsMaterial({ size: .12, map: new THREE.CanvasTexture(dc), transparent: true, opacity: .7, depthWrite: false, blending: THREE.AdditiveBlending, fog: false }));
+scene.add(pollen);
+
+let t = 0, first = true;
+function frame() {
+  t += 0.016;
+  camera.position.x = 2 + Math.sin(t * .1) * 1.2; camera.lookAt(-2, 3.5, -28);
+  pollen.rotation.y = t * .01;
+  renderer.render(scene, camera);
+  if (first) { first = false; window.__ready3d = true; }
+  requestAnimationFrame(frame);
+}
+frame();
+</script>
+</body></html>

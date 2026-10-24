@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>The Craft — Bean to Bar — Maison Cacao Noir</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Gilda+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cacao.css">
+<script src="cacao3d.js"></script>
+<style>
+.hero{position:relative;height:1000px;overflow:hidden;background:radial-gradient(ellipse 45% 50% at 58% 50%,#5a2a14 0%,#2e140a 42%,var(--bg) 78%)}
+.hero .word{position:absolute;left:0;right:0;top:300px;text-align:center;font:400 400px/.8 var(--disp);letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1.5px rgba(243,230,211,.16);white-space:nowrap}
+.hero canvas{position:absolute;left:0;top:0;z-index:2}
+.hero .copy{position:absolute;left:56px;top:200px;z-index:4;width:520px}
+.hero h1{font-size:118px;line-height:.86;margin:24px 0 28px;letter-spacing:-.03em}
+.hero p{color:var(--dim);font-size:17px;max-width:420px}
+.hero .spec{position:absolute;z-index:5;padding:16px 18px;width:240px}
+.hero .spec small{font:700 9px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.hero .spec b{display:block;font:400 22px/1.15 var(--serif);margin:8px 0 4px}
+.hero .spec span{font-size:12px;color:var(--dim)}
+.hero .spec::before{content:"";position:absolute;width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));top:50%}
+.hero .s1{left:1150px;top:760px}.hero .s1::before{left:-70px}
+.hero .s2{left:300px;top:700px}.hero .s2::before{right:-70px;transform:scaleX(-1)}
+.hero .s3{left:1190px;top:150px}.hero .s3::before{left:-70px}
+.hero .bottom{position:absolute;left:56px;right:56px;bottom:40px;z-index:5;display:flex;justify-content:space-between;align-items:center;padding-top:22px;border-top:1px solid var(--line);font:700 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.hero .bottom b{color:var(--cream)}
+
+.steps{padding:140px 0 120px;position:relative}
+.steps .hd{display:flex;justify-content:space-between;align-items:flex-end;padding:0 56px;margin-bottom:70px}
+.steps h2{font-size:92px;margin-top:20px}
+.steps .hd p{max-width:400px;color:var(--dim)}
+.track{position:relative;margin:0 56px}
+.track .line{position:absolute;left:0;right:0;top:44px;height:2px;background:var(--line)}
+.track .line i{position:absolute;left:0;top:-1px;height:4px;width:79%;border-radius:4px;background:linear-gradient(90deg,#7a4a22,var(--gold) 80%,#fff3cf);box-shadow:0 0 18px rgba(200,161,90,.8)}
+.track .line em{position:absolute;left:79%;top:-9px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:#fff3cf;box-shadow:0 0 0 6px rgba(200,161,90,.25),0 0 30px var(--gold)}
+.track .row{display:grid;grid-template-columns:repeat(7,1fr);gap:14px;position:relative}
+.st{padding-top:88px;position:relative}
+.st .n{position:absolute;top:22px;left:0;width:46px;height:46px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font:400 18px/1 var(--serif);background:var(--bg)}
+.st.done .n{background:var(--gold);color:#1d0d07;border-color:var(--gold)}
+.st.now .n{background:#fff3cf;color:#1d0d07;box-shadow:0 0 0 6px rgba(200,161,90,.25)}
+.st .ic{height:150px;border-radius:18px;margin-bottom:18px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.st .ic img{width:100%;height:100%;object-fit:cover}
+.st h4{font:400 26px/1.05 var(--serif)}
+.st .m{font:700 11px/1 var(--sans);letter-spacing:.14em;color:var(--gold);margin:10px 0 10px}
+.st p{font-size:13px;color:var(--dim);line-height:1.55}
+.st.now{}
+.st.now .ic{border-color:rgba(200,161,90,.6);box-shadow:0 20px 50px rgba(200,161,90,.15)}
+.st.now .live{position:absolute;right:10px;top:10px;font:700 9px/1 var(--sans);letter-spacing:.2em;background:var(--rasp);color:#fff;padding:6px 8px;border-radius:20px}
+.ic.conche{background:radial-gradient(circle at 50% 50%,#6b3a24 0 26%,#3a1c10 27% 40%,#2a1610 41%);}
+.ic.conche::before{content:"";position:absolute;left:50%;top:50%;width:110px;height:110px;margin:-55px;border-radius:50%;background:conic-gradient(from 0deg,transparent,rgba(243,230,211,.35),transparent 30%,transparent 50%,rgba(243,230,211,.25),transparent 80%);animation:spin 4s linear infinite}
+.ic.conche::after{content:"72h";position:absolute;inset:0;display:grid;place-items:center;font:400 34px/1 var(--disp);color:var(--cream)}
+.ic.tmp{background:linear-gradient(160deg,#4a2414,#1d0e09)}
+.ic.tmp svg{position:absolute;inset:0}
+.ic.roast{background:radial-gradient(circle,#6b3a24 0 1.5px,transparent 2px) 0 0/12px 12px,radial-gradient(ellipse at 50% 120%,#d9781e,#5a2412 50%,#1d0e09)}
+.ic.winnow{background:repeating-linear-gradient(115deg,#3a1c10 0 6px,#6b3a24 6px 9px,#2a1610 9px 15px)}
+
+.temper{margin:0 56px;border-radius:30px;border:1px solid var(--line);padding:56px 56px 40px;position:relative;overflow:hidden;background:linear-gradient(180deg,#1f0f09,#150905)}
+.temper .hd{display:grid;grid-template-columns:1fr 440px 260px;gap:50px;margin-bottom:30px;align-items:end}
+.temper h2{font-size:76px;margin-top:18px}
+.temper .hd p{color:var(--dim);align-self:end}
+.temper .chart{position:relative;height:420px}
+.temper .chart svg{position:absolute;inset:0;overflow:visible}
+.temper .legend{display:flex;gap:30px;margin-top:22px;font-size:12px;color:var(--dim)}
+.temper .legend span{display:flex;gap:10px;align-items:center}
+.temper .legend i{width:24px;height:3px;border-radius:2px}
+.temper .read{text-align:right}
+.temper .read b{display:block;font:400 96px/1 var(--disp)}
+.temper .read span{font:700 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+
+.gallery{display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:330px 330px;gap:18px;padding:130px 56px 60px}
+.gallery figure{position:relative;border-radius:24px;overflow:hidden;border:1px solid var(--line)}
+.gallery figure:first-child{grid-row:span 2}
+.gallery img{width:100%;height:100%;object-fit:cover}
+.gallery figcaption{position:absolute;left:20px;bottom:18px;right:20px;z-index:2;font:400 22px/1.15 var(--serif)}
+.gallery figcaption small{display:block;font:700 9px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.gallery figure::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(21,9,5,.85))}
+.gallery .quote{grid-column:span 2;border-radius:24px;padding:44px 48px;background:linear-gradient(130deg,#6b3a24,#2a1610);border:1px solid rgba(200,161,90,.3);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.gallery .quote q{font:400 40px/1.15 var(--serif);quotes:none;position:relative}
+.gallery .quote .who{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--dim);position:relative}
+.gallery .quote .who b{color:var(--cream);font:400 20px/1.2 var(--serif);display:block}
+.gallery .quote::before{content:"“";position:absolute;right:30px;top:-60px;font:400 340px/1 var(--disp);color:rgba(200,161,90,.16)}
+
+.visit{margin:70px 56px 130px;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.visit div{padding:40px 28px 40px 0}
+.visit div+div{padding-left:28px;border-left:1px solid var(--line)}
+.visit b{display:block;font:400 64px/1 var(--disp)}
+.visit span{font-size:13px;color:var(--dim)}
+.visit .cta{display:flex;flex-direction:column;justify-content:center;gap:12px}
+.visit .cta h4{font:400 30px/1.1 var(--serif)}
+</style></head>
+<body>
+<div class="ann"><span>Tempered fresh every Tuesday</span><i></i><span>Cold-chain delivery across the EU</span><i></i><span>Free shipping over €60</span></div>
+<nav class="nav">
+  <div class="links"><a href="home.html">Home</a><a href="shop.html">Bars</a><a href="box-builder.html">Pralines</a><a class="on" href="craft.html">The Craft</a><a href="gifting.html">Gifting</a></div>
+  <a class="logo" href="home.html"><span class="seal">N</span><span><b>MAISON CACAO NOIR</b><small>BRUXELLES · MMIX</small></span></a>
+  <div class="act"><span>Search</span><span>Account</span><a class="bagbtn" href="gifting.html">Bag <em>3</em></a></div>
+</nav>
+
+<section class="hero">
+  <div class="word">CACAO</div>
+  <canvas class="gl" id="pod3d" width="1440" height="1000"></canvas>
+  <div class="copy">
+    <div class="eyebrow">The craft · Bean to bar</div>
+    <h1>From pod<br>to <span class="foil">snap.</span></h1>
+    <p>Seven steps, five weeks and seventy-two hours of stone grinding. Here is everything that happens between a ripe pod in Los Ríos and the square melting on your tongue.</p>
+  </div>
+  <div class="spec glass s1"><small>The pod</small><b>Nacional cultivar</b><span>Ripe at 5–6 months · 30 to 40 beans each</span></div>
+  <div class="spec glass s2"><small>The pulp</small><b>Sweet, white, lychee-like</b><span>It feeds a 6-day ferment in banana-leaf boxes</span></div>
+  <div class="spec glass s3"><small>The bean</small><b>Purple at heart</b><span>Turns brown as it ferments and dries</span></div>
+  <div class="bottom"><span><b>01</b> / 07 · Harvest</span><span>Scroll to follow one bean</span><span>Los Ríos → Bruxelles · <b>9,840 km</b></span></div>
+</section>
+
+<section class="steps">
+  <div class="hd"><div><div class="eyebrow">( Seven steps )</div><h2>One bean, <span class="foil">five weeks.</span></h2></div><p>We follow every lot from the farm's fermentation boxes to our tempering table — and print each date inside the wrapper.</p></div>
+  <div class="track">
+    <div class="line"><i></i><em></em></div>
+    <div class="row">
+      <div class="st done"><span class="n">1</span><div class="ic"><img src="https://images.unsplash.com/photo-1781453640762-560b2a6537d2?auto=format&fit=crop&q=82&w=500" alt="Ripe pod on the tree"></div><h4>Harvest</h4><div class="m">DAY 0 · BY MACHETE</div><p>Only fully ripe pods, cut by hand and opened the same day.</p></div>
+      <div class="st done"><span class="n">2</span><div class="ic"><img src="https://images.unsplash.com/photo-1545567725-ab9b17093edc?auto=format&fit=crop&q=82&w=500" alt="Pod cut open showing pulp"></div><h4>Ferment</h4><div class="m">6 DAYS · 48 °C</div><p>Pulp and beans rest under banana leaves; flavour is born here.</p></div>
+      <div class="st done"><span class="n">3</span><div class="ic"><img src="https://images.unsplash.com/photo-1602101025912-f4a36c505e28?auto=format&fit=crop&q=82&w=500" alt="Dried cacao pods"></div><h4>Dry</h4><div class="m">10 DAYS · SUN</div><p>Turned every hour on raised beds until 7% moisture.</p></div>
+      <div class="st done"><span class="n">4</span><div class="ic roast"></div><h4>Roast</h4><div class="m">118 °C · 24 MIN</div><p>A low, slow roast in Brussels to keep the florals.</p></div>
+      <div class="st done"><span class="n">5</span><div class="ic winnow"></div><h4>Winnow</h4><div class="m">SHELL OFF · NIBS</div><p>Shells crack away, leaving pure roasted nibs.</p></div>
+      <div class="st now"><span class="n">6</span><div class="ic conche"><span class="live">LIVE</span></div><h4>Conche</h4><div class="m">72 HOURS · GRANITE</div><p>Stone wheels grind nibs and sugar to 18 microns.</p></div>
+      <div class="st"><span class="n">7</span><div class="ic tmp"><svg viewBox="0 0 160 150" preserveAspectRatio="none"><path d="M0 30 C40 30 50 120 80 118 S110 80 160 82" fill="none" stroke="#c8a15a" stroke-width="2.5"/><circle cx="160" cy="82" r="4" fill="#fff3cf"/></svg></div><h4>Temper</h4><div class="m">50 → 27 → 31.5 °C</div><p>The crystal dance that gives the gloss and the snap.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="temper">
+    <div class="hd"><div><div class="eyebrow">( Step 7 · Tempering curve )</div><h2>Why it <span class="foil">snaps.</span></h2></div><p>Melt to 50 °C to erase every crystal, cool to 27 °C on marble to seed new ones, then warm to 31.5 °C so only stable form V crystals survive. Miss by one degree and the bar turns dull and soft.</p><div class="read"><b class="cr">31.5°</b><span>Working temperature · form V</span></div></div>
+  <div class="chart"><svg viewBox="0 0 1328 420" id="tchart"></svg></div>
+  <div class="legend"><span><i style="background:linear-gradient(90deg,#d9781e,#c8a15a)"></i>Chocolate temperature</span><span><i style="background:rgba(214,58,99,.8)"></i>Melt zone</span><span><i style="background:rgba(168,191,94,.8)"></i>Form V window · 31–32 °C</span></div>
+</section>
+
+<section class="gallery">
+  <figure><img src="https://images.unsplash.com/photo-1730766450751-070098b86214?auto=format&fit=crop&q=82&w=900" alt="Freshly harvested cacao pods"><figcaption><small>Los Ríos · Ecuador</small>Red, gold and green — colour tells us nothing about ripeness. The sound does.</figcaption></figure>
+  <figure><img src="https://images.unsplash.com/photo-1493925410384-84f842e616fb?auto=format&fit=crop&q=82&w=700" alt="Hands holding roasted beans"><figcaption><small>Bruxelles</small>Sorted by hand, bean by bean</figcaption></figure>
+  <figure><img src="https://images.unsplash.com/photo-1665597681049-39532eed2661?auto=format&fit=crop&q=82&w=700" alt="Cacao pods growing on the trunk"><figcaption><small>Sambirano · Madagascar</small>Pods grow straight from the trunk</figcaption></figure>
+  <div class="quote"><q>We don't add flavour. We spend five weeks trying not to lose the flavour the farmer already grew.</q><div class="who"><div><b>Élodie Vermeiren</b>Founder & head chocolatier</div><a class="btn ghost" style="height:48px" href="product.html">Taste the result</a></div></div>
+</section>
+
+<section class="visit">
+  <div><b class="cr">41</b><span>Makers in our Brussels atelier</span></div>
+  <div><b class="cr">3.2 t</b><span>Beans roasted each month</span></div>
+  <div><b class="cr">18 µm</b><span>Particle size after conching</span></div>
+  <div class="cta"><h4>Visit the atelier</h4><span>Saturday tastings, 10:00 & 15:00 · €25</span><a class="btn gold" style="height:50px;align-self:flex-start" href="gifting.html">Book a tasting <span class="ar">→</span></a></div>
+</section>
+
+<footer class="foot">
+  <div class="big"><span class="foil">Cacao</span> <span class="gloss">Noir.</span></div>
+  <div class="grid">
+    <div><a class="logo" style="justify-self:start"><span class="seal">N</span><span><b>MAISON CACAO NOIR</b><small>BRUXELLES · MMIX</small></span></a><p class="dim" style="margin-top:22px;font-size:14px;max-width:280px">Bean-to-bar chocolate, made slowly from six single origins in our Brussels atelier.</p></div>
+    <div><h5>Shop</h5><ul><li>Single-origin bars</li><li>Praline coffrets</li><li>Tasting flights</li><li>Gift cards</li></ul></div>
+    <div><h5>House</h5><ul><li>The craft</li><li>Our farms</li><li>Atelier visits</li><li>Journal</li></ul></div>
+    <div><h5>Help</h5><ul><li>Cold-chain shipping</li><li>Storage & bloom</li><li>Allergens</li><li>Contact</li></ul></div>
+    <div><h5>Tasting letter</h5><p class="dim" style="font-size:14px">New harvests, atelier evenings, no spam.</p><div class="news"><span>your@email.com</span><b>Subscribe →</b></div></div>
+  </div>
+  <div class="legal"><span>© 2026 Maison Cacao Noir — a concept brand</span><span><a>Privacy</a><a>Terms</a><a>Cookies</a></span><span>Visa · Mastercard · Bancontact · Apple Pay</span></div>
+</footer>
+
+<script>
+(function(){
+  const W=1328,H=420,svg=document.getElementById('tchart');
+  const x=t=>60+t/60*(W-90), y=T=>H-30-(T-20)/35*(H-60); // t in minutes 0..60, T 20..55
+  let s='<defs><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#d63a63"/><stop offset=".35" stop-color="#d9781e"/><stop offset=".7" stop-color="#c8a15a"/><stop offset="1" stop-color="#fff3cf"/></linearGradient><linearGradient id="ta" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8a15a" stop-opacity=".28"/><stop offset="1" stop-color="#c8a15a" stop-opacity="0"/></linearGradient><filter id="glo"><feGaussianBlur stdDeviation="5"/></filter></defs>';
+  for(let T=20;T<=55;T+=5){s+=`<line x1="60" x2="${W-30}" y1="${y(T)}" y2="${y(T)}" stroke="rgba(243,230,211,.07)"/><text x="40" y="${y(T)+4}" text-anchor="end" font-family="Manrope" font-size="11" fill="rgba(243,230,211,.4)">${T}°</text>`;}
+  for(let t=0;t<=60;t+=10)s+=`<text x="${x(t)}" y="${H-6}" text-anchor="middle" font-family="Manrope" font-size="11" fill="rgba(243,230,211,.4)">${t} min</text>`;
+  s+=`<rect x="60" y="${y(55)}" width="${x(14)-60}" height="${y(45)-y(55)}" fill="rgba(214,58,99,.12)"/><rect x="60" y="${y(32)}" width="${W-90}" height="${y(31)-y(32)}" fill="rgba(168,191,94,.18)"/>`;
+  const pts=[[0,50],[6,50.5],[12,49],[18,42],[24,33],[28,28.5],[31,27.2],[34,27],[37,28.6],[41,30.6],[45,31.4],[50,31.5],[60,31.5]];
+  let d=`M${x(pts[0][0])},${y(pts[0][1])}`;for(let i=1;i<pts.length;i++){const[a,b]=pts[i-1],[c,e]=pts[i],mx=(x(a)+x(c))/2;d+=` C${mx},${y(b)} ${mx},${y(e)} ${x(c)},${y(e)}`;}
+  s+=`<path d="${d} L${x(60)},${H-30} L60,${H-30}Z" fill="url(#ta)"/><path d="${d}" fill="none" stroke="url(#tg)" stroke-width="10" opacity=".45" filter="url(#glo)"/><path d="${d}" fill="none" stroke="url(#tg)" stroke-width="3.5"/>`;
+  const marks=[[3,50,'Melt · 50 °C','All crystals erased'],[34,27,'Seed · 27 °C','On the marble table'],[50,31.5,'Work · 31.5 °C','Form V only']];
+  marks.forEach(([t,T,a,b],i)=>{const X=x(t),Y=y(T);s+=`<circle cx="${X}" cy="${Y}" r="${i==2?9:6}" fill="${i==2?'#fff3cf':'#1d0e09'}" stroke="#c8a15a" stroke-width="2"/>`+(i==2?`<circle cx="${X}" cy="${Y}" r="20" fill="none" stroke="rgba(200,161,90,.5)"/>`:'')+`<line x1="${X}" x2="${X}" y1="${Y+(i==0?14:-14)}" y2="${Y+(i==0?60:-64)}" stroke="rgba(200,161,90,.5)" stroke-dasharray="3 4"/><text x="${X+(i==0?0:0)}" y="${Y+(i==0?84:-92)}" text-anchor="${i==0?'start':'middle'}" font-family="Gilda Display" font-size="24" fill="#f3e6d3">${a}</text><text x="${X}" y="${Y+(i==0?104:-72)}" text-anchor="${i==0?'start':'middle'}" font-family="Manrope" font-size="12" fill="rgba(243,230,211,.55)">${b}</text>`;});
+  svg.innerHTML=s;
+})();
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+await document.fonts.ready;
+const C = CACAO3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+C.pod(document.getElementById('pod3d'));
+</script>
+</body></html>

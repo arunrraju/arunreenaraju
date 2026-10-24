@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>SAHRA — Desert Sanctuary</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;500;600&family=Unbounded:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sahra.css">
+<script src="sahra3d.js"></script>
+<style>
+.hero{height:1000px;background:#f2b57c}
+.hero .fade{position:absolute;left:0;right:0;bottom:0;height:300px;z-index:4;background:linear-gradient(180deg,transparent,rgba(30,14,10,.55) 55%,var(--ink));pointer-events:none}
+.hero .fadeT{position:absolute;left:0;right:0;top:0;height:200px;z-index:4;background:linear-gradient(180deg,rgba(40,20,20,.35),transparent);pointer-events:none}
+.hero .copy{position:absolute;left:72px;top:500px;z-index:6;width:820px}
+.hero .copy h1{font:400 74px/1 var(--disp);letter-spacing:.01em;margin:22px 0 24px;text-shadow:0 10px 50px rgba(60,20,0,.35)}
+.hero .copy h1 em{font-style:normal;color:#ffe2b2}
+.hero .copy p{font-size:17px;color:rgba(248,241,231,.84);max-width:500px}
+.sunCard{position:absolute;right:72px;top:126px;z-index:6;width:300px;border-radius:22px;padding:22px 24px}
+.sunCard .t{display:flex;justify-content:space-between;align-items:baseline}
+.sunCard .t .num{font-size:40px}
+.arc{position:relative;height:92px;margin:14px 0 10px}
+.arc svg{position:absolute;inset:0}
+.sunCard dl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:11px;color:var(--dim);letter-spacing:.06em}
+.sunCard dt{font:400 15px/1.2 var(--num);color:var(--white);letter-spacing:0}
+.bookbar{position:absolute;left:72px;right:72px;bottom:44px;z-index:7;height:92px;border-radius:26px;display:grid;grid-template-columns:1fr 1fr 1fr 1.25fr 1.2fr auto;align-items:center;padding:0 14px 0 34px}
+.bookbar .f{padding:0 24px;border-right:1px solid rgba(255,240,220,.18);height:50px;display:flex;flex-direction:column;justify-content:center}
+.bookbar .f:first-child{padding-left:0}
+.bookbar .f span{font:500 10px/1 var(--ui);letter-spacing:.28em;text-transform:uppercase;color:rgba(248,241,231,.6);margin-bottom:9px}
+.bookbar .f b{font:400 19px/1 var(--disp);letter-spacing:.04em}
+.bookbar .moon{display:flex;align-items:center;gap:12px;border-right:0}
+.moonI{width:34px;height:34px;border-radius:50%;background:#1b1f45;position:relative;overflow:hidden;box-shadow:0 0 18px rgba(200,210,255,.35)}
+.moonI::after{content:"";position:absolute;inset:0;border-radius:50%;background:#f3eee2;transform:translateX(74%)}
+.hero .cursor{left:330px;top:420px}
+.scrollcue{position:absolute;right:40px;top:470px;z-index:6;writing-mode:vertical-rl;font:500 10px/1 var(--ui);letter-spacing:.4em;text-transform:uppercase;color:rgba(248,241,231,.8);display:flex;align-items:center;gap:16px}
+.scrollcue i{display:block;width:1px;height:110px;background:rgba(255,255,255,.25);position:relative;overflow:hidden}
+.scrollcue i::after{content:"";position:absolute;left:0;top:0;width:1px;height:40%;background:#ffe2b2;animation:drip 2.4s ease-in-out infinite}
+@keyframes drip{from{transform:translateY(-100%)}to{transform:translateY(260%)}}
+.domeTag{transform:translate(-14px,-50%)}
+.domeTag .ln{position:absolute;right:100%;top:50%;width:70px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,236,210,.9))}
+
+/* statement */
+.state{padding:150px 0 120px;position:relative}
+.state .big{font:400 78px/1.08 var(--disp);letter-spacing:.005em;margin:40px 0 90px;max-width:1260px}
+.state .big .f{color:rgba(248,241,231,.22)}
+.state .big .pill-img{width:170px;height:62px;vertical-align:-6px}
+
+/* wipe */
+.wipe{position:relative;height:680px;border-radius:28px;overflow:hidden;margin-bottom:150px}
+.wipe .a,.wipe .b{position:absolute;inset:0;background-size:cover;background-position:center}
+.wipe .b{clip-path:inset(0 0 0 56%)}
+.wipe .bar{position:absolute;top:0;bottom:0;left:56%;width:2px;background:linear-gradient(180deg,#ffe2b2,#fff,#a9b4ff);box-shadow:0 0 30px rgba(255,220,170,.9)}
+.wipe .knob{position:absolute;left:56%;top:50%;width:112px;height:112px;margin:-56px 0 0 -56px;border-radius:50%;display:grid;place-items:center;text-align:center;font:500 10px/1.5 var(--ui);letter-spacing:.24em;text-transform:uppercase}
+.wipe .knob b{display:block;font:300 18px/1 var(--num);letter-spacing:0}
+.wipe .lab{position:absolute;bottom:40px;z-index:3}
+.wipe .lab .h3{font-size:54px}
+.wipe .ghost{position:absolute;left:56%;top:0;bottom:0;width:80px;background:linear-gradient(90deg,rgba(255,226,178,.35),transparent);filter:blur(6px);margin-left:-80px}
+
+/* night stage */
+.nightS{height:1060px;background:#0e1230}
+.nightS .head{position:absolute;left:72px;top:120px;z-index:6}
+.nightS .head .h1{font-size:128px;margin-top:26px}
+.tonight{position:absolute;right:72px;top:130px;width:330px;border-radius:24px;padding:26px;z-index:6}
+.tonight h4{font:400 26px/1.1 var(--disp);margin:10px 0 18px}
+.tonight .row{display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(217,198,255,.14);font-size:13px;color:var(--dim)}
+.tonight .row b{font:300 14px/1.2 var(--num);color:var(--white)}
+.meter{height:4px;border-radius:4px;background:rgba(255,255,255,.12);margin-top:6px;overflow:hidden}
+.meter i{display:block;height:100%;width:92%;background:linear-gradient(90deg,#a9b4ff,#f1e8ff)}
+.timeline{position:absolute;left:72px;right:72px;bottom:56px;z-index:6;height:118px;border-radius:24px;padding:24px 34px}
+.timeline .trk{position:relative;height:4px;border-radius:4px;margin:36px 0 0;background:linear-gradient(90deg,#ffcf8a,#ff8a4d 20%,#9a5a9a 34%,#3a2a4f 48%,#1a2160 70%,#3a2a4f 88%,#ffcf8a)}
+.timeline .pt{position:absolute;top:-34px;transform:translateX(-50%);text-align:center;font-size:11px;color:var(--dim);letter-spacing:.06em;white-space:nowrap}
+.timeline .pt b{display:block;font:300 13px/1 var(--num);color:var(--white);margin-bottom:5px}
+.timeline .pt::after{content:"";position:absolute;left:50%;top:42px;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:#fff;opacity:.6}
+.timeline .kn{position:absolute;top:50%;left:64%;width:26px;height:26px;margin:-13px;border-radius:50%;background:radial-gradient(circle at 60% 40%,#fff,#d9e0ff 50%,#8f9bd8);box-shadow:0 0 0 6px rgba(217,224,255,.15),0 0 30px #a9b8ff}
+.timeline .kn::after{content:"22:14 · NOW";position:absolute;top:30px;left:50%;transform:translateX(-50%);font:600 10px/1 var(--ui);letter-spacing:.2em;color:#d9e0ff;white-space:nowrap}
+.nightTag .ln{position:absolute;left:50%;top:100%;width:1px;height:60px;background:linear-gradient(180deg,rgba(255,236,210,.9),transparent)}
+
+/* suites */
+.suitesS{padding:150px 0 140px;background:linear-gradient(180deg,var(--ink),#0d0c26)}
+.suitesS .top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px}
+.cards{display:grid;grid-template-columns:1fr 1.45fr 1fr 1fr;gap:18px;height:600px}
+.card{position:relative;border-radius:24px;overflow:hidden;background-size:cover;background-position:center}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,8,24,.05) 30%,rgba(7,8,24,.88))}
+.card .in{position:absolute;left:26px;right:26px;bottom:26px;z-index:2}
+.card .n{font:300 12px/1 var(--num);color:var(--sand2)}
+.card h3{font:400 34px/1 var(--disp);margin:14px 0 10px}
+.card p{font-size:13px;color:var(--dim)}
+.card .pr{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,240,220,.2);font-size:12px;color:var(--dim);letter-spacing:.06em}
+.card .pr b{font:300 22px/1 var(--num);color:var(--white)}
+.card.open{box-shadow:0 40px 90px rgba(201,138,75,.25),0 0 0 1px rgba(255,226,178,.4)}
+.card.open h3{font-size:48px}
+.card.open ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin:16px 0 4px;font-size:13px;color:rgba(248,241,231,.82)}
+.card.open li::before{content:"✦ ";color:var(--sand2);font-size:10px}
+.card .go{position:absolute;top:22px;right:22px;z-index:3;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:20px}
+.card .avail{position:absolute;top:24px;left:24px;z-index:3;font:500 10px/1 var(--ui);letter-spacing:.2em;text-transform:uppercase;padding:9px 12px;border-radius:30px}
+.card .avail i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#7dffb0;margin-right:8px;box-shadow:0 0 8px #7dffb0;animation:blink 1.6s infinite}
+
+/* bento */
+.bento{padding:140px 0 150px}
+.bento .grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:330px 330px;gap:18px;margin-top:60px}
+.tile{position:relative;border-radius:24px;overflow:hidden;background-size:cover;background-position:center}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(7,8,24,.85))}
+.tile .in{position:absolute;left:28px;bottom:26px;right:28px;z-index:2}
+.tile h4{font:400 32px/1.05 var(--disp)}
+.tile p{font-size:13px;color:var(--dim);margin-top:8px}
+.tile .when{position:absolute;top:22px;left:22px;z-index:2;padding:8px 14px;border-radius:30px;font:500 10px/1 var(--ui);letter-spacing:.22em;text-transform:uppercase}
+.tile.big{grid-row:span 2}
+.tile.big h4{font-size:56px}
+.tile.txt{background:linear-gradient(160deg,#2a1f44,#120f2c);padding:34px;display:flex;flex-direction:column;justify-content:space-between}
+.tile.txt::after{display:none}
+.sched li{list-style:none;display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--dim)}
+.sched li b{font:300 13px/1.4 var(--num);color:var(--sand2)}
+
+/* quote */
+.quote{padding:140px 0;text-align:center;position:relative;overflow:hidden;background:radial-gradient(900px 420px at 50% 45%,rgba(91,66,119,.42),transparent 70%)}
+.quote blockquote{font:400 58px/1.12 var(--disp);max-width:1120px;margin:34px auto 34px}
+.quote .who{font-size:14px;color:var(--dim);letter-spacing:.06em}
+.press{display:flex;white-space:nowrap;align-items:center;justify-content:center;gap:60px;margin-top:80px;font:400 24px/1 var(--disp);letter-spacing:.3em;color:rgba(248,241,231,.42)}
+.press span:nth-child(2){font:300 18px/1 var(--num);letter-spacing:.1em}
+.press span:nth-child(4){font:600 15px/1 var(--ui);letter-spacing:.45em}
+.stars5{color:var(--sand2);letter-spacing:.4em;font-size:14px}
+</style></head>
+<body>
+<section class="stage hero" id="h">
+  <canvas id="c1"></canvas>
+  <header data-nav="home"></header>
+  <div class="fadeT"></div><div class="fade"></div>
+  <div class="anchor domeTag" id="a1"><div class="tag glass"><span class="ln"></span><span class="dot pulse"></span><span><b>Dune Dome 07</b><small>64 m² · plunge pool · from €1,200</small></span></div></div>
+  <div class="copy">
+    <div class="eyebrow" style="color:#ffe2b2">Desert Sanctuary · Erg al-Sahra, Oman</div>
+    <h1>Thirty glass domes.<br>One <em>unbroken</em> sky.</h1>
+    <p>A private reserve of moving sand at the edge of the Empty Quarter, where the day is gold, the night is violet, and the only light pollution is your own lamp.</p>
+  </div>
+  <div class="sunCard glass">
+    <div class="t"><span class="eyebrow" style="color:#fff3dc">Golden hour</span><span class="num">17:42</span></div>
+    <div class="arc"><svg viewBox="0 0 252 92"><defs><linearGradient id="ag" x1="0" x2="1"><stop stop-color="#ffe2b2"/><stop offset=".7" stop-color="#ff9a4d"/><stop offset="1" stop-color="#3a2a4f"/></linearGradient></defs><path d="M6 86 Q126 -40 246 86" stroke="rgba(255,255,255,.25)" stroke-dasharray="3 5" fill="none"/><path d="M6 86 Q126 -40 210 52" stroke="url(#ag)" stroke-width="2" fill="none"/><line x1="0" y1="86" x2="252" y2="86" stroke="rgba(255,255,255,.3)"/><circle cx="210" cy="52" r="7" fill="#fff3dc"/><circle cx="210" cy="52" r="16" fill="#ffb45e" opacity=".35"/></svg></div>
+    <dl><div><dt>31°</dt>air</div><div><dt>18 min</dt>to sunset</div><div><dt>9 km/h</dt>wind NW</div></dl>
+  </div>
+  <div class="cursor"><i></i><b>Drag<br>the dunes</b></div>
+  <div class="scrollcue">Scroll to nightfall <i></i></div>
+  <div class="bookbar glass">
+    <div class="f"><span>Arrive</span><b>Fri 14 Nov</b></div>
+    <div class="f"><span>Depart</span><b>Mon 17 Nov</b></div>
+    <div class="f"><span>Guests</span><b>2 adults</b></div>
+    <div class="f"><span>Suite</span><b>Crest Observatory</b></div>
+    <div class="f moon"><span class="moonI"></span><div><span style="display:block;font:500 10px/1 var(--ui);letter-spacing:.28em;text-transform:uppercase;color:rgba(248,241,231,.6);margin-bottom:8px">Moon</span><b style="font:400 15px/1.1 var(--disp)">Crescent · 18%</b></div></div>
+    <a class="btn" href="booking.html">Check the sky <span class="ar">→</span></a>
+  </div>
+</section>
+
+<section class="state">
+  <div class="wrap">
+    <div class="chap"><b>01</b>The Sanctuary</div>
+    <p class="big">We built nothing taller than the dunes <span class="pill-img" style="background-image:url(https://images.unsplash.com/photo-1613451411906-8a16ffd17cc8?auto=format&fit=crop&q=82&w=400)"></span> and nothing between you <span class="pill-img" style="background-image:url(https://images.unsplash.com/photo-1507917570388-d661984ea008?auto=format&fit=crop&q=82&w=400)"></span> <span class="f">and the stars. Thirty suites, set four hundred metres apart, so the only neighbour you’ll notice is Orion.</span></p>
+    <div class="stats">
+      <div><span class="num gold">30</span><small>glass-domed suites, adults only</small></div>
+      <div><span class="num">412<span style="font-size:24px"> km²</span></span><small>private reserve of living dunes</small></div>
+      <div><span class="num">Bortle 1</span><small>the darkest sky class on the scale</small></div>
+      <div><span class="num">4,500+</span><small>stars visible on a moonless night</small></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="wipe">
+    <div class="a" style="background-image:url(https://images.unsplash.com/photo-1611522135886-a632d94ff6ae?auto=format&fit=crop&q=82&w=1600)"></div>
+    <div class="b" style="background-image:url(https://images.unsplash.com/photo-1568405336404-1fefdca58699?auto=format&fit=crop&q=82&w=1600)"></div>
+    <div class="ghost"></div><div class="bar"></div>
+    <div class="knob glass"><div>Drag<b>17:42 ⟷ 22:14</b></div></div>
+    <div class="lab" style="left:44px"><div class="eyebrow" style="color:#fff3dc">Same erg · 17:42</div><div class="h3" style="margin-top:12px">The gold hour</div></div>
+    <div class="lab" style="right:44px;text-align:right"><div class="eyebrow" style="color:#d9e0ff">Same erg · 22:14</div><div class="h3 night-ink" style="margin-top:12px">The violet hour</div></div>
+    <div class="eyebrow glass dark" style="position:absolute;left:44px;top:40px;color:#fff3dc;padding:12px 18px;border-radius:30px">( 02 ) Same dune, twelve hours apart</div>
+  </div>
+</div>
+
+<section class="stage nightS" id="n">
+  <canvas id="c2"></canvas>
+  <div class="head"><div class="chap"><b>03</b>Nightfall</div><h2 class="h1">At 19:06<br>the roof<br><span class="night-ink">becomes the sky.</span></h2></div>
+  <div class="anchor" id="a2"><div class="tag glass dark" style="position:relative;transform:translate(-56%,40px)"><span class="dot pulse"></span><span><b>Crest Observatory 03</b><small>lit from within · oculus open</small></span></div></div>
+  <div class="tonight glass dark">
+    <div class="eyebrow" style="color:#d9e0ff">Tonight over Sahra</div>
+    <h4>A near-perfect sky</h4>
+    <div class="row">Moonset<b>21:48</b></div>
+    <div class="row">Milky Way core<b>22:10 – 02:30</b></div>
+    <div class="row">Air · humidity<b>14° · 18%</b></div>
+    <div class="row" style="display:block">Seeing<b style="float:right">4.6 / 5</b><div class="meter"><i></i></div></div>
+  </div>
+  <div class="timeline glass dark">
+    <div class="trk">
+      <div class="pt" style="left:0%;transform:none;text-align:left"><b>17:42</b>Golden hour</div>
+      <div class="pt" style="left:16%"><b>18:31</b>Sunset</div>
+      <div class="pt" style="left:30%"><b>18:58</b>Blue hour</div>
+      <div class="pt" style="left:44%"><b>19:40</b>First stars</div>
+      <div class="pt" style="left:80%"><b>02:30</b>Core sets</div>
+      <div class="pt" style="left:100%;transform:translateX(-100%);text-align:right"><b>05:31</b>First light</div>
+      <div class="kn"></div>
+    </div>
+  </div>
+</section>
+
+<div class="marq"><div class="tr"><span>Dune dinners</span><span>Private astronomer</span><span>Sand &amp; salt hammam</span><span>Falconry at dawn</span><span>Camel caravan</span><span>Sandboarding the crest</span></div></div>
+
+<section class="suitesS">
+  <div class="wrap">
+    <div class="top"><div><div class="chap"><b>04</b>The suites</div><h2 class="h2" style="margin-top:28px">Four ways to sleep<br><span class="gold">under the sky.</span></h2></div><div style="text-align:right"><p class="lead" style="margin-left:auto">Every dome is hand-blown low-iron glass with a bronze geodesic frame, cooled by the sand it stands on.</p><a class="btn ghost" href="suites.html" style="margin-top:26px">See the reserve map <span class="ar">→</span></a></div></div>
+    <div class="cards">
+      <a class="card" href="suites.html" style="background-image:url(https://images.unsplash.com/photo-1573925662400-8c3142d16905?auto=format&fit=crop&q=82&w=700)"><span class="avail glass"><i></i>6 free in Nov</span><div class="in"><span class="n">18 suites · 64 m²</span><h3>Dune Dome</h3><p>Low on the leeward slope, a private plunge pool and a bed that faces the sunset.</p><div class="pr">from<b>€1,200</b></div></div></a>
+      <a class="card open" href="suite.html" style="background-image:url(https://images.unsplash.com/photo-1507917570388-d661984ea008?auto=format&fit=crop&q=82&w=1000)"><span class="avail glass"><i></i>2 nights left · Nov</span><span class="go glass">↗</span><div class="in"><span class="n">4 suites · 120 m² · the highest ridges</span><h3>Crest Observatory</h3><p>A rotating oculus in the glass, a 14-inch telescope on the deck, and an astronomer on call until dawn.</p><ul><li>Opening sky oculus</li><li>Heated saltwater pool</li><li>Night butler 19:00–07:00</li><li>Stargazing daybed</li></ul><div class="pr">per night from<b>€3,800</b></div></div></a>
+      <a class="card" href="suites.html" style="background-image:url(https://images.unsplash.com/photo-1655684346560-55cc62b2c9c0?auto=format&fit=crop&q=82&w=700)"><span class="avail glass"><i></i>3 free in Nov</span><div class="in"><span class="n">7 suites · 88 m²</span><h3>Oasis Dome</h3><p>Under the date palms of the spring, with an infinity pool that ends in sand.</p><div class="pr">from<b>€2,100</b></div></div></a>
+      <a class="card" href="suites.html" style="background-image:url(https://images.unsplash.com/photo-1688988816492-f71727a11149?auto=format&fit=crop&q=82&w=700)"><span class="avail glass"><i></i>Booked to Jan</span><div class="in"><span class="n">1 residence · 340 m²</span><h3>The Pavilion</h3><p>Three linked domes, a private chef and your own caravan of six camels.</p><div class="pr">from<b>€6,500</b></div></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="bento">
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="chap"><b>05</b>Experiences</div><h2 class="h2" style="margin-top:28px">Days of sand,<br><span class="night-ink">nights of light.</span></h2></div><a class="btn ghost" href="experiences.html">All experiences <span class="ar">→</span></a></div>
+    <div class="grid">
+      <div class="tile big" style="background-image:url(https://images.unsplash.com/photo-1489493173507-6feea31f12ff?auto=format&fit=crop&q=82&w=900)"><span class="when glass dark">Nightly · 21:30</span><div class="in"><div class="eyebrow" style="color:#d9e0ff">With Dr. Idris Al-Harthy</div><h4 style="margin-top:14px">The Night Sky<br>Programme</h4><p>Saturn’s rings through a 20-inch Dobsonian, then the Milky Way by naked eye, wrapped in camel wool.</p></div></div>
+      <div class="tile" style="background-image:url(https://images.unsplash.com/photo-1603122747359-ec6e6bd89c7c?auto=format&fit=crop&q=82&w=700)"><span class="when glass">Sunset · €480 for two</span><div class="in"><h4>Dune dinners</h4><p>Seven courses on a carpet laid on a crest, by lantern light.</p></div></div>
+      <div class="tile" style="background-image:url(https://images.unsplash.com/photo-1655684346581-d7ce9f2e4ea0?auto=format&fit=crop&q=82&w=700)"><span class="when glass">Daily · 08:00–20:00</span><div class="in"><h4>Sand &amp; Salt Spa</h4><p>Warm-sand hammam, frankincense oil, a pool that pours into the desert.</p></div></div>
+      <div class="tile" style="background-image:url(https://images.unsplash.com/photo-1597656303066-85eb659aeb29?auto=format&fit=crop&q=82&w=700)"><span class="when glass">Dawn · 05:40</span><div class="in"><h4>Caravan to the spring</h4><p>Ride out with the Bedu who have crossed this erg for six generations.</p></div></div>
+      <div class="tile txt"><div><div class="eyebrow">A day at Sahra</div><h4 style="margin-top:14px;font:400 30px/1.1 var(--disp)">Live by the sun.<br>Sleep by the stars.</h4></div><ul class="sched"><li><b>05:40</b>Falconry at first light</li><li><b>13:00</b>Siesta in the cool dome</li><li><b>17:42</b>Sundowner on the crest</li><li><b>21:30</b>Saturn, then Andromeda</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="quote">
+  <div class="wrap">
+    <div class="stars5">★★★★★</div>
+    <blockquote>“We switched off the lamp at midnight and the dome simply <span class="night-ink">disappeared</span>. Just the bed, the sand and more stars than black.”</blockquote>
+    <div class="who">Mireille &amp; Arnaud D. · Lyon · Crest Observatory 03 · March 2026</div>
+    <div class="press"><span>THE WANDERER</span><span>atlas quarterly</span><span>Nomad &amp; Co.</span><span>MERIDIAN</span><span>Slow Hours</span></div>
+  </div>
+</section>
+
+<footer data-foot></footer>
+<script src="sahra.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const X = { RoomEnvironment, RoundedBoxGeometry };
+SAHRA3D(THREE, X, document.getElementById('c1'), 'day', { titleX: 4, titleW: 182, anchors: [{ el: document.getElementById('a1'), dome: [4.5, 6.8, 0] }] });
+SAHRA3D(THREE, X, document.getElementById('c2'), 'night', { domeX: 14, camX: -4, lookX: 4, lookY: 8, camH: 6.5, anchors: [{ el: document.getElementById('a2'), dome: [-5.5, 3.5, 0] }] });
+</script>
+</body></html>

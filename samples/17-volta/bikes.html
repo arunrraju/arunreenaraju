@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOLTA — The line-up</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,600;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="volta.css">
+<script src="volta3d.js"></script>
+<style>
+.hero{position:relative;height:980px;overflow:hidden;background:radial-gradient(80% 70% at 50% 75%,#2a2d31 0%,#16171a 50%,#0f1011 85%)}
+.hero .floor{position:absolute;left:0;right:0;top:690px;bottom:0;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent 60%);border-top:1px solid rgba(230,255,0,.25)}
+.hero .floor::before{content:"";position:absolute;inset:0;background-image:linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:90px 100%;transform:perspective(400px) rotateX(60deg);transform-origin:top}
+.hero .ttl{position:absolute;left:0;right:0;top:118px;z-index:1;text-align:center;font-size:330px;white-space:nowrap}
+.hero .ttl .a{color:var(--white)}
+.hero .ttl .b{color:transparent;-webkit-text-stroke:2px var(--volt)}
+.hero canvas{position:absolute;left:0;top:0;z-index:3}
+.hero .meta{position:absolute;left:64px;right:64px;bottom:40px;z-index:5;display:flex;justify-content:space-between;align-items:flex-end}
+.hero .meta p{max-width:430px;color:rgba(244,246,248,.72);font-size:16px}
+.hero .lbl{position:absolute;z-index:5;text-align:center;transform:translateX(-50%)}
+.hero .lbl b{display:block;font:italic 800 34px/1 var(--disp);text-transform:uppercase}
+.hero .lbl span{font:500 11px/1 var(--mono);color:var(--grey);letter-spacing:.12em}
+.hero .lbl.on b{color:var(--volt)}
+.hero .count{display:flex;gap:44px}
+.hero .count b{display:block;font:italic 800 56px/1 var(--disp)}
+.hero .count span{font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--grey)}
+
+.filters{position:relative;z-index:6;margin:0 64px;display:flex;align-items:center;gap:8px;padding:18px 0;border-bottom:1px solid var(--line)}
+.filters .sp{flex:1}
+.filters .sel{height:40px;display:flex;align-items:center;gap:10px;padding:0 16px;font-size:12px;color:var(--grey);border:1px solid var(--line2)}
+.filters .sel b{color:var(--white);font-weight:600}
+.filters .rng{display:flex;align-items:center;gap:14px;font:500 11px/1 var(--mono);color:var(--grey);margin-right:18px}
+.filters .rng .tr{width:170px;height:4px;background:rgba(255,255,255,.12);position:relative}
+.filters .rng .tr i{position:absolute;left:30%;right:0;top:0;bottom:0;background:var(--volt)}
+.filters .rng .tr u{position:absolute;left:30%;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;background:var(--white);border:3px solid var(--volt);transform:rotate(45deg)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:44px 64px 40px}
+.pc{position:relative;background:linear-gradient(180deg,#1b1c1f,#141517);border:1px solid var(--line);padding:24px 26px 26px;overflow:hidden;transition:.3s}
+.pc .top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
+.pc .sw{display:flex;gap:6px}
+.pc .sw i{width:14px;height:14px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.pc .sw i.on{outline:1px solid var(--volt);outline-offset:3px}
+.pc .img{position:relative;height:250px;margin:6px -26px 0}
+.pc .img img{object-fit:contain;position:relative;z-index:2}
+.pc .img .ghost{position:absolute;inset:0;z-index:1;opacity:.25;filter:blur(6px);transform:translateX(-26px)}
+.pc .img .ghost img{object-fit:contain}
+.pc .img::before{content:"";position:absolute;left:12%;right:12%;bottom:22px;height:30px;background:radial-gradient(closest-side,rgba(230,255,0,.18),transparent);z-index:0}
+.pc .num{position:absolute;right:20px;top:46px;font:italic 900 150px/.8 var(--disp);color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.08);z-index:0}
+.pc h3{font:italic 800 50px/.9 var(--disp);text-transform:uppercase;margin-top:4px}
+.pc .sub{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;color:var(--grey);font-size:13px}
+.pc .sub b{font:italic 800 32px/1 var(--disp);color:var(--white)}
+.pc .bars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.pc .bars span{font:500 9px/1 var(--mono);color:var(--grey);letter-spacing:.12em;display:flex;justify-content:space-between}
+.pc .bars span b{color:var(--white);font-weight:500}
+.pc .bars .seg{margin-top:9px}
+.pc .bars .seg i{width:100%;height:7px}
+.pc .cmp{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--grey);margin-top:18px}
+.pc .cmp u{width:16px;height:16px;border:1px solid var(--line2);display:grid;place-items:center}
+.pc .cmp u.on{background:var(--volt);border-color:var(--volt);color:var(--ink)}
+.pc .cmp u .ic{width:12px;height:12px;stroke-width:3}
+/* hover state shown open */
+.pc.hov{border-color:var(--volt);transform:translateY(-12px);box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px var(--volt),0 0 60px rgba(230,255,0,.12)}
+.pc.hov .quick{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:22px 26px 26px;background:rgba(18,19,21,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:2px solid var(--volt);animation:up .6s ease both}
+@keyframes up{from{transform:translateY(40%);opacity:0}}
+.pc .quick .q{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;font-size:12px;color:var(--grey);margin-bottom:18px}
+.pc .quick .q b{color:var(--white);font-weight:600}
+.pc .quick .bt{display:flex;gap:8px}
+.pc .cursor{left:auto;right:40px;top:120px;width:92px;height:92px}
+
+.cmpbar{margin:20px 64px 0;display:grid;grid-template-columns:300px 1fr 1fr 220px;gap:0;background:var(--g1);border-top:2px solid var(--volt);position:relative}
+.cmpbar>div{padding:28px 30px;border-right:1px solid var(--line)}
+.cmpbar h4{font:italic 800 46px/.9 var(--disp);text-transform:uppercase}
+.cmpbar .bk{display:flex;gap:18px;align-items:center}
+.cmpbar .bk img{width:150px;height:92px;object-fit:contain}
+.cmpbar .bk b{display:block;font:italic 800 30px/1 var(--disp);text-transform:uppercase}
+.cmpbar .row{display:grid;grid-template-columns:90px 1fr 60px;gap:12px;align-items:center;margin-top:12px;font:500 10px/1 var(--mono);color:var(--grey);letter-spacing:.1em}
+.cmpbar .row .t{height:5px;background:rgba(255,255,255,.08);position:relative}
+.cmpbar .row .t i{position:absolute;left:0;top:0;bottom:0;background:var(--white)}
+.cmpbar .row .t i.v{background:var(--volt);box-shadow:0 0 10px rgba(230,255,0,.5)}
+.cmpbar .row em{font-style:normal;color:var(--white);text-align:right}
+
+.acc{padding:140px 64px 140px}
+.acc .sh{margin-bottom:56px}
+.acc .row4{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:20px}
+.ac{position:relative;height:440px;background:var(--g1);overflow:hidden;padding:26px}
+.ac .art{position:absolute;inset:0;display:grid;place-items:center}
+.ac .info{position:absolute;left:26px;right:26px;bottom:24px;z-index:2}
+.ac .info b{display:block;font:italic 800 32px/1 var(--disp);text-transform:uppercase}
+.ac .info span{display:flex;justify-content:space-between;color:var(--grey);font-size:13px;margin-top:8px}
+.ac .info span em{font-style:normal;color:var(--white);font-weight:600}
+.ac.ph::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,16,17,.92) 10%,transparent 55%)}
+.ac.ph .tag{position:absolute;left:26px;top:26px;z-index:2}
+</style></head>
+<body>
+<section class="hero">
+  <div class="floor"></div>
+  <div class="speed" data-n="20" style="z-index:2;top:200px;bottom:250px;opacity:.7"></div>
+  <div data-nav></div>
+  <div class="ttl d"><span class="a">The </span><span class="b">line-up</span></div>
+  <div id="h3d"></div>
+  <div class="lbl" id="lb0" style="left:250px;top:735px"><b>C1 City</b><span>€3,900 · 120 KM</span></div>
+  <div class="lbl on" id="lb1" style="left:720px;top:735px"><b>R1 Gravel</b><span>€6,490 · 160 KM</span></div>
+  <div class="lbl" id="lb2" style="left:1190px;top:735px"><b>S1 Speed 45</b><span>€8,900 · 140 KM</span></div>
+  <div class="meta">
+    <p>Six e-bikes on three platforms. Every one hides its battery inside the frame, runs a silent belt and is built in our Amsterdam assembly hall.</p>
+    <div class="count"><div><b>06</b><span>MODELS</span></div><div><b>03</b><span>PLATFORMS</span></div><div><b class="volt">160</b><span>KM MAX RANGE</span></div></div>
+  </div>
+</section>
+
+<div class="filters">
+  <span class="pill on">All bikes · 6</span><span class="pill">Urban · 2</span><span class="pill">Gravel · 3</span><span class="pill">S-Pedelec 45 · 1</span>
+  <span class="sp"></span>
+  <div class="rng">RANGE ≥ <b class="volt">110 KM</b><div class="tr"><i></i><u></u></div></div>
+  <div class="sel">Sort <b>Recommended</b> <span data-ic="minus"></span></div>
+  <div class="sel"><span data-ic="layers"></span> <b>Compare · 2</b></div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="cmpbar">
+  <div><div class="idx">Compare · 2 of 3</div><h4 style="margin-top:14px">R1 Gravel<br><span class="volt">vs</span> R1 Carbon</h4></div>
+  <div><div class="bk"><img id="cA" alt=""><div><b>R1 Gravel</b><span class="grey" style="font-size:13px">€6,490</span></div></div>
+    <div class="row">RANGE<div class="t"><i class="v" style="width:89%"></i></div><em>160 KM</em></div>
+    <div class="row">TORQUE<div class="t"><i style="width:85%"></i></div><em>85 NM</em></div>
+    <div class="row">WEIGHT<div class="t"><i style="width:62%"></i></div><em>16.8 KG</em></div></div>
+  <div><div class="bk"><img id="cB" alt=""><div><b>R1 Carbon LTD</b><span class="grey" style="font-size:13px">€8,400</span></div></div>
+    <div class="row">RANGE<div class="t"><i style="width:78%"></i></div><em>140 KM</em></div>
+    <div class="row">TORQUE<div class="t"><i style="width:85%"></i></div><em>85 NM</em></div>
+    <div class="row">WEIGHT<div class="t"><i class="v" style="width:48%"></i></div><em>13.9 KG</em></div></div>
+  <div style="display:flex;flex-direction:column;justify-content:center;gap:10px;border-right:0"><a class="btn sm">Full compare</a><span class="grey" style="font-size:12px;text-align:center">Add one more bike</span></div>
+</div>
+
+<section class="acc">
+  <div class="sh"><div><div class="idx">Accessories</div><h2 style="margin-top:22px">Gear that<br><span class="volt">plugs in.</span></h2></div>
+    <p class="grey" style="max-width:380px">Everything pairs with V-OS over Bluetooth: the helmet light brakes with you, the extender reports its charge on your bar.</p></div>
+  <div class="row4">
+    <div class="ac ph" data-img="1600366249664-acd65e33e5d2|900"><span class="tag"><span>New</span></span><div class="info"><b>Halo MIPS helmet</b><span>Brake light · crash detect <em>€229</em></span></div></div>
+    <div class="ac"><div class="art"><svg width="230" height="250" viewBox="0 0 230 250">
+      <defs><linearGradient id="bt" x1="0" x2="1"><stop offset="0" stop-color="#2d3034"/><stop offset=".5" stop-color="#4a4e54"/><stop offset="1" stop-color="#1d1f22"/></linearGradient></defs>
+      <g transform="skewX(-10) translate(40 0)"><rect x="40" y="20" width="110" height="200" rx="18" fill="url(#bt)"/><rect x="40" y="20" width="110" height="200" rx="18" fill="none" stroke="rgba(255,255,255,.15)"/>
+      <rect x="70" y="8" width="50" height="16" rx="4" fill="#1d1f22"/><rect x="40" y="150" width="110" height="6" fill="#e6ff00"/>
+      <g fill="#e6ff00"><rect x="64" y="176" width="12" height="20"/><rect x="80" y="176" width="12" height="20"/><rect x="96" y="176" width="12" height="20"/><rect x="112" y="176" width="12" height="20" opacity=".25"/></g>
+      <text x="95" y="96" text-anchor="middle" fill="#fff" font-family="Barlow Condensed" font-style="italic" font-weight="800" font-size="34">+360</text><text x="95" y="120" text-anchor="middle" fill="#8b9198" font-family="JetBrains Mono" font-size="11">WH</text></g></svg></div>
+      <div class="info"><b>Range extender</b><span>+70 km · bottle mount <em>€649</em></span></div></div>
+    <div class="ac"><div class="art"><svg width="240" height="220" viewBox="0 0 240 220">
+      <defs><radialGradient id="ln"><stop offset="0" stop-color="#fffbe0"/><stop offset=".4" stop-color="#e6ff00" stop-opacity=".6"/><stop offset="1" stop-color="#e6ff00" stop-opacity="0"/></radialGradient><linearGradient id="lb" x1="0" x2="1"><stop offset="0" stop-color="#e6ff00" stop-opacity=".35"/><stop offset="1" stop-color="#e6ff00" stop-opacity="0"/></linearGradient></defs>
+      <path d="M118 92 L240 40 L240 170 L118 128Z" fill="url(#lb)"/>
+      <rect x="40" y="86" width="80" height="48" rx="12" fill="#26292d" stroke="rgba(255,255,255,.18)"/><circle cx="118" cy="110" r="38" fill="url(#ln)"/><circle cx="116" cy="110" r="17" fill="#fffbe0"/>
+      <rect x="56" y="134" width="20" height="26" fill="#1d1f22"/></svg></div>
+      <div class="info"><b>Lumen 1200</b><span>Auto-dusk · cut-off beam <em>€139</em></span></div></div>
+    <div class="ac"><div class="art"><svg width="220" height="220" viewBox="0 0 220 220">
+      <path d="M60 120 V80 a50 50 0 0 1 100 0 V120" fill="none" stroke="#5a5f66" stroke-width="16" stroke-linecap="round"/><path d="M60 120 V80 a50 50 0 0 1 100 0 V120" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+      <rect x="36" y="110" width="148" height="86" rx="10" fill="#26292d" stroke="rgba(255,255,255,.18)"/><rect x="36" y="150" width="148" height="5" fill="#e6ff00"/><circle cx="110" cy="134" r="9" fill="#0f1011" stroke="#e6ff00" stroke-width="2"/></svg></div>
+      <div class="info"><b>Phantom lock</b><span>App unlock · 110 dB alarm <em>€179</em></span></div></div>
+  </div>
+</section>
+
+<div data-footer></div>
+
+<script src="volta.js"></script>
+<script>volta('Bikes');
+const BIKES = [
+  { n: 'R1 Gravel', c: 'Gravel', p: '€6,490', km: 160, nm: 85, kg: 16.8, sw: ['#2a2c30', '#e8ebee', '#ff5a1f'], sub: 'Drop bar · 45 mm gum tyres', hov: false },
+  { n: 'R1 Carbon LTD', c: 'Gravel · Limited', p: '€8,400', km: 140, nm: 85, kg: 13.9, sw: ['#d4ec00', '#2a2c30'], sub: 'Carbon frame · aero discs', hov: true },
+  { n: 'C1 City', c: 'Urban', p: '€3,900', km: 120, nm: 60, kg: 18.2, sw: ['#e8ebee', '#2a2c30', '#0f4a4c'], sub: 'Flat bar · fenders · rack-ready' },
+  { n: 'C1 City LR', c: 'Urban', p: '€4,290', km: 150, nm: 60, kg: 19.1, sw: ['#0f4a4c', '#e8ebee'], sub: 'Long range 750 Wh' },
+  { n: 'S1 Speed 45', c: 'S-Pedelec', p: '€8,900', km: 140, nm: 90, kg: 21.4, sw: ['#ff5a1f', '#2a2c30'], sub: '45 km/h · plate-ready' },
+  { n: 'X1 Trail', c: 'Gravel+', p: '€7,290', km: 150, nm: 85, kg: 17.6, sw: ['#6b6b4c', '#2a2c30'], sub: 'Suspension seatpost · 50 mm' }
+];
+const segs = (v, max) => { let h = ''; for (let i = 0; i < 10; i++) h += `<i class="${i < Math.round(v / max * 10) ? 'on' : ''}"></i>`; return `<div class="seg">${h}</div>`; };
+document.getElementById('grid').innerHTML = BIKES.map((b, i) => `
+  <div class="pc ${b.hov ? 'hov' : ''}">
+    <span class="num">0${i + 1}</span>
+    <div class="top"><span class="tag ${i === 0 ? '' : 'dark'}"><span>${i === 0 ? 'Bestseller' : b.c}</span></span><div class="sw">${b.sw.map((c, k) => `<i class="${k ? '' : 'on'}" style="background:${c}"></i>`).join('')}</div></div>
+    <div class="img"><div class="ghost"><img class="snap" data-i="${i}" alt=""></div><img class="snap" data-i="${i}" alt="${b.n}"></div>
+    <h3>${b.n}</h3>
+    <div class="sub"><span>${b.sub}</span><b>${b.p}</b></div>
+    <div class="bars"><div><span>RANGE <b>${b.km} KM</b></span>${segs(b.km, 170)}</div><div><span>TORQUE <b>${b.nm} NM</b></span>${segs(b.nm, 95)}</div><div><span>WEIGHT <b>${b.kg} KG</b></span>${segs(25 - b.kg, 13)}</div></div>
+    <div class="cmp"><u class="${i < 2 ? 'on' : ''}">${i < 2 ? ic('check') : ''}</u>Compare</div>
+    ${b.hov ? `<div class="cursor"><span>VIEW<br>· 3D ·</span></div><div class="quick"><div class="q"><span>Frame <b>T800 carbon</b></span><span>Battery <b>625 Wh</b></span><span>Motor <b>85 Nm rear hub</b></span><span>Delivery <b>Edition of 300</b></span></div><div class="bt"><a class="btn sm">Configure ${ic('arrow')}</a><a class="btn sm ghost">Test ride</a></div></div>` : ''}
+  </div>`).join('');
+</script>
+<script type="module">
+import * as THREE from 'three';
+await Promise.all([document.fonts.load('italic 800 40px "Barlow Condensed"'), document.fonts.load('600 18px Inter')]);
+const K = VOLTA3D(THREE, {});
+const CFG = [
+  { color: '#2a2c30' },
+  { color: '#d4ec00', accent: '#1c1d1f', wheels: 'disc' },
+  { color: '#e8ebee', bar: 'flat', fenders: true },
+  { color: '#0f4a4c', bar: 'flat', fenders: true, battery: 2 },
+  { color: '#ff5a1f', bar: 'flat', fenders: true, wheels: 'disc' },
+  { color: '#6b6b4c' }
+];
+const shots = K.snapshot(CFG, { w: 640, h: 400 });
+document.querySelectorAll('img.snap').forEach(im => { im.src = shots[+im.dataset.i]; });
+const cmp = K.snapshot([CFG[0], CFG[1]], { w: 300, h: 190, ry: -0.1 });
+document.getElementById('cA').src = cmp[0]; document.getElementById('cB').src = cmp[1];
+
+const s = K.stage(document.getElementById('h3d'), { w: 1440, h: 980, fov: 24 });
+if (s) {
+  const set = [
+    { c: { color: '#e8ebee', bar: 'flat', fenders: true }, p: [-1.25, 0, -1.2], ry: -0.7 },
+    { c: { color: '#2a2c30' }, p: [0, 0, 0.25], ry: -0.42 },
+    { c: { color: '#ff5a1f', bar: 'flat', fenders: true, wheels: 'disc' }, p: [1.18, 0, -1.2], ry: 0.45 }
+  ];
+  const bikes = set.map(o => { const b = K.bike(o.c); b.root.position.set(...o.p); b.root.rotation.y = o.ry; if (o.c.wheels) b.setWheels(o.c.wheels); s.scene.add(b.root); return b; });
+  s.camera.position.set(0, 0.6, 5.55); s.camera.lookAt(0, 0.1, -0.3);
+  const up = K.streaks(s.scene, { y0: -0.3, y1: 1.1, z0: -2.6, z1: -1.4, x0: -4, x1: 4 }); K.dust(s.scene, { spread: 4 });
+  let last = 0;
+  s.run(t => { up(Math.min(t - last, .05)); last = t; bikes.forEach((b, i) => { b.spin(t * (2 + i)); }); bikes[1].root.rotation.y = -0.42 + Math.sin(t * .3) * .1; });
+}
+</script>
+</body></html>

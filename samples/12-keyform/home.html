@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>KEYFORM — Custom mechanical keyboards</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Doto:ROND,wght@0..100,100..900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kf.css">
+<style>
+.hero{position:relative;height:960px;overflow:hidden}
+.hero canvas{position:absolute;left:0;top:0;z-index:2}
+.hero .giant{position:absolute;left:0;right:0;top:46px;text-align:center;font:900 372px/.8 var(--dot);font-variation-settings:'ROND' 100;letter-spacing:-.03em;color:var(--ink);z-index:1;white-space:nowrap}
+.hero .giant span{color:var(--or)}
+.hero .meta{position:absolute;top:34px;left:56px;right:56px;display:flex;justify-content:space-between;z-index:3}
+.hero .bl{position:absolute;left:56px;bottom:58px;z-index:4;width:700px}
+.hero .bl h1{font:600 96px/.88 var(--sans);letter-spacing:-.05em}
+.hero .bl h1 em{font-style:normal;color:var(--or)}
+.hero .bl p{font-size:17px;color:var(--ink2);max-width:470px;margin:22px 0 28px}
+.hero .ctas{display:flex;gap:16px;align-items:center}
+.hero .br{position:absolute;right:56px;bottom:58px;z-index:4;width:430px}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid var(--ink)}
+.specs div{padding:14px 0 0}
+.specs b{display:block;font:900 54px/.9 var(--dot)}
+.specs span{font:500 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.pricebox{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px}
+.pricebox .p{font:600 46px/1 var(--sans);letter-spacing:-.03em}
+.pricebox .p small{font:500 12px/1 var(--mono);color:var(--ink2);display:block;margin-bottom:8px;letter-spacing:.08em}
+.tapes{position:relative;height:250px;overflow:hidden;margin-top:10px}
+.tape{position:absolute;left:-40px;right:-40px;height:96px;display:flex;align-items:center;overflow:hidden;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.tape .tr{display:flex;gap:40px;white-space:nowrap;animation:mq 30s linear infinite;font:900 70px/1 var(--dot);align-items:center;padding-left:30px}
+.tape .tr i{width:22px;height:22px;border-radius:50%;background:currentColor;display:inline-block;flex:none}
+.tape.a{top:40px;background:var(--or);color:#fff;transform:rotate(-2.6deg);z-index:2}
+.tape.b{top:110px;background:var(--lil);color:var(--ink);transform:rotate(2deg)}
+.tape.b .tr{animation-direction:reverse}
+.sec{padding:110px 56px}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:46px}
+.boards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.bc{position:relative;overflow:hidden;display:flex;flex-direction:column}
+.bc .stage{height:300px;position:relative;display:grid;place-items:center;perspective:1200px;border-bottom:1px solid var(--line)}
+.bc .stage .iso{transform:rotateX(55deg) rotateZ(-30deg) translateY(-6px)}
+.bc .stage .shd{position:absolute;left:50%;top:58%;width:300px;height:120px;transform:translate(-50%,-50%) rotate(-12deg);background:radial-gradient(closest-side,rgba(43,43,43,.25),transparent);filter:blur(6px)}
+.bc .info{padding:20px 22px 22px}
+.bc .row{display:flex;justify-content:space-between;align-items:center}
+.bc h3{font:600 22px/1.1 var(--sans);letter-spacing:-.02em;margin:10px 0 4px}
+.bc .sp{font:500 11px/1.4 var(--mono);color:var(--ink2);letter-spacing:.04em;text-transform:uppercase}
+.bc .sws{display:flex;gap:7px;margin:16px 0 18px}
+.bc .sws .sw{width:20px;height:20px}
+.bc .add{width:44px;height:44px;padding:0;border-radius:10px}
+.bc.hl{background:var(--or);color:#fff;border-color:var(--or)}
+.bc.hl .stage{border-color:rgba(255,255,255,.3)}
+.layers{display:grid;grid-template-columns:520px 1fr;gap:40px;align-items:center}
+.stack{position:relative;height:760px;perspective:2200px}
+.stack .s3{position:absolute;left:33%;top:50%;transform-style:preserve-3d;transform:translate(-50%,-50%) rotateX(58deg) rotateZ(-34deg)}
+.stack .ly{position:absolute;left:-240px;top:-92px;width:480px;height:184px;border-radius:22px}
+.stack .lab{position:absolute;right:0;display:flex;align-items:center;gap:14px;width:330px}
+.stack .lab .ln{flex:1;height:1px;background:var(--ink);position:relative}
+.stack .lab .ln::before{content:"";position:absolute;left:-4px;top:-4px;width:9px;height:9px;border-radius:50%;background:var(--or)}
+.stack .lab b{font:900 30px/1 var(--dot);width:46px}
+.stack .lab div{width:200px}
+.stack .lab h4{font:600 17px/1.1 var(--sans)}
+.stack .lab p{font:500 11px/1.4 var(--mono);color:var(--ink2);text-transform:uppercase;letter-spacing:.04em;margin-top:3px}
+.lab-panel{background:var(--ink);color:#efede8;border-radius:30px;padding:56px;display:grid;grid-template-columns:1.25fr 1fr;gap:50px;position:relative;overflow:hidden}
+.lab-panel .sel{display:flex;gap:12px;margin:30px 0 34px}
+.lab-panel .key{height:64px}
+.scope{height:190px;border-radius:16px;border:1px solid rgba(239,237,232,.16);background:repeating-linear-gradient(90deg,rgba(239,237,232,.06) 0 1px,transparent 1px 48px),repeating-linear-gradient(0deg,rgba(239,237,232,.06) 0 1px,transparent 1px 38px);padding:18px;position:relative;color:var(--or)}
+.scope .ph{position:absolute;top:0;bottom:0;left:58%;width:2px;background:#efede8;box-shadow:0 0 18px rgba(255,255,255,.6)}
+.scope .ph::after{content:"0:02.418";position:absolute;top:8px;left:8px;font:600 10px/1 var(--mono);background:#efede8;color:var(--ink);padding:4px 6px;border-radius:4px}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.readout div{border-top:1px solid rgba(239,237,232,.2);padding-top:12px}
+.readout b{display:block;font:900 40px/.9 var(--dot);color:#efede8}
+.readout span{font:500 10px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#8d8a83}
+.lab-panel .photo{border-radius:20px;height:100%;min-height:440px}
+.gal{display:grid;grid-template-columns:1.3fr 1fr 1fr;grid-template-rows:300px 300px;gap:18px}
+.gal .ph{border-radius:20px}
+.gal .ph:first-child{grid-row:span 2}
+.gal .cap{position:absolute;left:16px;bottom:16px;display:flex;gap:8px;align-items:center}
+.gal .cap span{background:rgba(248,247,243,.94);border-radius:99px;padding:8px 12px;font:600 11px/1 var(--mono);letter-spacing:.04em}
+.quotes{display:grid;grid-template-columns:380px 1fr 1fr 1fr;gap:18px}
+.quotes .q{padding:28px;display:flex;flex-direction:column;justify-content:space-between;min-height:290px}
+.quotes .q p{font:500 21px/1.3 var(--sans);letter-spacing:-.015em}
+.quotes .who{display:flex;align-items:center;gap:12px;margin-top:22px;font-size:14px}
+.quotes .who i{width:38px;height:38px;border-radius:50%;background:var(--lil);display:grid;place-items:center;font:700 13px/1 var(--mono);font-style:normal}
+</style></head>
+<body>
+<div data-tick></div>
+<div data-nav></div>
+
+<section class="hero dotbg">
+  <div class="giant">KF<span>—</span>75</div>
+  <div class="meta"><span class="lbl">[ 001 ] Model 75 · Gasket-mount · 6063 aluminium</span><span class="lbl">Batch 07 / 600 units · <b class="or-t">412 left</b></span></div>
+  <canvas id="hero"></canvas>
+  <div id="calls"></div>
+  <div class="cur" style="left:700px;top:330px"><i><svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></svg></i><span>DRAG · ROTATE</span></div>
+  <span class="stk l" style="left:930px;top:640px;transform:rotate(-6deg)">★ New colourway · Lilac Haze</span>
+  <div data-seal="Hot-swap · Gasket · 5-pin · QMK/VIA · " data-c="07" style="left:760px;top:700px"></div>
+  <div class="bl">
+    <h1>Machined to be <em>typed on.</em></h1>
+    <p>A 75% board milled from a single block of aluminium, sprung on lilac poron gaskets and tuned in our sound lab until every key lands with the same soft, low thock.</p>
+    <div class="ctas"><a class="key or" href="builder.html">Build yours <small>B</small></a><a class="key" href="lab.html"><svg class="ic" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg> Hear it type</a><span class="lbl" style="margin-left:8px">or press <span class="kbd">space</span></span></div>
+  </div>
+  <div class="br">
+    <div class="pricebox"><div class="p"><small>FROM · VAT INCL.</small>€349</div><div style="text-align:right"><div class="stars">★★★★★</div><div class="lbl" style="margin-top:6px">4.9 / 2,184 reviews</div></div></div>
+    <div class="specs"><div><b>84</b><span>Keys + knob</span></div><div><b>1.6</b><span>Kg of metal</span></div><div><b>4.0</b><span>mm travel</span></div></div>
+  </div>
+</section>
+
+<div class="tapes">
+  <div class="tape a"><div class="tr" id="t1"></div></div>
+  <div class="tape b"><div class="tr" id="t2"></div></div>
+</div>
+
+<section class="sec">
+  <div class="sh"><div><div class="lbl or">[ 002 ] The line-up</div><h2 class="h2" style="margin-top:14px">Pick a board.<br><span class="dim">Then make it yours.</span></h2></div><div style="display:flex;gap:8px"><span class="chip on">All boards <em>06</em></span><span class="chip">75% <em>04</em></span><span class="chip">65% <em>01</em></span><span class="chip">TKL <em>01</em></span><a class="key" style="height:46px;margin-left:10px" href="shop.html">Shop all <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>
+  <div class="boards">
+    <a class="bc card" href="product.html"><div class="stage dotbg"><div class="shd"></div><div class="iso"><div data-mb data-w="300" data-cw="paper" data-case="silver"></div></div><span class="stk y" style="left:16px;top:16px;transform:rotate(-4deg)">Bestseller</span></div>
+      <div class="info"><div class="row"><span class="tag o">KF-75 · RAW</span><span class="lbl">ships 48h</span></div><h3>Model 75 Raw</h3><div class="sp">Silver case · Paper caps · Cream linear</div><div class="sws"><i class="sw on" style="background:#d3d1cc"></i><i class="sw" style="background:#404042"></i><i class="sw" style="background:#ff5a1f"></i><i class="sw" style="background:#bdb4f7"></i></div><div class="row"><span class="price">€349</span><span class="key or add">+</span></div></div></a>
+    <a class="bc card" href="product.html"><div class="stage dotbg"><div class="shd"></div><div class="iso"><div data-mb data-w="300" data-cw="signal" data-case="graphite"></div></div></div>
+      <div class="info"><div class="row"><span class="tag o">KF-75 · SIGNAL</span><span class="lbl">ships 48h</span></div><h3>Model 75 Signal</h3><div class="sp">Graphite case · Signal caps · Thock tactile</div><div class="sws"><i class="sw" style="background:#d3d1cc"></i><i class="sw on" style="background:#404042"></i><i class="sw" style="background:#ff5a1f"></i></div><div class="row"><span class="price">€389</span><span class="key or add">+</span></div></div></a>
+    <a class="bc card" href="product.html"><div class="stage dotbg"><div class="shd"></div><div class="iso"><div data-mb data-w="300" data-cw="lilac" data-case="lilac"></div></div><span class="stk l" style="right:16px;top:16px;transform:rotate(5deg)">New</span></div>
+      <div class="info"><div class="row"><span class="tag l">KF-75 · HAZE</span><span class="lbl">pre-order</span></div><h3>Model 75 Lilac Haze</h3><div class="sp">Lilac case · Haze caps · Cream linear</div><div class="sws"><i class="sw on" style="background:#bdb4f7"></i><i class="sw" style="background:#ebe8e1"></i></div><div class="row"><span class="price">€369</span><span class="key or add">+</span></div></div></a>
+    <a class="bc card hl" href="builder.html"><div class="stage" style="background:radial-gradient(rgba(255,255,255,.28) 1.1px,transparent 1.3px) 0 0/22px 22px"><div style="text-align:center"><div class="dot" style="font-size:150px;line-height:.8">125</div><div class="mono" style="font-size:12px;letter-spacing:.1em;margin-top:14px">POSSIBLE BUILDS</div></div></div>
+      <div class="info"><div class="row"><span class="tag" style="background:#fff;color:var(--or)">BUILDER</span><span class="lbl" style="color:#fff">live 3D</span></div><h3>Build your own</h3><div class="sp" style="color:rgba(255,255,255,.8)">5 cases × 5 switches × 5 keycap sets</div><div class="sws"><i class="sw" style="background:#d3d1cc"></i><i class="sw" style="background:#404042"></i><i class="sw" style="background:#fff"></i><i class="sw" style="background:#bdb4f7"></i><i class="sw" style="background:#ebe2cd"></i></div><div class="row"><span class="price">from €189</span><span class="key dk add"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></div></a>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:20px">
+  <div class="layers">
+    <div>
+      <div class="lbl or">[ 003 ] Anatomy</div>
+      <h2 class="h2" style="margin:14px 0 22px">Six layers.<br>Zero rattle.</h2>
+      <p class="dim" style="font-size:17px;max-width:440px">Every Model 75 is a stack of six parts you can take apart with one hex key. Nothing is glued, nothing is soldered, everything is replaceable — for as long as you own it.</p>
+      <div style="display:flex;gap:12px;margin-top:34px"><a class="key dk" href="product.html">Explode it in 3D</a><span class="kbd" style="align-self:center">E</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:46px">
+        <div class="card" style="padding:18px"><div class="dot" style="font-size:44px">6</div><div class="lbl" style="margin-top:6px">Screws, all M2 hex</div></div>
+        <div class="card" style="padding:18px"><div class="dot" style="font-size:44px">0</div><div class="lbl" style="margin-top:6px">Solder joints needed</div></div>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="s3" id="s3"></div>
+      <div id="labs"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:20px">
+  <div class="lab-panel">
+    <div>
+      <div class="lbl" style="color:var(--or)">[ 004 ] Sound lab</div>
+      <h2 class="h2" style="margin-top:14px;color:#efede8">Hear it before<br>it ships.</h2>
+      <p style="color:#a9a69e;font-size:16px;max-width:460px;margin-top:18px">Every switch is recorded on the same board, desk mat and microphone, 30 cm away. No reverb, no tricks — just the sound your desk will make.</p>
+      <div class="sel"><span class="key or press">● Cream <small>45g</small></span><span class="key dk">Thock <small>55g</small></span><span class="key dk">Clack <small>50g</small></span></div>
+      <div class="scope"><div data-wave data-n="96" data-seed="3" data-kind="cream"></div><div class="ph"></div></div>
+      <div class="readout"><div><b>38</b><span>dB at 30 cm</span></div><div><b>412</b><span>Hz peak</span></div><div><b>45</b><span>g actuation</span></div><div><b>1.9</b><span>mm to fire</span></div></div>
+    </div>
+    <div class="ph photo" data-img="1777259113729-9bda92fb8ce8|1000"><span class="stk w" style="left:20px;bottom:22px;transform:rotate(-3deg)">● REC · KF Cream · 30 cm</span><span class="stk y sq" style="right:20px;top:20px;transform:rotate(4deg)">Factory-lubed</span></div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:20px">
+  <div class="sh"><div><div class="lbl or">[ 005 ] Desks of the community</div><h2 class="h2" style="margin-top:14px"><span class="dot" style="font-size:92px">38,412</span> boards<br>on desks worldwide.</h2></div><a class="key">Share your build <span class="mono" style="font-size:12px;color:var(--or)">#keyformdesk</span></a></div>
+  <div class="gal">
+    <div class="ph" data-img="1625130694338-4110ba634e59|1100"><div class="cap"><span>@mira.types</span><span style="background:var(--or);color:#fff">Signal caps</span></div><span class="stk w" style="right:18px;top:18px;transform:rotate(5deg)">Build of the week</span></div>
+    <div class="ph" data-img="1595044426077-d36d9236d54a|800"><div class="cap"><span>@jonas.k</span><span>60% · mixed switches</span></div></div>
+    <div class="ph" data-img="1712396901531-605f06a423aa|800"><div class="cap"><span>@studio.okoye</span><span style="background:var(--lil)">Paper on pink</span></div></div>
+    <div class="ph" data-img="1602025882379-e01cf08baa51|800"><div class="cap"><span>@lukas.b</span><span>Brass Enter</span></div></div>
+    <div class="ph" data-img="1760708551859-6559dc9640b8|800"><div class="cap"><span>@noor.writes</span><span>Retro 84</span></div></div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:10px">
+  <div class="quotes">
+    <div class="card" style="padding:28px;background:var(--ink);color:#efede8;border-color:var(--ink)"><div class="lbl" style="color:var(--or)">Average rating</div><div class="dot" style="font-size:200px;margin:20px 0 6px;color:var(--or)">4.9</div><div class="stars" style="font-size:18px">★★★★★</div><div class="lbl" style="color:#8d8a83;margin-top:10px">2,184 verified reviews</div></div>
+    <div class="card q"><p>“The first keyboard I’ve owned that sounds like it costs what it costs. The knob alone is worth a detour.”</p><div class="who"><i>AM</i><div><b>Anouk M.</b><div class="lbl">UX writer · Rotterdam</div></div></div></div>
+    <div class="card q"><p>“Swapped from tactile to Cream in four minutes without touching a soldering iron. Feels like a different board.”</p><div class="who"><i style="background:var(--or);color:#fff">DK</i><div><b>Daniel K.</b><div class="lbl">Firmware dev · Munich</div></div></div></div>
+    <div class="card q"><p>“Packaging is a puzzle box, the manual is a zine and the hex key has my name engraved on it. Absurd. Love it.”</p><div class="who"><i>SL</i><div><b>Sofie L.</b><div class="lbl">Illustrator · Copenhagen</div></div></div></div>
+  </div>
+</section>
+
+<div data-foot></div>
+
+<script src="kf.js"></script>
+<script>
+keyform('', { cart: 2 });
+// tapes
+const w1 = ['THOCK', 'CLACK', 'CREAM', 'POP', 'CLICK', 'THOCK', 'CREAM', 'CLACK'];
+document.getElementById('t1').innerHTML = [...w1, ...w1].map(w => `<span>${w}</span><i></i>`).join('');
+const w2 = ['Hot-swap', 'Gasket', 'PBT dye-sub', 'QMK / VIA', '5-pin', 'Brass plate', 'Hot-swap', 'Gasket'];
+document.getElementById('t2').innerHTML = [...w2, ...w2].map(w => `<span>${w.toUpperCase()}</span><i></i>`).join('');
+// exploded css stack
+const L = [
+  ['06', 'Keycaps', 'PBT dye-sub · 1.5 mm walls', 'kc'],
+  ['05', 'Switches', 'KF Cream linear · 45 g', 'sw'],
+  ['04', 'Plate', 'Brass · 1.5 mm · flex cuts', 'pl'],
+  ['03', 'PCB', '5-pin hot-swap · QMK/VIA', 'pcb'],
+  ['02', 'Gasket foam', 'Lilac poron · 3.5 mm', 'fm'],
+  ['01', 'Case', '6063-T6 aluminium · 1.62 kg', 'cs']
+];
+const s3 = document.getElementById('s3'), labs = document.getElementById('labs');
+L.forEach(([n, t, d, k], i) => {
+  const z = (5 - i) * 72 - 170;
+  let style = '', inner = '';
+  if (k === 'kc') { inner = '<div data-mb data-w="460" data-cw="paper" data-case="paper" style="position:absolute;left:10px;top:14px;background:transparent!important;box-shadow:none"></div>'; style = 'background:transparent'; }
+  if (k === 'sw') style = 'background:radial-gradient(circle,#ff5a1f 0 5px,#f1efe9 6px 15px,transparent 16px) 6px 6px/35px 35px;opacity:.95';
+  if (k === 'pl') style = 'background:repeating-linear-gradient(90deg,#d4ad62 0 10px,transparent 10px 35px) 0 0/100% 100%,repeating-linear-gradient(0deg,#c99a4b 0 10px,transparent 10px 35px),linear-gradient(135deg,rgba(236,208,143,.55),rgba(176,132,59,.45))';
+  if (k === 'pcb') style = 'background:radial-gradient(circle,#d9b26a 0 3px,transparent 4px) 10px 10px/35px 35px,linear-gradient(135deg,#34373a,#232527)';
+  if (k === 'fm') style = 'background:linear-gradient(135deg,#ddd8ff,#bdb4f7)';
+  if (k === 'cs') style = 'background:linear-gradient(135deg,#f3f2ee,#cfcdc8 50%,#a9a7a1);box-shadow:inset 0 0 0 14px rgba(255,255,255,.35),inset 0 0 0 16px rgba(0,0,0,.1)';
+  s3.insertAdjacentHTML('beforeend', `<div class="ly" style="transform:translateZ(${z}px);${style};box-shadow:0 30px 40px -20px rgba(43,43,43,.35)${k === 'cs' ? ',inset 0 0 0 14px rgba(255,255,255,.35)' : ''}">${inner}</div>`);
+  labs.insertAdjacentHTML('beforeend', `<div class="lab" style="top:${82 + i * 104}px"><span class="ln"></span><b>${n}</b><div><h4>${t}</h4><p>${d}</p></div></div>`);
+});
+s3.querySelectorAll('[data-mb]').forEach(miniBoard);
+</script>
+<script src="kf3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+const K = KF3D(THREE, RoomEnvironment, mergeGeometries);
+const W = 1440, H = 960;
+const S = K.stage(document.getElementById('hero'), { w: W, h: H, fov: 24, pos: [0, 23, 36], target: [0, -3.0, 0], exposure: 1.0 });
+const board = await K.buildBoard({
+  colorway: 'paper', caseColor: 'silver',
+  hold: { 'K': 1, 'F': 0.55, 'enter': 0.8, 'esc': -1, '↑': -1 },
+  loose: [
+    { label: 'esc', role: 'acc', pos: [-7.5, 3.9, -2.6], rot: [0.32, 0.3, -0.22], spin: 0, scale: 1.05 },
+    { label: '↑', role: 'acc2', pos: [6.5, 3.3, 1.6], rot: [-0.25, -0.3, 0.3], spin: 0, scale: 1.05 }
+  ]
+});
+board.root.rotation.set(0.08, -0.24, 0.02);
+board.root.position.set(0.3, 0, 0.6);
+S.scene.add(board.root);
+K.ground(S.scene, { sx: 30, sz: 15, y: -0.05, strength: 0.42 });
+// callouts pinned to the model
+const calls = document.getElementById('calls');
+const pins = [
+  { n: '01', t: 'Esc', d: 'Safety-orange double-shot PBT', p: () => board.root.localToWorld(new THREE.Vector3(-7.7, 4.3, -2.6)), lx: 56, ly: 196, side: 'l' },
+  { n: '02', t: 'Switch', d: 'KF Cream linear, 45 g — pull a cap, swap it', p: () => board.root.localToWorld(new THREE.Vector3(-7.5, 1.3, -2.6)), lx: 56, ly: 470, side: 'l' },
+  { n: '03', t: 'Knob', d: 'Knurled, 24 detents, volume by default', p: () => board.knob.localToWorld(new THREE.Vector3(0, 0.36, 0)), lx: 1384, ly: 196, side: 'r' },
+  { n: '04', t: 'Case', d: '6063 aluminium, bead-blasted, anodised', p: () => board.root.localToWorld(new THREE.Vector3(6.6, 0.6, 3.6)), lx: 1384, ly: 470, side: 'r' }
+];
+function placeCalls() {
+  board.root.updateMatrixWorld(true);
+  calls.innerHTML = pins.map(c => {
+    const [x, y] = K.toScreen(c.p(), S.camera, W, H);
+    const sx = c.side === 'l' ? c.lx + 214 : c.lx - 214, sy = c.ly + 12;
+    const dx = x - sx, dy = y - sy, len = Math.hypot(dx, dy), ang = Math.atan2(dy, dx) * 180 / Math.PI;
+    const box = c.side === 'l' ? `left:${c.lx}px` : `right:${1440 - c.lx}px;flex-direction:row-reverse;text-align:right`;
+    return `<div class="lead" style="left:${sx}px;top:${sy}px;width:${len}px;transform:rotate(${ang}deg)"></div><div class="call" style="${box};top:${c.ly}px;width:206px"><b>${c.n}</b><div>${c.t}<span>${c.d}</span></div></div>`;
+  }).join('');
+}
+S.loop(t => { board.update(t + 2.0); board.root.rotation.y = -0.24 + Math.sin(t * 0.25) * 0.05; });
+placeCalls();
+</script>
+</body></html>

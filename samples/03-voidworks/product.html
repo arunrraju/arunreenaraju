@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOIDWORKS — Null Hoodie 01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="void.css">
+<style>
+.crumb{display:flex;justify-content:space-between;align-items:center;height:52px;padding:0 48px;border-bottom:2px solid var(--ink);font:700 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.crumb b{background:var(--ink);color:var(--lime);padding:6px 9px}
+.pdp{display:grid;grid-template-columns:860px 1fr;border-bottom:2px solid var(--ink)}
+.gal{border-right:2px solid var(--ink);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:900px 560px minmax(560px,1fr)}
+.gal>div{border-bottom:2px solid var(--ink);position:relative}
+.gal .a{grid-column:1/-1;height:900px}
+.gal .b,.gal .c{height:560px}
+.gal .b{border-right:2px solid var(--ink)}
+.gal .d{grid-column:1/-1;min-height:560px;border-bottom:0;background-color:var(--lime)}
+.gal .idx{position:absolute;left:18px;top:18px;z-index:5;background:var(--paper);border:2px solid var(--ink);padding:8px 10px}
+.gal .idx::before{display:none}
+.gal .a .cursor{left:470px;top:330px}
+.gal .thumbs{position:absolute;left:18px;bottom:18px;z-index:5;display:flex;gap:8px}
+.gal .thumbs span{width:64px;height:76px;border:2px solid var(--ink);background:var(--paper);display:grid;place-items:center;font:700 11px/1 var(--mono)}
+.gal .thumbs span.on{background:var(--lime);box-shadow:4px 4px 0 var(--ink)}
+.gal .vtxt{position:absolute;right:-6px;top:40px;z-index:4;writing-mode:vertical-rl;font:400 150px/.8 var(--dis);color:transparent;-webkit-text-stroke:2px var(--paper);text-transform:uppercase;letter-spacing:.02em}
+.gal .d .garm{width:350px;filter:none}
+.dim{position:absolute;z-index:4;font:700 11px/1 var(--mono);letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+.dim.h{left:250px;right:250px;top:84px;justify-content:center}
+.dim.h::before,.dim.h::after{content:"";flex:1;height:2px;background:var(--ink)}
+.dim.v{right:150px;top:150px;bottom:110px;flex-direction:column;justify-content:center}
+.dim.v::before,.dim.v::after{content:"";flex:1;width:2px;background:var(--ink)}
+.call{position:absolute;z-index:4;background:var(--paper);border:2px solid var(--ink);padding:8px 10px;font:700 11px/1.3 var(--mono);box-shadow:4px 4px 0 var(--ink)}
+.call::before{content:"";position:absolute;width:12px;height:12px;background:var(--red);border:2px solid var(--ink);border-radius:50%}
+.call.l::before{right:-48px;top:8px}
+.call.r::before{left:-48px;top:8px}
+
+.buy{padding:44px 48px 60px;position:relative}
+.buy .tags{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.buy .tags .t{border:2px solid var(--ink);padding:8px 10px;font:700 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.buy .tags .t.k{background:var(--ink);color:var(--lime)}
+.buy h1{font:400 128px/.82 var(--dis);text-transform:uppercase;margin:26px 0 18px;letter-spacing:-.005em}
+.buy h1 .o{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.price{display:flex;align-items:baseline;gap:18px;padding-bottom:24px;border-bottom:2px solid var(--ink)}
+.price b{font:400 60px/1 var(--dis)}
+.price span{font-size:12px;color:#55544f}
+.price em{margin-left:auto;font-style:normal;font:700 11px/1 var(--mono);background:var(--red);color:var(--paper);padding:7px 9px}
+.blk{padding:22px 0;border-bottom:2px solid var(--ink)}
+.blk .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.colours{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.colours div{border:2px solid var(--ink);display:flex;align-items:center;gap:10px;padding:8px;font:700 11px/1.2 var(--mono);text-transform:uppercase}
+.colours i{width:34px;height:34px;border:2px solid var(--ink);flex:none}
+.colours .on{background:var(--ink);color:var(--paper);box-shadow:4px 4px 0 var(--lime)}
+.colours .x{color:#9a9992;text-decoration:line-through}
+.sizes{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.sizes div{border:2px solid var(--ink);padding:12px 8px 10px;text-align:center;position:relative;background:var(--paper)}
+.sizes b{display:block;font:400 34px/1 var(--dis)}
+.sizes small{display:block;font:700 10px/1 var(--mono);margin:8px 0 7px;letter-spacing:.04em}
+.sizes .bar{height:6px;border:1.5px solid var(--ink);position:relative}
+.sizes .bar i{position:absolute;inset:0;right:auto;background:var(--ink)}
+.sizes .x{color:#b0aea7;border-color:#c3c1ba;background:linear-gradient(to top right,transparent 49%,#c3c1ba 49.5% 50.5%,transparent 51%)}
+.sizes .x .bar{border-color:#c3c1ba}
+.sizes .low small{color:var(--red)}
+.sizes .low .bar i{background:var(--red)}
+.sizes .on{background:var(--lime);transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--ink)}
+.fit{border:2px solid var(--ink);margin-top:14px;padding:16px 18px;display:grid;grid-template-columns:1fr auto;gap:12px 20px;align-items:center;background:#fbfaf6}
+.fit .scale{grid-column:1/-1;position:relative;height:30px;margin-top:6px}
+.fit .scale .ln{position:absolute;left:0;right:0;top:12px;height:6px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 25%)}
+.fit .scale .ln::after{content:"";position:absolute;left:0;right:0;top:2px;height:2px;background:var(--ink)}
+.fit .scale .k{position:absolute;left:66%;top:0;width:26px;height:30px;background:var(--lime);border:2px solid var(--ink);transform:translateX(-50%);box-shadow:3px 3px 0 var(--ink)}
+.fit .labs{grid-column:1/-1;display:flex;justify-content:space-between;font:700 10px/1 var(--mono);letter-spacing:.1em;color:#55544f}
+.fit .labs b{color:var(--ink);background:var(--lime);padding:2px 4px}
+.cta{display:grid;grid-template-columns:1fr 70px;gap:12px;margin-top:24px}
+.cta .btn{height:78px;font-size:16px;justify-content:space-between;padding:0 26px}
+.cta .h{border:2px solid var(--ink);display:grid;place-items:center;box-shadow:6px 6px 0 var(--ink)}
+.cta2{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cta2 span{height:54px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;gap:10px;font:700 12px/1 var(--mono);letter-spacing:.1em;background:var(--ink);color:var(--paper)}
+.cta2 span:last-child{background:var(--paper);color:var(--ink)}
+.rows{margin-top:26px;border:2px dashed var(--ink);padding:6px 16px;background:#fbfaf6}
+.rows div{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed #9a9992;font-size:12px}
+.rows div:last-child{border-bottom:0}
+.acc{margin-top:22px;border:2px solid var(--ink)}
+.acc>div{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:2px solid var(--ink);font:400 24px/1 var(--dis);text-transform:uppercase}
+.acc>div:last-child{border-bottom:0}
+.acc>div.open{background:var(--ink);color:var(--lime)}
+.acc ul{padding:16px 18px 18px;border-bottom:2px solid var(--ink);font-size:12px}
+.acc li{padding:4px 0 4px 18px;position:relative}
+.acc li::before{content:"";position:absolute;left:0;top:10px;width:8px;height:8px;background:var(--red)}
+.note{margin-top:22px;border:2px solid var(--ink);padding:18px 20px;background:var(--lime);box-shadow:6px 6px 0 var(--ink);transform:rotate(-1deg)}.note p{font:400 26px/1.05 var(--dis);text-transform:uppercase;margin:10px 0}.meter{margin-top:22px;border:2px solid var(--ink);padding:18px;background:var(--ink);color:var(--paper)}.meter .segs{display:grid;grid-template-columns:repeat(30,1fr);gap:3px;margin-top:14px;height:34px}.meter .segs i{border:2px solid #444}.meter .segs i.f{background:var(--lime);border-color:var(--lime)}.meter .segs i.f:nth-child(n+24){background:var(--red);border-color:var(--red)}.meter .barcode{background:repeating-linear-gradient(90deg,var(--paper) 0 2px,transparent 2px 4px,var(--paper) 4px 5px,transparent 5px 9px,var(--paper) 9px 13px,transparent 13px 15px)}
+
+.specs{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:2px solid var(--ink)}
+.specs>div{padding:40px 36px;border-right:2px solid var(--ink)}
+.specs>div:last-child{border-right:0}
+.specs b{display:block;font:400 110px/.85 var(--dis)}
+.specs b sup{font-size:34px;vertical-align:top}
+.specs span{display:block;margin-top:12px;font:700 11px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.specs>div:nth-child(2){background:var(--ink);color:var(--paper)}
+.specs>div:nth-child(2) b{color:var(--lime)}
+
+.meas{padding:100px 48px;display:grid;grid-template-columns:420px 1fr;gap:60px;border-bottom:2px solid var(--ink)}
+.meas h2{font:400 104px/.86 var(--dis);text-transform:uppercase;margin:20px 0 22px}
+.meas p{color:#3d3c38}
+table{width:100%;border-collapse:collapse;border:2px solid var(--ink);font:700 14px/1 var(--mono)}
+th,td{border:2px solid var(--ink);padding:18px 14px;text-align:center}
+th{background:var(--ink);color:var(--paper);font:400 26px/1 var(--dis);letter-spacing:.02em}
+td:first-child{text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.hlc{background:var(--lime)}
+th.hlc{color:var(--ink)}
+
+.cfit{padding:110px 48px;background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+.cfit h2{font:400 150px/.84 var(--dis);text-transform:uppercase}
+.cfit h2 span{color:transparent;-webkit-text-stroke:2px var(--lime)}
+.cfit .row{display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr 380px;gap:0;align-items:center;margin-top:56px}
+.cfit .it{border:2px solid var(--paper);background:var(--paper);color:var(--ink);box-shadow:8px 8px 0 var(--lime)}
+.cfit .it .ph{height:330px;border-bottom:2px solid var(--ink);position:relative}
+.cfit .it .m{padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
+.cfit .it h4{font:400 26px/1 var(--dis);text-transform:uppercase}
+.cfit .it small{display:block;font:700 10px/1 var(--mono);letter-spacing:.1em;color:#55544f;margin-top:4px}
+.cfit .it .sel{font:700 11px/1 var(--mono);border:2px solid var(--ink);padding:6px 8px}
+.cfit .plus{font:400 60px/1 var(--dis);color:var(--lime);text-align:center}
+.cfit .tot{margin-left:40px;border:2px solid var(--lime);padding:28px}
+.cfit .tot .ln{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px dashed #555}
+.cfit .tot .big{font:400 92px/1 var(--dis);color:var(--lime);margin:18px 0 4px}
+.cfit .tot s{color:#8b8a84}
+.cfit .tot .btn{width:100%;margin-top:20px;box-shadow:6px 6px 0 var(--paper);border-color:var(--paper)}
+
+.rev{padding:110px 48px 120px;display:grid;grid-template-columns:400px 1fr;gap:56px}
+.rev .sum .big{font:400 190px/.8 var(--dis);display:flex;align-items:flex-end;gap:14px;margin:20px 0 10px}
+.rev .sum .big small{font:700 14px/1.4 var(--mono);margin-bottom:12px}
+.stars{display:flex;gap:2px;color:var(--ink)}
+.stars .ic{width:20px;height:20px}
+.dist{margin:24px 0}
+.dist div{display:grid;grid-template-columns:24px 1fr 44px;gap:10px;align-items:center;font:700 12px/1 var(--mono);margin-bottom:8px}
+.dist i{height:14px;border:2px solid var(--ink);position:relative;display:block}
+.dist i b{position:absolute;inset:0;right:auto;background:var(--ink)}
+.fitm{border:2px solid var(--ink);padding:18px;background:var(--lime);box-shadow:6px 6px 0 var(--ink)}
+.fitm .seg{display:grid;grid-template-columns:8fr 79fr 13fr;height:26px;border:2px solid var(--ink);margin:12px 0 8px}
+.fitm .seg i:nth-child(1){background:var(--paper)}.fitm .seg i:nth-child(2){background:var(--ink)}.fitm .seg i:nth-child(3){background:var(--red)}
+.rev .top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:30px}
+.rev .top h2{font:400 104px/.86 var(--dis);text-transform:uppercase}
+.rev .chips{display:flex;gap:8px}
+.rev .chips span{height:40px;padding:0 14px;border:2px solid var(--ink);display:flex;align-items:center;font:700 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.rev .chips span.on{background:var(--ink);color:var(--lime)}
+.rcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.rc{border:2px solid var(--ink);background:#fbfaf6;box-shadow:6px 6px 0 var(--ink);position:relative}
+.rc .ph{height:300px;border-bottom:2px solid var(--ink);position:relative}
+.rc .bd{padding:18px}
+.rc h5{font:400 28px/1 var(--dis);text-transform:uppercase;margin:10px 0 8px}
+.rc p{font-size:12.5px;color:#3d3c38}
+.rc .who{display:flex;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px dashed #9a9992;font:700 11px/1.3 var(--mono)}
+.rc .who em{font-style:normal;background:var(--ink);color:var(--lime);padding:3px 6px}
+.rc .ver{position:absolute;right:12px;top:12px;z-index:5;background:var(--lime);border:2px solid var(--ink);font:700 10px/1 var(--mono);padding:6px 8px;letter-spacing:.08em}
+</style></head>
+<body>
+<div data-nav></div>
+<div class="crumb"><span>Shop / Hoodies / <b>Null Hoodie 01</b></span><span>Drop 07 — Null Signal · Piece 01 of 11 · Unit #0142 / 300 reserved for you</span></div>
+<section class="pdp">
+  <div class="gal">
+    <div class="a bw ht" data-img="1677538537484-324385aff147|1400|50% 35%"><span class="idx mono">01 / 04 — Front</span><div class="vtxt">Null 01</div><div class="sticker round spin" style="left:40px;top:90px;background:var(--red);color:var(--paper)">480<small>gsm loopback</small></div><div class="cursor">GRAB</div>
+      <div class="thumbs"><span class="on">01</span><span>02</span><span>03</span><span>04</span><span>▶ 360</span></div></div>
+    <div class="b duo" data-img="1673092147872-5ddb03194341|800|60% 50%"><span class="idx mono">02 — On body</span></div>
+    <div class="c bw" data-img="1557600067-173369923ba5|800|50% 45%"><span class="idx mono">03 — 6-panel hood</span></div>
+    <div class="d gph halftone" data-g="hoodie" style="background-color:var(--lime)"><span class="idx mono">04 — Tech flat · size L</span>
+      <div class="dim h">CHEST 64 CM</div><div class="dim v">LENGTH 72</div>
+      <div class="call l" style="left:120px;top:210px">Double-layer hood<br>no drawcord tips</div>
+      <div class="call r" style="left:640px;top:440px">Bound kangaroo<br>pocket · hidden zip</div>
+      <div class="call l" style="left:90px;top:470px">Dropped shoulder<br>+6 cm</div></div>
+  </div>
+  <div class="buy">
+    <div class="tags"><span class="t k">Drop 07</span><span class="t">300 units</span><span class="live"><i></i> 214 viewing · 37 in bags</span></div>
+    <h1>Null<br>Hoodie <span class="o">01</span></h1>
+    <div class="price"><b>€180</b><span>incl. VAT · or 3 × €60</span><em>Only 2 left in M</em></div>
+    <div class="blk"><div class="hd"><span class="mono">Colour — Washed black</span><span class="mono" style="color:#55544f">3 dyes</span></div>
+      <div class="colours"><div class="on"><i style="background:#0a0a0a;border-color:var(--paper)"></i>Washed<br>black</div><div><i style="background:#8b8a84"></i>Ash<br>grey</div><div class="x"><i style="background:#b4572e"></i>Rust<br>sold out</div></div></div>
+    <div class="blk"><div class="hd"><span class="mono">Size — L selected</span><span class="mono" style="text-decoration:underline">Size calculator</span></div>
+      <div class="sizes">
+        <div class="x"><b>XS</b><small>SOLD OUT</small><div class="bar"></div></div>
+        <div><b>S</b><small>21 LEFT</small><div class="bar"><i style="width:40%"></i></div></div>
+        <div class="low"><b>M</b><small>2 LEFT</small><div class="bar"><i style="width:6%"></i></div></div>
+        <div class="on"><b>L</b><small>34 LEFT</small><div class="bar"><i style="width:62%"></i></div></div>
+        <div><b>XL</b><small>12 LEFT</small><div class="bar"><i style="width:24%"></i></div></div>
+        <div class="x"><b>XXL</b><small>SOLD OUT</small><div class="bar"></div></div>
+      </div>
+      <div class="fit"><div><div class="mono"><span data-ic="ruler"></span> Fit guide</div><div style="font-size:12px;margin-top:8px">Model is 185 cm / 78 kg, wears <b>L</b>. Cut boxy — size down for a regular fit.</div></div><span class="sticker" style="position:static;transform:rotate(-4deg)">87% true to size</span>
+        <div class="scale"><div class="ln"></div><div class="k"></div></div><div class="labs"><span>Slim</span><span>Regular</span><b>Boxy</b><span>Oversized</span></div></div></div>
+    <div class="cta"><a class="btn pressed">Add to bag — L <span data-ic="arrow"></span></a><span class="h"><span data-ic="heart"></span></span></div>
+    <div class="cta2"><span><span data-ic="bolt"></span> 1-tap checkout</span><span><span data-ic="lock"></span> Pay in 3 × €60</span></div>
+    <div class="rows"><div><span>Ships</span><b>Mon 27 Oct · Berlin</b></div><div><span>Express EU</span><b>Free over €200</b></div><div><span>Returns</span><b>14 days, even on drops</b></div><div><span>Limit</span><b>1 per size / customer</b></div></div>
+    <div class="acc"><div class="open">Details & materials <span data-ic="minus"></span></div>
+      <ul><li>480gsm organic cotton loopback, garment-dyed then enzyme washed</li><li>Six-panel double-layer hood, no drawcords to snap</li><li>Ribbed side panels, flatlock seams, numbered woven label</li><li>Sewn by our 14-person partner atelier in Porto, PT</li></ul>
+      <div>Care <span data-ic="plus"></span></div><div>Shipping & returns <span data-ic="plus"></span></div></div>
+    <div class="meter"><div class="mono" style="display:flex;justify-content:space-between"><span>Units claimed · live</span><span class="red">263 / 300</span></div><div class="segs"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><i></i><i></i></div><div style="display:flex;gap:18px;align-items:center;margin-top:16px"><div class="barcode" style="flex:1;height:44px"></div><span class="mono">*NH01-0142*</span></div></div>
+    <div class="note"><span class="mono">Studio note — 07/01</span><p>“We cut the body two centimetres shorter than drop 04 so it sits on a cargo instead of swallowing it.”</p><span class="mono">— Ilkka V., pattern cutter</span></div>
+  </div>
+</section>
+
+<section class="specs"><div><b>480<sup>g</sup></b><span>Fabric weight per m² —<br>heavier than your duvet</span></div><div><b>6</b><span>Hood panels, double layer,<br>holds its shape forever</span></div><div><b>14</b><span>Hand-dyed batches —<br>no two blacks match</span></div><div><b>#142</b><span>Your unit number,<br>woven on the hem tag</span></div></section>
+
+<section class="meas"><div><span class="idx">Measurements</span><h2>Laid flat, in cm.</h2><p>Measured flat across the garment after washing. Your L is highlighted. Shrinkage after first wash: under 2% — we already shrank it for you.</p><a class="btn ghost" style="margin-top:26px">Compare with my hoodie <span data-ic="ruler"></span></a></div>
+  <table><tr><th></th><th>XS</th><th>S</th><th>M</th><th class="hlc">L</th><th>XL</th><th>XXL</th></tr>
+    <tr><td>Chest (½)</td><td>56</td><td>59</td><td>61.5</td><td class="hlc">64</td><td>67</td><td>70</td></tr>
+    <tr><td>Body length</td><td>66</td><td>68</td><td>70</td><td class="hlc">72</td><td>74</td><td>76</td></tr>
+    <tr><td>Sleeve (CB)</td><td>80</td><td>82</td><td>84</td><td class="hlc">86</td><td>88</td><td>90</td></tr>
+    <tr><td>Shoulder drop</td><td>+5</td><td>+5</td><td>+6</td><td class="hlc">+6</td><td>+7</td><td>+7</td></tr>
+    <tr><td>Hem rib</td><td>8</td><td>8</td><td>8</td><td class="hlc">8</td><td>9</td><td>9</td></tr></table>
+</section>
+
+<section class="cfit"><span class="idx" style="color:var(--lime)">Complete the fit</span><h2 style="margin-top:20px">Wear it <span>loud</span></h2>
+  <div class="row">
+    <div class="it"><div class="ph bw" data-img="1677538537484-324385aff147|600|50% 35%"></div><div class="m"><div><h4>Null Hoodie 01</h4><small>L · WASHED BLACK</small></div><span class="sel">€180</span></div></div>
+    <div class="plus">+</div>
+    <div class="it"><div class="ph gph halftone" data-g="cargo" style="background-color:var(--lime)"></div><div class="m"><div><h4>Psalm Cargo</h4><small>W32 · BLACK RIPSTOP</small></div><span class="sel">€210</span></div></div>
+    <div class="plus">+</div>
+    <div class="it"><div class="ph gph" data-g="beanie" data-gc="rd" style="background:var(--ink)"></div><div class="m"><div><h4>Void Beanie</h4><small>ONE SIZE · RED</small></div><span class="sel">€60</span></div></div>
+    <div class="tot"><span class="mono lime">The full fit</span><div class="ln" style="margin-top:14px"><span>3 pieces</span><s>€450</s></div><div class="ln"><span>Fit bundle −10%</span><span class="lime">−€45</span></div><div class="big">€405</div><span class="mono" style="color:#bdbcb5">Ships together · 1 box</span><a class="btn">Add all 3 <span data-ic="plus"></span></a></div>
+  </div>
+</section>
+
+<section class="rev">
+  <div class="sum"><span class="idx">Reviews</span><div class="big">4.8<small>/ 5<br>612 reviews</small></div><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div>
+    <div class="dist"><div>5<i><b style="width:84%"></b></i><span>514</span></div><div>4<i><b style="width:12%"></b></i><span>71</span></div><div>3<i><b style="width:3%"></b></i><span>18</span></div><div>2<i><b style="width:1%"></b></i><span>6</span></div><div>1<i><b style="width:1%"></b></i><span>3</span></div></div>
+    <div class="fitm"><span class="mono">How it fits</span><div class="seg"><i></i><i></i><i></i></div><div class="mono" style="display:flex;justify-content:space-between;font-size:10px"><span>Small 8%</span><span>True 79%</span><span>Big 13%</span></div></div></div>
+  <div><div class="top"><h2>Real fits</h2><div class="chips"><span class="on">With photos 212</span><span>Size L</span><span>Most helpful</span></div></div>
+    <div class="rcards">
+      <div class="rc"><span class="ver">VERIFIED · L</span><div class="ph duo" data-img="1564557287817-3785e38ec1f5|600|40% 40%"></div><div class="bd"><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><h5>Like wearing a weighted blanket</h5><p>Heaviest hoodie I own and the hood actually stands up on its own. Boxy but not tent-like. 182 cm, L is perfect.</p><div class="who"><span>Ruhan K. · Lisbon</span><em>Fit: true</em></div></div></div>
+      <div class="rc"><span class="ver">VERIFIED · M</span><div class="ph bw ht" data-img="1611817757591-c3f345024273|600"></div><div class="bd"><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><h5>Washed 6 times, still black</h5><p>Colour hasn't faded at all and zero shrink. Got M for a cleaner fit, sleeves still stack nicely at the wrist.</p><div class="who"><span>Jonah O. · Rotterdam</span><em>Fit: true</em></div></div></div>
+      <div class="rc"><span class="ver">VERIFIED · S</span><div class="ph duo r" data-img="1508216310976-c518daae0cdc|600|50% 70%"></div><div class="bd"><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span style="opacity:.25;display:flex"><span data-ic="star"></span></span></div><h5>Runs big, in a good way</h5><p>I'm 165 cm and took S — it's oversized on me, which is what I wanted. Shipping to Milan took 2 days.</p><div class="who"><span>Lea M. · Milan</span><em style="background:var(--red);color:var(--paper)">Fit: big</em></div></div></div>
+    </div></div>
+</section>
+<div data-footer></div>
+<script src="void.js"></script><script>void_('Shop',{bag:3})</script>
+</body></html>

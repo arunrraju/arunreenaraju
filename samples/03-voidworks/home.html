@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOIDWORKS — Drop 07 “Null Signal”</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="void.css">
+<style>
+/* HERO */
+.hero{position:relative;height:1230px;background:var(--ink);color:var(--paper);overflow:hidden}
+.hero .dots{position:absolute;right:-40px;top:0;width:760px;height:100%;opacity:.16;background-image:radial-gradient(var(--lime) 1.6px,transparent 2px);background-size:12px 12px;-webkit-mask:linear-gradient(90deg,transparent,#000 60%);mask:linear-gradient(90deg,transparent,#000 60%)}
+.hero .bg07{position:absolute;right:-60px;top:250px;font:400 900px/.8 var(--dis);color:transparent;-webkit-text-stroke:2px #2b2b2b;letter-spacing:-.04em}
+.hero .h1{position:absolute;left:36px;top:40px;font:400 400px/.8 var(--dis);text-transform:uppercase;letter-spacing:-.015em;white-space:nowrap;z-index:3}
+.hero .h1 .o{color:transparent;-webkit-text-stroke:3px var(--lime);margin-left:30px}
+.hero .h1 .sq{display:inline-block;width:70px;height:70px;background:var(--red);vertical-align:top;margin:22px 0 0 18px}
+.hero .lab{position:absolute;left:48px;top:420px;display:flex;gap:14px;align-items:center;z-index:4}
+.hero .lab .tag{background:var(--lime);color:var(--ink);font:700 12px/1 var(--mono);letter-spacing:.12em;padding:11px 14px;text-transform:uppercase}
+.cd{position:absolute;left:48px;top:500px;z-index:4}
+.cd .mono{color:var(--lime);margin-bottom:14px}
+.cd .row{display:flex;align-items:flex-start;gap:10px}
+.cd .u{width:140px;border:2px solid var(--paper);background:var(--paper);color:var(--ink);box-shadow:8px 8px 0 var(--lime)}
+.cd .u b{display:block;font:400 104px/1 var(--dis);text-align:center;padding:16px 0 6px;font-weight:400}
+.cd .u span{display:block;background:var(--ink);color:var(--paper);font:700 10px/1 var(--mono);letter-spacing:.2em;padding:8px;text-align:center}
+.cd .u.s b{color:var(--red)}
+.cd .col{font:400 80px/1 var(--dis);color:var(--lime);padding-top:28px}
+.hero .copy{position:absolute;left:48px;top:760px;width:640px;z-index:4}
+.hero .copy h2{font:400 66px/.9 var(--dis);text-transform:uppercase}
+.hero .copy h2 em{font-style:normal;color:var(--lime)}
+.hero .copy p{color:#bdbcb5;margin:16px 0 28px;font-size:14px;max-width:560px}
+.hero .copy .btns{display:flex;gap:18px}
+.hero .copy .btn{box-shadow:6px 6px 0 var(--paper);border-color:var(--paper)}
+.hero .copy .btn.ghost{background:transparent;color:var(--paper)}
+
+.stack{position:absolute;left:830px;top:420px;width:560px;height:560px;z-index:5}
+.stack .c{position:absolute;width:330px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);box-shadow:10px 10px 0 var(--lime)}
+.stack .c .ph{height:380px;border-bottom:2px solid var(--ink)}
+.stack .c .m{display:flex;justify-content:space-between;align-items:flex-end;padding:12px 14px}
+.stack .c h4{font:400 28px/1 var(--dis);text-transform:uppercase}
+.stack .c small{display:block;font:700 10px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#55544f;margin-top:4px}
+.stack .c b{font:700 16px/1 var(--mono)}
+.stack .c1{left:0;top:40px;transform:rotate(-9deg)}
+.stack .c2{left:250px;top:-10px;transform:rotate(7deg)}
+.stack .c3{left:120px;top:70px;transform:rotate(-1.5deg);box-shadow:14px 14px 0 var(--red)}
+.stack .cursor{left:330px;top:250px}
+.hero .round{left:1270px;top:330px;background:var(--red);color:var(--paper)}
+
+.tapes{position:absolute;left:-100px;right:-100px;bottom:0;height:200px;z-index:8;pointer-events:none}
+.tapes .tick{position:absolute;left:0;right:0}
+.tapes .a{top:70px;transform:rotate(-4deg)}
+.tapes .b{top:70px;transform:rotate(3.2deg)}
+.tapes .tick.caution .t{background:var(--lime)}
+.tapes .b.caution{background:repeating-linear-gradient(45deg,var(--red) 0 26px,var(--ink) 26px 52px)}
+.tapes .b.caution .t{background:var(--red);color:var(--paper)}
+
+/* DROP 06 remainders */
+.rem{padding:120px 48px 110px;position:relative}
+.rem .sh-row{margin-bottom:56px}
+.rem h2{font:400 150px/.84 var(--dis);text-transform:uppercase;margin-top:20px}
+.rem h2 .outline{-webkit-text-stroke:2px var(--ink)}
+.rem .aside{width:360px;text-align:right}
+.rem .aside p{margin:14px 0 20px;color:#3d3c38}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.bar3{grid-column:1/-1;height:10px;border:2px solid var(--ink);margin-top:8px;position:relative;background:var(--paper)}
+.bar3 i{position:absolute;inset:0;right:auto;background:var(--ink)}
+.rem .sticker.k{left:-14px;top:-16px;transform:rotate(-6deg)}
+
+/* lookbook strip */
+.strip{background:var(--ink);color:var(--paper);padding:110px 0 100px;overflow:hidden;position:relative}
+.strip .hd{display:flex;justify-content:space-between;align-items:flex-end;padding:0 48px 50px}
+.strip h2{font:400 140px/.82 var(--dis);text-transform:uppercase;white-space:nowrap}
+.strip h2 .o{color:transparent;-webkit-text-stroke:2px var(--lime);display:inline-block;transform:skewX(-14deg)}
+.strip .hd .r{text-align:right;width:330px}
+.strip .hd .r p{color:#bdbcb5;margin:12px 0 22px}
+.strip .track{display:flex;gap:22px;padding-left:48px;transform:translateX(-80px);animation:drift 18s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translateX(-260px)}}
+.strip .fr{flex:none;width:340px;height:500px;border:2px solid var(--paper);position:relative}
+.strip .fr.w{width:520px}
+.strip .fr .cap{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;background:var(--ink);padding:10px 12px;font:700 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;border-top:2px solid var(--paper)}
+.strip .fr .cap b{color:var(--lime)}
+.strip .speed{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--lime) 30%,transparent);z-index:6}
+.strip .foot{display:flex;align-items:center;gap:24px;padding:46px 48px 0;font:700 12px/1 var(--mono);letter-spacing:.1em}
+.strip .foot .tr{flex:1;height:14px;border:2px solid var(--paper);position:relative}
+.strip .foot .tr i{position:absolute;inset:0;right:auto;width:22%;background:var(--lime)}
+.strip .foot .ar{width:58px;height:58px;border:2px solid var(--paper);display:grid;place-items:center}
+.strip .foot .ar.on{background:var(--lime);color:var(--ink);border-color:var(--lime)}
+
+/* manifesto */
+.man{padding:140px 48px 120px;position:relative;border-bottom:2px solid var(--ink)}
+.man p{font:400 118px/.98 var(--dis);text-transform:uppercase;letter-spacing:-.005em}
+.man .pill{display:inline-block;width:250px;height:96px;border:2px solid var(--ink);vertical-align:middle;position:relative;top:-10px;box-shadow:6px 6px 0 var(--ink)}
+.man s{text-decoration:none;position:relative;color:#b3b1aa}
+.man s::after{content:"";position:absolute;left:-6px;right:-6px;top:50%;height:12px;background:var(--red);transform:rotate(-3deg)}
+.man .stamp{left:auto;right:70px;top:345px;transform:rotate(-9deg);font-size:58px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:90px;border:2px solid var(--ink)}
+.stats>div{padding:26px 26px 22px;border-right:2px solid var(--ink)}
+.stats>div:last-child{border-right:0;background:var(--lime)}
+.stats b{display:block;font:400 92px/.9 var(--dis)}
+.stats span{font:700 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+
+/* drop log + community */
+.wall{padding:120px 48px 130px;display:grid;grid-template-columns:420px minmax(0,1fr);gap:56px;position:relative;overflow:hidden}
+.rcpt{background:#fbfaf6;padding:34px 30px 30px;position:relative;box-shadow:10px 10px 0 var(--ink);border:2px solid var(--ink);transform:rotate(-1.5deg);margin-top:40px;align-self:start;font-size:13px}
+.rcpt::before,.rcpt::after{content:"";position:absolute;left:-2px;right:-2px;height:14px;background:linear-gradient(-45deg,transparent 7px,#fbfaf6 0) 0 0/14px 14px,linear-gradient(45deg,transparent 7px,#fbfaf6 0) 0 0/14px 14px}
+.rcpt::before{top:-14px;transform:scaleY(-1)}
+.rcpt::after{bottom:-14px}
+.rcpt h4{font:400 46px/1 var(--dis);text-align:center;text-transform:uppercase}
+.rcpt .c{text-align:center;color:#55544f;font-size:11px;letter-spacing:.1em;margin:6px 0 18px}
+.rcpt .ln{display:grid;grid-template-columns:34px 1fr auto;gap:8px;padding:9px 0;border-top:1px dashed #9a9992}
+.rcpt .ln em{font-style:normal;color:#77766f;display:block;font-size:11px}
+.rcpt .ln b{font-weight:700}
+.rcpt .tot{display:flex;justify-content:space-between;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:12px 0;margin:10px 0 18px;font-weight:700}
+.rcpt .next{background:var(--ink);color:var(--lime);padding:12px;display:flex;justify-content:space-between;margin-bottom:18px;font-weight:700;font-size:12px;letter-spacing:.06em}
+.rcpt .next s{background:var(--lime);color:var(--lime);text-decoration:none}
+.comm h2{font:400 112px/.84 var(--dis);text-transform:uppercase;white-space:nowrap}
+.comm h2 span{background:var(--ink);color:var(--lime);padding:0 16px;display:inline-block;transform:rotate(-2deg)}
+.comm .top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:46px}
+.comm .top p{width:230px;color:#3d3c38;font-size:12px;margin-bottom:14px}
+.ugc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:290px 290px;gap:20px}
+.ugc>div{border:2px solid var(--ink);background:#fbfaf6;padding:8px 8px 34px;position:relative;box-shadow:5px 5px 0 var(--ink)}
+.ugc>div:nth-child(1){transform:rotate(-2deg)}
+.ugc>div:nth-child(3){transform:rotate(2.2deg)}
+.ugc>div:nth-child(6){transform:rotate(-1.4deg)}
+.ugc .ph{height:100%;border:2px solid var(--ink)}
+.ugc .tall{grid-row:span 2}
+.ugc .u{position:absolute;left:10px;right:10px;bottom:9px;display:flex;justify-content:space-between;font:700 11px/1 var(--mono)}
+.ugc .u em{font-style:normal;color:var(--red)}
+.ugc .tp{position:absolute;top:-12px;left:50%;width:90px;height:24px;margin-left:-45px;background:rgba(212,255,0,.75);transform:rotate(-4deg);z-index:4;border-left:2px dashed rgba(0,0,0,.2);border-right:2px dashed rgba(0,0,0,.2)}
+.ugc .post{background:var(--lime);display:flex;flex-direction:column;justify-content:space-between;padding:22px}
+.ugc .post h5{font:400 36px/.9 var(--dis);text-transform:uppercase}
+.ugc .sticker{right:-12px;top:20px;transform:rotate(8deg)}
+</style></head>
+<body>
+<div data-nav></div>
+<div class="tick k"><div class="t"><span>Drop 07 “Null Signal” — Friday 18:00 CET</span><b></b><span>300 units per piece</span><b></b><span>Raffle open for the Void Shell Jacket</span><b></b><span>No restocks. Ever.</span><b></b><span>Free express EU over €200</span><b></b></div></div>
+
+<section class="hero">
+  <div class="dots"></div>
+  <div class="bg07">07</div>
+  <div class="h1"><span class="glitch" data-t="DROP">DROP</span><span class="sq"></span><span class="o">07</span></div>
+  <div class="lab"><span class="tag">Null Signal</span><span class="mono" style="color:#bdbcb5">11 pieces · 300 each · Porto-made</span><span class="live k"><i></i> 214 people viewing</span></div>
+  <div class="cd" data-cd="223629"><div class="mono">■ Doors open in</div>
+    <div class="row"><div class="u"><b data-u="d">02</b><span>Days</span></div><div class="col">:</div><div class="u"><b data-u="h">14</b><span>Hrs</span></div><div class="col">:</div><div class="u"><b data-u="m">07</b><span>Min</span></div><div class="col">:</div><div class="u s"><b data-u="s">09</b><span>Sec</span></div></div></div>
+  <div class="copy"><h2>Static on the line. <em>Signal</em> in the cloth.</h2><p>Eleven pieces cut from washed-black loopback, reflective tape and a rust dye we will never mix again. Members get in 15 minutes early. Everyone else: set an alarm.</p>
+    <div class="btns"><a class="btn">Enter the raffle <span data-ic="arrow"></span></a><a class="btn ghost"><span data-ic="bell"></span> Remind me</a></div></div>
+    <div class="sticker round hero-round spin" style="left:1290px;top:330px;background:var(--red);color:var(--paper)">300<small>units only</small></div>
+  <div class="stack">
+    <div class="c c1"><div class="ph duo" data-img="1508216310976-c518daae0cdc|800"></div><div class="m"><div><h4>Hush Hood</h4><small>07 / 03 · Ash</small></div><b>€170</b></div></div>
+    <div class="c c2"><div class="ph duo" data-img="1611817757591-c3f345024273|800"></div><div class="m"><div><h4>Taupe Hood</h4><small>07 / 05 · Mud</small></div><b>€170</b></div></div>
+    <div class="c c3"><div class="ph bw ht" data-img="1673092147872-5ddb03194341|800|60% 50%"></div><div class="m"><div><h4>Null Hoodie 01</h4><small>07 / 01 · Washed black</small></div><b>€180</b></div></div>
+    <div class="cursor">GRAB</div>
+  </div>
+  <div class="tapes">
+    <div class="tick caution a"><div class="t slow"><span>Drop 07 — Do not cross</span><span>■</span><span>Null Signal</span><span>■</span><span>Members early 17:45</span><span>■</span></div></div>
+    <div class="tick caution b"><div class="t"><span>No restocks ever</span><span>■</span><span>Bots get banned</span><span>■</span><span>One per customer</span><span>■</span></div></div>
+  </div>
+</section>
+
+<section class="rem">
+  <div class="sh-row"><div><span class="idx">01 — Still in the building</span><h2>Drop 06 <span class="outline">leftovers</span></h2></div>
+    <div class="aside"><span class="live"><i></i> 38 bags open right now</span><p>What survived Drop 06 “Rust Belt”. When these go, the patterns go in the shredder. That's the deal.</p><a class="btn ghost">Shop all 14 left <span data-ic="arrow"></span></a></div></div>
+  <div class="grid4">
+    <div class="pc"><span class="sticker k">Last sizes</span><div class="ph duo" data-img="1578768079052-aa76e52ff62e|800"><span class="stock">4 left</span></div><div class="meta"><h4>Static Hoodie</h4><span class="pr">€180</span><span class="sub">Rust · 480gsm loopback · Boxy</span><div class="bar3"><i style="width:88%"></i></div></div></div>
+    <div class="pc hov"><span class="num">06 / 02</span><div class="ph bw" data-img="1557600067-173369923ba5|800|50% 40%">
+      <div class="qa"><div style="display:flex;justify-content:space-between" class="mono"><span>Quick add</span><span class="red">M — 2 left</span></div><div class="sz"><span class="x">XS</span><span>S</span><span class="on">M</span><span>L</span><span class="x">XL</span></div><div class="go">ADD TO BAG — €160 <span data-ic="arrow"></span></div></div></div>
+      <div class="meta"><h4>Concrete Hood</h4><span class="pr">€160</span><span class="sub">Heather grey · Double-layer hood</span><div class="bar3"><i style="width:94%;background:var(--red)"></i></div></div><div class="cursor" style="left:240px;top:160px">GRAB</div></div>
+    <div class="pc"><div class="ph gph halftone" data-g="cargo" style="background-color:var(--lime);background-blend-mode:normal"><span class="stock">9 left</span></div><div class="meta"><h4>Psalm Cargo</h4><span class="pr">€210</span><span class="sub">Black ripstop · 8 pockets</span><div class="bar3"><i style="width:72%"></i></div></div></div>
+    <div class="pc out"><div class="ph" data-img="1576193929684-06c6c6a8b582|800"><div class="stamp">Sold out<small>in 11 min 04 s</small></div></div><div class="meta"><h4>Oil Slick Bomber</h4><span class="pr" style="text-decoration:line-through;color:#8b8a84">€420</span><span class="sub">Waxed vegan leather · Raglan</span><div class="bar3"><i style="width:100%;background:var(--red)"></i></div></div></div>
+  </div>
+</section>
+
+<section class="strip">
+  <div class="hd"><div><span class="idx" style="color:var(--lime)">02 — SS27 Lookbook</span><h2 style="margin-top:20px">Concrete <span class="o">Psalms</span></h2></div>
+    <div class="r"><p>Shot on a dead stretch of the A100 at 4am. 24 frames, no retouching, one borrowed generator.</p><a class="btn">Open lookbook <span data-ic="ne"></span></a></div></div>
+  <div class="speed" style="top:420px"></div><div class="speed" style="top:700px;opacity:.6"></div>
+  <div class="track">
+    <div class="fr bw" data-img="1517124792960-0f4701b9bd20|900"><div class="cap"><span>Fr. 01</span><b>Bowl from above</b></div></div>
+    <div class="fr w bw" data-img="1569135579442-d37b7a0ea74e|1100" data-ghost><div class="cap"><span>Fr. 02</span><b>Bowl at dawn</b></div></div>
+    <div class="fr duo" data-img="1754315052701-0b98f6ba786b|900"><div class="cap"><span>Fr. 03</span><b>Tailored void</b></div></div>
+    <div class="fr bw" data-img="1564557287817-3785e38ec1f5|900" data-ghost><div class="cap"><span>Fr. 04</span><b>Concrete column</b></div></div>
+    <div class="fr duo r" data-img="1678884399113-0a2b079a31f5|900"><div class="cap"><span>Fr. 05</span><b>Cloud puffer</b></div></div>
+  </div>
+  <div class="foot"><span>FRAME 03 / 24</span><div class="tr"><i></i></div><span class="ar">←</span><span class="ar on">→</span></div>
+</section>
+
+<section class="man">
+  <span class="idx">03 — The rules</span>
+  <p style="margin-top:30px">We make <span class="hl">300.</span> <span class="pill duo" data-img="1559406041-c7d2b2e98690|600"></span> Then we burn the pattern. No restocks, no <s>seasons</s>, no <span class="red">influencer seeding</span>, no mercy <span class="pill bw" data-img="1494026222377-872a605b54ba|600"></span> for bots.</p>
+  <div class="stamp">Certified<small>anti-hype hype</small></div>
+  <div class="stats"><div><b>300</b><span>Units per piece,<br>numbered by hand</span></div><div><b>0</b><span>Restocks since<br>drop 01 (2024)</span></div><div><b>11:04</b><span>Fastest sell-out<br>min : sec, drop 06</span></div><div><b>14</b><span>People in Porto who<br>sew every single piece</span></div></div>
+</section>
+
+<section class="wall">
+  <div class="rcpt">
+    <h4>Drop log</h4><div class="c">VOIDWORKS / BERLIN — ARCHIVE 01—06</div>
+    <div class="ln"><span>01</span><div><b>Blackout</b><em>Mar 2024 · 4 pieces</em></div><span>2h 12m</span></div>
+    <div class="ln"><span>02</span><div><b>Low Tide</b><em>Sep 2024 · 6 pieces</em></div><span>58m</span></div>
+    <div class="ln"><span>03</span><div><b>Dead Air</b><em>Feb 2025 · 7 pieces</em></div><span>31m</span></div>
+    <div class="ln"><span>04</span><div><b>Ground Static</b><em>Jun 2025 · 8 pieces</em></div><span>24m</span></div>
+    <div class="ln"><span>05</span><div><b>Sodium Light</b><em>Nov 2025 · 9 pieces</em></div><span>17m</span></div>
+    <div class="ln"><span>06</span><div><b>Rust Belt</b><em>Apr 2026 · 10 pieces</em></div><span>11m 04s</span></div>
+    <div class="tot"><span>TOTAL UNITS</span><span>13,200 / 13,200</span></div>
+    <div class="next"><span>07 NULL SIGNAL</span><span>FRI 18:00</span></div>
+    <div class="next" style="background:#fbfaf6;color:var(--ink);border:2px solid var(--ink)"><span>08 <s>XXXXXXXX</s></span><span>SOON</span></div>
+    <div class="barcode"></div><div class="c" style="margin:8px 0 0">*VW07NS-0002-14*</div>
+  </div>
+  <div class="comm">
+    <div class="top"><div><span class="idx">04 — Community wall</span><h2 style="margin-top:20px">Wear <span>the void</span></h2></div><p>4,812 fits posted with #wearthevoid. Best one each week gets €50 credit and a spot on this wall.</p></div>
+    <div class="ugc">
+      <div class="tall"><span class="tp"></span><div class="ph duo" data-img="1564557287817-3785e38ec1f5|700|30% 50%"></div><div class="u"><span>@ruhan.fits</span><em>♥ 2.4k</em></div><span class="sticker r">Fit of the week</span></div>
+      <div><span class="tp"></span><div class="ph bw" data-img="1673092147872-5ddb03194341|600"></div><div class="u"><span>@kaanderen</span><em>♥ 918</em></div></div>
+      <div><div class="ph duo" data-img="1688111421205-a0a85415b224|600|50% 30%"></div><div class="u"><span>@milla.void</span><em>♥ 1.1k</em></div></div>
+      <div class="post"><span class="mono">Post yours</span><h5>Tag us. Get on the wall.</h5><span class="btn blk" style="height:48px;font-size:12px;box-shadow:4px 4px 0 var(--ink)">Upload fit <span data-ic="cam"></span></span></div>
+      <div><span class="tp"></span><div class="ph bw" data-img="1550792220-553fd02a239c|600"></div><div class="u"><span>@tomasz.sk8</span><em>♥ 764</em></div></div>
+      <div><div class="ph duo r" data-img="1611817757591-c3f345024273|600"></div><div class="u"><span>@j.okafor</span><em>♥ 1.6k</em></div></div>
+      <div><span class="tp"></span><div class="ph duo" data-img="1677538537484-324385aff147|600|50% 30%"></div><div class="u"><span>@dev.anand</span><em>♥ 642</em></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="tick"><div class="t"><span>#wearthevoid</span><b></b><span>Shipped from Berlin in 48h</span><b></b><span>14-day returns, even on drops</span><b></b><span>Sewn in Porto</span><b></b><span>Numbered 001—300</span><b></b></div></div>
+<div data-footer></div>
+<script src="void.js"></script><script>void_('Drop 07')</script>
+</body></html>

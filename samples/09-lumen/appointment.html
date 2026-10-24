@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Private Salon · ÉCLAT</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Prata&family=DM+Serif+Display:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="eclat.css">
+<script src="eclat.js"></script><script src="eclat3d.js"></script>
+<style>
+.shero{position:relative;height:1000px;overflow:hidden;background:radial-gradient(50% 60% at 68% 55%,#1d5444 0%,#0d2a22 45%,#04100c 100%)}
+.shero #tray{position:absolute;left:0;top:0;z-index:2}
+.shero .copy{position:absolute;left:64px;top:190px;z-index:5;width:620px}
+.shero h1{font:400 128px/.88 var(--disp);letter-spacing:-.035em;margin:26px 0 30px}
+.shero h1 .it{display:block;color:var(--gold2);font-size:136px}
+.shero p{font-size:17px;color:var(--pt2);max-width:380px;margin-bottom:36px}
+.shero .addr{position:absolute;left:64px;bottom:56px;z-index:5;display:flex;gap:46px}
+.shero .addr div{font-size:13px;color:var(--pt2)}
+.shero .addr b{display:block;font:400 22px/1.2 var(--disp);color:var(--pt);margin-bottom:4px}
+.shero .hs{z-index:6}
+.shero .beam{left:700px;top:-60px;width:700px;height:900px;z-index:1}
+.shero .ghosttxt{position:absolute;right:-40px;bottom:-60px;z-index:1;font:italic 400 300px/1 var(--ital);color:transparent;-webkit-text-stroke:1px rgba(236,208,138,.22);white-space:nowrap}
+
+/* booking */
+.book{background:linear-gradient(180deg,#04100c,var(--em2));padding:120px 64px}
+.bk{display:grid;grid-template-columns:400px 1fr 400px;gap:24px;align-items:start}
+.col{padding:30px;border:1px solid var(--line2);background:rgba(255,255,255,.025)}
+.col h4{display:flex;align-items:baseline;gap:12px;font:600 11px/1 var(--ui);letter-spacing:.24em;text-transform:uppercase;margin-bottom:22px}
+.col h4 b{font:400 18px/1 var(--disp);color:var(--gold2)}
+.salon{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:18px;border:1px solid var(--line2);margin-bottom:10px;position:relative}
+.salon.on{border-color:var(--gold2);background:linear-gradient(150deg,rgba(201,162,74,.16),rgba(201,162,74,.02))}
+.salon b{font:400 24px/1.1 var(--disp)}
+.salon small{grid-column:1;color:var(--pt3);font-size:12.5px}
+.salon .st{grid-row:1/3;grid-column:2;align-self:center;font:600 10px/1 var(--ui);letter-spacing:.18em;text-transform:uppercase;color:var(--pt3)}
+.salon.on .st{color:#5df0a8}
+.salon .map{grid-column:1/-1;height:110px;margin-top:14px;background:#06140f;border:1px solid var(--line2);position:relative;overflow:hidden}
+.salon .map svg{position:absolute;inset:0;width:100%;height:100%}
+.cal .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.cal .mh b{font:400 34px/1 var(--disp)}
+.cal .mh span{display:flex;gap:8px}
+.cal .mh span i{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line2);font-style:normal}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.days .w{font:600 10px/1 var(--ui);letter-spacing:.2em;color:var(--pt3);padding:8px 0}
+.days .d{height:58px;display:grid;place-items:center;border:1px solid transparent;font:400 19px/1 var(--disp);position:relative;color:var(--pt)}
+.days .d.x{color:rgba(238,241,243,.18)}
+.days .d.av{border-color:var(--line2)}
+.days .d.av::after{content:"";position:absolute;bottom:8px;width:4px;height:4px;border-radius:50%;background:var(--gold2)}
+.days .d.on{background:radial-gradient(circle at 35% 25%,#fff,#cfd8de 50%,#9aa7b0);color:#06140f;clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 10px,100% calc(100% - 10px),calc(100% - 10px) 100%,10px 100%,0 calc(100% - 10px),0 10px)}
+.days .d.on::after{background:#06140f}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:22px;padding-top:22px;border-top:1px solid var(--line2)}
+.slots span{height:46px;display:grid;place-items:center;border:1px solid var(--line2);font-size:13.5px}
+.slots span.on{border-color:var(--gold2);color:var(--gold2);background:rgba(201,162,74,.1)}
+.slots span.x{color:var(--pt3);text-decoration:line-through;border-style:dashed}
+.types{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:22px}
+.types div{padding:12px 14px;border:1px solid var(--line2);font-size:13px;display:flex;gap:10px;align-items:center;color:var(--pt2)}
+.types div.on{border-color:var(--gold2);color:var(--pt);background:rgba(201,162,74,.1)}
+.types .ic{width:22px;height:22px;color:var(--gold2)}
+.sum dl{display:grid;grid-template-columns:auto 1fr;gap:12px 18px;font-size:13.5px;margin-bottom:22px}
+.sum dt{font:600 10px/1.9 var(--ui);letter-spacing:.2em;text-transform:uppercase;color:var(--pt3)}
+.fld{border-bottom:1px solid var(--line2);padding:12px 0;font-size:14px;display:flex;justify-content:space-between;margin-bottom:6px}
+.fld span{color:var(--pt3);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.fld.f{border-color:var(--gold2)}
+.fld.f b{font-weight:400;position:relative}
+.fld.f b::after{content:"";position:absolute;right:-6px;top:2px;bottom:2px;width:1px;background:var(--gold2);animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.sum .btn{width:100%;justify-content:center;margin-top:20px;height:60px}
+.sum .note{display:flex;gap:10px;margin-top:16px;font-size:12px;color:var(--pt3)}
+
+/* expect */
+.exp{background:var(--em2);padding:40px 64px 130px}
+.exr{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.ex .ph{height:440px;--cut:22px}
+.ex .n{display:flex;align-items:baseline;gap:16px;margin-top:22px}
+.ex .n b{font:400 54px/1 var(--disp);color:var(--gold2)}
+.ex h4{font:400 28px/1.1 var(--disp)}
+.ex p{color:var(--pt2);font-size:14px;margin-top:10px;max-width:360px}
+
+/* virtual */
+.virt{position:relative;height:760px;overflow:hidden;background:radial-gradient(40% 60% at 70% 50%,#1b3a80,#0b1633 55%,#040817)}
+.virt .copy{position:absolute;left:64px;top:150px;width:470px}
+.virt h2{font:400 92px/.92 var(--disp);margin:22px 0 24px}
+.virt .call{position:absolute;right:64px;top:110px;width:760px;height:540px;--cut:26px}
+.virt .call>div{position:absolute;inset:1px;overflow:hidden}
+.virt .call .scr{position:absolute;inset:0;background:radial-gradient(60% 60% at 50% 45%,#1f5a48,#0b2019 70%);background-size:cover}
+.virt .call .rn{position:absolute;inset:0;background-size:72%;background-position:center 46%;background-repeat:no-repeat}
+.virt .call .top{position:absolute;left:22px;right:22px;top:20px;display:flex;justify-content:space-between;align-items:center;font-size:12.5px}
+.virt .rec{display:flex;align-items:center;gap:8px}
+.virt .rec i{width:8px;height:8px;border-radius:50%;background:#ff4d6a;animation:pulse 1.4s infinite}
+.virt .pip{position:absolute;right:22px;bottom:96px;width:170px;height:120px;--cut:12px}
+.virt .ctl{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;gap:10px;padding:8px}
+.virt .ctl span{width:46px;height:46px;display:grid;place-items:center;border:1px solid var(--line2)}
+.virt .ctl span.end{background:#c4213f;border-color:#c4213f;width:auto;padding:0 18px;font:600 11px/1 var(--ui);letter-spacing:.18em}
+.virt .chat{position:absolute;left:22px;bottom:96px;width:300px;padding:14px 16px;font-size:13px}
+.virt .chat small{display:block;color:var(--gold2);font:600 10px/1 var(--ui);letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="shero">
+  <div class="beam"></div>
+  <div class="ghosttxt">Rue de la Paix</div>
+  <div id="tray"></div>
+  <div data-sparkles="30" style="position:absolute;inset:0;z-index:3;pointer-events:none"></div>
+  <div class="copy"><div class="eyebrow">By appointment · Paris, London, Dubai, Singapore</div>
+    <h1>The private <span class="it">salon.</span></h1>
+    <p>An hour, a gemologist and a tray of stones chosen for you in advance. Hold them, compare them under the loupe, then decide. Or don't. Champagne either way.</p>
+    <div style="display:flex;gap:14px"><a class="btn">Book a viewing <span data-ic="cal"></span></a><a class="btn ghost"><span data-ic="video"></span> Virtual salon</a></div></div>
+  <div id="hsx"></div>
+  <div class="addr"><div><b>14 Rue de la Paix</b>Paris 2e · Tue–Sat, 10:00–19:00</div><div><b>45 min – 2 h</b>Complimentary, no obligation</div><div><b>+33 1 42 60 18 70</b>Concierge, 7 days</div></div>
+</section>
+
+<section class="book">
+  <div class="hd2"><div><div class="eyebrow">Reserve your hour</div><h2 style="margin-top:20px">Three choices, <span class="it gild">then we prepare.</span></h2></div><p>Tell us what you'd like to see. Your gemologist will lay out a tray of stones before you arrive.</p></div>
+  <div class="bk">
+    <div class="col"><h4><b>01</b>Salon</h4>
+      <div class="salon on"><b>Paris</b><small>14 Rue de la Paix · 2e</small><span class="st">● 6 slots this week</span>
+        <div class="map"><svg viewBox="0 0 330 110"><g stroke="rgba(238,241,243,.14)" fill="none"><path d="M0 30 L330 70M40 0 L120 110M0 90 L330 20M200 0 L250 110M280 0 L300 110M0 60 H330"/></g><path d="M0 75 Q90 50 160 70 T330 40" stroke="rgba(63,120,255,.5)" stroke-width="6" fill="none"/><g><circle cx="168" cy="52" r="16" fill="rgba(236,208,138,.15)"/><circle cx="168" cy="52" r="5" fill="#ecd08a"/></g><text x="182" y="40" fill="#ecd08a" font-size="9" font-family="Hanken Grotesk" letter-spacing="2">ÉCLAT · PLACE VENDÔME 2 MIN</text></svg></div></div>
+      <div class="salon"><b>London</b><small>Mount Street · Mayfair</small><span class="st">4 slots</span></div>
+      <div class="salon"><b>Dubai</b><small>Gate Village · DIFC</small><span class="st">9 slots</span></div>
+      <div class="salon"><b>Singapore</b><small>Orchard Road · Level 2</small><span class="st">Opens Dec</span></div>
+    </div>
+    <div class="col cal"><h4><b>02</b>Date & time</h4>
+      <div class="mh"><b>November <span class="it gild">2026</span></b><span><i>‹</i><i>›</i></span></div>
+      <div class="days" id="days"></div>
+      <div class="slots"><span class="x">10:00</span><span>11:30</span><span class="on">14:00</span><span>15:30</span><span class="x">17:00</span><span>18:00</span><span class="x">18:30</span><span>Evening*</span></div>
+      <div class="dim" style="font-size:12px;margin-top:14px">*After-hours viewings on request, with the salon closed to the public.</div>
+    </div>
+    <div class="col sum"><h4><b>03</b>Your viewing</h4>
+      <div class="types"><div class="on"><span data-ic="diamond"></span>Engagement</div><div><span data-ic="sparkle"></span>Bespoke</div><div><span data-ic="leaf"></span>Coloured stones</div><div><span data-ic="gift"></span>A gift</div></div>
+      <dl><dt>When</dt><dd>Saturday 14 November · 14:00</dd><dt>Where</dt><dd>Paris salon, first floor</dd><dt>With</dt><dd>Margaux Lenoir, gemologist</dd><dt>Tray</dt><dd>Round & oval, 1.5–2.5 ct, platinum</dd></dl>
+      <div class="fld"><span>Name</span>Amélie Durand</div>
+      <div class="fld f"><span>Note for Margaux</span><b>She loves vintage Art Deco</b></div>
+      <a class="btn">Confirm my viewing <span data-ic="arrow"></span></a>
+      <div class="note"><span data-ic="shield"></span>Free cancellation up to 24 hours before. We'll text a reminder the day before.</div>
+    </div>
+  </div>
+</section>
+
+<section class="exp">
+  <div class="hd2"><div><div class="eyebrow">What to expect</div><h2 style="margin-top:20px;font-size:76px">An hour, <span class="it gild">unhurried.</span></h2></div></div>
+  <div class="exr">
+    <div class="ex"><div class="cutframe"><div class="ph" data-img="1607703829739-c05b7beddf60|900|50% 50%"></div></div><div class="n"><b>01</b><h4>Your tray, ready</h4></div><p>Five to nine stones laid out on velvet, matched to your budget and the shapes you chose.</p></div>
+    <div class="ex"><div class="cutframe"><div class="ph" data-img="1758142634620-88bc83e5a4d0|900|50% 60%"></div></div><div class="n"><b>02</b><h4>Try, compare, look closer</h4></div><p>See them on the hand, in daylight and by candle, and under a 10× loupe beside their certificates.</p></div>
+    <div class="ex"><div class="cutframe"><div class="ph" data-img="1613945407943-59cd755fd69e|900|50% 55%"></div></div><div class="n"><b>03</b><h4>Hold it for 48 hours</h4></div><p>Leave with nothing to pay. Your chosen stone is held for you while you think it over.</p></div>
+  </div>
+</section>
+
+<section class="virt">
+  <div data-sparkles="22" style="position:absolute;inset:0;pointer-events:none"></div>
+  <div class="copy"><div class="eyebrow">Virtual salon</div><h2>The salon, <span class="it gild">on your screen.</span></h2><p class="dim" style="font-size:16px;margin-bottom:34px">A live 4K video call from our Paris bench. Your gemologist turns each stone under studio light while you watch, in any time zone.</p><a class="btn ghost"><span data-ic="video"></span> Book a video viewing</a></div>
+  <div class="call cutframe"><div><div class="scr"></div><div class="rn" id="vr"></div>
+    <div class="top glass" style="padding:10px 14px"><span class="rec"><i></i>Live · Paris bench</span><span class="mono">12:48</span><span>Margaux L. · Gemologist</span></div>
+    <div class="chat glass"><small>Margaux</small>Turning it now. Watch the rainbow fire on the left facets.</div>
+    <div class="pip cutframe"><div data-img="1762505464779-17f78cbfa8b4|400|60% 40%" style="height:100%"></div></div>
+    <div class="ctl glass"><span data-ic="sound"></span><span data-ic="video"></span><span data-ic="loupe"></span><span class="end">End call</span></div></div></div>
+</section>
+
+<div data-footer></div>
+<script>
+// calendar: November 2026 starts on a Sunday
+const D = document.getElementById('days');
+let h = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'].map(w => `<div class="w">${w}</div>`).join('');
+const pre = [26, 27, 28, 29, 30, 31]; h += pre.map(n => `<div class="d x">${n}</div>`).join('');
+const av = [3, 4, 6, 7, 10, 12, 13, 14, 17, 19, 20, 21, 24, 26, 27, 28];
+for (let n = 1; n <= 30; n++) h += `<div class="d${n < 3 ? ' x' : ''}${av.includes(n) ? ' av' : ''}${n === 14 ? ' on' : ''}">${n}</div>`;
+h += `<div class="d x">1</div><div class="d x">2</div><div class="d x">3</div><div class="d x">4</div><div class="d x">5</div><div class="d x">6</div>`;
+D.innerHTML = h;
+ICONS.sound = '<path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16 9a4 4 0 0 1 0 6"/>';
+eclat('Salon');
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const E = Eclat(THREE);
+const st = E.stage(document.getElementById('tray'), { w: 1440, h: 1000, fov: 28, cam: [2.2, 5.4, 7.6], target: [2.6, 0.1, 0.2] });
+const tray = new THREE.Group(); tray.position.set(3.55, 0, 0.3); tray.rotation.y = -0.28; tray.scale.setScalar(0.8); st.scene.add(tray);
+const base = new THREE.Mesh(new RoundedBoxGeometry(4.4, 0.32, 2.7, 6, 0.12), E.velvet(0x0a2a20, 0x3fb48a)); base.position.y = -0.16; tray.add(base);
+const frame = new THREE.Mesh(new RoundedBoxGeometry(4.6, 0.26, 2.9, 6, 0.1), E.metal(0xd6ad55, 0.22)); frame.position.y = -0.24; tray.add(frame);
+// five wells, each with a loose stone
+const shadows = [];
+const loose = [['diamond', 'round', 0.42, -1.55, -0.45], ['emerald', 'emerald', 0.4, -0.5, 0.45], ['sapphire', 'oval', 0.42, 0.55, -0.45], ['ruby', 'cushion', 0.38, 1.6, 0.45], ['padparadscha', 'pear', 0.34, 1.6, -0.6]];
+loose.forEach(([gem, shape, R, x, z], i) => {
+  const well = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.45, R * 1.45, 0.02, 48), E.velvet(0x061a14, 0x2a8a68)); well.position.set(x, 0.005, z); tray.add(well);
+  const s = E.buildStone(st, { gem, shape, R, sparkle: 1.4 }); s.position.set(x, R * 0.55, z); s.rotation.set(-0.15, i * 0.7, 0.1); tray.add(s);
+  const sh = E.shadow(R * 3, R * 3, .7); sh.position.set(x, 0.02, z); tray.add(sh);
+});
+// tweezers holding a diamond above the tray, caught mid-lift
+const tw = new THREE.Group(); const tm = E.metal('platinum', 0.18);
+for (const s of [-1, 1]) { const g = new THREE.CylinderGeometry(0.035, 0.012, 2.4, 4, 1); g.rotateZ(Math.PI / 2); g.scale(1, 0.35, 1); const arm = new THREE.Mesh(g, tm); arm.position.set(1.25, 0, s * 0.06); arm.rotation.y = s * 0.04; tw.add(arm); }
+const tip = E.buildStone(st, { gem: 'diamond', shape: 'round', R: 0.3, sparkle: 1.6 }); tip.position.set(-0.05, 0, 0); tip.rotation.set(0, 0, Math.PI / 2 - 0.3); tw.add(tip);
+tw.position.set(-0.2, 1.15, 1.1); tw.rotation.set(0.05, 0.55, -0.3); tray.add(tw);
+tray.updateMatrixWorld(true); const fl = E.flares(4, new THREE.Vector3(-0.2, 1.15, 1.1).applyMatrix4(tray.matrixWorld), 0.6, 0.9); st.scene.add(fl);
+st.scene.add(E.sparkles(120, [8, 4, 6], { center: [3.5, 1.2, 0], size: 20 }));
+st.scene.add(E.sparkles(60, [2.0, 0.02, 1.3], { center: [4.0, 0.02, 0.3], shape: 'disc', size: 16, colors: [0xffffff, 0x9ff0c8, 0xa9c2ff, 0xffb0c0] }));
+st.onFrame(t => { tw.position.y = 1.25 + Math.sin(t * 0.8) * 0.05; tip.rotation.x = t * 0.5; fl.userData.tick(t); });
+E.start();
+// hotspots pinned to the stones
+const H = document.getElementById('hsx');
+const lab = [['Round brilliant', '2.01 ct · D · VVS1'], ['Emerald, step cut', '1.86 ct · Colombia'], ['Oval sapphire', '2.40 ct · unheated'], ['Cushion ruby', '1.72 ct · Mozambique']];
+tray.updateMatrixWorld(true);
+[0, 1, 2, 3].forEach(i => { const [, , R, x, z] = loose[i]; const v = new THREE.Vector3(x, R * 0.6, z).applyMatrix4(tray.matrixWorld).project(st.camera);
+  const px = (v.x + 1) / 2 * 1440, py = (1 - v.y) / 2 * 1000; const up = i % 2 === 0;
+  H.insertAdjacentHTML('beforeend', `<div class="hs" style="left:${px - 7}px;top:${py + (up ? -110 : 60)}px;flex-direction:column;align-items:flex-start;gap:6px">${up ? '' : '<span class="ln" style="width:1px;height:40px;margin-left:6px;background:linear-gradient(180deg,#fff,transparent)"></span>'}<span>${lab[i][0]}<small>${lab[i][1]}</small></span>${up ? '<span class="ln" style="width:1px;height:40px;margin-left:6px;background:linear-gradient(0deg,#fff,transparent)"></span>' : ''}</div>`);
+});
+// virtual salon frame
+document.getElementById('vr').style.backgroundImage = `url(${E.snapshot((sc, s) => { const r = E.buildRing(s, { shape: 'cushion', gem: 'diamond', carat: 2.2 }); r.rotation.set(0.35, -0.5, 0); sc.add(r); }, { w: 560, h: 560, cam: [0, 1.6, 5.6], target: [0, 0.55, 0] })})`;
+</script>
+</body></html>

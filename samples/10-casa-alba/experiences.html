@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Experiences — SAHRA</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;500;600&family=Unbounded:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sahra.css">
+<script src="sahra3d.js"></script>
+<style>
+.hero{height:1040px;background:#05061c}
+.hero .fade{position:absolute;left:0;right:0;bottom:0;height:220px;z-index:4;background:linear-gradient(180deg,transparent,var(--ink));pointer-events:none}
+.hero .ttl{position:absolute;left:72px;bottom:150px;z-index:6}
+.hero .ttl .h1{font-size:150px;margin-top:26px}
+.cn{position:absolute;z-index:7;transform:translate(-50%,-100%);white-space:nowrap;text-align:center;pointer-events:none}
+.cn b{display:block;font:400 18px/1.1 var(--disp);letter-spacing:.08em;color:#fff3dc;text-shadow:0 0 18px rgba(255,200,140,.6)}
+.cn small{font:500 9.5px/1 var(--ui);letter-spacing:.3em;text-transform:uppercase;color:rgba(217,198,255,.75)}
+.tonight{position:absolute;right:72px;bottom:150px;z-index:6;width:360px;border-radius:26px;padding:26px}
+.tonight h4{font:400 28px/1.05 var(--disp);margin:10px 0 16px}
+.tl li{list-style:none;display:grid;grid-template-columns:62px 1fr;gap:12px;padding:10px 0;border-top:1px solid rgba(217,198,255,.14);font-size:13px;color:var(--dim)}
+.tl li b{font:300 13px/1.4 var(--num);color:#d9c6ff}
+.tl li.on{color:var(--white)}
+.tl li.on b{color:#ffe2b2}
+.hud{position:absolute;left:72px;right:72px;bottom:56px;z-index:6;display:flex;justify-content:space-between;font:300 11px/1 var(--num);letter-spacing:.14em;color:var(--faint);border-top:1px solid rgba(217,198,255,.16);padding-top:20px}
+.hud span b{color:var(--white);font-weight:400}
+.hero .cursor{left:780px;top:330px}
+
+/* split */
+.split{display:grid;grid-template-columns:1fr 1fr;position:relative;margin:0 72px;border-radius:34px;overflow:hidden}
+.split .day{background:linear-gradient(160deg,#f6d3a1,#e7a35e 55%,#c98a4b);color:#2a1408;padding:64px 120px 56px 64px}
+.split .nit{background:linear-gradient(200deg,#2a1f44,#0e1230 60%,#070818);padding:64px 64px 56px 120px}
+.split h3{font:400 64px/1 var(--disp);margin:18px 0 34px}
+.ex{display:grid;grid-template-columns:70px 1fr auto;gap:18px;padding:20px 0;border-top:1px solid rgba(42,20,8,.18);align-items:baseline}
+.nit .ex{border-color:rgba(217,198,255,.15)}
+.ex .t{font:300 15px/1 var(--num)}
+.ex b{display:block;font:400 24px/1.15 var(--disp)}
+.ex small{font-size:13px;opacity:.75}
+.ex .p{font:300 14px/1 var(--num)}
+.split .dial{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px;border-radius:50%;z-index:3;display:grid;place-items:center;background:conic-gradient(from 180deg,#0e1230 0 50%,#f6d3a1 50% 100%);box-shadow:0 0 0 10px rgba(255,255,255,.08),0 30px 80px rgba(0,0,0,.4)}
+.split .dial::after{content:"";position:absolute;inset:16px;border-radius:50%;background:radial-gradient(circle at 70% 40%,#fff,#d9e0ff 18%,transparent 19%),radial-gradient(circle at 30% 60%,#fff3dc,#ffb45e 22%,transparent 23%),linear-gradient(90deg,#c98a4b 50%,#1a1640 50%)}
+.split .dial span{position:absolute;bottom:-34px;font:500 10px/1 var(--ui);letter-spacing:.28em;color:var(--dim);white-space:nowrap}
+
+/* feature */
+.feat{padding:150px 72px 0;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.feat.rev .media{order:2}
+.media{position:relative;height:680px}
+.media .ph{position:absolute;border-radius:28px}
+.chart{position:relative;width:560px;height:560px;margin:0 auto}
+.chart svg{position:absolute;inset:0;animation:spin 240s linear infinite}
+.chart .rim{position:absolute;inset:-22px;border-radius:50%;border:1px solid rgba(217,198,255,.25)}
+.chart .lb{position:absolute;font:500 10px/1 var(--ui);letter-spacing:.3em;color:var(--faint)}
+.astro{position:absolute;right:-10px;bottom:10px;width:300px;border-radius:24px;padding:22px}
+.astro .av{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ffe2b2,#c98a4b 55%,#3a2a4f);display:grid;place-items:center;font:400 20px/1 var(--disp);color:#2a1408}
+.menu{position:absolute;right:-30px;bottom:-40px;width:330px;border-radius:24px;padding:26px}
+.menu li{list-style:none;display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(255,240,220,.14);font-size:13px;color:var(--dim)}
+.menu li b{font:300 11px/1.6 var(--num);color:var(--sand2)}
+.txt .h2{margin:26px 0 26px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);margin-top:40px;border-top:1px solid var(--line)}
+.facts div{padding:22px 0;font-size:12px;color:var(--faint);letter-spacing:.06em}
+.facts b{display:block;font:300 28px/1.1 var(--num);color:var(--white);margin-bottom:6px;letter-spacing:-.02em}
+.trt li{list-style:none;display:grid;grid-template-columns:1fr auto auto;gap:24px;padding:16px 0;border-top:1px solid var(--line);align-items:baseline}
+.trt b{font:400 22px/1.2 var(--disp)}
+.trt span{font:300 13px/1 var(--num);color:var(--faint)}
+.trt em{font:300 15px/1 var(--num);font-style:normal;color:var(--sand2)}
+.cta{margin:150px 72px 140px;border-radius:34px;padding:80px;position:relative;overflow:hidden;background:radial-gradient(600px 300px at 80% 100%,rgba(255,154,77,.45),transparent 70%),linear-gradient(120deg,#2a1f44,#0e1230);display:flex;justify-content:space-between;align-items:center}
+.cta .h2{font-size:80px}
+</style></head>
+<body>
+<section class="stage hero">
+  <canvas id="c1"></canvas>
+  <header data-nav="experiences" data-mode="night"></header>
+  <div class="fade"></div>
+  <div class="cn" id="n1"><b>Al-Jabbar</b><small>Orion · rising 20:40</small></div>
+  <div class="cn" id="n2"><b>Al-Thurayya</b><small>The Pleiades</small></div>
+  <div class="cn" id="n3"><b>Al-Dabaran</b><small>Taurus · the follower</small></div>
+  <div class="cn" id="n4"><b style="color:#e6d6ff">Darb al-Tabbanah</b><small>The Milky Way · “path of the straw”</small></div>
+  <div class="ttl"><div class="chap"><b>01</b>Experiences</div><h1 class="h1">The desert,<br><span class="night-ink">after dark.</span></h1></div>
+  <div class="tonight glass dark">
+    <div class="eyebrow" style="color:#d9c6ff">Tonight · Fri 14 Nov</div>
+    <h4>Night Sky Programme</h4>
+    <ul class="tl"><li><b>19:40</b>First stars from the Spring terrace</li><li class="on"><b>21:30</b>Saturn &amp; its rings, 20″ Dobsonian</li><li><b>22:10</b>Lamps off · the core rises</li><li><b>00:30</b>Andromeda, 2.5 million light-years</li></ul>
+  </div>
+  <div class="cursor"><i></i><b>Drag<br>the sky</b></div>
+  <div class="hud"><span>MOON <b>18%</b> · SETS 21:48</span><span>SEEING <b>4.6 / 5</b></span><span>SKY QUALITY <b>21.9 mag/arcsec²</b></span><span>LAMPS <b>&lt; 2,200 K</b></span><span>NEXT METEOR SHOWER · <b>LEONIDS 17 NOV</b></span></div>
+</section>
+
+<section style="padding:120px 0 0">
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px"><div><div class="chap"><b>02</b>Two clocks</div><h2 class="h2" style="margin-top:28px">Live by the sun.<br><span class="night-ink">Sleep by the stars.</span></h2></div><p class="lead">Every day at Sahra is split in two. Mornings are early and gold; nights are long, dark and unhurried. Everything below can be added to any stay.</p></div>
+  <div class="split">
+    <div class="day"><div class="eyebrow" style="color:#5a2e12">By day · 05:40 – 18:31</div><h3>Gold hours</h3>
+      <div class="ex"><span class="t">05:40</span><span><b>Falconry at first light</b><small>With Salim and his saker falcons</small></span><span class="p">€280</span></div>
+      <div class="ex"><span class="t">06:30</span><span><b>Caravan to the spring</b><small>Two hours by camel, breakfast under palms</small></span><span class="p">€340</span></div>
+      <div class="ex"><span class="t">10:00</span><span><b>Sandboarding the crest</b><small>On a 90 m slip face, waxed boards</small></span><span class="p">€160</span></div>
+      <div class="ex"><span class="t">17:42</span><span><b>Sundowner on the ridge</b><small>Frankincense spritz, dates, silence</small></span><span class="p">incl.</span></div>
+    </div>
+    <div class="nit"><div class="eyebrow" style="color:#d9c6ff;text-align:right">By night · 18:31 – 05:40</div><h3 style="text-align:right">Violet hours</h3>
+      <div class="ex"><span class="t">19:40</span><span><b>Dune dinner on a crest</b><small>Seven courses by lantern light</small></span><span class="p">€480</span></div>
+      <div class="ex"><span class="t">21:30</span><span><b>Night Sky Programme</b><small>Saturn, nebulae, naked-eye Milky Way</small></span><span class="p">incl.</span></div>
+      <div class="ex"><span class="t">22:30</span><span><b>Private astronomer</b><small>Your dome, your telescope, your list</small></span><span class="p">€650</span></div>
+      <div class="ex"><span class="t">23:00</span><span><b>Warm-sand hammam</b><small>Under the open oculus of the spa dome</small></span><span class="p">€320</span></div>
+    </div>
+    <div class="dial"><span>18:31 · SUNSET</span></div>
+  </div>
+</section>
+
+<section class="feat">
+  <div class="media">
+    <div class="chart">
+      <div class="rim"></div>
+      <svg viewBox="0 0 560 560" fill="none">
+        <defs><radialGradient id="sk"><stop stop-color="#2a1f44"/><stop offset="1" stop-color="#0a0b22"/></radialGradient></defs>
+        <circle cx="280" cy="280" r="276" fill="url(#sk)" stroke="rgba(217,198,255,.35)"/>
+        <circle cx="280" cy="280" r="200" stroke="rgba(217,198,255,.12)" stroke-dasharray="3 5"/><circle cx="280" cy="280" r="120" stroke="rgba(217,198,255,.12)" stroke-dasharray="3 5"/>
+        <path d="M4 280 H556 M280 4 V556" stroke="rgba(217,198,255,.08)"/>
+        <path d="M60 140 C180 220 360 260 520 420" stroke="rgba(217,198,255,.16)" stroke-width="70" stroke-linecap="round"/>
+        <g stroke="#ffe2b2" stroke-opacity=".6"><path d="M330 150 L380 160 M330 150 L352 205 M380 160 L372 210 M352 205 L362 208 L372 210 M352 205 L338 255 M372 210 L392 252"/><path d="M200 210 L182 228 L170 240 M182 228 L198 244 L214 238"/><path d="M120 330 L160 350 L196 342 L232 360 L268 388 M196 342 L206 304"/></g>
+        <g fill="#fff"><circle cx="330" cy="150" r="4"/><circle cx="380" cy="160" r="3"/><circle cx="352" cy="205" r="2.4"/><circle cx="362" cy="208" r="2.4"/><circle cx="372" cy="210" r="2.4"/><circle cx="338" cy="255" r="2.6"/><circle cx="392" cy="252" r="3.6"/><circle cx="200" cy="210" r="3.4" fill="#ffcf8a"/><circle cx="182" cy="228" r="2"/><circle cx="170" cy="240" r="2"/><circle cx="198" cy="244" r="2"/><circle cx="214" cy="238" r="2"/><circle cx="120" cy="330" r="2.4"/><circle cx="160" cy="350" r="2.4"/><circle cx="196" cy="342" r="2.8"/><circle cx="232" cy="360" r="2.4"/><circle cx="268" cy="388" r="3"/><circle cx="206" cy="304" r="2"/></g>
+        <g fill="#fff" opacity=".55"><circle cx="90" cy="90" r="1"/><circle cx="440" cy="80" r="1.2"/><circle cx="470" cy="300" r="1"/><circle cx="420" cy="470" r="1.3"/><circle cx="100" cy="440" r="1"/><circle cx="250" cy="120" r="1"/><circle cx="300" cy="460" r="1.2"/><circle cx="480" cy="200" r="1"/><circle cx="60" cy="250" r="1.1"/><circle cx="160" cy="110" r="1"/></g>
+        <circle cx="420" cy="380" r="7" fill="#e9c58a"/><ellipse cx="420" cy="380" rx="15" ry="4" stroke="#e9c58a" transform="rotate(-20 420 380)"/>
+        <text x="434" y="404" fill="#e9c58a" font-family="Unbounded" font-size="10">SATURN</text>
+        <text x="300" y="138" fill="rgba(255,226,178,.8)" font-family="Inter" font-size="10" letter-spacing="3">ORION</text>
+        <text x="96" y="318" fill="rgba(255,226,178,.8)" font-family="Inter" font-size="10" letter-spacing="3">CASSIOPEIA</text>
+        <text x="216" y="200" fill="rgba(255,226,178,.8)" font-family="Inter" font-size="10" letter-spacing="3">TAURUS</text>
+      </svg>
+      <span class="lb" style="left:50%;top:-44px;transform:translateX(-50%)">N</span><span class="lb" style="right:-44px;top:50%">E</span><span class="lb" style="left:50%;bottom:-44px;transform:translateX(-50%)">S</span><span class="lb" style="left:-44px;top:50%">W</span>
+    </div>
+    <div class="astro glass dark"><div style="display:flex;gap:14px;align-items:center"><span class="av">IA</span><div><b style="font:400 19px/1.2 var(--disp)">Dr. Idris Al-Harthy</b><div style="font-size:12px;color:var(--faint)">Resident astronomer since 2021</div></div></div><p style="font-size:13px;color:var(--dim);margin-top:14px">“Here the Milky Way casts a shadow. Most of my guests have never seen their own.”</p></div>
+  </div>
+  <div class="txt"><div class="chap"><b>03</b>The Night Sky Programme</div><h2 class="h2">A planetarium<br>with <span class="night-ink">no roof.</span></h2><p class="lead">Every evening, our astronomer turns the reserve’s observatory dome toward whatever the sky is offering: Saturn’s rings, the Orion Nebula, a galaxy two and a half million light-years away. Then the lamps go out.</p>
+    <div class="facts"><div><b>20″</b>Dobsonian telescope</div><div><b>21.9</b>sky quality, mag/arcsec²</div><div><b>4,500+</b>naked-eye stars</div></div>
+    <a class="btn" href="booking.html" style="margin-top:20px">Add to my stay <span class="ar">→</span></a></div>
+</section>
+
+<section class="feat rev">
+  <div class="media">
+    <div class="ph" style="left:0;top:0;width:560px;height:620px;background-image:url(https://images.unsplash.com/photo-1688988816492-f71727a11149?auto=format&fit=crop&q=82&w=1100)"></div>
+    <div class="menu glass dark"><div class="eyebrow">Tonight’s menu · 7 courses</div><ul style="margin-top:14px"><li>Camel milk &amp; saffron, dates<b>I</b></li><li>Sand-baked flatbread, wild thyme<b>II</b></li><li>Kingfish from Sur, lime &amp; salt<b>III</b></li><li>Lamb shuwa, eight hours in the dune<b>IV</b></li><li>Frankincense ice, rose<b>V</b></li></ul></div>
+  </div>
+  <div class="txt"><div class="chap"><b>04</b>Dune dinners</div><h2 class="h2">Dinner on<br><span class="gold">a moving table.</span></h2><p class="lead">A carpet, two cushions and forty lanterns, laid on a different crest each night. The lamb has been buried in the sand since noon. The wind decides where the table goes.</p>
+    <div class="facts"><div><b>40</b>lanterns, no bulbs</div><div><b>8 h</b>shuwa in the sand</div><div><b>€480</b>for two, with wine</div></div></div>
+</section>
+
+<section class="feat">
+  <div class="media">
+    <div class="ph" style="left:40px;top:0;width:520px;height:640px;background-image:url(https://images.unsplash.com/photo-1655684346560-55cc62b2c9c0?auto=format&fit=crop&q=82&w=1100)"></div>
+    <div class="glass dark" style="position:absolute;right:-10px;top:80px;width:220px;border-radius:22px;padding:20px"><div class="eyebrow">Water at</div><div class="num" style="font-size:52px;margin-top:10px">31°</div><p style="font-size:12px;color:var(--dim)">after dark, warmed by the day’s sun</p></div>
+  </div>
+  <div class="txt"><div class="chap"><b>05</b>Sand &amp; Salt Spa</div><h2 class="h2">Heat, then<br><span class="gold">cool glass.</span></h2><p class="lead">A dome of its own, half sunk into the dune. Rituals start with warm sand, move through salt and frankincense, and end in a pool that pours into the desert.</p>
+    <ul class="trt" style="margin-top:34px"><li><b>Warm-sand hammam</b><span>90 min</span><em>€320</em></li><li><b>Frankincense &amp; rose ritual</b><span>120 min</span><em>€410</em></li><li><b>Stargazer’s float, after dark</b><span>60 min</span><em>€240</em></li></ul></div>
+</section>
+
+<section class="cta"><div><div class="eyebrow">Plan the nights first</div><h2 class="h2" style="margin-top:20px">Darkest skies:<br><span class="night-ink">5 – 13 November.</span></h2></div><a class="btn" href="booking.html">Choose your nights <span class="ar">→</span></a></section>
+
+<footer data-foot></footer>
+<script src="sahra.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const $ = id => document.getElementById(id);
+const constellations = [
+  { id: 'orion', stars: [[15, 19.5], [21, 19], [17, 14.5], [18, 14.2], [19, 13.899999999999999], [15.5, 9.5], [21.5, 9.7]], lines: [[0, 1], [0, 2], [1, 4], [2, 3], [3, 4], [2, 5], [4, 6]], label: [18, 21.5] },
+  { id: 'pleiades', stars: [[-13, 19.5], [-12.4, 20.1], [-11.9, 19.2], [-12.8, 18.8], [-11.6, 19.8], [-12.3, 18.4]], lines: [[0, 1], [1, 4], [4, 2], [2, 5], [5, 3], [3, 0]], label: [-12.3, 21.5] },
+  { id: 'taurus', stars: [[-2, 14.5], [-3.5, 13.3], [-5, 12.600000000000001], [-3, 11.899999999999999], [-1.2, 12.5], [1, 16]], lines: [[0, 1], [1, 2], [0, 4], [4, 3], [0, 5]], label: [-2, 17] },
+  { id: 'mw', stars: [], lines: [], label: [3, 20.5] }
+];
+SAHRA3D(THREE, { RoomEnvironment, RoundedBoxGeometry }, $('c1'), 'sky', { constellations, anchors: [{ id: 'orion', el: $('n1') }, { id: 'pleiades', el: $('n2') }, { id: 'taurus', el: $('n3') }, { id: 'mw', el: $('n4') }] });
+</script>
+</body></html>

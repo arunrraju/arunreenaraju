@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOIDWORKS — Raffle: Void Shell Jacket</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="void.css">
+<style>
+html,body{height:1080px;overflow:hidden}
+.app{display:grid;grid-template-columns:520px 560px 360px;height:966px}
+/* left */
+.prod{position:relative;background:var(--ink);color:var(--paper);overflow:hidden;border-right:2px solid var(--ink)}
+.prod .ph{position:absolute;inset:0}
+.prod .shade{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(10,10,10,.1) 40%,rgba(10,10,10,.92) 78%)}
+.prod .vt{position:absolute;z-index:3;right:-10px;top:-6px;writing-mode:vertical-rl;font:400 230px/.8 var(--dis);color:transparent;-webkit-text-stroke:2px var(--ink);text-transform:uppercase}
+.prod .info{position:absolute;z-index:4;left:36px;right:36px;bottom:150px}
+.prod .info h1{font:400 92px/.84 var(--dis);text-transform:uppercase;margin:14px 0 16px}
+.prod .info h1 span{color:var(--lime)}
+.prod .info .r{display:flex;gap:10px;align-items:center}
+.prod .info .r b{font:400 44px/1 var(--dis);margin-right:8px}
+.prod .info .r span{border:2px solid var(--paper);padding:7px 9px;font:700 11px/1 var(--mono);letter-spacing:.08em}
+.prod .sticker{z-index:5}
+.prod .tapes{position:absolute;left:-80px;right:-80px;bottom:30px;height:120px;z-index:6}
+.prod .tapes .tick{position:absolute;left:0;right:0;top:30px;height:52px}
+.prod .tapes .a{transform:rotate(-7deg)}
+.prod .tapes .b{transform:rotate(5deg)}
+.prod .tapes .tick.caution .t{font-size:22px;padding:4px 14px}
+.prod .tapes .b.caution{background:repeating-linear-gradient(45deg,var(--red) 0 22px,var(--ink) 22px 44px)}
+.prod .tapes .b.caution .t{background:var(--red);color:var(--paper)}
+/* middle */
+.form{padding:30px 40px 0;border-right:2px solid var(--ink);display:flex;flex-direction:column}
+.form .hd{display:flex;justify-content:space-between;align-items:flex-end}
+.form h2{font:400 76px/.84 var(--dis);text-transform:uppercase}
+.form h2 .o{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:22px 0 24px}
+.steps div{border:2px solid var(--ink);padding:8px 10px;font:700 10px/1 var(--mono);letter-spacing:.1em;display:flex;justify-content:space-between}
+.steps .d{background:var(--ink);color:var(--lime)}
+.steps .a{background:var(--lime);box-shadow:4px 4px 0 var(--ink)}
+.lbl{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font:700 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.lbl b{background:var(--ink);color:var(--paper);padding:4px 6px;margin-right:8px}
+.sz{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-bottom:26px;position:relative}
+.sz div{border:2px solid var(--ink);text-align:center;padding:10px 0 8px;background:var(--paper)}
+.sz b{display:block;font:400 30px/1 var(--dis)}
+.sz small{display:block;font:700 9px/1.3 var(--mono);margin-top:5px;color:#55544f}
+.sz .on{background:var(--ink);color:var(--lime);transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--lime),8px 8px 0 var(--ink)}
+.sz .on small{color:var(--paper)}
+.sz .x{color:#b0aea7;border-color:#c3c1ba;background:linear-gradient(to top right,transparent 49%,#c3c1ba 49.5% 50.5%,transparent 51%)}
+.flds{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.fld{border:2px solid var(--ink);padding:8px 12px 9px;background:#fbfaf6}
+.fld.w{grid-column:1/-1}
+.fld span{display:block;font:700 9px/1 var(--mono);letter-spacing:.14em;color:#77766f;text-transform:uppercase}
+.fld b{display:flex;justify-content:space-between;align-items:center;font:700 14px/1 var(--mono);margin-top:7px}
+.fld.f{border-color:var(--ink);box-shadow:4px 4px 0 var(--lime),4px 4px 0 2px var(--ink);background:var(--paper)}
+.fld.f b::after{content:"";width:2px;height:16px;background:var(--ink);animation:blink 1s steps(1) infinite;margin-left:2px;margin-right:auto}
+.fld .ok{color:var(--ink);background:var(--lime);font-size:9px;padding:3px 5px;letter-spacing:.08em}
+.del{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.del>div{border:2px solid var(--ink);padding:10px 12px;font:700 11px/1.3 var(--mono);display:flex;gap:10px;align-items:center}
+.del>div i{width:18px;height:18px;border:2px solid var(--ink);border-radius:50%;flex:none;display:grid;place-items:center}
+.del>div.on i::after{content:"";width:8px;height:8px;background:var(--ink);border-radius:50%}
+.del>div.on{background:var(--lime)}
+.del small{display:block;font-weight:400;font-size:10px;color:#3d3c38}
+.chk{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;font-size:11px}
+.chk div{display:flex;gap:10px;align-items:center}
+.chk i{width:20px;height:20px;border:2px solid var(--ink);flex:none;display:grid;place-items:center;background:var(--ink);color:var(--lime)}
+.chk i .ic{width:13px;height:13px;stroke-width:3}
+.submit{height:78px;width:100%;justify-content:space-between;font-size:15px;box-shadow:8px 8px 0 var(--ink)}
+.fine{font-size:10.5px;color:#55544f;margin-top:22px;text-align:center}
+.how{display:grid;grid-template-columns:repeat(4,1fr);margin-top:22px;border:2px solid var(--ink)}.how div{padding:10px 12px;border-right:2px solid var(--ink);font:700 10px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.06em}.how div:last-child{border-right:0}.how b{display:block;font:400 26px/1 var(--dis);margin-bottom:4px}.how .k{background:var(--ink);color:var(--lime)}
+/* right */
+.side{display:flex;flex-direction:column;background:var(--paper-2)}
+.side>div{border-bottom:2px solid var(--ink);padding:20px 24px}
+.timer{background:var(--lime)}
+.timer .row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.timer .row div{background:var(--ink);color:var(--paper);text-align:center;padding:8px 0 6px}
+.timer .row b{display:block;font:400 46px/1 var(--dis)}
+.timer .row span{font:700 8px/1 var(--mono);letter-spacing:.2em;color:var(--lime)}
+.timer .row div.s b{color:var(--red)}
+.odds .big{display:flex;align-items:flex-end;gap:10px;margin:8px 0 6px}
+.odds .big b{font:400 100px/.84 var(--dis)}
+.odds .big span{font:700 12px/1.3 var(--mono);margin-bottom:8px}
+.gauge{position:relative;height:30px;border:2px solid var(--ink);background:repeating-linear-gradient(90deg,transparent 0 10px,rgba(10,10,10,.18) 10px 12px)}
+.gauge i{position:absolute;left:0;top:0;bottom:0;width:26%;background:var(--ink)}
+.gauge i::after{content:"";position:absolute;right:-2px;top:-8px;bottom:-8px;width:4px;background:var(--red)}
+.gauge-l{display:flex;justify-content:space-between;font:700 9px/1 var(--mono);letter-spacing:.1em;margin-top:6px;color:#55544f}
+.per{margin-top:14px;display:grid;gap:5px}
+.per div{display:grid;grid-template-columns:30px 1fr 54px;gap:8px;align-items:center;font:700 10px/1 var(--mono)}
+.per div i{height:10px;border:1.5px solid var(--ink);position:relative}
+.per div i b{position:absolute;inset:0;right:auto;background:var(--ink)}
+.per div.on{color:var(--ink)}
+.per div.on i b{background:var(--red)}
+.per div.on span:first-child{background:var(--lime)}
+.stat3{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink);margin-top:14px}
+.stat3 div{padding:8px;border-right:2px solid var(--ink);text-align:center}
+.stat3 div:last-child{border-right:0}
+.stat3 b{display:block;font:400 26px/1 var(--dis)}
+.stat3 span{font:700 8px/1 var(--mono);letter-spacing:.12em}
+.feed{flex:1;background:var(--ink);color:var(--paper);overflow:hidden;position:relative;border-bottom:0!important}
+.feed .ln{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #3a3a3a;font-size:11px}
+.feed .ln b{color:var(--lime);font-weight:700}
+.feed .ln em{font-style:normal;color:#8b8a84}
+.feed::after{content:"";position:absolute;left:0;right:0;bottom:0;height:60px;background:linear-gradient(transparent,var(--ink))}
+</style></head>
+<body>
+<div data-nav></div>
+<div class="app">
+  <section class="prod">
+    <div class="ph duo" data-img="1576193929684-06c6c6a8b582|1000|45% 30%"></div><div class="shade"></div>
+    <div class="vt">Raffle</div>
+    <div class="sticker r" style="left:30px;top:30px;transform:rotate(-6deg)"><span data-ic="ticket"></span> Raffle only</div>
+    <div class="sticker round spin" style="left:340px;top:330px;background:var(--paper);color:var(--ink)">120<small>units total</small></div>
+    <div class="info"><span class="live k"><i></i> 214 people viewing</span><h1>Void Shell<br><span>Jacket</span></h1>
+      <div class="r"><b>€480</b><span>3-LAYER</span><span>TAPED SEAMS</span><span>07 / 11</span></div></div>
+    <div class="tapes"><div class="tick caution a"><div class="t"><span>Raffle open</span><span>■</span><span>One entry per human</span><span>■</span></div></div><div class="tick caution b"><div class="t slow"><span>Bots disqualified</span><span>■</span><span>Draw Sun 20:00</span><span>■</span></div></div></div>
+  </section>
+
+  <section class="form">
+    <div class="hd"><h2>Enter<br>the <span class="o">draw</span></h2><div class="barcode" style="width:150px;height:60px"></div></div>
+    <div class="steps"><div class="d"><span>01 SIZE</span><span>✓</span></div><div class="a"><span>02 DETAILS</span><span>●</span></div><div><span>03 CONFIRM</span><span>○</span></div></div>
+    <div class="lbl"><span><b>01</b>Pick your size</span><span style="color:#55544f">Entries per size</span></div>
+    <div class="sz"><div><b>XS</b><small>612 / 10</small></div><div><b>S</b><small>988 / 22</small></div><div class="on"><b>M</b><small>1,104 / 29</small></div><div><b>L</b><small>1,246 / 31</small></div><div><b>XL</b><small>540 / 20</small></div><div class="x"><b>XXL</b><small>CLOSED</small></div>
+      <div class="cursor" style="left:222px;top:58px;width:62px;height:62px;font-size:17px">PICK</div></div>
+    <div class="lbl"><span><b>02</b>Your details</span><span style="color:#55544f">Signed in ✓</span></div>
+    <div class="flds"><div class="fld"><span>Full name</span><b>Mara Lindqvist</b></div><div class="fld"><span>Phone (SMS verify)</span><b>+49 ••• ••• 4471 <em class="ok">OK</em></b></div>
+      <div class="fld w f"><span>Email</span><b>mara@lindqvist.studio</b></div>
+      <div class="fld"><span>Country</span><b>Germany <span data-ic="plus"></span></b></div><div class="fld"><span>Postcode</span><b>10997</b></div></div>
+    <div class="del"><div class="on"><i></i><div>Ship to me<small>Express, 48h · free</small></div></div><div><i></i><div>Pick up in Berlin<small>Voidworks Studio, Kreuzberg</small></div></div></div>
+    <div class="chk"><div><i><span data-ic="check"></span></i>Card is only charged €480 if you win. Otherwise nothing.</div><div><i><span data-ic="check"></span></i>One entry per person, address and card. Duplicates are voided.</div></div>
+    <a class="btn submit">Submit entry — Size M <span data-ic="arrow"></span></a>
+    <div class="fine">Winners get an SMS at 20:00 CET Sunday and have 2 hours to confirm.</div>
+    <div class="how"><div><b>01</b>Enter by<br>Sat 23:59</div><div><b>02</b>Draw<br>Sun 20:00</div><div><b>03</b>Confirm<br>within 2h</div><div class="k"><b>04</b>Ships<br>Mon</div></div>
+  </section>
+
+  <aside class="side">
+    <div class="timer" data-cd="80833"><div class="lbl" style="margin:0"><span>Entries close in</span><span class="blink">● LIVE</span></div>
+      <div class="row"><div><b data-u="d">00</b><span>DAYS</span></div><div><b data-u="h">22</b><span>HRS</span></div><div><b data-u="m">27</b><span>MIN</span></div><div class="s"><b data-u="s">13</b><span>SEC</span></div></div></div>
+    <div class="odds"><div class="lbl" style="margin:0"><span>Your odds · size M</span><span style="color:var(--red)">↓ dropping</span></div>
+      <div class="big"><b>1:38</b><span>2.6% chance<br>to win</span></div>
+      <div class="gauge"><i></i></div><div class="gauge-l"><span>Long shot</span><span>Fair</span><span>Good</span></div>
+      <div class="per"><div><span>XS</span><i><b style="width:16%"></b></i><span>1:61</span></div><div><span>S</span><i><b style="width:22%"></b></i><span>1:45</span></div><div class="on"><span>M</span><i><b style="width:26%"></b></i><span>1:38</span></div><div><span>L</span><i><b style="width:25%"></b></i><span>1:40</span></div><div><span>XL</span><i><b style="width:37%"></b></i><span>1:27</span></div></div>
+      <div class="stat3"><div><b>4,490</b><span>ENTRIES</span></div><div><b>120</b><span>UNITS</span></div><div><b>27</b><span>COUNTRIES</span></div></div></div>
+    <div class="feed"><div class="lbl" style="color:var(--lime);margin-bottom:6px"><span>Live entries</span><span>+38 / min</span></div>
+      <div class="ln"><span><b>j.k***</b> · L · Oslo</span><em>2s</em></div>
+      <div class="ln"><span><b>ndu***</b> · M · Lyon</span><em>5s</em></div>
+      <div class="ln"><span><b>pi.r***</b> · S · Gdańsk</span><em>9s</em></div>
+      <div class="ln"><span><b>tea***</b> · XL · Ghent</span><em>11s</em></div>
+      <div class="ln"><span><b>vo1d***</b> · M · Turin</span><em>14s</em></div>
+      <div class="ln"><span><b>amar***</b> · L · Porto</span><em>18s</em></div>
+      <div class="ln"><span><b>kris***</b> · XS · Vienna</span><em>21s</em></div><div class="ln"><span><b>sola***</b> · M · Seville</span><em>24s</em></div><div class="ln"><span><b>ben.v***</b> · L · Utrecht</span><em>29s</em></div><div class="ln"><span><b>mi_ka***</b> · S · Tallinn</span><em>33s</em></div></div>
+  </aside>
+</div>
+<script src="void.js"></script><script>void_('Raffle')</script>
+</body></html>

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Gifting & Checkout — Maison Cacao Noir</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Gilda+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cacao.css">
+<script src="cacao3d.js"></script>
+<style>
+.hero{position:relative;height:880px;overflow:hidden;background:radial-gradient(ellipse 44% 52% at 66% 54%,#5e1f2a 0%,#2e110d 45%,var(--bg) 80%)}
+.hero .word{position:absolute;right:-30px;top:110px;font:400 330px/.8 var(--disp);letter-spacing:-.03em;white-space:nowrap;z-index:1}
+.hero .word span{background:linear-gradient(180deg,rgba(214,58,99,.55),rgba(214,58,99,.05) 80%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero canvas{position:absolute;right:0;top:20px;z-index:2}
+.hero .copy{position:absolute;left:56px;top:230px;z-index:4;width:540px}
+.hero h1{font-size:112px;line-height:.88;margin:24px 0 28px;letter-spacing:-.03em}
+.hero p{color:var(--dim);font-size:17px;max-width:440px}
+.hero .cta{display:flex;gap:12px;margin-top:38px}
+.hero .tag{position:absolute;left:1180px;top:200px;z-index:5;width:200px;padding:16px;transform:rotate(6deg);border-radius:14px;background:linear-gradient(160deg,#f6ecdc,#e2cfae);color:#2a1610;box-shadow:0 30px 50px rgba(0,0,0,.5)}
+.hero .tag::before{content:"";position:absolute;left:-40px;top:24px;width:44px;height:1px;background:#e8c87a;transform:rotate(-14deg)}
+.hero .tag::after{content:"";position:absolute;left:12px;top:12px;width:12px;height:12px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 2px #c8a15a}
+.hero .tag small{display:block;font:700 9px/1 var(--sans);letter-spacing:.2em;color:#9a7433;margin:0 0 8px 22px}
+.hero .tag p{font:italic 400 19px/1.25 var(--serif);color:#2a1610}
+.hero .seal{position:absolute;left:640px;top:620px;z-index:5;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#e05a7a,#a3173a 50%,#5e0a20);display:grid;place-items:center;box-shadow:0 18px 30px rgba(0,0,0,.5),inset 0 -6px 12px rgba(0,0,0,.35);transform:rotate(-12deg);animation:float 5s ease-in-out infinite}
+.hero .seal b{width:72px;height:72px;border-radius:50%;border:2px solid rgba(255,200,210,.4);display:grid;place-items:center;font:italic 400 36px/1 var(--serif);color:rgba(255,220,225,.85)}
+.hero .meta{position:absolute;left:56px;bottom:46px;z-index:5;display:flex;gap:40px}
+.hero .meta div{display:flex;gap:14px;align-items:center;font-size:13px;color:var(--dim)}
+.hero .meta b{display:block;color:var(--cream);font:400 19px/1.2 var(--serif)}
+.hero .meta i{width:44px;height:44px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-style:normal;color:var(--gold)}
+
+.sets{padding:110px 56px 120px}
+.sets .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:46px}
+.sets h2{font-size:76px;margin-top:18px}
+.sets .row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.gs{border-radius:24px;overflow:hidden;border:1px solid var(--line);background:#1d0e09;position:relative}
+.gs .im{height:340px;position:relative;overflow:hidden}
+.gs .im img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.gs .im .rb{position:absolute;left:0;right:0;top:50%;height:22px;margin-top:-11px;background:linear-gradient(180deg,#c23458,#8a1430);box-shadow:0 4px 10px rgba(0,0,0,.35)}
+.gs .im .rb2{position:absolute;top:0;bottom:0;left:62%;width:22px;background:linear-gradient(90deg,#c23458,#8a1430);box-shadow:4px 0 10px rgba(0,0,0,.35)}
+.gs .in{padding:24px 26px 26px}
+.gs h3{font-size:34px}
+.gs p{color:var(--dim);font-size:13.5px;margin:8px 0 18px}
+.gs .b{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--line)}
+.gs .b b{font:400 34px/1 var(--serif)}
+.gs .b button{height:42px;padding:0 20px;border-radius:40px;border:1px solid var(--line2);font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.gs.in-bag{border-color:rgba(168,191,94,.5)}
+.gs.in-bag .b button{background:rgba(168,191,94,.15);border-color:rgba(168,191,94,.6);color:var(--pist)}
+.gs .badge{position:absolute;right:16px;top:16px;z-index:3}
+
+.co{margin:0 56px 130px;display:grid;grid-template-columns:1fr 470px;gap:28px;align-items:start}
+.co .hd{grid-column:span 2;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--line);padding-top:60px;margin-bottom:10px}
+.co .hd h2{font-size:76px;margin-top:18px}
+.prog{display:flex;align-items:center;gap:10px;font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--dim2)}
+.prog span{display:flex;align-items:center;gap:8px}
+.prog span i{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-style:normal}
+.prog span.d{color:var(--dim)}.prog span.d i{background:var(--cocoa);border-color:var(--cocoa);color:var(--cream)}
+.prog span.o{color:var(--cream)}.prog span.o i{background:var(--gold);border-color:var(--gold);color:#1d0d07}
+.prog b{width:34px;height:1px;background:var(--line)}
+.form{display:flex;flex-direction:column;gap:22px}
+.blk{border-radius:24px;border:1px solid var(--line);padding:30px 32px;background:rgba(243,230,211,.025)}
+.blk h4{font:400 28px/1 var(--serif);display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px}
+.blk h4 small{font:700 10px/1 var(--sans);letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fld{border:1px solid var(--line);border-radius:14px;padding:12px 16px 12px;position:relative}
+.fld label{display:block;font:700 9px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--dim2);margin-bottom:8px}
+.fld div{font-size:15px}
+.fld.f{border-color:var(--gold);box-shadow:0 0 0 4px rgba(200,161,90,.12)}
+.fld.f div::after{content:"";display:inline-block;width:1.5px;height:16px;background:var(--gold);vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.fld .ok{position:absolute;right:14px;top:50%;margin-top:-10px;width:20px;height:20px;border-radius:50%;background:rgba(168,191,94,.2);color:var(--pist);display:grid;place-items:center;font-size:11px}
+.msg{display:grid;grid-template-columns:1fr 300px;gap:18px;margin-top:14px}
+.msg .card{border-radius:14px;background:linear-gradient(160deg,#f6ecdc,#e2cfae);color:#2a1610;padding:22px 24px;transform:rotate(-2deg);box-shadow:0 24px 40px rgba(0,0,0,.45);position:relative}
+.msg .card small{font:700 9px/1 var(--sans);letter-spacing:.2em;color:#9a7433}
+.msg .card p{font:italic 400 22px/1.3 var(--serif);margin:10px 0 14px}
+.msg .card .sg{font:italic 400 18px/1 var(--serif);color:#6b3a24}
+.msg .card::after{content:"N";position:absolute;right:16px;bottom:14px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:italic 400 22px/1 var(--serif);color:rgba(255,220,225,.85);background:radial-gradient(circle at 38% 32%,#e05a7a,#a3173a 55%,#5e0a20);box-shadow:0 6px 12px rgba(0,0,0,.3)}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:13px;color:var(--dim)}
+.opt b{display:block;color:var(--cream);font-weight:600;font-size:13.5px}
+.opt .r{width:18px;height:18px;border-radius:50%;border:1px solid var(--line2);flex:none}
+.opt.on{border-color:var(--gold);background:rgba(200,161,90,.08)}
+.opt.on .r{border:5px solid var(--gold)}
+.opt em{margin-left:auto;font-style:normal;color:var(--cream);font-weight:600}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.cal div{border:1px solid var(--line);border-radius:14px;padding:12px 0 10px;text-align:center;font:700 10px/1 var(--sans);letter-spacing:.14em;color:var(--dim);text-transform:uppercase;position:relative}
+.cal div b{display:block;font:400 28px/1 var(--serif);color:var(--cream);letter-spacing:0;margin:6px 0 6px}
+.cal div.x{opacity:.3}
+.cal div.on{border-color:var(--gold);background:linear-gradient(160deg,rgba(200,161,90,.25),rgba(200,161,90,.05));box-shadow:0 0 0 4px rgba(200,161,90,.12)}
+.cal div i{position:absolute;left:50%;bottom:-5px;margin-left:-4px;width:8px;height:8px;border-radius:50%;background:#7ec6e6;box-shadow:0 0 8px #7ec6e6}
+.slots{display:flex;gap:8px;margin-top:14px}
+.slots span{flex:1;height:44px;border-radius:12px;border:1px solid var(--line);display:grid;place-items:center;font-size:13px;color:var(--dim)}
+.slots span.on{border-color:var(--gold);color:var(--cream)}
+.cold{display:flex;align-items:center;gap:12px;margin-top:16px;font-size:12.5px;color:var(--dim)}
+.cold i{width:34px;height:34px;border-radius:50%;background:rgba(126,198,230,.12);color:#7ec6e6;display:grid;place-items:center;font-style:normal;font-size:15px}
+
+.sum{position:relative;padding:30px 28px;border-radius:26px}
+.sum h4{font:400 28px/1 var(--serif);margin-bottom:20px;display:flex;justify-content:space-between}
+.sum h4 small{font:600 12px var(--sans);color:var(--dim)}
+.it{display:grid;grid-template-columns:70px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.it .th{width:70px;height:70px;border-radius:14px;position:relative;overflow:hidden}
+.it .th img{width:100%;height:100%;object-fit:cover}
+.it .th em{position:absolute;right:4px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--cream);color:#1d0d07;font:800 10px/20px var(--sans);text-align:center;font-style:normal}
+.it b{display:block;font:400 19px/1.2 var(--serif)}
+.it span{font-size:12px;color:var(--dim)}
+.it strong{font:600 15px var(--sans)}
+.free{margin:18px 0 6px;font-size:12px;color:var(--pist);display:flex;justify-content:space-between}
+.free+.bar{height:4px;border-radius:4px;background:rgba(243,230,211,.1);overflow:hidden}
+.free+.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#5f7a2a,var(--pist))}
+.promo{display:flex;gap:8px;margin:18px 0}
+.promo div{flex:1;border:1px dashed var(--line2);border-radius:12px;height:46px;display:flex;align-items:center;padding:0 14px;font-size:13px;color:var(--dim)}
+.promo span{height:46px;padding:0 16px;border-radius:12px;border:1px solid var(--line);display:grid;place-items:center;font:700 10px/1 var(--sans);letter-spacing:.2em;color:var(--gold)}
+.lines div{display:flex;justify-content:space-between;font-size:14px;color:var(--dim);padding:6px 0}
+.lines div b{color:var(--cream);font-weight:600}
+.lines .g b{color:var(--pist)}
+.total{display:flex;justify-content:space-between;align-items:flex-end;margin:16px 0 22px;padding-top:18px;border-top:1px solid var(--line)}
+.total span{font:700 10px/1.6 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.total span small{display:block;letter-spacing:.04em;text-transform:none;font-weight:500;color:var(--dim2)}
+.total b{font:400 64px/.9 var(--disp)}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.pay span{height:54px;border-radius:14px;display:grid;place-items:center;font:700 13px/1 var(--sans);letter-spacing:.04em}
+.pay .w{background:#f3e6d3;color:#120806}
+.pay .k{background:#0b0605;border:1px solid var(--line);color:var(--cream)}
+.sum .btn{width:100%;justify-content:center;height:62px}
+.trust{display:flex;justify-content:space-between;margin-top:18px;font-size:11px;color:var(--dim2)}
+</style></head>
+<body>
+<div class="ann"><span>Order by Tuesday 23:00 for Thursday delivery</span><i></i><span>Cold-chain delivery across the EU</span><i></i><span>Free shipping over €60</span></div>
+<nav class="nav">
+  <div class="links"><a href="home.html">Home</a><a href="shop.html">Bars</a><a href="box-builder.html">Pralines</a><a href="craft.html">The Craft</a><a class="on" href="gifting.html">Gifting</a></div>
+  <a class="logo" href="home.html"><span class="seal">N</span><span><b>MAISON CACAO NOIR</b><small>BRUXELLES · MMIX</small></span></a>
+  <div class="act"><span>Search</span><span>Account</span><a class="bagbtn" href="gifting.html">Bag <em>3</em></a></div>
+</nav>
+
+<section class="hero">
+  <div class="word"><span>Cadeau</span></div>
+  <canvas class="gl" id="gift3d" width="1000" height="860"></canvas>
+  <div class="copy">
+    <div class="eyebrow">Gifting · ribboned & cold-shipped</div>
+    <h1>Gifts that <span class="foil">melt</span> hearts.</h1>
+    <p>Every coffret leaves the atelier tied in raspberry satin, sealed in wax and packed in a chilled box — with your words written by hand on the card.</p>
+    <div class="cta"><a class="btn gold" href="#checkout">Finish your gift <span class="ar">→</span></a><a class="btn ghost" href="box-builder.html">Build a box</a></div>
+  </div>
+  <div class="tag"><small>FOR MARGAUX</small><p>Happy 30th — save me the pistachio one.</p></div>
+  <div class="meta"><div><i>✦</i><div><b>Hand-written card</b>By our atelier team</div></div><div><i>❄</i><div><b>Chilled to 16 °C</b>Door to door</div></div><div><i>◷</i><div><b>Choose the morning</b>8–12 or 12–18</div></div></div>
+</section>
+
+<section class="sets">
+  <div class="hd"><div><div class="eyebrow">Ready to give</div><h2>Three gifts, <span class="foil">no thinking.</span></h2></div><a class="btn ghost" style="height:50px">Corporate gifting →</a></div>
+  <div class="row">
+    <div class="gs in-bag"><span class="chip badge" style="background:rgba(21,9,5,.6);color:var(--pist);border-color:rgba(168,191,94,.5)">✓ In your bag</span><div class="im"><img src="https://images.unsplash.com/photo-1621134283184-5e7881013013?auto=format&fit=crop&q=82&w=800" alt="Glossy marbled bonbons"><span class="rb"></span><span class="rb2"></span></div><div class="in"><h3>Le Petit Mot</h3><p>Nine painted bonbons and a card. The thank-you that gets remembered.</p><div class="b"><b>€38</b><button>Added ✓</button></div></div></div>
+    <div class="gs"><span class="chip badge" style="background:rgba(21,9,5,.6)">Most gifted</span><div class="im"><img src="https://images.unsplash.com/photo-1633176116426-d5fd7bfa887b?auto=format&fit=crop&q=82&w=800" alt="Pralines in paper cups"><span class="rb"></span><span class="rb2"></span></div><div class="in"><h3>Grand Coffret 25</h3><p>All six pralines plus seasonal specials, in cocoa leather with gold foil.</p><div class="b"><b>€98</b><button>Add</button></div></div></div>
+    <div class="gs"><span class="chip badge" style="background:rgba(21,9,5,.6)">For the curious</span><div class="im"><img src="https://images.unsplash.com/photo-1772986258634-a729cd51aea4?auto=format&fit=crop&q=82&w=800" alt="Chocolate bar on dark cloth"><span class="rb"></span><span class="rb2"></span></div><div class="in"><h3>The Origin Library</h3><p>Six single-origin bars, a tasting wheel and a map of every farm.</p><div class="b"><b>€84</b><button>Add</button></div></div></div>
+  </div>
+</section>
+
+<section class="co" id="checkout">
+  <div class="hd"><div><div class="eyebrow">Checkout · gift order</div><h2>Make it <span class="foil">theirs.</span></h2></div>
+    <div class="prog"><span class="d"><i>✓</i>Bag</span><b></b><span class="o"><i>2</i>Gift details</span><b></b><span><i>3</i>Delivery</span><b></b><span><i>4</i>Payment</span></div></div>
+  <div class="form">
+    <div class="blk"><h4>Who is it for? <small>Step 2 of 4</small></h4>
+      <div class="f2"><div class="fld"><label>Recipient</label><div>Margaux Lefèvre</div><span class="ok">✓</span></div><div class="fld"><label>Their phone · for the courier</label><div>+33 6 •• •• 41 18</div><span class="ok">✓</span></div>
+      <div class="fld" style="grid-column:span 2"><label>Delivery address</label><div>27 rue des Martyrs, 75009 Paris, France</div><span class="ok">✓</span></div></div>
+      <div class="msg"><div><div class="fld f"><label>Message for the card · 41 / 160</label><div>Happy 30th — save me the pistachio one.</div></div>
+        <div class="opts" style="margin-top:14px"><div class="opt on"><span class="r"></span><div><b>Hide prices</b>Gift receipt only</div><em>Free</em></div><div class="opt on"><span class="r"></span><div><b>Raspberry satin & wax seal</b>Hand-tied</div><em>Free</em></div><div class="opt"><span class="r"></span><div><b>Add a 3 cl dessert wine</b>Banyuls, 2019</div><em>€9</em></div></div></div>
+        <div class="card"><small>PREVIEW · HAND-WRITTEN</small><p>Happy 30th — save me the pistachio one.</p><div class="sg">— Léa</div></div></div>
+    </div>
+    <div class="blk"><h4>When should it arrive? <small>Cold-chain courier</small></h4>
+      <div class="cal"><div class="x">Mon<b>26</b>Oct</div><div class="x">Tue<b>27</b>Oct</div><div>Wed<b>28</b>Oct</div><div class="on">Thu<b>29</b>Oct<i></i></div><div>Fri<b>30</b>Oct</div><div>Sat<b>31</b>Oct</div><div class="x">Sun<b>1</b>Nov</div></div>
+      <div class="slots"><span class="on">Morning · 8–12</span><span>Afternoon · 12–18</span><span>Evening · 18–21 · +€6</span></div>
+      <div class="cold"><i>❄</i>Forecast in Paris on Thursday: 14 °C. We'll pack with two cold packs and a recyclable wool liner.</div>
+    </div>
+  </div>
+  <aside class="sum glass">
+    <h4>Your bag <small>3 items</small></h4>
+    <div class="it"><div class="th" style="background:radial-gradient(circle at 50% 40%,#5a2a16,#1d0e09)"><img src="https://images.unsplash.com/photo-1621134283184-5e7881013013?auto=format&fit=crop&q=82&w=200" alt=""></div><div><b>Le Petit Mot · 9</b><span>Gift-wrapped · card</span></div><strong>€38.00</strong></div>
+    <div class="it"><div class="th" style="background:linear-gradient(160deg,#3a1c10,#1d0e09);display:grid;place-items:center"><span style="font:400 30px/1 var(--disp);color:var(--gold)">16</span></div><div><b>Coffret 16 · your mix</b><span>12 pralines + chef's choice ×4</span></div><strong>€66.40</strong></div>
+    <div class="it"><div class="th" style="background:#7a1f2e;display:grid;place-items:center"><em>2</em><span style="font:400 26px/1 var(--disp);color:var(--gold2)">72</span></div><div><b>Arriba Nacional 72%</b><span>80 g × 2</span></div><strong>€28.00</strong></div>
+    <div class="free"><span>✓ You've unlocked free cold-chain delivery</span><span>€132.40 / €60</span></div><div class="bar"><i></i></div>
+    <div class="promo"><div>Gift card or promo code</div><span>APPLY</span></div>
+    <div class="lines"><div><span>Subtotal</span><b>€132.40</b></div><div class="g"><span>Cold-chain delivery · Thu 29 Oct</span><b>Free</b></div><div class="g"><span>Ribbon, wax seal & card</span><b>Free</b></div><div><span>VAT included (6%)</span><b>€7.49</b></div></div>
+    <div class="total"><span>Total<small>Charged when shipped</small></span><b class="cr">€132.40</b></div>
+    <div class="pay"><span class="w">◉ Wallet Pay</span><span class="k">Bancontact</span></div>
+    <a class="btn gold">Continue to delivery <span class="ar">→</span></a>
+    <div class="trust"><span>Secure checkout</span><span>Free re-send if it melts</span><span>Returns: 14 days</span></div>
+  </aside>
+</section>
+
+<footer class="foot">
+  <div class="big"><span class="foil">Cacao</span> <span class="gloss">Noir.</span></div>
+  <div class="grid">
+    <div><a class="logo" style="justify-self:start"><span class="seal">N</span><span><b>MAISON CACAO NOIR</b><small>BRUXELLES · MMIX</small></span></a><p class="dim" style="margin-top:22px;font-size:14px;max-width:280px">Bean-to-bar chocolate, made slowly from six single origins in our Brussels atelier.</p></div>
+    <div><h5>Shop</h5><ul><li>Single-origin bars</li><li>Praline coffrets</li><li>Tasting flights</li><li>Gift cards</li></ul></div>
+    <div><h5>House</h5><ul><li>The craft</li><li>Our farms</li><li>Atelier visits</li><li>Journal</li></ul></div>
+    <div><h5>Help</h5><ul><li>Cold-chain shipping</li><li>Storage & bloom</li><li>Allergens</li><li>Contact</li></ul></div>
+    <div><h5>Tasting letter</h5><p class="dim" style="font-size:14px">New harvests, atelier evenings, no spam.</p><div class="news"><span>your@email.com</span><b>Subscribe →</b></div></div>
+  </div>
+  <div class="legal"><span>© 2026 Maison Cacao Noir — a concept brand</span><span><a>Privacy</a><a>Terms</a><a>Cookies</a></span><span>Visa · Mastercard · Bancontact · Apple Pay</span></div>
+</footer>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+await document.fonts.ready;
+const C = CACAO3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+C.gift(document.getElementById('gift3d'));
+</script>
+</body></html>

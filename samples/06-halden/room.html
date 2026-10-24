@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Room Planner — Forma Atelier</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="forma.css">
+<style>
+html,body{height:1080px;overflow:hidden}
+body{background:#0d1511}
+#room{position:absolute;left:0;top:0;z-index:1}
+.vig{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 75% 70% at 52% 55%,transparent 55%,rgba(5,8,6,.55) 100%)}
+.nav{background:linear-gradient(180deg,rgba(8,12,10,.75),transparent);border-color:rgba(233,226,214,.1)}
+.glass{background:rgba(14,20,17,.62);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border:1px solid rgba(233,226,214,.14)}
+.head{position:absolute;left:32px;top:112px;z-index:5;display:flex;gap:12px;align-items:stretch}
+.head .t{padding:14px 18px}
+.head .t b{display:block;font:800 22px/1 var(--display);letter-spacing:-.02em;text-transform:uppercase}
+.head .t span{font-size:12px;color:rgba(233,226,214,.6)}
+.head .u{display:flex}
+.head .u a{width:52px;display:grid;place-items:center;border-right:1px solid rgba(233,226,214,.1)}
+.tray{position:absolute;left:32px;right:364px;bottom:32px;z-index:5;padding:14px 18px;display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center}
+.tray .h{display:flex;flex-direction:column;gap:10px}#tray{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.tray .h .tag{color:var(--brass2)}
+.tray .it{position:relative;padding:6px;border:1px solid rgba(233,226,214,.08)}
+.tray .it img{width:100%;height:80px;margin-bottom:6px;object-fit:contain;background:radial-gradient(circle at 50% 70%,rgba(233,226,214,.16),rgba(233,226,214,.03) 70%)}
+.tray .it b{display:block;font:700 13px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.tray .it small{font-size:10.5px;line-height:1.3;display:block;color:rgba(233,226,214,.55)}
+.tray .it .st{position:absolute;right:6px;top:6px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(233,226,214,.25)}
+.tray .it .st .ic{width:14px;height:14px}
+.tray .it.in .st{background:var(--brass);border-color:var(--brass);color:var(--ink)}
+.tray .it.drag{background:rgba(176,141,87,.16);border:1px dashed var(--brass);transform:translateY(-14px) rotate(-3deg);box-shadow:0 20px 40px rgba(0,0,0,.4)}
+.side{position:absolute;right:32px;top:112px;width:300px;z-index:5;padding:20px}
+.side .tag{color:var(--brass2);display:block;margin-bottom:12px}
+.side .grp{padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid rgba(233,226,214,.1)}
+.side .sws{display:flex;gap:8px}
+.side .sws a{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid rgba(233,226,214,.15)}
+.side .sws a.on{outline:2px solid var(--brass2);outline-offset:3px}
+.side .fl{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.side .fl a{height:54px;display:flex;align-items:flex-end;padding:6px;font:600 10px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(233,226,214,.15);cursor:pointer}
+.side .fl a.on{outline:2px solid var(--brass2);outline-offset:2px}
+.side .time{display:flex;justify-content:space-between;align-items:baseline}
+.side .time b{font:800 34px/1 var(--display);letter-spacing:-.03em}
+.side .time span{font-size:12px;color:var(--brass2)}
+.side input[type=range]{width:100%;margin-top:14px;-webkit-appearance:none;height:4px;background:linear-gradient(90deg,#5d7aa0,#f2c27a 60%,#c4573a);outline:0}
+.side input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--plaster);border:5px solid var(--brass);box-shadow:0 0 18px rgba(242,194,122,.8)}
+.side .ticks{display:flex;justify-content:space-between;font-size:10px;color:rgba(233,226,214,.45);margin-top:8px;letter-spacing:.08em}
+.side .plan{height:150px;position:relative;margin-top:4px}
+.side .plan svg{width:100%;height:100%}
+.side .tot{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;gap:10px}.side .tot>small{white-space:nowrap}
+.side .tot b{font:800 30px/1 var(--display);letter-spacing:-.03em}
+.side .tot small{font-size:12px;color:rgba(233,226,214,.55)}
+.side .btn{width:100%;justify-content:space-between;height:56px}
+.side .btn .sq{width:40px;height:40px}
+.modes{position:absolute;left:50%;top:112px;transform:translateX(-50%);z-index:5;display:flex;padding:5px}
+.modes a{height:48px;padding:0 22px;display:flex;align-items:center;gap:10px;font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:rgba(233,226,214,.65)}
+.modes a.on{background:var(--plaster);color:var(--ink)}
+.zoom{position:absolute;left:32px;top:210px;z-index:5;display:flex;flex-direction:column}
+.zoom a{width:48px;height:48px;display:grid;place-items:center;border-bottom:1px solid rgba(233,226,214,.1)}
+.ov{position:absolute;inset:0;z-index:4;pointer-events:none}
+.ov>svg{position:absolute;inset:0;width:1440px;height:1080px}
+.ov svg text{font:600 12px var(--display);letter-spacing:.12em;fill:#f3dfb8}
+.sel{position:absolute;transform:translate(-50%,-100%);padding:14px 16px;width:250px}
+.sel .tag{color:var(--brass2)}
+.sel b{display:block;font:800 20px/1 var(--display);text-transform:uppercase;letter-spacing:-.01em;margin:8px 0 4px}
+.sel span{font-size:12px;color:rgba(233,226,214,.65)}
+.sel .acts{display:flex;gap:6px;margin-top:12px}
+.sel .acts a{flex:1;height:34px;display:grid;place-items:center;border:1px solid rgba(233,226,214,.18)}
+.sel .acts a .ic{width:15px;height:15px}
+.sel .acts a.p{background:var(--brass);color:var(--ink);border-color:var(--brass);flex:2.4;font:700 11px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;display:flex;gap:8px;justify-content:center;align-items:center}
+.sel::after{content:"";position:absolute;left:50%;bottom:-9px;width:16px;height:16px;background:rgba(14,20,17,.62);border-right:1px solid rgba(233,226,214,.14);border-bottom:1px solid rgba(233,226,214,.14);transform:translateX(-50%) rotate(45deg)}
+.room-cursor{width:96px;height:96px}
+.snap{position:absolute;padding:6px 10px;font:700 11px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;background:var(--brass);color:var(--ink);transform:translate(-50%,-50%)}
+</style></head>
+<body>
+<canvas id="room"></canvas>
+<div class="vig"></div>
+<div data-nav></div>
+<div class="ov" id="ov"><svg id="osvg"></svg></div>
+
+<div class="head"><div class="t glass"><b>Your living room</b><span>5.8 × 4.6 m · ceiling 3.1 m · saved 2 min ago</span></div></div>
+
+<aside class="tray glass">
+  <div class="h"><span class="tag">Collection 07</span><b style="font:800 26px/1 var(--display);letter-spacing:-.02em">6 / 7</b><span style="font-size:12px;color:rgba(233,226,214,.6)">pieces placed. Drag from the tray onto the floor.</span></div>
+  <div id="tray"></div>
+</aside>
+
+<aside class="side glass">
+  <div class="grp"><span class="tag">Wall colour</span><div class="sws" id="walls"></div></div>
+  <div class="grp"><span class="tag">Floor</span><div class="fl"><a class="on" style="background:repeating-linear-gradient(45deg,#8a6040 0 8px,#6e4a2c 8px 16px)">Oak</a><a style="background:radial-gradient(circle at 30% 40%,#c9b9a0 2px,transparent 3px) 0 0/12px 12px,#e2d6c4;color:#140f0e">Terrazzo</a><a style="background:linear-gradient(#cdbfa8,#b9a98f);color:#140f0e">Limestone</a></div></div>
+  <div class="grp"><div class="time"><span class="tag" style="margin:0">Daylight</span><span id="tl">Golden hour</span></div><div class="time" style="margin-top:6px"><b id="tv">17:40</b><i data-ic="sun"></i></div><input type="range" min="0" max="100" value="72" id="sun"><div class="ticks"><span>08:00</span><span>13:00</span><span>20:00</span></div></div>
+  <div class="grp"><span class="tag">Plan</span><div class="plan"><svg viewBox="0 0 260 150" id="plan"></svg></div></div>
+  <div class="tot"><div><small>Pieces in this room</small><br><b>€56,920</b></div><small>6 objects</small></div>
+  <a class="btn">Add room to cart <span class="sq"><i data-ic="arrow"></i></span></a>
+</aside>
+
+<div class="modes glass"><a><i data-ic="grid"></i>2D plan</a><a class="on"><i data-ic="cube"></i>3D room</a><a><i data-ic="ar"></i>AR camera</a></div>
+<div class="zoom glass"><a><i data-ic="undo"></i></a><a><i data-ic="plus"></i></a><a><i data-ic="minus"></i></a><a><i data-ic="rotate"></i></a></div>
+
+<script src="forma.js"></script>
+<script>
+document.getElementById('plan').innerHTML = `
+<rect x="10" y="8" width="240" height="134" fill="rgba(233,226,214,.05)" stroke="rgba(233,226,214,.4)"/>
+<path d="M10 40 V100" stroke="#f2c27a" stroke-width="4"/>
+<path d="M60 14 Q130 34 200 14 L200 34 Q130 54 60 34 Z" fill="rgba(233,226,214,.35)"/>
+<ellipse cx="130" cy="70" rx="34" ry="18" fill="rgba(224,192,138,.5)"/>
+<circle cx="66" cy="104" r="17" fill="#8a2a24" stroke="#e0c08a" stroke-width="2"/>
+<circle cx="222" cy="20" r="7" fill="#e0c08a"/><circle cx="214" cy="44" r="8" fill="rgba(214,195,162,.8)"/><rect x="24" y="12" width="30" height="12" fill="rgba(90,31,27,.9)"/>
+<path d="M10 142 L250 142" stroke="rgba(233,226,214,.25)" stroke-dasharray="2 3"/><text x="130" y="138" fill="rgba(233,226,214,.55)" font-size="9" text-anchor="middle" font-family="Inter">5.8 m</text>`;
+forma('Room');
+</script>
+<script src="forma3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const F = Forma3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+
+/* tray thumbnails, rendered once */
+const PIECES = [['Orbe', 'Lounge chair', '€6,820', () => F.chair({ fabric: F.fabric('velvet', '#6a2320') }), 1, 1], ['Dune', '3-module sofa', '€24,000', () => F.sofa(), 1, 0], ['Monolith', 'Coffee table', '€8,400', () => F.table(), 1, 0], ['Halo', 'Floor lamp', '€3,200', () => F.lamp(), 1, 0], ['Pebble', 'Side table', '€1,900', () => F.side(), 1, 0], ['Totem', 'Cabinet', '€12,600', () => F.cabinet(), 1, 0], ['Ovum', 'Pouf', '€2,300', () => F.pouf(), 0, 0]];
+const cams = { Dune: [[2.6, 2.4, 5.6], [0.0, 0.4, 0.2]], Halo: [[1.6, 1.8, 4.4], [0, 0.9, 0]], Totem: [[1.8, 1.6, 3.6], [0, 0.6, 0]] };
+document.getElementById('tray').innerHTML = PIECES.map(p => {
+  const c = cams[p[0]] || [[2, 1.5, 3], [0, 0.35, 0]];
+  const url = F.snap(p[3], { w: 160, h: 160, cam: c[0], target: c[1], fov: 26, floor: false });
+  return `<div class="it ${p[4] ? 'in' : ''} ${p[0] === 'Ovum' ? 'drag' : ''}"><img src="${url}" alt=""><div><b>${p[0]}</b><small>${p[2]}</small></div><span class="st"><i data-ic="${p[4] ? 'check' : 'plus'}"></i></span></div>`;
+}).join('');
+document.querySelectorAll('#tray [data-ic]').forEach(el => { el.outerHTML = `<svg class="ic" viewBox="0 0 24 24">${{ check: '<path d="m5 12 5 5L20 7"/>', plus: '<path d="M12 5v14M5 12h14"/>' }[el.dataset.ic]}</svg>`; });
+
+/* ---- the room ---- */
+const S = F.stage(document.getElementById('room'), { w: 1440, h: 1080, fov: 38, exposure: 1.0 });
+S.env = 0.32;
+const { scene, camera, renderer } = S;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+camera.position.set(3.3, 2.55, 6.9); camera.lookAt(-0.2, 0.75, -0.9);
+const W = { x0: -3, x1: 6.5, z0: -2.6, z1: 8, h: 3.1 };
+const floor = F.mesh(new THREE.PlaneGeometry(W.x1 - W.x0, W.z1 - W.z0), F.floor([3.2, 3.2]), false);
+floor.rotation.x = -Math.PI / 2; floor.position.set((W.x0 + W.x1) / 2, 0, (W.z0 + W.z1) / 2); scene.add(floor);
+const backMat = F.plaster('#2b4638', [3, 2]);
+const back = F.mesh(new THREE.BoxGeometry(W.x1 - W.x0, W.h, 0.12), backMat); back.position.set((W.x0 + W.x1) / 2, W.h / 2, W.z0 - 0.06); scene.add(back);
+const sideMat = F.plaster('#d6c6ae', [3, 2]);
+const win = { z0: -1.75, z1: 0.35, y0: 0.5, y1: 2.7 };
+const wallPart = (z0, z1, y0, y1) => { const m = F.mesh(new THREE.BoxGeometry(0.16, y1 - y0, z1 - z0), sideMat); m.position.set(W.x0 - 0.08, (y0 + y1) / 2, (z0 + z1) / 2); scene.add(m); };
+wallPart(W.z0 - 0.12, win.z0, 0, W.h); wallPart(win.z1, W.z1, 0, W.h); wallPart(win.z0, win.z1, 0, win.y0); wallPart(win.z0, win.z1, win.y1, W.h);
+const bronze = F.metal('bronze');
+const bar = (w, h, d, x, y, z) => { const m = F.mesh(new THREE.BoxGeometry(w, h, d), bronze); m.position.set(x, y, z); scene.add(m); };
+bar(0.06, 0.05, win.z1 - win.z0, W.x0 - 0.05, win.y0, (win.z0 + win.z1) / 2); bar(0.06, 0.05, win.z1 - win.z0, W.x0 - 0.05, win.y1, (win.z0 + win.z1) / 2);
+bar(0.06, win.y1 - win.y0, 0.05, W.x0 - 0.05, (win.y0 + win.y1) / 2, win.z0); bar(0.06, win.y1 - win.y0, 0.05, W.x0 - 0.05, (win.y0 + win.y1) / 2, win.z1);
+bar(0.05, win.y1 - win.y0, 0.035, W.x0 - 0.05, (win.y0 + win.y1) / 2, (win.z0 + win.z1) / 2);
+bar(0.05, 0.035, win.z1 - win.z0, W.x0 - 0.05, 1.95, (win.z0 + win.z1) / 2);
+// sky beyond the window
+const skyC = document.createElement('canvas'); skyC.width = 8; skyC.height = 256; { const x = skyC.getContext('2d'); const g = x.createLinearGradient(0, 0, 0, 256); g.addColorStop(0, '#7f9cc0'); g.addColorStop(0.55, '#f6cf98'); g.addColorStop(0.8, '#f1a768'); g.addColorStop(1, '#8a5a3a'); x.fillStyle = g; x.fillRect(0, 0, 8, 256); }
+const skyT = new THREE.CanvasTexture(skyC); skyT.colorSpace = THREE.SRGBColorSpace;
+const sky = new THREE.Mesh(new THREE.PlaneGeometry(14, 7), new THREE.MeshBasicMaterial({ map: skyT, toneMapped: false })); sky.rotation.y = Math.PI / 2; sky.position.set(W.x0 - 4, 1.8, -0.7); scene.add(sky);
+// skirting in brass
+const sk = F.mesh(new THREE.BoxGeometry(W.x1 - W.x0, 0.06, 0.02), F.metal('brass')); sk.position.set((W.x0 + W.x1) / 2, 0.03, W.z0 + 0.01); scene.add(sk);
+// artwork: a plaster disc relief with an oxblood sun
+const art = new THREE.Group();
+const frame = F.rbox(1.5, 1.05, 0.06, 0.01, F.wood('oak')); art.add(frame);
+const canvasM = F.mesh(new THREE.PlaneGeometry(1.36, 0.91), F.plaster('#e9e2d6', [1, 1]), false); canvasM.position.z = 0.032; art.add(canvasM);
+const sun = F.mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.03, 64), F.lacquer('#6a2320')); sun.rotation.x = Math.PI / 2; sun.position.set(0.18, 0.08, 0.05); art.add(sun);
+const line = F.mesh(new THREE.BoxGeometry(0.9, 0.012, 0.012), F.metal('brass')); line.position.set(-0.1, -0.25, 0.05); art.add(line);
+art.position.set(0.55, 1.95, W.z0 + 0.04); scene.add(art);
+
+// rug
+const rs = new THREE.Shape(); const rw = 3.1, rd = 2.2, rr = 0.35;
+rs.moveTo(-rw / 2 + rr, -rd / 2); rs.lineTo(rw / 2 - rr, -rd / 2); rs.quadraticCurveTo(rw / 2, -rd / 2, rw / 2, -rd / 2 + rr); rs.lineTo(rw / 2, rd / 2 - rr); rs.quadraticCurveTo(rw / 2, rd / 2, rw / 2 - rr, rd / 2); rs.lineTo(-rw / 2 + rr, rd / 2); rs.quadraticCurveTo(-rw / 2, rd / 2, -rw / 2, rd / 2 - rr); rs.lineTo(-rw / 2, -rd / 2 + rr); rs.quadraticCurveTo(-rw / 2, -rd / 2, -rw / 2 + rr, -rd / 2);
+const rg = new THREE.ExtrudeGeometry(rs, { depth: 0.018, bevelEnabled: false, curveSegments: 16 }); rg.rotateX(-Math.PI / 2);
+const rugM = F.fabric('boucle', '#8f7c62', [0.9, 0.9]); rugM.sheen = 0.3;
+const rug = F.mesh(rg, rugM, false); rug.position.set(0.25, 0.001, -0.75); scene.add(rug);
+
+// furniture
+const sofa = F.sofa({ fabric: F.fabric('boucle', '#e6ded0', [4, 2]), accent: F.fabric('velvet', '#b07a35') }); sofa.position.set(0.45, 0, -2.0); scene.add(sofa);
+const table = F.table(); table.position.set(0.35, 0.02, -0.65); table.rotation.y = 0.12; scene.add(table);
+const chair = F.chair({ fabric: F.fabric('velvet', '#6a2320') }); chair.position.set(-1.35, 0.02, 0.5); chair.rotation.y = 0.95; scene.add(chair);
+const lamp = F.lamp(); lamp.position.set(2.45, 0, -2.15); scene.add(lamp);
+const side = F.side(); side.position.set(2.25, 0.02, -1.15); scene.add(side);
+const cab = F.cabinet(); cab.position.set(-2.25, 0, -2.25); cab.rotation.y = 0.0; scene.add(cab);
+const lampL = new THREE.PointLight('#ffc77d', 3.2, 4.5, 2); lampL.position.set(2.45, 1.6, -2.0); scene.add(lampL);
+// selection ring under the chair
+const selRing = new THREE.Mesh(new THREE.RingGeometry(0.74, 0.77, 96), new THREE.MeshBasicMaterial({ color: '#f3d79b', transparent: true, opacity: 0.95, toneMapped: false }));
+selRing.rotation.x = -Math.PI / 2; selRing.position.set(chair.position.x, 0.025, chair.position.z); scene.add(selRing);
+const selFill = new THREE.Mesh(new THREE.CircleGeometry(0.74, 96), new THREE.MeshBasicMaterial({ color: '#e0c08a', transparent: true, opacity: 0.12, toneMapped: false, depthWrite: false }));
+selFill.rotation.x = -Math.PI / 2; selFill.position.set(chair.position.x, 0.022, chair.position.z); scene.add(selFill);
+// ghost pouf being dragged in from the tray
+const ghost = F.pouf({ fabric: new THREE.MeshPhysicalMaterial({ color: '#e0c08a', transparent: true, opacity: 0.45, roughness: 0.4, emissive: '#5a4020', emissiveIntensity: 0.4 }) });
+ghost.traverse(m => { if (m.isMesh) { m.castShadow = false; m.material = m.material.transparent ? m.material : new THREE.MeshPhysicalMaterial({ color: '#e0c08a', transparent: true, opacity: 0.4 }); } });
+ghost.position.set(1.05, 0.32, 1.55); scene.add(ghost);
+
+// light: low golden sun through the window
+const sunL = new THREE.DirectionalLight('#ffc27a', 7.5);
+sunL.castShadow = true; sunL.shadow.mapSize.set(2048, 2048); sunL.shadow.bias = -0.0006; sunL.shadow.normalBias = 0.02;
+Object.assign(sunL.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6, near: 0.5, far: 30 });
+sunL.target.position.set(0.3, 0, -0.6); scene.add(sunL, sunL.target);
+const setSun = v => {
+  const a = THREE.MathUtils.lerp(-0.2, 1.2, v / 100), h = Math.sin(Math.PI * Math.min(v / 100 + 0.12, 1)) * 5 + 1.6;
+  sunL.position.set(-8, h, -0.6 + Math.sin(a) * 4.5);
+  const warm = new THREE.Color('#dfe8ff').lerp(new THREE.Color('#ffb46a'), Math.abs(v - 45) / 55);
+  sunL.color.copy(warm); sunL.intensity = 5 + (v > 85 ? (100 - v) / 3 : 2.5);
+  const mins = 8 * 60 + Math.round(v / 100 * 12 * 60), hh = String(mins / 60 | 0).padStart(2, '0'), mm = String(mins % 60).padStart(2, '0');
+  document.getElementById('tv').textContent = `${hh}:${mm}`;
+  document.getElementById('tl').textContent = v < 25 ? 'Morning' : v < 60 ? 'Midday' : v < 88 ? 'Golden hour' : 'Dusk';
+};
+document.getElementById('sun').oninput = e => setSun(+e.target.value);
+setSun(72);
+scene.add(new THREE.HemisphereLight('#f6e6cf', '#2a1d14', 0.55));
+const fillL = new THREE.DirectionalLight('#9fb6d8', 0.6); fillL.position.set(4, 3, 5); scene.add(fillL);
+const dust = F.dust({ n: 500, r: 1.6, y0: 0.2, y1: 2.6, size: 0.014, seed: 9 }); dust.position.set(-1.6, 0, -0.5); scene.add(dust);
+// sun shaft volumes
+const shaftMat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+  vertexShader: 'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+  fragmentShader: 'varying vec2 vUv;void main(){float a=.13*smoothstep(0.,.25,vUv.x)*smoothstep(1.,.6,vUv.x)*smoothstep(0.,.3,vUv.y)*smoothstep(1.,.7,vUv.y);gl_FragColor=vec4(vec3(1.,.78,.5)*a,a);}' });
+for (let i = 0; i < 3; i++) {
+  const sh = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 0.7 + i * 0.25), shaftMat);
+  sh.position.set(-1.45, 1.35 - i * 0.1, -0.75 + (i - 1) * 0.55); sh.rotation.set(0, 0, -0.62); sh.rotation.y = 0.0; scene.add(sh);
+}
+
+// walls swatches
+const WALLS = [['Forest', '#2b4638'], ['Oxblood', '#5a1f1b'], ['Plaster', '#d9cbb6'], ['Ink', '#1f1d22'], ['Clay', '#a8664f']];
+const walls = document.getElementById('walls');
+walls.innerHTML = WALLS.map((w, i) => `<a class="${i ? '' : 'on'}" style="background:${w[1]}" title="${w[0]}" data-i="${i}"></a>`).join('');
+walls.onclick = e => { const a = e.target.closest('a'); if (!a) return; [...walls.children].forEach(c => c.classList.toggle('on', c === a)); backMat.color.set(WALLS[+a.dataset.i][1]); };
+
+// overlay: selection card, clearance line, dimension tag
+const ov = document.getElementById('ov'), svg = document.getElementById('osvg');
+const sel = document.createElement('div'); sel.className = 'sel glass';
+sel.innerHTML = `<span class="tag">Selected · drag to move</span><b>Orbe lounge</b><span>Oxblood velvet · brushed brass · 92 × 84 × 74 cm</span><div class="acts"><a><svg class="ic" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg></a><a><svg class="ic" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12"/><path d="M4 16V4h12"/></svg></a><a class="p">Configure ↗</a></div>`;
+ov.appendChild(sel);
+const snapTag = document.createElement('div'); snapTag.className = 'snap'; snapTag.textContent = '1.10 m clearance'; ov.appendChild(snapTag);
+const cur = document.createElement('div'); cur.className = 'cursor room-cursor'; cur.innerHTML = 'Drop<br>to place'; ov.appendChild(cur);
+const v = new THREE.Vector3();
+const P = (x, y, z) => S.project(v.set(x, y, z));
+S.tick.push(t => {
+  selRing.material.opacity = 0.75 + Math.sin(t * 3) * 0.2;
+  ghost.position.y = 0.3 + Math.sin(t * 2) * 0.04; ghost.rotation.y = t * 0.4;
+  F.driftDust(dust, t);
+  const top = P(chair.position.x, 1.12, chair.position.z);
+  sel.style.left = top.x + 'px'; sel.style.top = (top.y - 6) + 'px';
+  const a = P(chair.position.x + 0.55, 0.03, chair.position.z - 0.35), b = P(table.position.x - 0.72, 0.03, table.position.z + 0.1);
+  snapTag.style.left = (a.x + b.x) / 2 + 'px'; snapTag.style.top = (a.y + b.y) / 2 + 'px';
+  const g = P(ghost.position.x, 0, ghost.position.z), gt = P(ghost.position.x, ghost.position.y + 0.45, ghost.position.z);
+  cur.style.left = (gt.x + 40) + 'px'; cur.style.top = (gt.y - 30) + 'px';
+  // rotate handle arc around the selection ring
+  const arc = []; for (let i = 0; i <= 24; i++) { const an = -0.2 + i / 24 * 1.6; const p = P(chair.position.x + Math.cos(an) * 0.95, 0.03, chair.position.z + Math.sin(an) * 0.95); arc.push(`${i ? 'L' : 'M'}${p.x.toFixed(1)},${p.y.toFixed(1)}`); }
+  const h0 = P(chair.position.x + Math.cos(1.4) * 0.95, 0.03, chair.position.z + Math.sin(1.4) * 0.95);
+  svg.innerHTML = `<path d="M${a.x},${a.y} L${b.x},${b.y}" stroke="#f3d79b" stroke-width="1.5" stroke-dasharray="5 5"/><circle cx="${a.x}" cy="${a.y}" r="4" fill="#f3d79b"/><circle cx="${b.x}" cy="${b.y}" r="4" fill="#f3d79b"/>
+    <path d="${arc.join(' ')}" fill="none" stroke="#f3d79b" stroke-width="2"/><circle cx="${h0.x}" cy="${h0.y}" r="11" fill="#f3d79b"/><path d="M${h0.x - 4},${h0.y} a4 4 0 1 1 4 4" stroke="#140f0e" stroke-width="1.6" fill="none"/>
+    <path d="M${g.x},${g.y} m-60,0 a60,22 0 1,0 120,0 a60,22 0 1,0 -120,0" fill="rgba(224,192,138,.12)" stroke="#e0c08a" stroke-dasharray="4 4"/>`;
+});
+S.start();
+</script>
+</body></html>

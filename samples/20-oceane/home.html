@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>OCÉANE — Superyacht Charter, Mediterranean & Caribbean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="stylesheet" href="oceane.css">
+<style>
+.hero{position:relative;height:1000px;overflow:hidden;background:#1b2a3a}
+#sea{position:absolute;inset:0;width:1440px;height:1000px}
+#sea canvas{display:block}
+.grade{position:absolute;inset:0;pointer-events:none;z-index:2}
+.grade.a{background:linear-gradient(180deg,rgba(7,22,40,.94) 0%,rgba(11,34,58,.62) 22%,rgba(14,42,66,.18) 42%,rgba(11,31,51,0) 56%)}
+.grade.b{background:radial-gradient(42% 22% at 30% 62%,rgba(255,150,90,.38),transparent 70%),radial-gradient(70% 30% at 50% 64%,rgba(232,131,90,.18),transparent 70%);mix-blend-mode:screen}
+.grade.c{background:linear-gradient(0deg,rgba(6,18,31,.9) 0%,rgba(6,18,31,.35) 18%,transparent 34%),radial-gradient(120% 90% at 50% 50%,transparent 60%,rgba(3,10,20,.55))}
+.hero .copy{position:absolute;left:72px;top:170px;z-index:6;width:760px}
+.hero .copy .lead{font:italic 400 72px/1 var(--disp);letter-spacing:-.01em;margin-top:22px}
+.hero .copy .lead em{font-style:normal;font-family:var(--sc);font-size:30px;letter-spacing:.3em;color:var(--brass2);vertical-align:middle;margin-left:16px}
+.hero .sub{position:absolute;left:72px;top:690px;z-index:6;width:380px;font-size:16.5px;color:rgba(244,241,234,.78)}
+.hero .ctas{position:absolute;left:72px;top:800px;z-index:6;display:flex;gap:14px}
+.tele{position:absolute;right:72px;top:150px;z-index:6;width:340px;padding:22px 26px}
+.tele .hd{display:flex;justify-content:space-between;align-items:center;font:500 10.5px/1 var(--mono);letter-spacing:.2em;color:var(--dim)}
+.tele h4{font:italic 400 30px/1 var(--disp);margin:16px 0 4px}
+.tele .sm{font:500 10.5px/1 var(--mono);letter-spacing:.16em;color:var(--brass2)}
+.tele .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 10px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.tele .grid span{display:block;font:500 9.5px/1 var(--mono);letter-spacing:.2em;color:var(--faint);margin-bottom:6px}
+.tele .grid b{font:500 17px/1 var(--sans)}
+.tele .grid b small{font-size:11px;color:var(--dim);margin-left:3px}
+.tele .bar{height:3px;border-radius:3px;background:rgba(255,255,255,.12);margin-top:18px;overflow:hidden}
+.tele .bar i{display:block;height:100%;width:62%;background:linear-gradient(90deg,var(--teal),var(--lagoon));animation:prog 6s ease-in-out infinite alternate}
+@keyframes prog{from{width:48%}}
+.hero .cmp{position:absolute;right:52px;top:560px;z-index:5;opacity:.85}
+.book{position:absolute;left:72px;right:72px;bottom:40px;z-index:7;display:grid;grid-template-columns:1.4fr 1.2fr .8fr 1fr auto;align-items:center;padding:12px 12px 12px 30px;border-radius:999px}
+.book>div{padding:0 22px;border-left:1px solid var(--line)}
+.book>div:first-child{border:0;padding-left:0}
+.book span{display:block;font:500 9.5px/1 var(--mono);letter-spacing:.22em;color:var(--brass2);text-transform:uppercase;margin-bottom:8px}
+.book b{font:500 16px/1 var(--sans)}
+.book b small{color:var(--dim);font-weight:400;font-size:13px;margin-left:6px}
+.book .btn{height:60px;padding:0 34px}
+.hero .side{position:absolute;left:28px;top:330px;z-index:6;writing-mode:vertical-rl;transform:rotate(180deg);font:500 10px/1 var(--mono);letter-spacing:.36em;color:var(--faint)}
+.hero .speed{position:absolute;z-index:5;left:0;right:0;top:0;bottom:0;pointer-events:none}
+
+/* intro */
+.intro{padding-top:150px;padding-bottom:120px}
+.intro .st{font:400 76px/1.06 var(--disp);letter-spacing:-.02em;max-width:1240px}
+.intro .st i{color:var(--brass2)}
+.pill{display:inline-block;width:150px;height:66px;border-radius:999px;vertical-align:-6px;background-size:cover;background-position:center;box-shadow:0 0 0 1px rgba(255,255,255,.2);margin:0 6px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:100px;border-top:1px solid var(--line)}
+.stats>div{padding:34px 30px 0 0;border-right:1px solid var(--line);margin-right:30px}
+.stats>div:last-child{border:0}
+.stats b{display:block;font:400 72px/1 var(--disp);letter-spacing:-.03em}
+.stats b sup{font-size:26px;color:var(--brass);vertical-align:top;margin-left:4px}
+.stats span{font:500 11px/1.5 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--dim);display:block;margin-top:14px}
+
+/* featured fleet */
+.feat{padding:40px 0 140px;overflow:hidden}
+.sechd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px}
+.sechd h2{font:400 96px/.92 var(--disp);letter-spacing:-.03em;margin-top:22px}
+.sechd h2 i{color:var(--brass2)}
+.track{display:flex;gap:28px;perspective:1400px}
+.yc{flex:0 0 430px;border-radius:26px;overflow:hidden;position:relative;background:var(--deep);border:1px solid var(--line);transform-style:preserve-3d}
+.yc .ph{height:500px;background-size:cover;background-position:center;position:relative}
+.yc .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,18,31,0) 50%,rgba(6,18,31,.9))}
+.yc .tag{position:absolute;left:22px;top:22px;z-index:2;display:flex;gap:8px}
+.yc .tag .chip{background:rgba(11,31,51,.5);backdrop-filter:blur(10px);border-color:rgba(255,255,255,.2);height:28px;font-size:11px}
+.yc .nm{position:absolute;left:28px;bottom:150px;z-index:2}
+.yc .nm h3{font:italic 400 48px/1 var(--disp)}
+.yc .nm span{font:500 11px/1 var(--mono);letter-spacing:.2em;color:var(--brass2)}
+.yc .meta{display:grid;grid-template-columns:repeat(4,1fr);padding:22px 28px;gap:10px;border-top:1px solid var(--line)}
+.yc .meta span{display:block;font:500 9.5px/1 var(--mono);letter-spacing:.2em;color:var(--faint);margin-bottom:8px}
+.yc .meta b{font:500 16px/1 var(--sans)}
+.yc .pr{display:flex;justify-content:space-between;align-items:center;padding:20px 28px 26px;border-top:1px solid var(--line)}
+.yc .pr b{font:400 30px/1 var(--disp)}
+.yc .pr small{font:500 11px/1 var(--mono);color:var(--dim);letter-spacing:.14em}
+.yc.t1{transform:rotateY(10deg) translateZ(-40px);opacity:.92}
+.yc.t2{transform:translateY(-24px);box-shadow:0 60px 120px rgba(0,0,0,.45),0 0 0 1px rgba(201,164,92,.4)}
+.yc.t3{transform:rotateY(-10deg) translateZ(-40px);opacity:.92}
+.yc.t2 .hov{position:absolute;inset:0;z-index:3;display:grid;place-items:center}
+
+/* two seas */
+.seas{position:relative;height:880px;overflow:hidden}
+.seas .half{position:absolute;top:0;bottom:0;background-size:cover;background-position:center}
+.seas .med{left:0;width:1440px}
+.seas .car{left:0;width:1440px;clip-path:inset(0 0 0 58%)}
+.seas .half::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,18,31,.55),rgba(6,18,31,.1) 40%,rgba(6,18,31,.75))}
+.seas .split{position:absolute;left:58%;top:0;bottom:0;width:2px;background:var(--sail);z-index:4;box-shadow:0 0 30px rgba(255,255,255,.6)}
+.seas .split .knob{position:absolute;top:50%;left:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:var(--sail);color:var(--navy);display:grid;place-items:center;font:600 10px/1.3 var(--mono);letter-spacing:.16em;text-align:center}
+.seas .lbl{position:absolute;z-index:5;bottom:80px;width:520px}
+.seas .lbl h3{font:400 110px/.85 var(--disp);letter-spacing:-.03em}
+.seas .lbl p{color:rgba(244,241,234,.8);margin-top:20px;font-size:16px}
+.seas .lbl .mono{color:var(--brass2);margin-bottom:22px}
+.seas .ports{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
+.seas .ports .chip{background:rgba(6,18,31,.35);backdrop-filter:blur(8px);border-color:rgba(255,255,255,.25)}
+.seas .top{position:absolute;z-index:5;top:70px;left:72px;right:72px;display:flex;justify-content:space-between;align-items:flex-start}
+.seas .top h2{font:400 64px/.95 var(--disp)}
+
+/* experiences bento */
+.bento{padding-top:140px;padding-bottom:140px}
+.bg{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:330px 330px;gap:22px}
+.tile{border-radius:24px;overflow:hidden;position:relative;background-size:cover;background-position:center;border:1px solid var(--line)}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(6,18,31,.88))}
+.tile .tx{position:absolute;left:26px;right:26px;bottom:24px;z-index:2}
+.tile .tx h4{font:italic 400 34px/1.05 var(--disp)}
+.tile .tx span{font:500 10.5px/1 var(--mono);letter-spacing:.2em;color:var(--brass2);display:block;margin-bottom:10px}
+.tile .tx p{font-size:14px;color:var(--dim);margin-top:8px}
+.tile.big{grid-row:span 2}
+.tile .num{position:absolute;top:22px;right:24px;z-index:2;font:500 11px/1 var(--mono);color:var(--faint);letter-spacing:.2em}
+.tile.chef{background:linear-gradient(150deg,#123552,#0b1f33);display:flex;flex-direction:column;justify-content:space-between;padding:28px}
+.tile.chef::after{display:none}
+.menu{font:italic 400 21px/1.5 var(--disp);color:var(--sail)}
+.menu small{display:block;font:500 10px/1.6 var(--mono);letter-spacing:.18em;color:var(--brass2);font-style:normal}
+
+/* voice */
+.voice{padding-top:40px;padding-bottom:150px}
+.vq{display:grid;grid-template-columns:1fr 420px;gap:80px;align-items:center}
+.vq blockquote{font:italic 400 52px/1.15 var(--disp);letter-spacing:-.01em}
+.vq blockquote::before{content:"“";display:block;font:400 140px/.6 var(--disp);color:var(--brass);margin-bottom:10px}
+.vq cite{display:flex;gap:16px;align-items:center;margin-top:36px;font-style:normal}
+.vq cite .av{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#2a8c9a,#0e2a42);display:grid;place-items:center;font:italic 22px var(--disp)}
+.vq cite b{display:block}
+.vq cite span{font:500 11px/1 var(--mono);color:var(--dim);letter-spacing:.14em}
+.log{padding:30px;border-radius:24px}
+.log .row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.log .row span{color:var(--dim)}
+.log .row b{font-weight:500}
+.stars{color:var(--brass2);letter-spacing:4px}
+
+/* sales strip */
+.sales{padding-bottom:140px}
+.sl{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}
+.sl>div{padding:34px 34px 30px 0;border-right:1px solid var(--line);margin-right:34px;display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center}
+.sl>div:last-child{border:0}
+.sl .im{width:120px;height:120px;border-radius:16px;background-size:cover;background-position:center}
+.sl h4{font:italic 400 30px/1 var(--disp)}
+.sl span{font:500 10.5px/1.6 var(--mono);letter-spacing:.16em;color:var(--dim);display:block;margin-top:8px}
+.sl b{display:block;font:500 20px/1 var(--sans);color:var(--brass2);margin-top:12px}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<header data-nav="home" data-glass></header>
+
+<section class="hero">
+  <div id="sea"></div>
+  <div class="grade a"></div><div class="grade b"></div><div class="grade c"></div>
+  <div class="side">43°16′N · 006°38′E — GOLFE DE SAINT-TROPEZ — SUNSET 20:41</div>
+  <div class="copy reveal-up">
+    <div class="eyebrow">Superyacht charter · Mediterranean & Caribbean</div>
+    <div class="lead">Charter the far side<br>of the <span class="brass">horizon.</span></div>
+  </div>
+  <div class="tele glass">
+    <div class="hd"><span style="white-space:nowrap"><i class="dot"></i>&nbsp; Live · underway</span><span style="white-space:nowrap">AIS 255806314</span></div>
+    <h4>M/Y Aurelia</h4><div class="sm">62 m · tri-deck · 12 guests</div>
+    <div class="grid"><div><span>Speed</span><b>14.2<small>kn</small></b></div><div><span>Heading</span><b>284°<small>WNW</small></b></div><div><span>Position</span><b style="font-size:14px">43°16′N 6°38′E</b></div><div><span>Next port</span><b style="font-size:14px">Porquerolles</b></div></div>
+    <div class="bar"><i></i></div>
+    <div style="display:flex;justify-content:space-between;margin-top:10px;font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--faint)"><span>ST-TROPEZ</span><span>ETA 22:10</span></div>
+  </div>
+  
+  <p class="sub">Thirty-eight crewed superyachts, 24 to 92 metres, from €65,000 a week. Every itinerary written by the captain who will sail it.</p>
+  <div class="ctas"><a class="btn brassbtn" href="fleet.html">Explore the fleet <span class="ar">→</span></a><a class="btn ghost" href="itinerary.html">Build an itinerary</a></div>
+  <div id="callouts"></div>
+  <div class="book glass">
+    <div><span>Cruising ground</span><b>Côte d'Azur & Corsica</b></div>
+    <div><span>Dates</span><b>12 – 19 July<small>7 nights</small></b></div>
+    <div><span>Guests</span><b>10<small>5 cabins</small></b></div>
+    <div><span>Length</span><b>50 – 70 m</b></div>
+    <a class="btn brassbtn" href="fleet.html">Find my yacht <span class="ar">→</span></a>
+  </div>
+</section>
+
+<div class="marquee"><div class="tr">
+  <span>Côte d'Azur</span><b>◆ 43°N</b><span>Amalfi</span><b>◆ 40°N</b><span>Cyclades</span><b>◆ 37°N</b><span>Balearics</span><b>◆ 39°N</b><span>Dalmatia</span><b>◆ 43°N</b><span>St Barths</span><b>◆ 17°N</b><span>Grenadines</span><b>◆ 12°N</b><span>British Virgin Islands</span><b>◆ 18°N</b>
+  <span>Côte d'Azur</span><b>◆ 43°N</b><span>Amalfi</span><b>◆ 40°N</b><span>Cyclades</span><b>◆ 37°N</b><span>Balearics</span><b>◆ 39°N</b><span>Dalmatia</span><b>◆ 43°N</b><span>St Barths</span><b>◆ 17°N</b><span>Grenadines</span><b>◆ 12°N</b><span>British Virgin Islands</span><b>◆ 18°N</b>
+</div></div>
+
+<section class="intro w">
+  <div class="eyebrow" style="margin-bottom:40px">( 01 ) The Océane standard</div>
+  <p class="st">We don't rent boats. We hand you <span class="pill" style="background-image:url(https://images.unsplash.com/photo-1616207133639-cd5e4db9859f?auto=format&fit=crop&q=82&w=400)"></span> a private island that <i>moves</i> — a crew of eighteen, a chef who shops the morning market, <span class="pill" style="background-image:url(https://images.unsplash.com/photo-1612158560555-34306ad5e77c?auto=format&fit=crop&q=82&w=400)"></span> and a wake <span class="pill" style="background-image:url(https://images.unsplash.com/photo-1604737637145-48cc31d160eb?auto=format&fit=crop&q=82&w=400)"></span> that leads wherever the weather is kindest.</p>
+  <div class="stats">
+    <div><b>38<sup>yachts</sup></b><span>Crewed charter fleet<br>24 – 92 metres</span></div>
+    <div><b>612<sup>crew</sup></b><span>Captains, chefs, divers<br>& stewards, all vetted</span></div>
+    <div><b>17<sup>yrs</sup></b><span>Charter seasons since<br>Monaco, 2009</span></div>
+    <div><b>4.97<sup>/5</sup></b><span>Guest rating across<br>2,140 charters</span></div>
+  </div>
+</section>
+
+<section class="feat">
+  <div class="w">
+    <div class="sechd"><div><div class="eyebrow">( 02 ) Available this season</div><h2>Three yachts, <i>one</i><br>open week in July.</h2></div>
+      <div style="display:flex;gap:12px;align-items:center"><span class="mono dim">01 / 38</span><a class="btn ghost sm">←</a><a class="btn brassbtn sm">→</a></div></div>
+    <div class="track">
+      <article class="yc t1"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=82&w=900)"><div class="tag"><span class="chip">Explorer</span><span class="chip">Caribbean</span></div></div>
+        <div class="nm"><span>2019 · REFIT 2024</span><h3>Kythera</h3></div>
+        <div class="meta"><div><span>Length</span><b>74 m</b></div><div><span>Guests</span><b>12</b></div><div><span>Crew</span><b>24</b></div><div><span>Speed</span><b>16 kn</b></div></div>
+        <div class="pr"><div><small>FROM / WEEK</small><br><b>€420,000</b></div><a class="btn ghost sm">View</a></div></article>
+      <article class="yc t2"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=82&w=900)"><div class="tag"><span class="chip" style="background:var(--brass);color:var(--navy);border:0">Flagship</span><span class="chip">Côte d'Azur</span></div>
+        <div class="hov"><div class="cursor" style="position:relative">View<br>yacht</div></div></div>
+        <div class="nm"><span>2022 · TRI-DECK</span><h3>Aurelia</h3></div>
+        <div class="meta"><div><span>Length</span><b>62 m</b></div><div><span>Guests</span><b>12</b></div><div><span>Crew</span><b>18</b></div><div><span>Speed</span><b>15 kn</b></div></div>
+        <div class="pr"><div><small>FROM / WEEK</small><br><b>€310,000</b></div><a class="btn brassbtn sm" href="yacht.html">View yacht →</a></div></article>
+      <article class="yc t3"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1535024966840-e7424dc2635b?auto=format&fit=crop&q=82&w=900);background-position:60% 70%"><div class="tag"><span class="chip">Sport</span><span class="chip">Balearics</span></div></div>
+        <div class="nm"><span>2021 · FLYBRIDGE</span><h3>Solenne</h3></div>
+        <div class="meta"><div><span>Length</span><b>36 m</b></div><div><span>Guests</span><b>10</b></div><div><span>Crew</span><b>7</b></div><div><span>Speed</span><b>24 kn</b></div></div>
+        <div class="pr"><div><small>FROM / WEEK</small><br><b>€89,000</b></div><a class="btn ghost sm">View</a></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="seas">
+  <div class="half med" style="background-image:url(https://images.unsplash.com/photo-1523496922380-91d5afba98a3?auto=format&fit=crop&q=82&w=1800)"></div>
+  <div class="half car" style="background-image:url(https://images.unsplash.com/photo-1552674510-62c267e73ada?auto=format&fit=crop&q=82&w=1800)"></div>
+  <div class="split"><div class="knob">◂ Drag ▸<br>seas</div></div>
+  <div class="top"><div><div class="eyebrow">( 03 ) Two seasons, two seas</div><h2 style="margin-top:20px">May to October, <i>then</i><br>we follow the sun west.</h2></div><div data-compass="120" class="spin"></div></div>
+  <div class="lbl" style="left:72px"><div class="mono">Season I · May – Oct</div><h3>The <i>Med</i></h3><p>Lunch in Portofino, swim at Lavezzi, dinner at anchor off Hydra. Calm summer seas, short hops, long tables.</p><div class="ports"><span class="chip">Monaco</span><span class="chip">Bonifacio</span><span class="chip">Capri</span><span class="chip">Mykonos</span><span class="chip">Hvar</span></div></div>
+  <div class="lbl" style="right:72px;width:440px;text-align:right"><div class="mono">Season II · Dec – Apr</div><h3>The <i>Caribbean</i></h3><p>Trade winds, white sand cays and reefs you can see from the flybridge.</p><div class="ports" style="justify-content:flex-end"><span class="chip">St Barths</span><span class="chip">Mustique</span><span class="chip">Tortola</span></div></div>
+</section>
+
+<section class="bento w">
+  <div class="sechd"><div><div class="eyebrow">( 04 ) On board & overboard</div><h2>Days that <i>don't</i><br>repeat themselves.</h2></div><a class="btn ghost" href="experiences.html">All experiences →</a></div>
+  <div class="bg">
+    <div class="tile big" style="background-image:url(https://images.unsplash.com/photo-1612158560555-34306ad5e77c?auto=format&fit=crop&q=82&w=1000)"><span class="num">01 / DIVE</span><div class="tx"><span>PADI instructor on board</span><h4>Reef dives below the anchor chain</h4><p>From first breath to night dives off Les Saintes — tanks, guide and tender included.</p></div></div>
+    <div class="tile" style="background-image:url(https://images.unsplash.com/photo-1766207474098-03689bd2a8a2?auto=format&fit=crop&q=82&w=800)"><span class="num">02 / TOYS</span><div class="tx"><span>Sea scooters · e-foils · jet skis</span><h4>The toy garage</h4></div></div>
+    <div class="tile chef"><span class="num" style="position:static">03 / TABLE</span><div class="menu"><small>Tonight · Chef Mathilde Rey</small>Red prawn crudo, blood orange<br>Line-caught bass, sea fennel<br>Fig leaf ice, warm madeleines</div><div style="display:flex;justify-content:space-between;align-items:flex-end"><h4 style="font:italic 400 32px/1 var(--disp)">A private<br>chef's table</h4><span class="mono" style="color:var(--brass2)">MENU 14/21</span></div></div>
+    <div class="tile" style="background-image:url(https://images.unsplash.com/photo-1722032259251-91cc9365b349?auto=format&fit=crop&q=82&w=800)"><span class="num">04 / DECK</span><div class="tx"><span>Sunrise yoga · massage</span><h4>Wellness at anchor</h4></div></div>
+    <div class="tile" style="background-image:url(https://images.unsplash.com/photo-1526761122248-c31c93f8b2b9?auto=format&fit=crop&q=82&w=800)"><span class="num">05 / SAIL</span><div class="tx"><span>Day charter by tender</span><h4>Sunset under canvas</h4></div></div>
+  </div>
+</section>
+
+<section class="voice w">
+  <div class="vq">
+    <div><div class="eyebrow" style="margin-bottom:30px">( 05 ) From the guest log</div>
+      <blockquote>Captain Marchetti read the mistral a day early and moved us to Porquerolles. We had the bay to ourselves, and the children still talk about the dolphins at breakfast.</blockquote>
+      <cite><div class="av">H</div><div><b>Hélène & Tomas V.</b><span>AURELIA · 7 NIGHTS · JULY 2025</span></div></cite></div>
+    <div class="log glass"><div class="mono" style="color:var(--brass2);margin-bottom:12px">Charter log · Aurelia</div>
+      <div class="row"><span>Distance logged</span><b>412 nm</b></div><div class="row"><span>Anchorages</span><b>9</b></div><div class="row"><span>Dives / snorkels</span><b>14</b></div><div class="row"><span>Bottles opened</span><b>Classified</b></div><div class="row" style="border:0"><span>Guest rating</span><b class="stars">★★★★★</b></div></div>
+  </div>
+</section>
+
+<section class="sales w" id="sales">
+  <div class="sechd" style="margin-bottom:40px"><div><div class="eyebrow">( 06 ) Brokerage</div><h2 style="font-size:72px">Yachts for sale</h2></div><a class="btn ghost">All 24 listings →</a></div>
+  <div class="sl">
+    <div><div class="im" style="background-image:url(https://images.unsplash.com/photo-1528154291023-a6525fabe5b4?auto=format&fit=crop&q=82&w=300)"></div><div><h4>Maëlle</h4><span>48 M · 2018 · LYING ANTIBES</span><b>€28,500,000</b></div></div>
+    <div><div class="im" style="background-image:url(https://images.unsplash.com/photo-1543140313-318677635120?auto=format&fit=crop&q=82&w=300)"></div><div><h4>Isola Blu</h4><span>41 M · 2020 · LYING PALMA</span><b>€19,900,000</b></div></div>
+    <div><div class="im" style="background-image:url(https://images.unsplash.com/photo-1505142468610-359e7d316be0?auto=format&fit=crop&q=82&w=300)"></div><div><h4>Nereid</h4><span>66 M · 2016 · LYING ST MAARTEN</span><b>Price on request</b></div></div>
+  </div>
+</section>
+
+<footer data-foot></footer>
+
+<script src="oceane.js"></script>
+<script src="oceane3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { Water } from 'three/addons/objects/Water.js';
+import { Sky } from 'three/addons/objects/Sky.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+const O = makeO3(THREE, { Water, Sky, RoomEnvironment });
+await document.fonts.load('400 300px "Playfair Display SC"').catch(() => 0);
+const S = O.stage(document.getElementById('sea'), { w: 1440, h: 1000, fov: 28, pos: [13, 2.1, 13.5], target: [-3.2, 3.0, -1.5], exposure: .45 });
+const oc = O.ocean(S, { elev: 1.1, az: 219, rayleigh: 4, turbidity: 2, mie: .003, g: .9, water: '#03222c', distortion: 3.4 });
+const Y = O.yacht({ lit: true }); S.scene.add(Y);
+O.wake(S.scene, { opacity: 1 });
+const sunL = new THREE.DirectionalLight('#ffcf9a', 2.4); sunL.position.copy(oc.sun).multiplyScalar(60); S.scene.add(sunL);
+S.scene.add(new THREE.HemisphereLight('#ffd9b8', '#0b1f33', .55));
+const fill = new THREE.DirectionalLight('#9fc4ff', .5); fill.position.set(10, 6, 12); S.scene.add(fill);
+
+// monumental word standing on the sea behind the yacht
+{
+  const tex = O.canvasTex(2048, 400, (x, w, h) => {
+    x.font = '400 330px "Playfair Display SC"'; x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+    const g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#fff6e6'); g.addColorStop(.75, '#f4dcc0'); g.addColorStop(1, 'rgba(244,220,192,.35)');
+    x.fillStyle = g; x.letterSpacing = '20px'; x.fillText('HORIZON', w / 2, h - 34);
+  });
+  const D = 150, dir = new THREE.Vector3().subVectors(S.target, S.camera.position).setY(0).normalize();
+  const side = new THREE.Vector3(-dir.z, 0, dir.x);
+  const W = D * .62, H = W * 400 / 2048;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(W, H), new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: .9, toneMapped: false, depthWrite: false, color: '#ffe9d2' }));
+  m.position.copy(S.camera.position).addScaledVector(dir, D).addScaledVector(side, -D * .02); m.position.y = H / 2 - .5;
+  m.lookAt(S.camera.position.x, H / 2, S.camera.position.z); S.scene.add(m);
+}
+// callouts projected from the model
+S.onFirst = () => {
+  const L = Y.userData.L, pts = [
+    { p: [L[2].x0 - .05, L[2].y + L[2].h + .05, 0], t: 'Sun deck', s: 'Infinity pool · 9 m²', dx: 420, dy: -48 },
+    { p: [L[0].x1 - .6, L[0].y + .25, .75], t: 'Owner\'s deck', s: '270° panoramic glass', dx: 60, dy: 120 },
+    
+  ];
+  document.getElementById('callouts').innerHTML = pts.map(c => {
+    const [x, y] = S.project(new THREE.Vector3(...c.p)); const lx = c.dx < 0 ? x + c.dx : x + c.dx, ly = y + c.dy;
+    const len = Math.hypot(c.dx, c.dy), ang = Math.atan2(c.dy, c.dx) * 180 / Math.PI;
+    return `<div class="callout" style="left:${x}px;top:${y}px"><i class="pin" style="left:-6px;top:-6px"></i><i class="ln" style="left:0;top:0;width:${len}px;transform-origin:0 0;transform:rotate(${ang}deg)"></i>
+      <div style="position:absolute;left:${c.dx + (c.dx < 0 ? -10 : 10)}px;top:${c.dy - 22}px;${c.dx < 0 ? 'transform:translateX(-100%);text-align:right' : ''}"><b>${c.t}</b>${c.s}</div></div>`;
+  }).join('');
+};
+S.loop((t) => { Y.position.y = .02 + Math.sin(t * .8) * .02; Y.rotation.z = Math.sin(t * .6) * .005; Y.rotation.x = Math.sin(t * .45) * .004; });
+</script>
+</body></html>
