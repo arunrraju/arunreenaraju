@@ -137,6 +137,65 @@
       ]
     },
     {
+      "title": "Swing Analyzer",
+      "description": "A swing-trading app for India and US markets: a nightly plan, live movers, earnings calendar and paper trading, on web and mobile.",
+      "tags": [
+        "Now",
+        "Trading",
+        "Web + mobile"
+      ],
+      "letter": "S",
+      "role": "Builder",
+      "summary": "Swing Analyzer scans the market every night and turns it into a plan for the next session: the market mood, the best setups, and an entry, stop and target for each. During the day it tracks live movers and earnings, and a paper trading desk lets ideas be tested without real money. It covers India (NSE) and US stocks, plus commodities and currencies, and works the same on web and mobile.",
+      "stats": [
+        {
+          "value": "2",
+          "label": "Markets: India and US"
+        },
+        {
+          "value": "Nightly",
+          "label": "Scan builds the next day's plan"
+        },
+        {
+          "value": "Web + mobile",
+          "label": "One app, both screens"
+        }
+      ],
+      "shots": [
+        {
+          "image": "assets/photos/work/swing-1-plan.jpg",
+          "caption": "Daily plan: market mood and the best setup"
+        },
+        {
+          "image": "assets/photos/work/swing-2-calendar.jpg",
+          "caption": "Results calendar: earnings for the month"
+        },
+        {
+          "image": "assets/photos/work/swing-3-day.jpg",
+          "caption": "Earnings day: what to buy, watch or skip"
+        },
+        {
+          "image": "assets/photos/work/swing-4-trade.jpg",
+          "caption": "Trade screen: entry, stop and target on the chart"
+        },
+        {
+          "image": "assets/photos/work/swing-5-movers.jpg",
+          "caption": "Live movers: what's moving right now"
+        },
+        {
+          "image": "assets/photos/work/swing-6-paper.jpg",
+          "caption": "Paper trading: practice before real money"
+        }
+      ],
+      "demo": "",
+      "quote": {
+        "text": "[A line from someone who uses Swing Analyzer.]",
+        "name": "[Name]",
+        "role": "[Role]"
+      },
+      "links": []
+    },
+    {
       "title": "Live trailer alerts",
       "description": "A JavaScript tool that watches warehouse flow at Amazon and flags full trailers early. Manual monitoring down 30%.",
       "tags": [
