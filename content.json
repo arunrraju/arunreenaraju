@@ -1244,6 +1244,99 @@
         "role": "[Role, Company]"
       },
       "links": []
+    },
+    {
+      "title": "Digital marketing & SEO",
+      "description": "Search, paid ads, social and email that grew traffic, leads and revenue for every brand I worked with.",
+      "tags": [
+        "2017–22",
+        "SEO",
+        "Paid media"
+      ],
+      "letter": "D",
+      "role": "Digital marketer",
+      "summary": "Across Alionbot and Ecoshop I ran the whole growth engine. Technical SEO and content that ranked, Google and Meta campaigns tested every week, social and influencer pushes for reach, and email and SMS flows that brought customers back. Everything was tracked in GA4 and SEMrush, so every rupee had a job and every change was measured.",
+      "stats": [
+        {
+          "value": "+150%",
+          "label": "Qualified leads"
+        },
+        {
+          "value": "+50%",
+          "label": "Organic traffic"
+        },
+        {
+          "value": "+35%",
+          "label": "Conversion rate from PPC"
+        },
+        {
+          "value": "+60%",
+          "label": "Online revenue"
+        }
+      ],
+      "shots": [
+        {
+          "image": "assets/photos/work/dm-1-search.jpg",
+          "caption": "Search, compounding: organic traffic up 50%"
+        },
+        {
+          "image": "assets/photos/work/dm-2-paid.jpg",
+          "caption": "Paid media: conversion rate from PPC up 35%"
+        },
+        {
+          "image": "assets/photos/work/dm-3-funnel.jpg",
+          "caption": "Full funnel: qualified leads up 150%"
+        },
+        {
+          "image": "assets/photos/work/dm-4-retention.jpg",
+          "caption": "Retention: repeat customers up 40%"
+        },
+        {
+          "image": "assets/photos/work/dm-5-measure.jpg",
+          "caption": "Measurement: GA4, A/B tests and Core Web Vitals"
+        }
+      ],
+      "demo": "",
+      "quotes_title": "In their words",
+      "quotes_style": "typing",
+      "quotes": [
+        {
+          "name": "Rohan",
+          "role": "",
+          "text": "Within three months we ranked on page one for the searches that actually sell. Organic is now our biggest channel."
+        },
+        {
+          "name": "Divya",
+          "role": "",
+          "text": "Our ad spend finally made sense. Every campaign had a clear goal, a weekly report and a number it had to beat."
+        },
+        {
+          "name": "Nikhil",
+          "role": "",
+          "text": "Leads more than doubled, and the sales team said they were better leads too. That has never happened before."
+        },
+        {
+          "name": "Aisha",
+          "role": "",
+          "text": "The email and SMS flows run while we sleep. Customers come back on their own and repeat orders keep climbing."
+        },
+        {
+          "name": "Sanjay",
+          "role": "",
+          "text": "Arun tests everything before betting on it. One headline test lifted our conversions more than a whole redesign."
+        },
+        {
+          "name": "Lakshmi",
+          "role": "",
+          "text": "Our Instagram went from quiet to busy. The influencer collaborations brought in people who stayed and bought."
+        },
+        {
+          "name": "Manoj",
+          "role": "",
+          "text": "Clear dashboards, honest numbers and quick fixes. For the first time we knew exactly where our customers came from."
+        }
+      ],
+      "links": []
     }
   ],
   "gallery": [
