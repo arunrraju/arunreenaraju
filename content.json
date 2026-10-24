@@ -233,31 +233,42 @@
       ]
     },
     {
-      "title": "20 website samples",
-      "description": "Twenty concept e-commerce sites, 120 screens. Each brand has its own art direction, motion and real-time 3D.",
+      "title": "30+ websites at Alionbot",
+      "description": "Designed and shipped 30+ WordPress sites and stores. Organic traffic up 50%, conversions up 35%.",
       "tags": [
-        "2026",
+        "2020–22",
         "Web design",
-        "3D"
+        "SEO"
       ],
-      "letter": "20",
-      "image": "samples/cover.webp",
-      "role": "Designer and builder",
-      "summary": "Twenty fictional premium brands, from a Paris fragrance house to an electric hypercar, each designed from scratch with its own type, palette, motion language and full shopping flow from first impression to checkout. Fourteen of them render their hero product live in WebGL with Three.js. Open any site to scroll its screens or try the live build.",
+      "letter": "W",
+      "summary": "At Alionbot I designed and shipped more than 30 WordPress websites and stores, then grew them with SEO, Google Ads and social campaigns. I tracked everything in GA4 and SEMrush, ran A/B tests on ads, and set up email and SMS flows that kept customers coming back.",
+      "role": "Digital Marketing Specialist",
       "stats": [
         {
-          "value": "20",
-          "label": "Brands, each with its own art direction"
+          "value": "30+",
+          "label": "Websites and stores launched"
         },
         {
-          "value": "120",
-          "label": "High-fidelity desktop screens"
+          "value": "+50%",
+          "label": "Organic traffic"
         },
         {
-          "value": "14",
-          "label": "Built with real-time 3D"
+          "value": "+35%",
+          "label": "Conversion rate from PPC"
+        },
+        {
+          "value": "+40%",
+          "label": "Customer retention via email and SMS"
         }
       ],
+      "shots": [],
+      "demo": "",
+      "quote": {
+        "text": "[A short line from a client, colleague or customer about this work.]",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      },
+      "links": [],
       "sites_title": "Twenty brands. Twenty worlds.",
       "sites": [
         {
@@ -1137,62 +1148,7 @@
             }
           ]
         }
-      ],
-      "shots": [],
-      "demo": "",
-      "quotes": [],
-      "links": []
-    },
-    {
-      "title": "30+ websites at Alionbot",
-      "description": "Designed and shipped 30+ WordPress sites and stores. Organic traffic up 50%, conversions up 35%.",
-      "tags": [
-        "2020–22",
-        "Web design",
-        "SEO"
-      ],
-      "letter": "W",
-      "summary": "At Alionbot I designed and shipped more than 30 WordPress websites and stores, then grew them with SEO, Google Ads and social campaigns. I tracked everything in GA4 and SEMrush, ran A/B tests on ads, and set up email and SMS flows that kept customers coming back.",
-      "role": "Digital Marketing Specialist",
-      "stats": [
-        {
-          "value": "30+",
-          "label": "Websites and stores launched"
-        },
-        {
-          "value": "+50%",
-          "label": "Organic traffic"
-        },
-        {
-          "value": "+35%",
-          "label": "Conversion rate from PPC"
-        },
-        {
-          "value": "+40%",
-          "label": "Customer retention via email and SMS"
-        }
-      ],
-      "shots": [
-        {
-          "image": "assets/photos/work/alionbot-1.jpg",
-          "caption": "Website"
-        },
-        {
-          "image": "assets/photos/work/alionbot-2.jpg",
-          "caption": "Online store"
-        },
-        {
-          "image": "assets/photos/work/alionbot-3.jpg",
-          "caption": "Campaign results"
-        }
-      ],
-      "demo": "",
-      "quote": {
-        "text": "[A short line from a client, colleague or customer about this work.]",
-        "name": "[Name]",
-        "role": "[Role, Company]"
-      },
-      "links": []
+      ]
     },
     {
       "title": "Ecoshop online store",
