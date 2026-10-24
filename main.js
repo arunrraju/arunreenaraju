@@ -295,10 +295,13 @@
         return `<a class="pill${i ? '' : ' pill--iri'}" href="${esc(l.url)}"${ext}>${esc(l.label || 'Visit')} <span aria-hidden="true">↗</span></a>`;
       }).join('');
       const stats = arr(w.stats).map((x) => `<div ${rv()}><dt>${esc(x.value)}</dt><dd>${esc(x.label)}</dd></div>`).join('');
+      const total = arr(w.shots).length;
       const shots = arr(w.shots).map((x, i) => `
-        <li ${rv()}>
-          <figure class="photo${x.image ? '' : ' is-empty'}" data-photo-label="Screen ${n(i)} · add it in Pages CMS">${x.image ? `<img src="${esc(x.image)}" alt="${esc(x.caption)}" loading="lazy">` : ''}</figure>
-          ${x.caption ? `<p class="mono">${esc(x.caption)}</p>` : ''}
+        <li class="case-rv" style="--d:${d++};--i:${i}">
+          <figure class="photo case__shot${x.image ? '' : ' is-empty'}" data-photo-label="Screen ${n(i)} · add it in Pages CMS">
+            ${x.image ? `<img src="${esc(x.image)}" alt="${esc(x.caption)}" loading="${i < 2 ? 'eager' : 'lazy'}">` : ''}
+            <figcaption class="mono"><span>${n(i)} / ${String(total).padStart(2, '0')}</span>${esc(x.caption)}</figcaption>
+          </figure>
         </li>`).join('');
       const q = w.quote || {};
       const next = projects[(current + 1) % projects.length];
@@ -318,7 +321,7 @@
             </div>
             ${stats ? `<dl class="case__stats">${stats}</dl>` : ''}
           </div>
-          ${shots ? `<section class="case__section"><p class="label mono wrap"><span class="label__dot"></span>Screens</p><ol class="case__strip" role="list">${shots}</ol></section>` : ''}
+          ${shots ? `<section class="case__section"><p class="label mono wrap"><span class="label__dot"></span>Screens</p><ol class="case__stack" role="list">${shots}</ol></section>` : ''}
           ${w.demo ? `<section class="case__section wrap"><p class="label mono"><span class="label__dot"></span>Try it</p><div class="case__device"><iframe src="${esc(w.demo)}" title="${esc(w.title)} live demo" loading="lazy"></iframe></div><p class="case__device-cap"><a class="pill" href="${esc(w.demo)}" target="_blank" rel="noopener">Open full screen ↗</a></p></section>` : ''}
           ${q.text ? `<section class="case__section wrap"><p class="label mono"><span class="label__dot"></span>In their words</p><blockquote class="case__quote" ${rv()}><p>${esc(q.text)}</p>${q.name || q.role ? `<footer class="mono">${esc([q.name, q.role].filter(Boolean).join(' · '))}</footer>` : ''}</blockquote></section>` : ''}
           ${projects.length > 1 ? `<div class="wrap"><button class="case__next" type="button" data-case-next><span class="mono">Next project</span><span class="case__next-title">${esc(next.title)} →</span></button></div>` : ''}
@@ -388,8 +391,25 @@
       if (e.target.closest('[data-case-close]')) closeCase();
       if (e.target.closest('[data-case-next]')) goNext();
     });
+    // Screens stack: each one pins near the top and the next slides over it,
+    // pushing the ones underneath back (scaled down, tilted and dimmed).
+    let stackFrame = 0;
+    const stackDepth = () => {
+      stackFrame = 0;
+      const items = $$('.case__stack > li', body);
+      const tops = items.map((li) => li.getBoundingClientRect().top);
+      items.forEach((li, i) => {
+        let depth = 0;
+        for (let j = i + 1; j < items.length && depth < 3; j++) {
+          const stick = parseFloat(getComputedStyle(items[j]).top) || 0;
+          depth += Math.min(1, Math.max(0, (innerHeight - tops[j]) / Math.max(1, innerHeight - stick)));
+        }
+        li.style.setProperty('--depth', depth.toFixed(3));
+      });
+    };
     body.addEventListener('scroll', () => {
       stage.style.setProperty('--sp', Math.min(1, body.scrollTop / innerHeight).toFixed(3));
+      if (!reduceMotion && !stackFrame) stackFrame = requestAnimationFrame(stackDepth);
     }, { passive: true });
   }
 
