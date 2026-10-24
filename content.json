@@ -64,8 +64,49 @@
         "Founder",
         "Live commerce"
       ],
-      "link": "https://metzee.com/",
-      "letter": "M"
+      "letter": "M",
+      "summary": "Metzee is a live-auction marketplace built for India. Sellers broadcast live shows and run auctions in real time, while buyers bid, pay and track delivery without ever leaving the stream. Anyone can sell: resellers, wholesalers, manufacturers and collectors. It runs as a web app and a native Android app, built from one codebase.",
+      "role": "Founder",
+      "stats": [
+        {
+          "value": "Live",
+          "label": "Auctions run in real time, inside the stream"
+        },
+        {
+          "value": "1",
+          "label": "Codebase for web and native Android"
+        },
+        {
+          "value": "Anyone",
+          "label": "Can sell: resellers to collectors"
+        }
+      ],
+      "shots": [
+        {
+          "image": "assets/photos/work/metzee-1.jpg",
+          "caption": "Live show"
+        },
+        {
+          "image": "assets/photos/work/metzee-2.jpg",
+          "caption": "Bidding in the stream"
+        },
+        {
+          "image": "assets/photos/work/metzee-3.jpg",
+          "caption": "Checkout and tracking"
+        }
+      ],
+      "demo": "",
+      "quote": {
+        "text": "[A line from a seller or buyer about Metzee.]",
+        "name": "[Name]",
+        "role": "[Seller on Metzee]"
+      },
+      "links": [
+        {
+          "label": "Visit metzee.com",
+          "url": "https://metzee.com/"
+        }
+      ]
     },
     {
       "title": "Live trailer alerts",
@@ -75,7 +116,40 @@
         "Automation",
         "Operations"
       ],
-      "letter": "T"
+      "letter": "T",
+      "summary": "In Amazon's Fluid department, trailers were watched by hand to catch the ones filling up. I built a small browser tool in JavaScript that reads live warehouse flow data and raises smart alerts for high-utilisation trailers, so the team can step in before backlogs or missed departures.",
+      "role": "Builder",
+      "stats": [
+        {
+          "value": "30%",
+          "label": "Less manual monitoring"
+        },
+        {
+          "value": "18+",
+          "label": "Associates guided per shift"
+        },
+        {
+          "value": "Live",
+          "label": "Alerts before trailers back up"
+        }
+      ],
+      "shots": [
+        {
+          "image": "assets/photos/work/trailer-1.jpg",
+          "caption": "Alert panel"
+        },
+        {
+          "image": "assets/photos/work/trailer-2.jpg",
+          "caption": "Trailer utilisation view"
+        }
+      ],
+      "demo": "",
+      "quote": {
+        "text": "[A short line from a client, colleague or customer about this work.]",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      },
+      "links": []
     },
     {
       "title": "30+ websites at Alionbot",
@@ -85,7 +159,48 @@
         "Web design",
         "SEO"
       ],
-      "letter": "W"
+      "letter": "W",
+      "summary": "At Alionbot I designed and shipped more than 30 WordPress websites and stores, then grew them with SEO, Google Ads and social campaigns. I tracked everything in GA4 and SEMrush, ran A/B tests on ads, and set up email and SMS flows that kept customers coming back.",
+      "role": "Digital Marketing Specialist",
+      "stats": [
+        {
+          "value": "30+",
+          "label": "Websites and stores launched"
+        },
+        {
+          "value": "+50%",
+          "label": "Organic traffic"
+        },
+        {
+          "value": "+35%",
+          "label": "Conversion rate from PPC"
+        },
+        {
+          "value": "+40%",
+          "label": "Customer retention via email and SMS"
+        }
+      ],
+      "shots": [
+        {
+          "image": "assets/photos/work/alionbot-1.jpg",
+          "caption": "Website"
+        },
+        {
+          "image": "assets/photos/work/alionbot-2.jpg",
+          "caption": "Online store"
+        },
+        {
+          "image": "assets/photos/work/alionbot-3.jpg",
+          "caption": "Campaign results"
+        }
+      ],
+      "demo": "",
+      "quote": {
+        "text": "[A short line from a client, colleague or customer about this work.]",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      },
+      "links": []
     },
     {
       "title": "Ecoshop online store",
@@ -95,7 +210,44 @@
         "E-commerce",
         "Growth"
       ],
-      "letter": "E"
+      "letter": "E",
+      "summary": "I built Ecoshop's e-commerce platform and ran its growth: targeted SEO, PPC campaigns and social media across Facebook, Instagram and YouTube, plus early influencer partnerships to grow awareness.",
+      "role": "Marketing Associate",
+      "stats": [
+        {
+          "value": "+150%",
+          "label": "Qualified leads"
+        },
+        {
+          "value": "+50%",
+          "label": "Return on ad spend"
+        },
+        {
+          "value": "+60%",
+          "label": "Online revenue"
+        },
+        {
+          "value": "+40%",
+          "label": "Brand engagement"
+        }
+      ],
+      "shots": [
+        {
+          "image": "assets/photos/work/ecoshop-1.jpg",
+          "caption": "Storefront"
+        },
+        {
+          "image": "assets/photos/work/ecoshop-2.jpg",
+          "caption": "Product page"
+        }
+      ],
+      "demo": "",
+      "quote": {
+        "text": "[A short line from a client, colleague or customer about this work.]",
+        "name": "[Name]",
+        "role": "[Role, Company]"
+      },
+      "links": []
     }
   ],
   "gallery": [

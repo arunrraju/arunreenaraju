@@ -69,13 +69,13 @@ ${indent}</li>`;
     if (list(c.work).length) {
       html('.work__track', list(c.work).map((w, i) => {
         const [a, b, cc] = PALETTES[i % PALETTES.length];
-        const href = w.link || '#experience';
-        const target = isExternal(href) ? ' target="_blank" rel="noopener"' : '';
+        // Clicking a card opens its case panel (main.js); links to other sites live only inside it.
+        const href = `#work-${i + 1}`;
         const art = w.image ? ` style="--img:url('${esc(w.image)}')"` : '';
         const tags = list(w.tags).map((t) => `<span>${esc(t)}</span>`).join('');
         return `
           <li class="card" style="--a:${a};--b:${b};--c:${cc}">
-            <a class="card__link" href="${esc(href)}"${target} data-cursor="View">
+            <a class="card__link" href="${esc(href)}" data-case="${i}" data-cursor="Open">
               <div class="card__art"${art}><span class="card__glyph">${esc((w.letter || w.title || '').trim().charAt(0).toUpperCase())}</span></div>
               <div class="card__meta">
                 <h3 class="card__title">${esc(w.title)}</h3>
@@ -133,7 +133,7 @@ ${indent}</li>`;
 
   fetch('content.json', { cache: 'no-cache' })
     .then((r) => (r.ok ? r.json() : null))
-    .then((c) => { if (c) render(c); })
+    .then((c) => { if (c) { render(c); window.siteContent = c; } })
     .catch(() => {})
     .finally(start);
 })();

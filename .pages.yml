@@ -65,9 +65,40 @@ content:
           - { name: title, label: Title, type: string }
           - { name: description, label: Description, type: text }
           - { name: tags, label: Tags, type: string, list: true, description: "Year first, then two topics" }
-          - { name: link, label: Link, type: string, description: "Optional. Leave empty to point at your experience." }
           - { name: letter, label: Big letter, type: string, description: "One letter on the card art" }
-          - { name: image, label: Cover image, type: image, description: "Optional. Replaces the generated art." }
+          - { name: image, label: Cover image, type: image, description: "Optional. Replaces the generated art on the card and the panel." }
+          # Everything below shows in the panel that opens when someone clicks the card
+          - { name: role, label: Your role, type: string }
+          - { name: summary, label: The story, type: text, description: "3 to 4 sentences: the problem, what you did, the result." }
+          - name: stats
+            label: Numbers
+            type: object
+            list: true
+            fields:
+              - { name: value, label: Number, type: string, description: "e.g. +150% or 30+" }
+              - { name: label, label: What it means, type: string }
+          - name: shots
+            label: Screenshots
+            type: object
+            list: true
+            fields:
+              - { name: image, label: Image, type: image, description: "Landscape, 16:10 works best" }
+              - { name: caption, label: Caption, type: string }
+          - { name: demo, label: Live demo URL, type: string, description: "Optional. Shown inside a phone frame. Some sites block this; if it stays blank, leave it empty." }
+          - name: quote
+            label: Testimonial
+            type: object
+            fields:
+              - { name: text, label: Quote, type: text }
+              - { name: name, label: Name, type: string }
+              - { name: role, label: Role and company, type: string }
+          - name: links
+            label: Links
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Button text, type: string }
+              - { name: url, label: URL, type: string }
 
       - name: gallery
         label: Gallery
