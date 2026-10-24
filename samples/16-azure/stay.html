@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Book a viewing or a stay — Azure Estates</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="azure.css">
+<script src="azure3d.js"></script>
+<style>
+.wrap{display:grid;grid-template-columns:1fr 600px;gap:48px;padding:140px 48px 110px;position:relative}
+.head h1{font:200 118px/.86 var(--display);letter-spacing:-.065em;margin-top:22px}
+.head h1 span{color:var(--pool)}
+.toggle{display:inline-flex;padding:5px;border-radius:999px;background:#fff;border:1px solid var(--line);margin-top:36px;box-shadow:0 8px 24px rgba(16,18,20,.05)}
+.toggle a{height:50px;padding:0 26px;border-radius:999px;display:flex;align-items:center;gap:10px;font-weight:500;font-size:14px;color:var(--ink-2)}
+.toggle a.on{background:var(--ink);color:#fff}
+.toggle a small{font:500 10px/1 var(--mono);color:var(--sun-2)}
+.cal{margin-top:40px;background:#fff;border:1px solid var(--line);border-radius:28px;padding:30px;display:grid;grid-template-columns:1fr 1fr;gap:40px;position:relative}
+.cal .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cal .mh b{font:300 26px/1 var(--display);letter-spacing:-.03em}
+.cal .mh a{width:36px;height:36px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center}
+.cal .dw{display:grid;grid-template-columns:repeat(7,1fr);font:500 10px/1 var(--mono);color:var(--mute);letter-spacing:.1em;text-align:center;margin-bottom:8px}
+.cal .days{display:grid;grid-template-columns:repeat(7,1fr);row-gap:4px}
+.cal .days span{height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:400 16px/1 var(--display);position:relative}
+.cal .days span small{font:500 9px/1 var(--mono);color:var(--mute);margin-top:5px;letter-spacing:.02em}
+.cal .days span.na{color:#c7c6c0;text-decoration:line-through}
+.cal .days span.na small{visibility:hidden}
+.cal .days span.pk small{color:var(--sun)}
+.cal .days span.r{background:rgba(15,94,122,.1)}
+.cal .days span.s,.cal .days span.e{background:var(--pool);color:#fff;border-radius:14px;z-index:1}
+.cal .days span.s small,.cal .days span.e small{color:rgba(255,255,255,.8)}
+.cal .days span.s::after{content:"";position:absolute;right:-1px;top:0;bottom:0;width:50%;background:rgba(15,94,122,.1);z-index:-1}
+.cal .days span.e::after{content:"";position:absolute;left:0;top:0;bottom:0;width:50%;background:rgba(15,94,122,.1);z-index:-1}
+.cal .days span.sun::before{content:"";position:absolute;top:8px;right:12px;width:6px;height:6px;border-radius:50%;background:var(--sun)}
+.cal .days span.e{border-radius:14px}
+.cal .hov{position:absolute;left:232px;top:252px;background:var(--ink);color:#fff;border-radius:12px;padding:10px 12px;font-size:12px;white-space:nowrap;z-index:3;box-shadow:0 12px 30px rgba(16,18,20,.25)}
+.cal .hov small{display:block;font:500 9px/1 var(--mono);color:var(--sun-2);letter-spacing:.1em;margin-bottom:4px}
+.cal .leg{grid-column:1/-1;display:flex;gap:24px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
+.cal .leg span{display:flex;align-items:center;gap:8px}
+.cal .leg i{width:12px;height:12px;border-radius:4px}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.opt{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;position:relative}
+.opt .sw{position:absolute;right:18px;top:18px;width:42px;height:24px;border-radius:999px;background:var(--stone)}
+.opt .sw::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.opt.on{border-color:var(--pool);box-shadow:0 0 0 3px rgba(15,94,122,.1)}
+.opt.on .sw{background:var(--pool)}.opt.on .sw::after{left:21px}
+.opt b{display:block;font:400 19px/1.1 var(--display);margin-top:30px}
+.opt p{font-size:13px;color:var(--mute);margin-top:4px}
+.opt .pr{font:500 12px/1 var(--mono);margin-top:14px;color:var(--ink)}
+.guests{display:flex;gap:12px;margin-top:12px}
+.guests>div{flex:1;background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.guests b{font:300 22px/1 var(--display)}
+.step{display:flex;align-items:center;gap:14px;font:300 26px/1 var(--display)}
+.step a{width:38px;height:38px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;font-size:18px}
+
+.rail{position:sticky;top:20px;align-self:start}
+.sun{height:520px;border-radius:28px;overflow:hidden;position:relative;background:linear-gradient(180deg,#a7c1d3 0%,#f3d9bd 55%,#e7c09c 100%)}
+#sun3d{position:absolute;inset:0;width:600px;height:520px}
+.sun::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(25deg,rgba(80,45,20,.42),rgba(80,45,20,0) 48%)}
+.sun .hd{position:absolute;left:22px;top:20px;right:22px;display:flex;justify-content:space-between;z-index:3}
+.sun .hd .lab{color:rgba(16,18,20,.6)}
+.sun .big{position:absolute;left:22px;bottom:84px;z-index:3;font:200 50px/.92 var(--display);letter-spacing:-.05em;color:#fff;text-shadow:0 2px 24px rgba(80,40,10,.25)}
+.sun .big small{display:block;font:500 11px/1 var(--mono);letter-spacing:.14em;margin-bottom:10px}
+.sun .scrub{position:absolute;left:22px;right:22px;bottom:22px;height:44px;border-radius:999px;background:rgba(255,255,255,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:3;display:flex;align-items:center;padding:0 18px;gap:12px;font:500 10px/1 var(--mono)}
+.sun .scrub .tr{flex:1;height:4px;border-radius:2px;background:linear-gradient(90deg,#c9d8e2,#fff1d6 40%,#f6c48c 85%,#e9995a);position:relative}
+.sun .scrub .tr i{position:absolute;left:86%;top:-8px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:#fff;border:2px solid var(--sun)}
+.sum{background:#fff;border:1px solid var(--line);border-radius:28px;padding:26px;margin-top:14px;box-shadow:0 30px 60px rgba(16,18,20,.06)}
+.sum .vrow{display:flex;gap:14px;align-items:center}
+.sum .vrow .ph{width:84px;height:84px;border-radius:16px;overflow:hidden;flex:none}
+.sum h3{font:300 28px/1 var(--display);letter-spacing:-.03em}
+.sum table{width:100%;border-collapse:collapse;margin-top:18px}
+.sum td{padding:10px 0;font-size:14px;border-bottom:1px solid var(--line)}
+.sum td:last-child{text-align:right;font:500 13px/1 var(--mono)}
+.sum .tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px}
+.sum .tot b{font:200 46px/1 var(--display);letter-spacing:-.05em}
+.agentrow{display:flex;gap:12px;align-items:center;margin-top:18px;padding:14px;border-radius:18px;background:var(--paper)}
+.mono-av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font:400 17px/1 var(--display);color:#fff;background:linear-gradient(135deg,#0f5e7a,#46c3cf);flex:none;position:relative}
+.mono-av::after{content:"";position:absolute;right:0;bottom:2px;width:12px;height:12px;border-radius:50%;background:#3cc47c;border:2px solid #fff}
+
+.team{padding:110px 48px;background:var(--paper-2)}
+.team .g{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:50px}
+.tm{background:#fff;border-radius:24px;padding:24px;border:1px solid var(--line);min-height:280px;display:flex;flex-direction:column}
+.tm .mono-av{width:64px;height:64px;font-size:22px}
+.tm b{font:300 26px/1.05 var(--display);letter-spacing:-.03em;margin-top:22px}
+.tm p{font-size:14px;color:var(--mute);margin-top:8px}
+.tm .k{margin-top:auto;padding-top:16px;border-top:1px solid var(--line);font:500 11px/1 var(--mono);color:var(--pool);letter-spacing:.08em}
+.incl{padding:110px 48px;display:grid;grid-template-columns:520px 1fr;gap:60px}
+.incl h2{font:200 84px/.9 var(--display);letter-spacing:-.05em;margin-top:18px}
+.incl .ig{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-2)}
+.incl .ig div{padding:26px 20px 26px 0;border-bottom:1px solid var(--line)}
+.incl .ig b{display:block;font:400 19px/1.15 var(--display);margin:14px 0 6px}
+.incl .ig p{font-size:13px;color:var(--mute)}
+.incl .ig svg{width:28px;height:28px;stroke:var(--pool);fill:none;stroke-width:1.4}
+</style></head>
+<body>
+<nav class="nav"><div class="logo"><i></i>AZURE<small>ESTATES</small></div>
+  <div class="links"><a href="home.html">Home</a><a href="properties.html">Villas for sale</a><a class="on" href="stay.html">Private stays</a><a href="properties.html">Portfolio map</a><a href="tour.html">3D tours</a><a href="#">Journal</a></div>
+  <div class="r"><span class="pill">EN · €</span><a class="pill ink" href="stay.html">Book a viewing</a></div></nav>
+
+<section class="wrap">
+  <div class="cols"></div>
+  <div class="head" style="position:relative;z-index:2">
+    <div class="crumbs mono" style="color:var(--mute)">Villa Halcyon / <b style="color:var(--ink);font-weight:500">Book</b></div>
+    <h1>See it at sunset.<br><span>Or stay a week.</span></h1>
+    <div class="toggle"><a>Private viewing</a><a>Video tour</a><a class="on">Private stay <small>€9,800 / NIGHT</small></a></div>
+
+    <div class="cal">
+      <div>
+        <div class="mh"><a>←</a><b>August 2027</b><span></span></div>
+        <div class="dw"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+        <div class="days">
+          <span></span><span></span><span></span><span></span><span></span><span class="na">1<small>·</small></span><span class="na">2<small>·</small></span>
+          <span class="na">3<small>·</small></span><span class="na">4<small>·</small></span><span class="na">5<small>·</small></span><span class="pk">6<small>11.2k</small></span><span class="s sun">7<small>11.2k</small></span><span class="r pk">8<small>11.2k</small></span><span class="r pk">9<small>11.2k</small></span>
+          <span class="r">10<small>9.8k</small></span><span class="r">11<small>9.8k</small></span><span class="r">12<small>9.8k</small></span><span class="r pk">13<small>11.2k</small></span><span class="e sun">14<small>11.2k</small></span><span class="pk">15<small>11.2k</small></span><span class="pk">16<small>11.2k</small></span>
+          <span class="na">17<small>·</small></span><span class="na">18<small>·</small></span><span class="na">19<small>·</small></span><span class="na">20<small>·</small></span><span class="na">21<small>·</small></span><span class="na">22<small>·</small></span><span class="na">23<small>·</small></span>
+          <span>24<small>9.8k</small></span><span>25<small>9.8k</small></span><span>26<small>9.8k</small></span><span>27<small>9.8k</small></span><span class="pk">28<small>11.2k</small></span><span class="pk">29<small>11.2k</small></span><span>30<small>9.8k</small></span>
+          <span>31<small>9.8k</small></span>
+        </div>
+      </div>
+      <div>
+        <div class="mh"><span></span><b>September 2027</b><a>→</a></div>
+        <div class="dw"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+        <div class="days">
+          <span></span><span></span><span>1<small>8.4k</small></span><span>2<small>8.4k</small></span><span class="pk">3<small>9.8k</small></span><span class="pk">4<small>9.8k</small></span><span>5<small>8.4k</small></span>
+          <span>6<small>8.4k</small></span><span>7<small>8.4k</small></span><span>8<small>8.4k</small></span><span>9<small>8.4k</small></span><span class="na">10<small>·</small></span><span class="na">11<small>·</small></span><span class="na">12<small>·</small></span>
+          <span class="na">13<small>·</small></span><span>14<small>7.2k</small></span><span>15<small>7.2k</small></span><span>16<small>7.2k</small></span><span>17<small>7.2k</small></span><span class="pk">18<small>8.4k</small></span><span class="pk">19<small>8.4k</small></span>
+          <span>20<small>7.2k</small></span><span>21<small>7.2k</small></span><span>22<small>7.2k</small></span><span>23<small>7.2k</small></span><span>24<small>7.2k</small></span><span>25<small>7.2k</small></span><span>26<small>7.2k</small></span>
+          <span>27<small>6.4k</small></span><span>28<small>6.4k</small></span><span>29<small>6.4k</small></span><span>30<small>6.4k</small></span>
+        </div>
+      </div>
+      <div class="hov"><small>SAT 14 AUG · CHECK-OUT</small>7 nights · sunset 20:41 · full moon</div>
+      <div class="leg"><span><i style="background:var(--pool)"></i>Your stay</span><span><i style="background:#ece9e2"></i>Booked</span><span><i style="background:var(--sun)"></i>Peak night</span><span style="margin-left:auto">Prices per night in €, staff included · min. 7 nights in August</span></div>
+    </div>
+
+    <div class="guests">
+      <div><div><span class="lab">Adults</span></div><div class="step"><a>−</a>8<a>+</a></div></div>
+      <div><div><span class="lab">Children</span></div><div class="step"><a>−</a>3<a>+</a></div></div>
+      <div><div><span class="lab">Arrival</span><b style="display:block;margin-top:6px">By boat · 16:00</b></div><span class="tag">Change</span></div>
+    </div>
+    <div class="opts">
+      <div class="opt on"><span class="sw"></span><span class="lab">Private chef</span><b>Breakfast &amp; dinner daily</b><p>Menorcan chef, market shop included</p><div class="pr">+ €640 / day</div></div>
+      <div class="opt on"><span class="sw"></span><span class="lab">Boat</span><b>11 m day boat + skipper</b><p>Formentera, Es Vedrà and the caves</p><div class="pr">+ €1,900 / day · 2 days</div></div>
+      <div class="opt"><span class="sw"></span><span class="lab">Viewing</span><b>Turn your stay into a viewing</b><p>Credit 7 nights against a purchase</p><div class="pr">Free · with proof of funds</div></div>
+    </div>
+  </div>
+
+  <aside class="rail" style="z-index:2">
+    <div class="sun"><div id="sun3d"></div>
+      <div class="hd"><span class="lab">Sun study · live model</span><span class="tag">7 Aug · 19:40</span></div>
+      <div class="big"><small>WHERE THE SUN IS ON ARRIVAL</small>Pool in sun<br>until 20:12</div>
+      <div class="scrub"><span>07:00</span><div class="tr"><i></i></div><span>21:00</span></div>
+    </div>
+    <div class="sum">
+      <div class="vrow"><div class="ph" data-img="1600596542815-ffad4c1539a9" data-w="300"></div><div><span class="lab">Private stay</span><h3>Villa Halcyon</h3><div style="font-size:13px;color:var(--mute);margin-top:4px">Sat 7 – Sat 14 Aug 2027 · 7 nights · 11 guests</div></div></div>
+      <table>
+        <tr><td>7 nights (avg €10,600)</td><td>€74,200</td></tr>
+        <tr><td>Private chef · 7 days</td><td>€4,480</td></tr>
+        <tr><td>Boat + skipper · 2 days</td><td>€3,800</td></tr>
+        <tr><td>House staff &amp; linen</td><td>Included</td></tr>
+        <tr><td>Balearic tourist tax</td><td>€308</td></tr>
+      </table>
+      <div class="tot"><span class="lab">Total</span><b>€82,788</b></div>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:13px;color:var(--mute)"><span>Due today · 30% deposit</span><span style="color:var(--ink);font-weight:600">€24,836</span></div>
+      <a class="btn" style="width:100%;justify-content:space-between;margin-top:20px" href="reserve.html">Reserve with deposit<span class="o"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <div class="agentrow"><div class="mono-av">LF</div><div style="flex:1"><div style="font-weight:600;font-size:14px">Lucía Ferrer Vidal</div><div style="font-size:12px;color:var(--mute)">Your agent · usually replies in 12 min</div></div><span class="pill" style="height:38px">Message</span></div>
+    </div>
+  </aside>
+</section>
+
+<section class="team">
+  <div class="sh"><div><div class="idx"><b>( 01 )</b> &nbsp;Your house team</div><h2 style="margin-top:18px">Four people,<br>one villa.</h2></div><p style="max-width:380px;color:var(--ink-2)">Every stay comes with a named team that lives on the island. You meet them on the jetty, not on a screen.</p></div>
+  <div class="g">
+    <div class="tm"><div class="mono-av">LF</div><b>Lucía Ferrer Vidal</b><p>Agent. Sold eleven of the houses on this coast and knows which ones never come up.</p><div class="k">VIEWINGS · SALES</div></div>
+    <div class="tm"><div class="mono-av" style="background:linear-gradient(135deg,#e9995a,#f6c48c)">TM</div><b>Tomeu Marí</b><p>House manager. Fourteen summers at Halcyon’s cove, fluent in boats and plumbing.</p><div class="kv k">ON CALL 24 / 7</div></div>
+    <div class="tm"><div class="mono-av" style="background:linear-gradient(135deg,#101214,#3a3d40)">AS</div><b>Aina Serra</b><p>Chef. Cooks what the morning boats bring in; ask for the arroz de matanzas.</p><div class="k">BREAKFAST · DINNER</div></div>
+    <div class="tm"><div class="mono-av" style="background:linear-gradient(135deg,#b89f7a,#d8c7a9)">JP</div><b>Joan Planells</b><p>Skipper. Takes the 11 m boat to Formentera, Es Vedrà and the caves.</p><div class="k">2 DAYS BOOKED</div></div>
+  </div>
+</section>
+
+<section class="incl">
+  <div><div class="idx"><b>( 02 )</b> &nbsp;Always included</div><h2>The house,<br>fully run.</h2><p style="margin-top:22px;color:var(--ink-2);max-width:400px">No resort fees, no surprises. A 24-hour hold costs nothing; the deposit secures your dates and the rest is due 30 days before arrival.</p></div>
+  <div class="ig">
+    <div><svg viewBox="0 0 24 24"><path d="M3 12h18M3 12c3-4 6-4 9 0s6 4 9 0"/></svg><b>Pool heated to 28 °C</b><p>Salt-chlorinated, cleaned daily at 08:00.</p></div>
+    <div><svg viewBox="0 0 24 24"><path d="M4 20h16M6 20V9l6-5 6 5v11"/></svg><b>Daily housekeeping</b><p>Twice a day, linen changed every two days.</p></div>
+    <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><b>Sun-study welcome</b><p>Where to be at each hour, on your first morning.</p></div>
+    <div><svg viewBox="0 0 24 24"><path d="M3 17h18l-3 4H6zM12 3v14M12 3l6 8h-6"/></svg><b>Boat transfer</b><p>From Ibiza marina to the house stair, in 25 min.</p></div>
+    <div><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 10h16"/></svg><b>Starlink + 1 Gbit</b><p>Mesh across all levels and the sky terrace.</p></div>
+    <div><svg viewBox="0 0 24 24"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/></svg><b>Concierge on island</b><p>Tables, beach clubs and doctors, in 3 languages.</p></div>
+  </div>
+</section>
+
+<footer class="f" data-footer></footer>
+<script src="azure.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = window.AZ3D(THREE, { RoundedBoxGeometry });
+const S = K.stage(document.getElementById('sun3d'), { w: 600, h: 520, fov: 26, exposure: 1.0, env: 'golden', envIntensity: 0.32, staticShadows: true });
+if (S) {
+  const M = K.mats('golden');
+  const wm = K.water();
+  const V = K.villa(M, { waterMat: wm }); S.scene.add(V.group);
+  const plinth = K.strata(M, { layers: 3, H: 1.6, cut: true, colors: ['#d2bd98', '#c3a77f', '#cbb38c'] }); S.scene.add(plinth);
+  const catcher = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.ShadowMaterial({ opacity: 0.18 })); catcher.rotation.x = -Math.PI / 2; catcher.position.y = -5.4; catcher.receiveShadow = true; S.scene.add(catcher);
+  const L = K.lights(S.scene, 'golden', { at: [-70, 16, 14], size: 40 });
+  // a visible sun-path arc with the sun sphere sitting on it
+  const pts = []; for (let i = 0; i <= 60; i++) { const a = Math.PI * i / 60; pts.push(new THREE.Vector3(Math.cos(a) * 46, Math.sin(a) * 28 + 2, -10 + Math.sin(a) * -18)); }
+  const arc = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 1.2, gapSize: 0.8, transparent: true, opacity: 0.85 })); arc.computeLineDistances(); S.scene.add(arc);
+  const sunMesh = new THREE.Mesh(new THREE.SphereGeometry(1.8, 24, 16), new THREE.MeshBasicMaterial({ color: '#ffd59c' })); S.scene.add(sunMesh);
+  const halo = new THREE.Mesh(new THREE.SphereGeometry(3.4, 24, 16), new THREE.MeshBasicMaterial({ color: '#ffc27a', transparent: true, opacity: 0.25 })); S.scene.add(halo);
+  const cam = S.camera; cam.setViewOffset(760, 640, 0, 70, 600, 520);
+  S.run(t => {
+    wm.uniforms.uT.value = t;
+    const k = 0.86 * 60; const p = pts[Math.round(k)]; sunMesh.position.copy(p); halo.position.copy(p);
+    const a = 0.62 + Math.sin(t * 0.1) * 0.04;
+    cam.position.set(Math.sin(a) * 124, 50, Math.cos(a) * 124);
+    cam.lookAt(-4, 6, -4);
+  });
+}
+</script>
+</body></html>

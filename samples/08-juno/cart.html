@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Cart &amp; checkout — JUNO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Caprasimo&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="juno.css">
+<style>
+.top{padding:200px 64px 0;position:relative}
+.top .row{display:flex;justify-content:space-between;align-items:flex-end}
+.top h1{font-size:150px}
+.top h1 em{color:var(--blue)}
+.steps{width:600px;position:relative;margin-bottom:24px}
+.steps .tr{height:14px;border-radius:14px;border:3px solid var(--ink);background:var(--cream);position:relative;margin:60px 0 18px}
+.steps .tr b{position:absolute;left:0;top:0;bottom:0;width:42%;border-radius:14px;background:repeating-linear-gradient(-45deg,var(--lime) 0 12px,#a8d81c 12px 24px);animation:stripes 1s linear infinite;background-size:34px 34px}
+@keyframes stripes{to{background-position:34px 0}}
+.steps .lbls{display:flex;justify-content:space-between;font:800 15px/1 var(--sans)}
+.steps .lbls span{display:flex;align-items:center;gap:8px}
+.steps .lbls i{width:28px;height:28px;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;font:800 12px var(--sans);font-style:normal;background:var(--cream)}
+.steps .lbls .done i{background:var(--ink);color:var(--lime)}
+.steps .lbls .now i{background:var(--lime)}
+.steps .lbls .off{opacity:.5}
+.steps .roll{position:absolute;left:190px;top:-30px;animation:rollc 3s ease-in-out infinite}
+.steps .roll .can{transform:rotate(90deg)}
+@keyframes rollc{50%{transform:translateX(16px)}}
+
+.unlock{margin:50px 64px 0;border:var(--line);border-radius:40px;background:var(--pink);padding:34px 40px 40px;position:relative;box-shadow:10px 10px 0 var(--ink);overflow:hidden}
+.unlock .hd{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:3}
+.unlock h3{font:400 38px/1.05 var(--disp);letter-spacing:-.01em}
+.unlock h3 b{background:var(--cream);border:3px solid var(--ink);border-radius:14px;padding:0 10px;font-weight:400}
+.unlock .bar{position:relative;height:40px;border:3px solid var(--ink);border-radius:40px;background:var(--cream);margin:56px 0 24px;z-index:3}
+.unlock .bar>b{position:absolute;left:0;top:0;bottom:0;width:76.5%;border-radius:40px;background:linear-gradient(90deg,var(--tan),var(--sun) 60%,var(--lime));border-right:3px solid var(--ink)}
+.ms{position:absolute;top:50%;transform:translate(-50%,-50%);z-index:4}
+.ms .d{width:66px;height:66px;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;background:var(--cream)}
+.ms .d svg{width:34px;height:34px}
+.ms.ok .d{background:var(--lime)}
+.ms .t{position:absolute;left:50%;transform:translateX(-50%);top:78px;white-space:nowrap;text-align:center;font:800 15px/1.2 var(--sans)}
+.ms .t small{display:block;font-weight:600;font-size:13px;color:var(--ink2)}
+.ms .p{position:absolute;left:50%;transform:translateX(-50%);top:-34px;font:800 13px/1 var(--sans);background:var(--ink);color:var(--cream);padding:6px 10px;border-radius:999px}
+.ms.lock .d{background:repeating-linear-gradient(-45deg,#eee4d2 0 6px,var(--cream) 6px 12px)}
+.unlock .cnf{position:absolute;inset:0;z-index:2;pointer-events:none}
+.unlock .new{position:absolute;left:calc(60/80*100% - 30px);top:-62px;z-index:5;background:var(--sun);border:3px solid var(--ink);border-radius:999px;padding:6px 12px;font:800 12px/1 var(--sans);transform:rotate(-8deg);white-space:nowrap}
+
+.main{display:grid;grid-template-columns:1fr 460px;gap:40px;padding:120px 64px 0;align-items:start}
+.sec{border:var(--line);border-radius:36px;padding:34px;background:var(--cream);margin-bottom:28px}
+.sec h4{font:800 30px/1 var(--sans);letter-spacing:-.03em;display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.sec h4 .n{width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--lime);display:grid;place-items:center;font:400 20px var(--disp)}
+.sec h4 .ed{margin-left:auto;font:700 14px var(--sans);text-decoration:underline}
+.item{display:grid;grid-template-columns:120px 1fr auto auto;gap:24px;align-items:center;padding:20px 0;border-top:2px dashed rgba(26,18,48,.3)}
+.item:first-of-type{border-top:0;padding-top:0}
+.item .th{height:140px;border-radius:28px;border:var(--line);background:var(--bgc);display:grid;place-items:center;overflow:hidden;position:relative}
+.item b{font:400 30px/1 var(--disp)}
+.item small{display:block;font:600 14px/1.4 var(--sans);color:var(--ink2);margin-top:6px}
+.item .pl{display:inline-flex;gap:6px;margin-top:10px}
+.item .pl span{font:700 12px/1 var(--sans);border:2px solid var(--ink);border-radius:999px;padding:6px 10px}
+.qty{height:52px;border:var(--line);border-radius:999px;display:flex;align-items:center;gap:16px;padding:0 14px;font:800 17px/1 var(--sans)}
+.qty .ic{width:16px;height:16px}
+.item .pr{text-align:right;font:800 22px/1 var(--sans);min-width:90px}
+.item .pr s{display:block;font:600 13px var(--sans);color:var(--ink2);margin-bottom:4px}
+.item.gift .th{background:var(--sun)}
+.item.gift b::after{content:"Unlocked!";font:800 11px/1 var(--sans);background:var(--lime);border:2px solid var(--ink);border-radius:999px;padding:5px 8px;margin-left:10px;vertical-align:middle;letter-spacing:.06em;text-transform:uppercase}
+.dots{display:grid;grid-template-columns:repeat(4,22px);gap:4px}
+.dots i{width:22px;height:22px;border-radius:50%;border:2px solid var(--ink)}
+.upsell{display:flex;align-items:center;gap:20px;background:var(--peach);border:var(--line);border-radius:28px;padding:16px 20px;margin-top:10px}
+.upsell .mc{width:70px;height:96px;position:relative}
+.upsell p{font:700 16px/1.3 var(--sans);flex:1}
+.upsell p small{display:block;font-weight:500;color:var(--ink2)}
+.upsell a{height:50px;padding:0 20px;border-radius:999px;background:var(--ink);color:var(--cream);display:flex;align-items:center;gap:8px;font:800 15px/1 var(--sans)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fld{border:var(--line);border-radius:20px;padding:12px 18px;font:600 17px/1.2 var(--sans);background:#fff;position:relative}
+.fld label{display:block;font:700 12px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);margin-bottom:6px}
+.fld.full{grid-column:1/-1}
+.fld.ok::after{content:"✓";position:absolute;right:16px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--lime);border:2px solid var(--ink);display:grid;place-items:center;font:800 14px/1 var(--sans)}
+.fld.focus{box-shadow:0 0 0 5px var(--pink)}
+.fld.focus span::after{content:"";display:inline-block;width:2px;height:20px;background:var(--ink);vertical-align:middle;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.op{border:var(--line);border-radius:24px;padding:18px;font:800 17px/1.2 var(--sans);position:relative}
+.op small{display:block;font:600 13px/1.35 var(--sans);color:var(--ink2);margin-top:6px}
+.op .pr{position:absolute;right:16px;top:18px;font:800 15px var(--sans)}
+.op.on{background:var(--lime);box-shadow:5px 5px 0 var(--ink)}
+.op .ic{margin-bottom:10px;width:28px;height:28px}
+.pay{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.pay div{height:70px;border:var(--line);border-radius:20px;display:flex;align-items:center;justify-content:center;gap:10px;font:800 15px/1 var(--sans)}
+.pay div.on{background:var(--ink);color:var(--cream)}
+.cardv{width:44px;height:30px;border-radius:6px;background:linear-gradient(135deg,var(--tan),var(--pink));border:2px solid currentColor}
+
+.sum{position:relative;border:var(--line);border-radius:40px;background:var(--blue);color:var(--cream);padding:34px;box-shadow:10px 10px 0 var(--ink)}
+.sum h4{font:400 40px/1 var(--disp);margin-bottom:22px}
+.sum .ln{display:flex;justify-content:space-between;padding:10px 0;font:600 16px/1.3 var(--sans);border-bottom:2px solid rgba(255,246,230,.2)}
+.sum .ln b{font-weight:800}
+.sum .ln.sv b{color:var(--lime)}
+.sum .promo{display:flex;justify-content:space-between;align-items:center;border:2px dashed var(--cream);border-radius:18px;padding:12px 16px;margin:18px 0 8px;font:800 15px/1 var(--sans)}
+.sum .promo span{background:var(--lime);color:var(--ink);border-radius:999px;padding:6px 10px;font-size:13px}
+.sum .total{display:flex;justify-content:space-between;align-items:flex-end;margin:22px 0}
+.sum .total b{font:400 72px/.9 var(--disp)}
+.sum .total small{display:block;font:600 14px/1.4 var(--sans);opacity:.8}
+.sum .paybtn{height:76px;border-radius:999px;background:var(--lime);color:var(--ink);border:3px solid var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 30px;font:800 20px/1 var(--sans);box-shadow:6px 6px 0 var(--ink)}
+.sum .paybtn i{width:52px;height:52px;border-radius:50%;background:var(--ink);color:var(--lime);display:grid;place-items:center}
+.sum .trust{display:flex;justify-content:space-between;margin-top:20px;font:700 13px/1.2 var(--sans);opacity:.9}
+.sum .trust span{display:flex;align-items:center;gap:6px}
+.sum .sticker{position:absolute;right:-40px;top:-60px;background:var(--sun)}
+.tree{margin-top:24px;border:var(--line);border-radius:30px;background:var(--lime);padding:22px;display:flex;gap:16px;align-items:center;font:700 15px/1.35 var(--sans)}
+.tree b{font:400 26px/1 var(--disp);display:block;margin-bottom:4px}
+.help{margin-top:16px;border:var(--line);border-radius:30px;padding:22px;font:600 15px/1.4 var(--sans);display:flex;gap:14px;align-items:center}
+.help i{width:50px;height:50px;border-radius:50%;background:var(--pink);border:3px solid var(--ink);display:grid;place-items:center;font:400 22px var(--disp);font-style:normal;flex:none}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="top">
+  <div class="row">
+    <div><span class="kick"><i style="background:var(--blue)"></i>Checkout · 2 items + 1 gift</span><h1 style="margin-top:20px">Nearly <em>fizzical.</em></h1></div>
+    <span data-fruit="orange|90" class="bob" style="left:640px;top:210px;--r:-20deg"></span><span data-fruit="sparkle|46" class="bob" style="left:780px;top:330px;color:var(--pink)"></span><span data-fruit="lime|70" class="bob" style="right:120px;top:160px;--r:30deg"></span><div class="steps">
+      <div class="roll"><div data-can="sun|6"></div></div>
+      <div class="tr"><b></b></div>
+      <div class="lbls"><span class="done"><i>✓</i>Cart</span><span class="now"><i>2</i>Details</span><span class="off"><i>3</i>Payment</span><span class="off"><i>✦</i>Fizz!</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="unlock">
+  <svg class="cnf" viewBox="0 0 1312 300" preserveAspectRatio="none"><g stroke="#1a1230" stroke-width="2.5"><rect x="880" y="118" width="14" height="24" rx="3" fill="#c6f432" transform="rotate(30 887 130)"/><rect x="1080" y="112" width="12" height="20" rx="3" fill="#2647ff" transform="rotate(-20 1086 122)"/><circle cx="960" cy="130" r="8" fill="#ffe14a"/><rect x="1040" y="126" width="12" height="20" rx="3" fill="#ff7a1a" transform="rotate(50 1046 136)"/><circle cx="1010" cy="110" r="6" fill="#fff6e6"/><rect x="1110" y="240" width="14" height="22" rx="3" fill="#fff6e6" transform="rotate(-40 1117 251)"/></g></svg>
+  <div class="hd"><h3>You’re <b>€18.80</b> away from a free JUNO tote!</h3><a class="btn lt" style="height:56px;font-size:16px">Top up with Peach Party</a></div>
+  <div class="bar"><b></b>
+    <div class="ms ok" style="left:50%"><span class="p">€40</span><div class="d"><svg viewBox="0 0 24 24" class="ic"></svg></div><div class="t">Free delivery<small>Unlocked</small></div></div>
+    <div class="ms ok" style="left:75%"><span class="new">Just unlocked ✦</span><span class="p">€60</span><div class="d"><svg viewBox="0 0 24 24" class="ic"></svg></div><div class="t">Free JUNO glass<small>Added to cart</small></div></div>
+    <div class="ms lock" style="left:96%"><span class="p">€80</span><div class="d"><svg viewBox="0 0 24 24" class="ic"></svg></div><div class="t" style="left:auto;right:-30px;transform:none;text-align:right">Canvas tote<small>€18.80 to go</small></div></div>
+  </div>
+  <div style="height:36px"></div>
+</section>
+
+<section class="main">
+  <div>
+    <div class="sec">
+      <h4><span class="n">1</span>Your fizz<span class="ed">Continue shopping</span></h4>
+      <div class="item"><div class="th" style="--bgc:var(--pink)"><div data-can="pink|6.4"></div></div><div><b>Pink Fizz</b><small>12-pack · Grapefruit · Hibiscus · Reishi</small><div class="pl"><span style="background:var(--lime)">↻ Every 4 weeks</span><span>−15% applied</span></div></div><div class="qty"><span data-ic="minus"></span>1<span data-ic="plus"></span></div><div class="pr"><s>€32.00</s>€27.20</div></div>
+      <div class="item"><div class="th" style="--bgc:var(--cream)"><div class="dots" id="dots"></div></div><div><b>Gina’s desk stash</b><small>Custom box · 3 Sun Riot, 2 Pink Fizz, 2 Lime Wire, 2 Peach, 1 Blue Hour, 2 Yuzu</small><div class="pl"><span>One-time</span><span>Edit box</span></div></div><div class="qty"><span data-ic="minus"></span>1<span data-ic="plus"></span></div><div class="pr">€34.00</div></div>
+      <div class="item gift"><div class="th"><svg viewBox="0 0 100 100" width="90" height="90"><path d="M28 18h44l-6 70H34Z" fill="#fff6e6" stroke="#1a1230" stroke-width="4" stroke-linejoin="round"/><path d="M31 46h38l-4 40H35Z" fill="#ff8fc7" stroke="#1a1230" stroke-width="3"/><circle cx="45" cy="60" r="4" fill="#fff" stroke="#1a1230" stroke-width="2"/><circle cx="56" cy="72" r="3" fill="#fff" stroke="#1a1230" stroke-width="2"/><path d="M58 4l4 10M66 8l-6 8" stroke="#1a1230" stroke-width="3" stroke-linecap="round"/><text x="50" y="38" text-anchor="middle" font-family="Caprasimo" font-size="12" fill="#1a1230">juno</text></svg></div><div><b>JUNO glass</b><small>Free gift · 400 ml can-shaped glass, worth €14</small></div><div></div><div class="pr"><s>€14.00</s>Free</div></div>
+      <div class="upsell"><div class="mc"><div data-can="peach|5" style="position:absolute;left:10px;top:0;transform:rotate(-10deg)"></div></div><p>Add Peach Party, get the tote<small>White peach &amp; rhodiola · our softest flavour</small></p><a><span data-ic="plus"></span>€29</a></div>
+    </div>
+
+    <div class="sec">
+      <h4><span class="n">2</span>Where’s it going?</h4>
+      <div class="fields">
+        <div class="fld full ok"><label>Email</label>gina.m@posteo.example</div>
+        <div class="fld ok"><label>First name</label>Gina</div>
+        <div class="fld ok"><label>Last name</label>Marino</div>
+        <div class="fld full focus"><label>Street &amp; number</label><span>Reichenberger Str. 1</span></div>
+        <div class="fld"><label>Postcode</label>10999</div>
+        <div class="fld"><label>City</label>Berlin</div>
+      </div>
+      <h6 style="font:800 13px var(--sans);letter-spacing:.1em;text-transform:uppercase;margin:28px 0 12px">Delivery</h6>
+      <div class="opts">
+        <div class="op on"><span data-ic="truck"></span><span class="pr">Free</span>Standard<small>Wed 28 – Thu 29 Oct · carbon-neutral</small></div>
+        <div class="op"><span data-ic="truck"></span><span class="pr">€4.90</span>Express<small>Tomorrow by 6 pm, chilled bag</small></div>
+        <div class="op"><span data-ic="pin"></span><span class="pr">Free</span>Pick up<small>Fresko Markthalle · 0.4 km</small></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h4><span class="n">3</span>Pay up, buttercup</h4>
+      <div class="pay"><div class="on"><span class="cardv"></span>Card</div><div><span data-ic="lock"></span>Wallet</div><div><span data-ic="cal"></span>Pay in 3</div><div><span data-ic="repeat"></span>Bank</div></div>
+      <div class="fields"><div class="fld full"><label>Card number</label><span style="color:var(--ink2)">1234 1234 1234 1234</span></div><div class="fld"><label>Expiry</label><span style="color:var(--ink2)">MM / YY</span></div><div class="fld"><label>CVC</label><span style="color:var(--ink2)">•••</span></div></div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="sum">
+      <h4>Order summary</h4>
+      <div class="ln"><span>Pink Fizz × 12 (subscription)</span><b>€27.20</b></div>
+      <div class="ln"><span>Gina’s desk stash × 12</span><b>€34.00</b></div>
+      <div class="ln"><span>JUNO glass (gift)</span><b>€0.00</b></div>
+      <div class="ln"><span>Delivery · Standard</span><b>Free</b></div>
+      <div class="ln sv"><span>You saved with subscribe</span><b>€4.80</b></div>
+      <div class="promo">SIPSIP10 <span>−€6.12 applied ✓</span></div>
+      <div class="total"><div><small>Total incl. VAT</small><b>€55.08</b></div><div style="text-align:right"><small>Next Pink Fizz box</small><b style="font-size:28px">25 Nov</b></div></div>
+      <a class="paybtn">Pay €55.08<i><span data-ic="arrow"></span></i></a>
+      <div class="trust"><span><span data-ic="lock"></span>Secure checkout</span><span><span data-ic="repeat"></span>Skip anytime</span><span><span data-ic="truck"></span>Ships Tue</span></div>
+    </div>
+    <div class="tree"><svg viewBox="0 0 100 100" width="70" height="70" data-f="lemon"></svg><div><b>3 citrus trees</b>This order funds three trees with our grower co-op in Sicily.</div></div>
+    <div class="help"><i>R</i><div><b>Questions?</b> Rosa from the fizz team replies in ~4 min. <u>Chat now</u></div></div>
+  </aside>
+</section>
+
+<div data-footer></div>
+<script src="juno.js"></script>
+<script>
+const ms=document.querySelectorAll('.ms .d svg');ms[0].innerHTML=ICONS.truck;ms[1].innerHTML='<path d="M7 3h10l-1 18H8Z"/><path d="M7.5 9h9"/>';ms[2].innerHTML=ICONS.lock;
+document.querySelectorAll('svg[data-f]').forEach(s=>s.innerHTML=FRUIT[s.dataset.f]);
+const box=['sun','sun','sun','pink','pink','lime','lime','peach','peach','blue','yuzu','yuzu'];
+document.getElementById('dots').innerHTML=box.map(k=>`<i style="background:${FL[k].c}"></i>`).join('');
+juno('Shop',{cart:3});
+</script>
+</body></html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Configure — Kairos</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&family=Italianno&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kairos.css">
+<script src="kairos3d.js"></script>
+<style>
+html,body{height:1080px;overflow:hidden}
+.stage{position:absolute;left:0;top:77px;width:940px;height:1003px;overflow:hidden;background:radial-gradient(ellipse 55% 50% at 50% 50%,#2a2440 0%,#121a36 40%,var(--night) 75%)}
+.stage .word{position:absolute;left:-20px;top:300px;font:300 230px/1 var(--disp);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1.4px rgba(234,180,156,.5);background:linear-gradient(180deg,rgba(234,180,156,.2),transparent 80%);-webkit-background-clip:text;background-clip:text;white-space:nowrap}
+.stage canvas{position:absolute;left:0;top:0;z-index:2}
+.steps{position:absolute;left:40px;top:34px;z-index:5;display:flex;gap:6px}
+.steps span{height:34px;padding:0 14px;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;font:500 9.5px/1 var(--mono);letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
+.steps span.d{color:var(--silver);border-color:var(--line-2)}
+.steps span.d::before{content:"✓";color:var(--blue)}
+.steps span.on{background:var(--silver);color:var(--midnight)}
+.views{position:absolute;right:30px;top:34px;z-index:5;display:flex;gap:4px;padding:4px;border-radius:999px}
+.views span{height:28px;padding:0 14px;border-radius:999px;display:flex;align-items:center;font:500 9.5px/1 var(--mono);letter-spacing:.16em;color:var(--dim)}
+.views span.on{background:rgba(238,242,247,.12);color:var(--silver)}
+.back{position:absolute;left:40px;bottom:40px;z-index:5;width:370px;padding:20px;display:flex;gap:18px;align-items:center}
+.back svg{width:120px;height:120px;flex:none}
+.meas{position:absolute;right:40px;top:110px;z-index:5;text-align:right}
+.meas b{display:block;font:200 64px/.9 var(--disp);color:var(--silver);letter-spacing:-.04em}
+.side{position:absolute;left:940px;top:77px;right:0;bottom:0;border-left:1px solid var(--line);background:linear-gradient(180deg,#081022,#050a16);display:flex;flex-direction:column}
+.side .sc{padding:26px 40px 0;flex:1}
+.grp{padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+.grp .h{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.grp .h .n{font:500 10px/1 var(--mono);letter-spacing:.22em;color:var(--silver);text-transform:uppercase}
+.grp .h .n i{font-style:normal;color:var(--blue);margin-right:10px}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.o{border:1px solid var(--line);padding:10px 6px 9px;text-align:center;cursor:pointer;position:relative;transition:.3s}
+.o .sw{width:32px;height:32px;border-radius:50%;margin:0 auto 8px;box-shadow:inset 0 -4px 10px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.4)}
+.o b{display:block;font:500 10.5px/1.25 var(--sans);color:var(--silver)}
+.o small{display:block;font:400 9.5px/1 var(--mono);color:var(--dim);margin-top:6px;letter-spacing:.06em}
+.o.on{border-color:var(--silver);background:rgba(238,242,247,.06)}
+.o.on::after{content:"";position:absolute;top:7px;right:7px;width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue)}
+.eng{display:flex;gap:8px}
+.eng .in{flex:1;height:48px;border:1px solid var(--line-2);display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12px var(--mono);color:var(--silver);letter-spacing:.06em}
+.eng .in::after{content:"";width:1px;height:18px;background:var(--blue);margin-left:2px;animation:pulse 1s steps(2) infinite}
+.eng .f{height:48px;padding:0 14px;border:1px solid var(--line);display:flex;align-items:center;font:400 12px var(--mono);color:var(--dim)}
+.eng .f.on{border-color:var(--silver);color:var(--silver)}
+.tot{padding:20px 40px 26px;border-top:1px solid var(--line-2);background:linear-gradient(180deg,rgba(91,140,255,.08),transparent)}
+.tot .row{display:flex;justify-content:space-between;font:400 11px/1 var(--mono);letter-spacing:.1em;color:var(--dim);padding:5px 0}
+.tot .big{display:flex;justify-content:space-between;align-items:end;margin:10px 0 14px}
+.tot .big b{white-space:nowrap;font:300 42px/1 var(--disp);letter-spacing:-.04em;color:var(--silver)}
+.flash{animation:flash 1.6s ease-out infinite}
+@keyframes flash{0%{text-shadow:0 0 0 rgba(91,140,255,0)}20%{text-shadow:0 0 24px rgba(91,140,255,.9)}100%{text-shadow:0 0 0 rgba(91,140,255,0)}}
+.delta{position:absolute;right:40px;top:-14px;padding:6px 10px;background:var(--blue);color:#fff;font:500 10px/1 var(--mono);letter-spacing:.12em;animation:rise .9s both}
+</style></head>
+<body>
+<div data-nav="configurator.html" data-p=".7"></div>
+
+<section class="stage">
+  <div class="grid-bg" style="mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000 20%,transparent 75%)"></div>
+  <div class="word" id="word">AURORA</div>
+  <div class="ring" style="left:470px;top:500px;width:760px;height:760px;margin:-380px 0 0 -380px;z-index:1"><svg viewBox="0 0 760 760"><circle cx="380" cy="380" r="374" fill="none" stroke="rgba(234,180,156,.4)" stroke-dasharray="1 18.6"/><circle cx="380" cy="380" r="356" fill="none" stroke="rgba(201,209,220,.07)"/><circle cx="380" cy="6" r="4" fill="#eab49c"/></svg></div>
+  <canvas id="c"></canvas>
+  <div class="dof" style="--fx:50%;--fy:50%;backdrop-filter:blur(5px)"></div>
+  <div class="callouts"><svg id="co"></svg></div>
+  <div class="note" style="left:690px;top:250px;width:210px"><div class="k"><i style="border-color:#eab49c;color:#eab49c">01</i>18k 5N rose gold</div>Polished flanks, satin bezel. 24 g of solid gold in the case alone.</div>
+  <div class="steps"><span class="d">Case</span><span class="d">Dial</span><span class="d">Strap</span><span class="on">04 Engraving</span><span>05 Review</span></div>
+  <div class="views glass"><span class="on">3/4</span><span>Front</span><span>Profile</span><span>Back</span></div>
+  <div class="cursor" style="left:150px;top:600px"><div class="c">DRAG</div><span>Rotate</span></div>
+  <div class="back glass">
+    <svg viewBox="0 0 120 120"><defs><path id="ep" d="M60 60 m-41 0 a41 41 0 1 1 82 0 a41 41 0 1 1 -82 0"/><radialGradient id="cb" cx=".4" cy=".35"><stop offset="0" stop-color="#ffe3d5"/><stop offset=".6" stop-color="#c88a6f"/><stop offset="1" stop-color="#6d3f2c"/></radialGradient></defs>
+      <circle cx="60" cy="60" r="58" fill="url(#cb)"/><circle cx="60" cy="60" r="34" fill="#0b1328" stroke="#f6cdb9" stroke-width="1.5"/>
+      <g stroke="rgba(157,185,255,.5)" fill="none"><circle cx="60" cy="60" r="22" stroke-dasharray="2 3"/><circle cx="52" cy="54" r="8"/><circle cx="68" cy="66" r="10"/></g>
+      <text font-family="IBM Plex Mono" font-size="7.2" letter-spacing="1.4" fill="#4a2618"><textPath href="#ep">FOR A. · 24.10.2026 · 14:07:33 · KT-01 No.26 ·</textPath></text></svg>
+    <div><div class="tag" style="color:var(--silver)">Caseback preview</div><p style="font-size:12.5px;color:var(--dim);margin-top:8px">Engraved by hand around the sapphire, 0.08 mm deep.</p></div>
+  </div>
+  <div class="meas"><span class="tag">Diameter</span><b>42.0<small style="font:400 13px var(--mono);color:var(--dim)"> mm</small></b><span class="tag">Height 11.9 · L–L 51.2</span></div>
+</section>
+
+<aside class="side">
+  <div class="sc">
+    <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:26px"><div><span class="tag">Configuring · Meridian KT-01</span><h1 class="disp" style="font-size:32px;margin-top:10px">Your Kairos</h1></div><span class="tag">Saved <b>23:41</b></span></div>
+    <div class="grp"><div class="h"><span class="n"><i>01</i>Case metal</span><span class="tag" data-lab="metal">18k Rose Gold</span></div>
+      <div class="opts" data-k="metal">
+        <div class="o" data-v="steel" data-p="0"><div class="sw" style="background:radial-gradient(circle at 35% 30%,#fff,#a3adba 55%,#59616d)"></div><b>Steel</b><small>Included</small></div>
+        <div class="o on" data-v="rose" data-p="26000"><div class="sw" style="background:radial-gradient(circle at 35% 30%,#ffe7da,#d39a80 55%,#80492f)"></div><b>Rose gold</b><small>+ €26,000</small></div>
+        <div class="o" data-v="platinum" data-p="62000"><div class="sw" style="background:radial-gradient(circle at 35% 30%,#fff,#d8dde3 55%,#8c939d)"></div><b>Platinum</b><small>+ €62,000</small></div>
+        <div class="o" data-v="titanium" data-p="4000"><div class="sw" style="background:radial-gradient(circle at 35% 30%,#e3e7ec,#858d98 55%,#3c424b)"></div><b>Titanium</b><small>+ €4,000</small></div>
+      </div></div>
+    <div class="grp"><div class="h"><span class="n"><i>02</i>Dial</span><span class="tag" data-lab="dial">Guilloché Bleu</span></div>
+      <div class="opts" data-k="dial">
+        <div class="o on" data-v="blue" data-p="0"><div class="sw" style="background:repeating-radial-gradient(circle at 40% 40%,#2b57c9 0 2px,#11307f 2px 4px)"></div><b>Bleu</b><small>Guilloché</small></div>
+        <div class="o" data-v="onyx" data-p="3500"><div class="sw" style="background:radial-gradient(circle at 35% 30%,#3a3f4a,#07080b)"></div><b>Onyx</b><small>+ €3,500</small></div>
+        <div class="o" data-v="silver" data-p="0"><div class="sw" style="background:repeating-radial-gradient(circle at 40% 40%,#f4f6f8 0 2px,#c3cad3 2px 4px)"></div><b>Argenté</b><small>Guilloché</small></div>
+        <div class="o" data-v="skeleton" data-p="22000"><div class="sw" style="background:conic-gradient(from 20deg,#1b1f27,#8b94a3,#1b1f27,#d7b98c,#1b1f27);"></div><b>Squelette</b><small>+ €22,000</small></div>
+      </div></div>
+    <div class="grp"><div class="h"><span class="n"><i>03</i>Strap</span><span class="tag" data-lab="strap">Midnight alligator</span></div>
+      <div class="opts" data-k="strap">
+        <div class="o on" data-v="alligator" data-p="0"><div class="sw" style="background:repeating-linear-gradient(90deg,#0d1730 0 7px,#1f3160 7px 9px)"></div><b>Alligator</b><small>Midnight</small></div>
+        <div class="o" data-v="calf" data-p="0"><div class="sw" style="background:radial-gradient(circle at 35% 30%,#3a3c42,#0b0b0d)"></div><b>Calfskin</b><small>Onyx</small></div>
+        <div class="o" data-v="bracelet" data-p="38000"><div class="sw" style="background:repeating-linear-gradient(0deg,#f7d6c6 0 6px,#a9705a 6px 8px)"></div><b>Bracelet</b><small>+ €38,000</small></div>
+        <div class="o" data-v="rubber" data-p="0"><div class="sw" style="background:repeating-linear-gradient(0deg,#16181c 0 4px,#26292f 4px 6px)"></div><b>Rubber</b><small>Vulcanised</small></div>
+      </div></div>
+    <div class="grp" style="border:0;margin:0"><div class="h"><span class="n"><i>04</i>Caseback engraving</span><span class="tag">28 / 40 characters</span></div>
+      <div class="eng"><div class="in">FOR A. · 24.10.2026 · 14:07:33</div><span class="f on">Mono</span><span class="f" style="font-family:Italianno;font-size:20px">Script</span></div></div>
+    <div class="grp" style="border:0;margin-top:22px"><div class="h"><span class="n"><i>05</i>Build timeline</span><span class="tag">14 weeks · 1,400 h</span></div>
+      <div style="display:grid;grid-template-columns:3fr 4fr 6fr 1fr;gap:3px"><i style="height:6px;background:var(--steel)"></i><i style="height:6px;background:#eab49c;box-shadow:0 0 10px rgba(234,180,156,.6)"></i><i style="height:6px;background:rgba(201,209,220,.15)"></i><i style="height:6px;background:rgba(201,209,220,.15)"></i></div>
+      <div style="display:grid;grid-template-columns:3fr 4fr 6fr 1fr;gap:3px;margin-top:10px"><span class="tag">Case</span><span class="tag" style="color:var(--silver)">Dial ·  now</span><span class="tag">Movement</span><span class="tag">QC</span></div></div>
+  </div>
+  <div class="tot" style="position:relative"><span class="delta">+ €450 engraving</span>
+    <div class="row"><span>Meridian Tourbillon · base</span><span>€ 86,000</span></div>
+    <div class="row"><span data-r="metal">Case · 18k Rose Gold</span><span data-rp="metal">+ € 26,000</span></div>
+    <div class="row"><span>Dial · strap · engraving</span><span data-rp="rest">+ € 450</span></div>
+    <div class="big"><div><span class="tag">Total · incl. VAT</span><div class="tag" style="margin-top:8px;color:var(--blue-2)">Delivery · week 9, 2027</div></div><b class="flash" id="total">€ 112,450</b></div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:8px"><a class="btn steel" href="appointment.html" style="justify-content:center">Reserve this configuration <span data-ic="arrow"></span></a><a class="btn ghost" style="padding:0 18px">Share</a></div>
+  </div>
+</aside>
+
+<script src="kairos.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = KAIROS3D(THREE, { RoundedBoxGeometry });
+const co = document.getElementById('co');
+const state = { metal: 'rose', dial: 'blue', strap: 'alligator' };
+const NAMES = { steel: 'MERIDIAN', rose: 'AURORA', platinum: 'EQUINOX', titanium: 'NOCTURNE' };
+const api = K.stage(document.getElementById('c'), {
+  w: 940, h: 1003, opts: { ...state }, rot: [-.28, -.55, .12], tint: 0xffc2a8,
+  cam: { pos: [0, 0, 205], fov: 24, shift: [0, .02] },
+  animate: (t, a) => { a.watch.rotation.y = -.55 + Math.sin(t * .3) * .1; },
+  onAnchors: p => callouts(co, p, [{ k: 'case', to: [690, 260], bend: 10 }])
+});
+const fmt = n => '€ ' + n.toLocaleString('en-US');
+function price() {
+  let p = 86000 + 450;
+  document.querySelectorAll('.opts').forEach(g => { p += +g.querySelector('.o.on').dataset.p; });
+  document.getElementById('total').textContent = fmt(p);
+  const m = document.querySelector('[data-k=metal] .o.on');
+  document.querySelector('[data-rp=metal]').textContent = '+ ' + fmt(+m.dataset.p);
+  document.querySelector('[data-r=metal]').textContent = 'Case · ' + m.querySelector('b').textContent;
+  let rest = 450; ['dial', 'strap'].forEach(k => rest += +document.querySelector(`[data-k=${k}] .o.on`).dataset.p);
+  document.querySelector('[data-rp=rest]').textContent = '+ ' + fmt(rest);
+}
+document.querySelectorAll('.opts').forEach(g => g.addEventListener('click', e => {
+  const o = e.target.closest('.o'); if (!o) return;
+  g.querySelectorAll('.o').forEach(x => x.classList.toggle('on', x === o));
+  state[g.dataset.k] = o.dataset.v;
+  document.querySelector(`[data-lab=${g.dataset.k}]`).textContent = o.querySelector('b').textContent + (g.dataset.k === 'dial' ? '' : '');
+  if (g.dataset.k === 'metal') document.getElementById('word').textContent = NAMES[o.dataset.v];
+  api.build({ ...state }); price();
+}));
+</script>
+</body></html>

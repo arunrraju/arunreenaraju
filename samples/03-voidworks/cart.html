@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOIDWORKS — Bag & checkout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="void.css">
+<style>
+.top{display:grid;grid-template-columns:1fr 520px;border-bottom:2px solid var(--ink)}
+.top .l{padding:40px 48px 36px;border-right:2px solid var(--ink)}
+.top h1{font:400 190px/.8 var(--dis);text-transform:uppercase;white-space:nowrap}
+.top h1 .o{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.top h1 sup{font:400 64px/1 var(--dis);vertical-align:top;background:var(--lime);border:2px solid var(--ink);padding:4px 12px;margin-left:14px;position:relative;top:14px;box-shadow:5px 5px 0 var(--ink)}
+.top .r{background:var(--red);color:var(--paper);padding:34px 36px;display:flex;flex-direction:column;justify-content:space-between}
+.top .r .t{font:400 120px/.85 var(--dis);display:flex;gap:6px;align-items:flex-end}
+.top .r .t span{font:700 12px/1.4 var(--mono);letter-spacing:.1em;margin:0 0 12px 12px;max-width:180px}
+.ship{padding:26px 48px 30px;border-bottom:2px solid var(--ink);background:var(--paper-2)}
+.ship .lb{display:flex;justify-content:space-between;font:700 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.ship .lb b{background:var(--ink);color:var(--lime);padding:5px 8px}
+.ship .tr{position:relative;height:46px;border:2px solid var(--ink);background:var(--paper);display:grid;grid-template-columns:repeat(50,1fr);gap:3px;padding:5px}
+.ship .tr i{background:#d8d6cd}
+.ship .tr i.f{background:var(--ink)}
+.ship .tr i.f2{background:var(--lime);outline:1px solid var(--ink)}
+.ship .mk{position:absolute;top:-12px;bottom:-12px;width:4px;background:var(--red)}
+.ship .mk span{position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);white-space:nowrap;font:700 10px/1 var(--mono);letter-spacing:.08em;background:var(--paper);border:2px solid var(--ink);padding:4px 6px}
+.ship .mk.ok span{background:var(--lime)}.ship .mk.end span{left:auto;right:0;transform:none}
+.ship .ends{display:flex;justify-content:space-between;font:700 10px/1 var(--mono);color:#55544f;margin-top:14px;letter-spacing:.1em}
+
+.main{display:grid;grid-template-columns:620px 1fr;gap:0}
+.left{padding:70px 48px 80px;border-right:2px solid var(--ink);background-image:radial-gradient(rgba(10,10,10,.22) 1.2px,transparent 1.6px);background-size:10px 10px;position:relative}
+.rcpt{background:#fbfaf6;padding:40px 34px 34px;position:relative;box-shadow:12px 12px 0 var(--ink);border:2px solid var(--ink);transform:rotate(-1.2deg);font-size:13px}
+.rcpt::before,.rcpt::after{content:"";position:absolute;left:-2px;right:-2px;height:14px;background:linear-gradient(-45deg,transparent 7px,#fbfaf6 0) 0 0/14px 14px,linear-gradient(45deg,transparent 7px,#fbfaf6 0) 0 0/14px 14px}
+.rcpt::before{top:-14px;transform:scaleY(-1)}
+.rcpt::after{bottom:-14px}
+.rcpt .logo{display:flex;justify-content:center;align-items:center;gap:10px;font:400 44px/1 var(--dis)}
+.rcpt .logo i{width:28px;height:28px;background:var(--ink);position:relative}
+.rcpt .logo i::after{content:"";position:absolute;inset:8px;background:var(--lime)}
+.rcpt .c{text-align:center;color:#55544f;font-size:11px;letter-spacing:.08em;margin-top:8px;line-height:1.6}
+.rcpt .dash{border-top:2px dashed var(--ink);margin:18px 0}
+.item{display:grid;grid-template-columns:96px 1fr auto;gap:16px;padding:16px 0;border-bottom:1px dashed #9a9992;align-items:start}
+.item .th{height:120px;border:2px solid var(--ink);position:relative}
+.item h4{font:400 30px/1 var(--dis);text-transform:uppercase}
+.item .s{font-size:11px;color:#55544f;margin:6px 0 12px;letter-spacing:.04em;line-height:1.5}
+.item .q{display:inline-flex;border:2px solid var(--ink)}
+.item .q span{width:34px;height:32px;display:grid;place-items:center;font-weight:700;border-right:2px solid var(--ink)}
+.item .q span:last-child{border-right:0}
+.item .q span.n{background:var(--lime)}
+.item .p{text-align:right;font:700 16px/1 var(--mono)}
+.item .p small{display:block;margin-top:58px;font-size:11px;text-decoration:underline;color:#55544f}
+.lines .ln{display:flex;justify-content:space-between;padding:6px 0}
+.lines .ln.g b{background:var(--lime);padding:0 4px}
+.lines .ln.r{color:var(--red)}
+.code{display:flex;justify-content:space-between;align-items:center;border:2px solid var(--ink);padding:10px 12px;margin:14px 0;font-weight:700}
+.code em{font-style:normal;background:var(--ink);color:var(--lime);padding:4px 7px;font-size:11px}
+.tot{display:flex;justify-content:space-between;align-items:flex-end;border-top:3px double var(--ink);border-bottom:3px double var(--ink);padding:14px 0;margin:16px 0 20px}
+.tot b{font:400 72px/.9 var(--dis)}
+.rcpt .thx{text-align:center;font:400 26px/1 var(--dis);text-transform:uppercase;margin-top:16px}
+.rcpt .stamp{left:auto;right:-30px;top:auto;bottom:150px;transform:rotate(14deg);font-size:40px;background:transparent}
+.addons{margin-top:60px}
+.addons .row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.addons .a{border:2px solid var(--ink);background:var(--paper);box-shadow:5px 5px 0 var(--ink)}
+.addons .a .ph{height:150px;border-bottom:2px solid var(--ink)}
+.addons .a .garm{width:46%}
+.addons .a .m{padding:10px;display:flex;justify-content:space-between;align-items:center;font:700 11px/1.3 var(--mono)}
+.addons .a .m b{font:400 20px/1 var(--dis);text-transform:uppercase;display:block}
+.addons .a .m span{width:30px;height:30px;background:var(--lime);border:2px solid var(--ink);display:grid;place-items:center}
+
+.right{padding:56px 56px 80px}
+.right h2{font:400 84px/.86 var(--dis);text-transform:uppercase}
+.right h2 .o{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.express{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0 22px}
+.express span{height:66px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;gap:10px;font:700 13px/1 var(--mono);letter-spacing:.1em;box-shadow:5px 5px 0 var(--ink);background:var(--ink);color:var(--paper)}
+.express span:nth-child(2){background:var(--lime);color:var(--ink)}
+.express span:nth-child(3){background:var(--paper);color:var(--ink)}
+.or{display:flex;align-items:center;gap:16px;font:700 11px/1 var(--mono);letter-spacing:.14em;color:#55544f;margin-bottom:26px}
+.or::before,.or::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--ink) 0 6px,transparent 6px 10px)}
+.sec{border:2px solid var(--ink);margin-bottom:18px;background:var(--paper)}
+.sec .h{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:2px solid var(--ink);font:400 26px/1 var(--dis);text-transform:uppercase}
+.sec .h b{font:700 11px/1 var(--mono);background:var(--ink);color:var(--paper);padding:5px 7px;margin-right:12px;vertical-align:middle;letter-spacing:.08em}
+.sec .h small{font:700 11px/1 var(--mono);letter-spacing:.08em;text-decoration:underline}
+.sec .h.done{background:var(--paper-2)}
+.sec .h.done small{text-decoration:none;background:var(--lime);padding:4px 6px}
+.sec .bd{padding:18px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.f3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-top:10px}
+.fi{border:2px solid var(--ink);padding:9px 12px 10px;background:#fbfaf6}
+.fi span{display:block;font:700 9px/1 var(--mono);letter-spacing:.14em;color:#77766f;text-transform:uppercase}
+.fi b{display:block;font:700 14px/1 var(--mono);margin-top:7px}
+.fi.w{grid-column:1/-1}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.opts div{border:2px solid var(--ink);padding:14px;position:relative}
+.opts div b{display:block;font:400 24px/1 var(--dis);text-transform:uppercase}
+.opts div small{display:block;font-size:11px;color:#55544f;margin-top:6px;line-height:1.4}
+.opts div em{position:absolute;right:12px;top:14px;font-style:normal;font:700 12px/1 var(--mono)}
+.opts div.on{background:var(--ink);color:var(--paper);box-shadow:5px 5px 0 var(--lime)}
+.opts div.on small{color:#bdbcb5}
+.opts div.on em{color:var(--lime)}
+.card{display:grid;grid-template-columns:1fr 120px 100px;gap:10px}
+.cardvis{margin-top:14px;height:170px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);padding:18px 20px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.cardvis::before{content:"VOID";position:absolute;right:-10px;bottom:-30px;font:400 170px/1 var(--dis);color:transparent;-webkit-text-stroke:2px #333}
+.cardvis .chip{width:46px;height:34px;background:var(--lime);border:2px solid var(--lime)}
+.cardvis .n{font:700 20px/1 var(--mono);letter-spacing:.14em;position:relative}
+.cardvis .m{display:flex;justify-content:space-between;font:700 11px/1 var(--mono);letter-spacing:.1em;position:relative}
+.pay{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;margin-top:26px}
+.pay .btn{height:84px;font-size:18px;justify-content:space-between;padding:0 28px}
+.pay .lk{font:700 11px/1.5 var(--mono);color:#55544f;display:flex;gap:8px;align-items:center;max-width:170px}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);margin-top:34px;border:2px solid var(--ink)}.trust div{padding:16px 18px;border-right:2px solid var(--ink);font:700 11px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.04em}.trust div:last-child{border-right:0}.trust b{display:block;font:400 52px/1 var(--dis);margin-bottom:6px}.trust .k{background:var(--ink);color:var(--paper)}.trust .k b{color:var(--lime)}
+</style></head>
+<body>
+<div data-nav></div>
+<section class="top">
+  <div class="l"><span class="idx">Bag — 2 pieces · 1 add-on</span><h1 style="margin-top:22px">Your <span class="o">bag</span><sup>03</sup></h1></div>
+  <div class="r" data-cd="582"><div class="mono">■ Pieces held for you</div><div class="t"><b data-u="m" style="font-weight:400">09</b><b style="font-weight:400">:</b><b data-u="s" style="font-weight:400">42</b><span>Then they go back to the pile. Drop stock doesn't wait.</span></div></div>
+</section>
+<section class="ship"><div class="lb"><span><b>✓ Free express unlocked</b>&nbsp; €86 away from a free Void Beanie</span><span>€414 / €500</span></div>
+  <div class="tr">__SEGS__<div class="mk ok" style="left:40%"><span>€200 · FREE EXPRESS ✓</span></div><div class="mk end" style="left:calc(100% - 4px)"><span>€500 · FREE BEANIE</span></div></div>
+  <div class="ends"><span>€0</span></div></section>
+
+<section class="main">
+  <div class="left">
+    <div class="rcpt">
+      <div class="logo"><i></i>VOIDWORKS</div>
+      <div class="c">BAG RECEIPT #VW-07-88213<br>FRI 24 OCT 2026 · 17:51:08 CET · TILL: BOT-FREE-01</div>
+      <div class="stamp">Held<small>09:42 left</small></div>
+      <div class="dash"></div>
+      <div class="item"><div class="th bw ht" data-img="1677538537484-324385aff147|300|50% 35%"></div><div><h4>Null Hoodie 01</h4><div class="s">WASHED BLACK · SIZE L<br>UNIT #0142 / 300 · DROP 07</div><div class="q"><span>−</span><span class="n">1</span><span>+</span></div></div><div class="p">€180.00<small>Remove</small></div></div>
+      <div class="item"><div class="th gph halftone" data-g="cargo" style="background-color:var(--lime)"></div><div><h4>Psalm Cargo</h4><div class="s">BLACK RIPSTOP · W32 L32<br>UNIT #0087 / 300 · DROP 06</div><div class="q"><span>−</span><span class="n">1</span><span>+</span></div></div><div class="p">€210.00<small>Remove</small></div></div>
+      <div class="item"><div class="th gph" data-g="sock" style="background:var(--red)"></div><div><h4>Static Socks ×2</h4><div class="s">BLACK / LIME · 39–42<br>ADD-ON · NOT A DROP PIECE</div><div class="q"><span>−</span><span class="n">1</span><span>+</span></div></div><div class="p">€24.00<small>Remove</small></div></div>
+      <div class="code"><span>CODE: VOIDLIST-10</span><em>APPLIED −10%</em></div>
+      <div class="lines"><div class="ln"><span>Subtotal (3 items)</span><span>€414.00</span></div><div class="ln r"><span>Void List −10%</span><span>−€41.40</span></div><div class="ln g"><span>Express EU · 48h</span><b>FREE</b></div><div class="ln"><span>VAT 19% incl.</span><span>€59.49</span></div></div>
+      <div class="tot"><span class="mono">Total EUR</span><b>€372.60</b></div>
+      <div class="barcode"></div><div class="c">*VW0788213*</div>
+      <div class="thx">Thank you for not being basic.</div>
+      <div class="c">Returns within 14 days · keep this receipt, or don't, we have it.</div>
+    </div>
+    <div class="addons"><div class="sh-row"><span class="idx">Add-ons under €70</span><span class="mono" style="text-decoration:underline">See all</span></div>
+      <div class="row">
+        <div class="a"><div class="ph gph halftone" data-g="beanie" style="background-color:var(--lime)"></div><div class="m"><div><b>Void Beanie</b>€60</div><span data-ic="plus"></span></div></div>
+        <div class="a"><div class="ph gph" data-g="cap" data-gc="lm" style="background:var(--ink)"></div><div class="m"><div><b>Null Cap</b>€55</div><span data-ic="plus"></span></div></div>
+        <div class="a"><div class="ph gph" data-g="tote" data-gc="lm" style="background:var(--red)"></div><div class="m"><div><b>Dead Air Tote</b>€65</div><span data-ic="plus"></span></div></div>
+      </div></div>
+  </div>
+
+  <div class="right">
+    <span class="idx">Checkout · secure</span><h2 style="margin-top:18px">Check <span class="o">out</span> fast.</h2>
+    <div class="express"><span><span data-ic="bolt"></span>1-tap pay</span><span><span data-ic="lock"></span>Wallet</span><span>Pay in 3 × €124.20</span></div>
+    <div class="or">OR FILL IT IN — 4 STEPS</div>
+    <div class="sec"><div class="h done"><span><b>01</b>Contact</span><small>✓ DONE</small></div><div class="bd"><div class="f2"><div class="fi"><span>Email</span><b>mara@lindqvist.studio</b></div><div class="fi"><span>Phone</span><b>+49 ••• ••• 4471</b></div></div></div></div>
+    <div class="sec"><div class="h"><span><b>02</b>Delivery</span><small>Change</small></div><div class="bd"><div class="opts">
+      <div class="on"><em>FREE</em><b>Express</b><small>Tracked courier · Mon 27 Oct · 48h</small></div>
+      <div><em>€12</em><b>Same day</b><small>Berlin only · by bike, before 22:00</small></div>
+      <div><em>FREE</em><b>Pickup</b><small>Studio Kreuzberg · Sat 12–18</small></div></div>
+      <div class="f3"><div class="fi"><span>Street</span><b>Wrangelstraße 41, HH 3.OG</b></div><div class="fi"><span>Postcode</span><b>10997</b></div><div class="fi"><span>City</span><b>Berlin</b></div></div></div></div>
+    <div class="sec"><div class="h"><span><b>03</b>Payment</span><small>Card</small></div><div class="bd"><div class="card"><div class="fi"><span>Card number</span><b>•••• •••• •••• 2290</b></div><div class="fi"><span>Expiry</span><b>08 / 29</b></div><div class="fi"><span>CVC</span><b>•••</b></div></div>
+      <div class="cardvis"><span class="chip"></span><span class="n">•••• •••• •••• 2290</span><div class="m"><span>M. LINDQVIST</span><span>08/29</span></div></div></div></div>
+    <div class="sec"><div class="h"><span><b>04</b>Review</span><small>3 items</small></div><div class="bd" style="font-size:12px;display:flex;justify-content:space-between;align-items:center"><span>Billing same as delivery · Gift receipt: <b>no</b></span><span class="sticker" style="position:static;transform:rotate(-3deg)">Plastic-free box</span></div></div>
+    <div class="pay"><a class="btn pressed">Pay €372.60 <span data-ic="arrow"></span></a><div class="lk"><span data-ic="lock"></span>256-bit, 3-D Secure. We never see your card.</div></div>
+    <div class="trust"><div><b>48h</b>Berlin → your door, tracked by SMS</div><div><b>14d</b>Returns, even on drop pieces</div><div class="k"><b>0</b>Bots that got through drop 06</div></div>
+  </div>
+</section>
+<div class="tick k"><div class="t"><span>Order confirmed in 0.8s</span><b></b><span>Ships from Berlin Monday</span><b></b><span>Track by SMS</span><b></b><span>14-day returns</span><b></b></div></div>
+<div data-footer></div>
+<script>document.body.innerHTML=document.body.innerHTML.replace('__SEGS__',Array.from({length:50},(_,i)=>`<i class="${i<20?'f':i<41?'f2':''}"></i>`).join(''))</script>
+<script src="void.js"></script><script>void_('',{bag:3})</script>
+</body></html>

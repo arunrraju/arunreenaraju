@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VANTA Σ1 — Telemetry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vanta.css">
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<style>
+.thero{position:relative;padding:136px 64px 80px;overflow:hidden;background:radial-gradient(50% 50% at 35% 55%,rgba(0,229,255,.1),transparent 70%),var(--bg)}
+.thero .top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:34px}
+.thero h1{font:600 120px/.84 var(--disp);letter-spacing:-.035em;text-transform:uppercase}
+.thero h1 span{color:transparent;-webkit-text-stroke:1.5px var(--cy)}
+.laptime{text-align:right}
+.laptime .t{font:500 92px/1 var(--mono);letter-spacing:-.04em;color:var(--wh);text-shadow:0 0 30px rgba(0,229,255,.5)}
+.laptime .t em{font-style:normal;color:var(--cy)}
+.laptime .d{display:flex;gap:16px;justify-content:flex-end;margin-top:12px;font:500 12px/1 var(--mono);letter-spacing:.1em}
+.laptime .d span{padding:8px 10px;border:1px solid var(--line)}
+.laptime .d .g{color:#3dff9a;border-color:rgba(61,255,154,.4);background:rgba(61,255,154,.08)}
+.board{display:grid;grid-template-columns:820px 1fr;gap:20px}
+.map{position:relative;height:640px;padding:24px;overflow:hidden}
+.map .hd{display:flex;justify-content:space-between;position:relative;z-index:2}
+#trk3d{position:absolute;inset:0;z-index:1}#trk3d canvas{display:block}
+.tlab{position:absolute;z-index:2;font:500 10.5px/1 var(--mono);letter-spacing:.12em;color:var(--dim);padding:4px 6px;background:rgba(5,7,13,.8);border:1px solid rgba(0,229,255,.3);transform:translate(-50%,-50%)}
+.tlab.car{width:max-content;white-space:nowrap;color:var(--wh);border-color:var(--cy);padding:8px 10px;transform:translate(14px,-100%);line-height:1.5;box-shadow:0 0 20px rgba(0,229,255,.3)}
+.tlab.car b{display:block;color:var(--cy);font-weight:500}
+.tlab.sf{color:var(--wh)}
+.map .gridbg{position:absolute;inset:0;background:linear-gradient(rgba(0,229,255,.05) 1px,transparent 1px) 0 0/32px 32px,linear-gradient(90deg,rgba(0,229,255,.05) 1px,transparent 1px) 0 0/32px 32px}
+.map .leg{position:absolute;left:24px;bottom:22px;display:flex;gap:18px;font:500 10.5px/1 var(--mono);letter-spacing:.12em;color:var(--dim);z-index:2}
+.map .leg i{display:inline-block;width:18px;height:3px;margin-right:8px;vertical-align:middle}
+.map .mini{position:absolute;right:22px;bottom:20px;z-index:2;width:210px;padding:14px 16px}
+.map .mini b{display:block;font:600 34px/1 var(--disp);margin-top:8px}
+.live{display:grid;grid-template-rows:auto auto 1fr;gap:20px}
+.live .g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.live .g2>div{padding:18px 20px;display:flex;flex-direction:column;align-items:center}
+.live .g2 .lbl{align-self:flex-start}
+.ped{padding:20px 22px}
+.ped .r{display:grid;grid-template-columns:90px 1fr 54px;gap:14px;align-items:center;font:500 11px/1 var(--mono);letter-spacing:.1em;color:var(--dim);margin-top:14px}
+.ped .r .b{height:12px;background:var(--line2);position:relative;overflow:hidden}
+.ped .r .b i{position:absolute;inset:0 auto 0 0}
+.ped .r b{color:var(--wh);text-align:right}
+.sect{padding:20px 22px}
+.sect table{width:100%;border-collapse:collapse;font:400 13px/1 var(--mono);margin-top:12px}
+.sect td,.sect th{padding:12px 0;border-bottom:1px solid var(--line2);text-align:left}
+.sect th{font:500 10px/1 var(--mono);color:var(--dim);letter-spacing:.14em;font-weight:500}
+.sect td:last-child,.sect th:last-child{text-align:right}
+.sect .pb{color:var(--mg)}.sect .gn{color:#3dff9a}
+.sect tr.now td{color:var(--cy)}
+.thero .cursor{left:590px;top:560px}
+
+/* trace */
+.trace{padding:110px 64px 50px;border-top:1px solid var(--line)}
+.trace .chart{padding:28px 28px 20px;position:relative}
+.trace .chart .hd{display:flex;justify-content:space-between;margin-bottom:12px}
+.trace svg{width:100%;display:block}
+.trace .sub{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.trace .sub>div{padding:20px 24px}
+
+/* forces */
+.forces{padding:20px 64px 70px;display:grid;grid-template-columns:560px 1fr;gap:20px}
+.fc{padding:26px;position:relative}
+.fc svg{width:100%;display:block}
+.acc .rows{margin-top:24px}
+.acc .row{display:grid;grid-template-columns:110px 1fr 90px;gap:20px;align-items:center;margin-bottom:22px}
+.acc .row .b{height:34px;background:var(--line2);position:relative;clip-path:polygon(0 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+.acc .row .b i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,rgba(0,229,255,.2),var(--cy));animation:grow 1.4s cubic-bezier(.2,.8,.2,1) both}
+.acc .row .b i::after{content:"";position:absolute;right:0;top:0;bottom:0;width:3px;background:#fff;box-shadow:0 0 14px #fff}
+.acc .row .b.m i{background:linear-gradient(90deg,rgba(255,43,214,.2),var(--mg))}
+.acc .row b{font:600 30px/1 var(--disp);text-align:right}
+.acc .row span{font:500 13px/1 var(--mono);color:var(--dim);letter-spacing:.08em}
+@keyframes grow{from{width:0}}
+.acc .brk{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.acc .brk div{border-top:1px solid var(--line);padding-top:16px}
+.seq{margin-top:34px}.seq .st{display:grid;grid-template-columns:repeat(5,1fr);margin-top:14px;position:relative}.seq .st::before{content:"";position:absolute;left:0;right:0;top:7px;height:1px;background:var(--line)}.seq .st div{position:relative;padding-top:24px;font:400 11px/1.4 var(--mono);color:var(--dim);letter-spacing:.06em}.seq .st div::before{content:"";position:absolute;left:0;top:2px;width:11px;height:11px;border:1px solid var(--cy);background:var(--bg);transform:rotate(45deg)}.seq .st div.on::before{background:var(--mg);border-color:var(--mg);box-shadow:0 0 12px var(--mg)}.seq .st b{display:block;font:600 22px/1 var(--disp);color:var(--wh);margin-bottom:4px}.seq .st div.on b{color:var(--mg)}
+.acc .brk b{display:block;font:600 34px/1 var(--disp);margin-top:10px}
+
+/* record board */
+.rec{position:relative;height:880px;overflow:hidden}
+.rec [data-img]{position:absolute;inset:0}
+.rec [data-img] img{filter:saturate(.7) brightness(.5) contrast(1.15)}.rec [data-img]::after{content:"";position:absolute;inset:0;background:rgba(0,40,70,.35);mix-blend-mode:multiply}
+.rec::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,rgba(5,7,13,.6) 45%,rgba(5,7,13,.2)),linear-gradient(0deg,var(--bg),transparent 30%),linear-gradient(180deg,var(--bg),transparent 25%)}
+.rec .in{position:absolute;left:64px;top:110px;z-index:3;width:720px}
+.rec h2{font:600 96px/.86 var(--disp);letter-spacing:-.03em;text-transform:uppercase;margin:22px 0 40px}
+.rec ol{list-style:none}
+.rec li{display:grid;grid-template-columns:56px 1fr 160px 110px;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line2);font:500 14px/1.2 var(--disp)}
+.rec li .p{font:600 24px/1 var(--disp);color:var(--dim2)}
+.rec li small{display:block;font:400 11px/1.4 var(--mono);color:var(--dim);letter-spacing:.06em}
+.rec li .tm{font:500 20px/1 var(--mono)}
+.rec li .dl{font:500 12px/1 var(--mono);color:var(--dim);text-align:right}
+.rec li.one{background:linear-gradient(90deg,rgba(0,229,255,.16),transparent);border:1px solid var(--cy);box-shadow:0 0 40px rgba(0,229,255,.15)}
+.rec li.one .p{color:var(--cy)}.rec li.one .tm{color:var(--cy)}
+.rec .stamp{position:absolute;right:90px;top:180px;z-index:3;width:300px;height:300px}
+.rec .stamp .ring{position:absolute;inset:0;border:1px solid rgba(255,43,214,.6);border-radius:50%;animation:spin 20s linear infinite;border-style:dashed}
+.rec .stamp .c{position:absolute;inset:30px;border-radius:50%;border:1px solid var(--mg);display:grid;place-items:center;text-align:center;box-shadow:0 0 50px rgba(255,43,214,.3),inset 0 0 40px rgba(255,43,214,.15);background:rgba(5,7,13,.5);backdrop-filter:blur(6px)}
+.rec .stamp b{display:block;font:600 52px/1 var(--disp);color:var(--wh)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="thero">
+  <div class="top">
+    <div><div class="lbl cy">// Telemetry · Nordhalle Ring · 7.42 km · 21 turns · Session 3</div><h1 style="margin-top:20px">Lap <span class="glitch" data-t="record">record</span></h1></div>
+    <div class="laptime"><div class="lbl">Best lap · Σ1 Track Pack · Pilot L. Brandt</div><div class="t">2:41<em>.388</em></div><div class="d"><span class="g">▼ −3.514 vs Σ1 standard</span><span>Lap 6 / 8</span><span class="mg">● LIVE</span></div></div>
+  </div>
+  <div class="board">
+    <div class="map panel br cut">
+      <div class="hd"><span class="lbl cy">// Track map · GPS 20 Hz</span><span class="lbl">50.3352°N · 6.9475°E</span></div>
+      <div id="trk3d"></div><div id="tlabs"></div>
+      <div class="leg"><span><i style="background:#00e5ff"></i>S1</span><span><i style="background:#ff2bd6"></i>S2</span><span><i style="background:#eef6ff"></i>S3</span><span><i style="background:#ff2bd6;height:8px;width:8px;border-radius:50%"></i>Ghost lap</span><span><i style="background:linear-gradient(#00e5ff,transparent);height:12px;width:8px"></i>Speed wall</span></div>
+      <div class="mini panel br"><span class="lbl">Distance · T14</span><b><span data-count="5.18">5.18</span> <small class="cy" style="font-size:14px">/ 7.42 KM</small></b></div>
+    </div>
+    <div class="live">
+      <div class="g2">
+        <div class="panel br"><span class="lbl">Speed</span><div data-gauge='{"v":72,"val":"<tspan data-count=\"297\">297</tspan>","unit":"KM/H","label":"T14 APEX +","size":210}'></div></div>
+        <div class="panel br" style="--bc:var(--mg)"><span class="lbl">Power draw</span><div data-gauge='{"v":91,"val":"1.29","unit":"MW","label":"DEPLOY","color":"#ff2bd6","size":210}'></div></div>
+      </div>
+      <div class="ped panel br">
+        <span class="lbl cy">// Driver inputs</span>
+        <div class="r"><span>Throttle</span><div class="b"><i style="width:100%;background:#3dff9a;box-shadow:0 0 10px #3dff9a"></i></div><b>100%</b></div>
+        <div class="r"><span>Brake</span><div class="b"><i style="width:0%;background:var(--mg)"></i></div><b>0%</b></div>
+        <div class="r"><span>Steer</span><div class="b"><i style="left:44%;width:12%;background:var(--cy);box-shadow:0 0 10px var(--cy)"></i></div><b>−4.2°</b></div>
+        <div class="r"><span>Cell temp</span><div class="b"><i style="width:62%;background:linear-gradient(90deg,var(--cy),var(--mg))"></i></div><b>41°C</b></div>
+      </div>
+      <div class="sect panel br">
+        <span class="lbl cy">// Sectors</span>
+        <table><tr><th>SECTOR</th><th>THIS LAP</th><th>BEST</th><th>Δ</th></tr>
+          <tr><td>S1 · 2.31 km</td><td class="pb">0:49.912</td><td>0:49.912</td><td class="pb">PB</td></tr>
+          <tr><td>S2 · 2.87 km</td><td>1:02.704</td><td>1:02.611</td><td>+0.093</td></tr>
+          <tr class="now"><td>S3 · 2.24 km</td><td>0:48.772 ▸</td><td>0:48.865</td><td class="gn">−0.093</td></tr></table>
+      </div>
+    </div>
+  </div>
+  <div class="cursor"><i></i><i></i><i></i><i></i><b>SCRUB LAP</b></div>
+</section>
+
+<section class="trace">
+  <div class="sh"><div><div class="idx">02 / SPEED TRACE</div><h2>Every metre,<br><span class="outline">recorded.</span></h2></div><p>4,000 data channels at 1 kHz. Overlay two laps and see exactly where the Track Pack finds its 3.5 seconds.</p></div>
+  <div class="chart panel br cut">
+    <div class="hd"><span class="lbl">Speed · km/h vs distance · km</span><span class="lbl"><span class="cy">━ Σ1 Track Pack 2:41.388</span> &nbsp; <span class="mg">┅ Σ1 Standard 2:44.902</span></span></div>
+    <svg viewBox="0 0 1260 340" id="trace"></svg>
+  </div>
+  <div class="sub">
+    <div class="panel br"><div style="display:flex;justify-content:space-between"><span class="lbl">Throttle / brake · %</span><span class="lbl cy">Lap 6</span></div><svg viewBox="0 0 600 120" id="tb" style="margin-top:12px"></svg></div>
+    <div class="panel br"><div style="display:flex;justify-content:space-between"><span class="lbl">Time delta · s</span><span class="lbl" style="color:#3dff9a">−3.514 at line</span></div><svg viewBox="0 0 600 120" id="dt" style="margin-top:12px"></svg></div>
+  </div>
+</section>
+
+<section class="forces">
+  <div class="fc panel br cut">
+    <div style="display:flex;justify-content:space-between"><span class="lbl cy">// G-force · friction circle</span><span class="lbl">Peak <b class="mg">2.14 g</b></span></div>
+    <svg viewBox="0 0 500 500" id="gg" style="margin-top:10px"></svg>
+  </div>
+  <div class="fc acc panel br cut">
+    <div style="display:flex;justify-content:space-between"><span class="lbl cy">// Acceleration · launch control · 20°C, dry</span><span class="lbl">Rollout excluded</span></div>
+    <div class="rows">
+      <div class="row"><span>0–100</span><div class="b"><i style="width:8%"></i></div><b>1.9 s</b></div>
+      <div class="row"><span>0–200</span><div class="b"><i style="width:19%"></i></div><b>4.6 s</b></div>
+      <div class="row"><span>0–300</span><div class="b"><i style="width:41%"></i></div><b>9.8 s</b></div>
+      <div class="row"><span>0–400</span><div class="b m"><i style="width:100%"></i></div><b>23.7 s</b></div>
+    </div>
+    <div class="brk">
+      <div><span class="lbl">100–0 km/h</span><b>28.9 m</b></div>
+      <div><span class="lbl">200–0 km/h</span><b>104 m</b></div>
+      <div><span class="lbl">Regen, peak</span><b class="cy">600 kW</b></div>
+    </div>
+    <div class="seq"><span class="lbl cy">// Launch sequence</span><div class="st"><div><b>0.00</b>Arm</div><div><b>0.08</b>Torque ramp</div><div><b>0.31</b>1.2 g</div><div class="on"><b>1.90</b>100 km/h</div><div><b>4.60</b>200 km/h</div></div></div>
+  </div>
+</section>
+
+<section class="rec">
+  <div data-img="1572359642202-3cc832e60700|2000"></div>
+  <div class="in">
+    <div class="lbl cy">// 03 · Record board · Nordhalle Ring · production EV</div>
+    <h2>Fastest<br><span class="outline">road-legal</span><br>electric.</h2>
+    <ol>
+      <li class="one"><span class="p">01</span><span>Σ1 Track Pack<small>Pilot L. Brandt · 14 Oct 2026</small></span><span class="tm">2:41.388</span><span class="dl">Record</span></li>
+      <li><span class="p">02</span><span>Σ1 Standard<small>Pilot M. Okafor · 14 Oct 2026</small></span><span class="tm">2:44.902</span><span class="dl">+3.514</span></li>
+      <li><span class="p">03</span><span>Σ0 Prototype<small>Pilot L. Brandt · 02 Jun 2025</small></span><span class="tm">2:49.170</span><span class="dl">+7.782</span></li>
+      <li><span class="p">04</span><span>Class benchmark, avg.<small>Production EV, 1,500 hp+</small></span><span class="tm">2:53.6</span><span class="dl">+12.2</span></li>
+    </ol>
+  </div>
+  <div class="stamp"><div class="ring"></div><div class="c"><div><span class="lbl mg">Certified</span><b>2:41</b><span class="lbl">Timed by Δ-Loop</span></div></div></div>
+</section>
+
+<div data-footer></div>
+<script src="vanta.js"></script>
+<script src="vanta3d.js"></script>
+<script src="performance3d.js"></script>
+<script>
+// ---- speed trace
+const W = 1260, H = 300, N = 180;
+const CN = [[0.02,170],[0.13,96],[0.2,142],[0.31,118],[0.42,210],[0.5,84],[0.58,160],[0.7,251],[0.77,128],[0.86,104],[0.97,150]];
+const sp = i => { const x = i / N; let v = 334; CN.forEach(([c, m]) => { const d = x - c; v = Math.min(v, m + (d > 0 ? 520 : 900) * Math.sqrt(Math.abs(d)) * (d > 0 ? 1 : 1.4) ); }); return Math.min(v, 334 - 6 * Math.sin(x * 40)); };
+const pts = (f, k = 1) => Array.from({ length: N + 1 }, (_, i) => `${(i / N * W).toFixed(1)},${(H - f(i) * k / 340 * H + 20).toFixed(1)}`);
+const a = pts(sp), b = pts(i => sp(i) * .955 - 4);
+let tr = '<g stroke="rgba(238,246,255,.07)">' + [80, 160, 240].map(y => `<line x1="0" y1="${y}" x2="${W}" y2="${y}"/>`).join('') + '</g>';
+tr += `<rect x="0" y="0" width="${W * .33}" height="320" fill="rgba(0,229,255,.03)"/><rect x="${W * .67}" y="0" width="${W * .33}" height="320" fill="rgba(238,246,255,.02)"/>`;
+tr += [.33, .67].map(p => `<line x1="${W * p}" y1="0" x2="${W * p}" y2="320" stroke="rgba(0,229,255,.35)" stroke-dasharray="4 6"/>`).join('');
+tr += `<path d="M0,320 L${a.join(' L')} L${W},320 Z" fill="url(#tg)"/><defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00e5ff" stop-opacity=".25"/><stop offset="1" stop-color="#00e5ff" stop-opacity="0"/></linearGradient></defs>`;
+tr += `<polyline points="${b.join(' ')}" fill="none" stroke="#ff2bd6" stroke-width="1.6" stroke-dasharray="5 5"/>`;
+tr += `<polyline points="${a.join(' ')}" fill="none" stroke="#00e5ff" stroke-width="2.4" style="filter:drop-shadow(0 0 6px #00e5ff)"/>`;
+const ci = 125, [cx, cy] = a[ci].split(',').map(Number);
+tr += `<line x1="${cx}" y1="0" x2="${cx}" y2="320" stroke="#fff" stroke-opacity=".6"/><circle cx="${cx}" cy="${cy}" r="6" fill="#fff" style="filter:drop-shadow(0 0 8px #00e5ff)"/>
+<g transform="translate(${cx + 14},${18})"><rect width="170" height="64" fill="rgba(5,7,13,.92)" stroke="#00e5ff"/><text x="12" y="20" fill="#7b88a1" font-family="JetBrains Mono" font-size="10" letter-spacing="1.5">5.18 KM · T14</text><text x="12" y="40" fill="#00e5ff" font-family="JetBrains Mono" font-size="13">TP 297 km/h</text><text x="12" y="56" fill="#ff2bd6" font-family="JetBrains Mono" font-size="13">STD 281 km/h</text></g>`;
+tr += '<g font-family="JetBrains Mono" font-size="10" fill="#4a5670" letter-spacing="1.5">' + ['0', '1', '2', '3', '4', '5', '6', '7'].map((k, i) => `<text x="${i / 7.42 * W + 4}" y="336">${k} KM</text>`).join('') + `<text x="${W * .165}" y="14" fill="#00e5ff" text-anchor="middle">S1</text><text x="${W * .5}" y="14" fill="#ff2bd6" text-anchor="middle">S2</text><text x="${W * .835}" y="14" fill="#eef6ff" text-anchor="middle">S3</text></g>`;
+document.getElementById('trace').innerHTML = tr;
+// throttle/brake & delta
+let tb = '', dt = '';
+const thr = Array.from({ length: 121 }, (_, i) => { const v = sp(i * 1.5); return `${i * 5},${(110 - Math.min(100, Math.max(0, (v - 120) / 1.7)) ).toFixed(1)}`; });
+tb += `<polyline points="${thr.join(' ')}" fill="none" stroke="#3dff9a" stroke-width="1.6"/>`;
+for (let i = 3; i < 120; i += 13) tb += `<rect x="${i * 5}" y="${70 + (i % 3) * 8}" width="${10 + (i % 4) * 4}" height="${40 - (i % 3) * 8}" fill="#ff2bd6" opacity=".7"/>`;
+document.getElementById('tb').innerHTML = tb;
+const dl = Array.from({ length: 121 }, (_, i) => `${i * 5},${(20 + i * .72 + Math.sin(i / 6) * 4).toFixed(1)}`);
+dt = `<line x1="0" y1="20" x2="600" y2="20" stroke="rgba(238,246,255,.15)"/><path d="M0,20 L${dl.join(' L')} L600,20 Z" fill="rgba(61,255,154,.1)"/><polyline points="${dl.join(' ')}" fill="none" stroke="#3dff9a" stroke-width="2"/><text x="590" y="112" fill="#3dff9a" font-family="JetBrains Mono" font-size="12" text-anchor="end">−3.514</text>`;
+document.getElementById('dt').innerHTML = dt;
+// ---- g-g diagram
+let g = '<g fill="none">';
+[1, 2, 3].forEach(r => g += `<circle cx="250" cy="250" r="${r * 75}" stroke="${r === 3 ? 'rgba(0,229,255,.4)' : 'rgba(238,246,255,.1)'}" ${r < 3 ? 'stroke-dasharray="3 5"' : ''}/>`);
+g += '<line x1="20" y1="250" x2="480" y2="250" stroke="rgba(238,246,255,.12)"/><line x1="250" y1="20" x2="250" y2="480" stroke="rgba(238,246,255,.12)"/></g>';
+let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+for (let i = 0; i < 420; i++) { const ang = rnd() * Math.PI * 2, rr = Math.pow(rnd(), .55) * (ang > Math.PI ? 150 : 158) * (1 + .1 * Math.cos(ang * 2)); const x = 250 + Math.cos(ang) * rr, y = 250 + Math.sin(ang) * rr * (Math.sin(ang) > 0 ? 1.05 : .78); g += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.8" fill="${rr > 135 ? '#ff2bd6' : '#00e5ff'}" opacity="${(.25 + rr / 250).toFixed(2)}"/>`; }
+g += '<path d="M250,92 C350,96 410,170 412,250 C410,340 350,415 250,418 C150,415 90,340 88,250 C90,170 150,96 250,92 Z" fill="none" stroke="#00e5ff" stroke-width="2" style="filter:drop-shadow(0 0 6px #00e5ff)"/>';
+g += '<circle cx="406" cy="276" r="9" fill="#fff" style="filter:drop-shadow(0 0 10px #ff2bd6)"><animate attributeName="r" values="7;11;7" dur="1.2s" repeatCount="indefinite"/></circle>';
+g += '<g font-family="JetBrains Mono" font-size="11" fill="#7b88a1" letter-spacing="1.5"><text x="250" y="16" text-anchor="middle">BRAKE 2.0 g</text><text x="250" y="496" text-anchor="middle">ACCEL 1.6 g</text><text x="10" y="244">LEFT</text><text x="490" y="244" text-anchor="end">RIGHT</text><text x="330" y="244" fill="#4a5670">1g</text><text x="410" y="244" fill="#4a5670">2g</text><text x="420" y="296" fill="#ff2bd6">2.14 g · T14</text></g>';
+document.getElementById('gg').innerHTML = g;
+vanta('performance');
+</script>
+</body></html>

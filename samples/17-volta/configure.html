@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOLTA — Configure your R1</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,600;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="volta.css">
+<script src="volta3d.js"></script>
+<style>
+html,body{height:1080px;overflow:hidden}
+.stage{position:absolute;left:0;top:0;width:970px;height:1080px;overflow:hidden;background:radial-gradient(70% 60% at 50% 60%,#2f3236 0%,#18191c 55%,#0f1011 90%)}
+.stage .bg{position:absolute;left:30px;top:150px;z-index:1;font:italic 900 330px/.8 var(--disp);text-transform:uppercase;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.08);white-space:nowrap}
+.stage .bg b{color:rgba(230,255,0,.09);-webkit-text-stroke:0}
+.stage canvas{position:absolute;left:0;top:90px;z-index:3}
+.stage .plat{position:absolute;left:105px;top:735px;width:760px;height:150px;border-radius:50%;z-index:2;border:1px solid rgba(230,255,0,.35);background:radial-gradient(closest-side,rgba(230,255,0,.08),transparent);box-shadow:0 0 60px rgba(230,255,0,.08)}
+.stage .plat::before{content:"";position:absolute;inset:16px 40px;border-radius:50%;border:1px dashed rgba(255,255,255,.18)}
+.stage .plat::after{content:"";position:absolute;left:50%;top:-5px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--volt);box-shadow:0 0 16px var(--volt)}
+.stage .nm{position:absolute;left:64px;top:120px;z-index:5}
+.stage .nm h1{font:italic 800 84px/.84 var(--disp);text-transform:uppercase}
+.stage .nm .code{font:500 11px/1 var(--mono);color:var(--grey);letter-spacing:.12em;margin-top:14px}
+.stage .huds{position:absolute;right:40px;top:122px;z-index:5;display:flex;gap:10px}.stage .huds .hud{width:156px}.stage .huds .hud .v{font-size:40px}
+.stage .huds .hud{position:relative}
+.stage .delta{font:500 10px/1 var(--mono);color:var(--volt);letter-spacing:.1em;margin-top:6px}
+.stage .ctrls{position:absolute;left:64px;bottom:46px;z-index:5;display:flex;gap:8px;align-items:center}
+.stage .ctrls .k{width:46px;height:46px;display:grid;place-items:center;border:1px solid var(--line2);background:rgba(255,255,255,.04)}
+.stage .ang{position:absolute;right:40px;bottom:46px;z-index:5;display:flex;gap:6px}
+.stage .cursor{left:540px;top:300px}
+.stage .wipe{position:absolute;left:0;right:0;top:0;bottom:0;z-index:4;pointer-events:none;background:linear-gradient(100deg,transparent 46%,rgba(230,255,0,.0) 47%,rgba(230,255,0,.16) 49.5%,rgba(255,255,255,.5) 50%,rgba(230,255,0,.16) 50.5%,transparent 53%);animation:wipe 3.6s ease-in-out infinite}
+@keyframes wipe{from{transform:translateX(-60%)}to{transform:translateX(60%)}}
+.stage .toast{position:absolute;left:64px;top:340px;z-index:6;display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(20,21,23,.8);border:1px solid var(--line2);backdrop-filter:blur(12px);font-size:13px;animation:float 5s ease-in-out infinite}
+.stage .toast i{width:26px;height:26px;border-radius:50%;background:#d4ec00;box-shadow:0 0 0 3px rgba(212,236,0,.25)}
+.stage .toast small{display:block;color:var(--grey);font:500 10px/1.3 var(--mono)}
+
+.panel{position:absolute;left:970px;top:0;width:470px;height:1080px;background:var(--g0);border-left:1px solid var(--line);padding:104px 36px 0;z-index:5}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:22px}
+.steps span{height:6px;background:rgba(255,255,255,.1);transform:skewX(-20deg)}
+.steps span.on{background:var(--volt);box-shadow:0 0 10px rgba(230,255,0,.6)}
+.steps span.half{background:linear-gradient(90deg,var(--volt) 55%,rgba(255,255,255,.1) 55%)}
+.sec{padding:16px 0 18px;border-bottom:1px solid var(--line)}
+.sec .hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.sec .hd span{font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--grey);text-transform:uppercase}
+.sec .hd span em{color:var(--volt);font-style:normal;margin-right:8px}
+.sec .hd b{font:italic 800 24px/1 var(--disp);text-transform:uppercase}
+.sws{display:flex;gap:12px}
+.sws div{text-align:center;font:500 9px/1 var(--mono);color:var(--grey);letter-spacing:.06em}
+.sws i{display:block;width:62px;height:62px;border-radius:50%;margin:0 auto 8px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2),inset -10px -12px 18px rgba(0,0,0,.35),inset 8px 8px 14px rgba(255,255,255,.18)}
+.sws div.on{color:var(--white)}
+.sws div.on i{outline:2px solid var(--volt);outline-offset:4px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:1px solid var(--line2);padding:12px 14px;position:relative}
+.opt b{display:block;font:italic 800 22px/1 var(--disp);text-transform:uppercase}
+.opt span{font-size:12px;color:var(--grey)}
+.opt em{position:absolute;right:12px;top:12px;font:600 11px/1 var(--sans);font-style:normal}
+.opt.on{border-color:var(--volt);background:rgba(230,255,0,.06)}
+.opt.on em{color:var(--volt)}
+.opt svg{display:block;width:44px;height:44px;margin-bottom:8px}
+.bats .b{display:grid;grid-template-columns:76px 1fr 64px;gap:12px;align-items:center;padding:9px 12px;border:1px solid var(--line);margin-bottom:5px;font-size:12px}
+.bats .b b{font:italic 800 20px/1 var(--disp)}
+.bats .b .tr{height:6px;background:rgba(255,255,255,.08);position:relative}
+.bats .b .tr i{position:absolute;left:0;top:0;bottom:0;width:var(--w);background:rgba(255,255,255,.5)}
+.bats .b em{font-style:normal;text-align:right;color:var(--grey)}
+.bats .b.on{border-color:var(--volt);background:rgba(230,255,0,.06)}
+.bats .b.on .tr i{background:var(--volt);box-shadow:0 0 10px rgba(230,255,0,.6)}
+.bats .b.on em{color:var(--volt)}
+.ext{display:flex;flex-wrap:wrap;gap:6px}
+.ext span{height:36px;padding:0 14px;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);font-size:12px}
+.ext span.on{border-color:var(--volt);color:var(--volt)}
+.ext span .ic{width:14px;height:14px}
+.sum{position:absolute;left:0;right:0;bottom:0;padding:20px 36px 28px;background:linear-gradient(180deg,#1b1c1f,#141517);border-top:2px solid var(--volt)}
+.sum .row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px}
+.sum .row b{font:italic 900 58px/.85 var(--disp)}
+.sum .row span{font-size:12px;color:var(--grey);text-align:right}
+.sum .row span em{display:block;color:var(--volt);font-style:normal;font-weight:600;font-size:13px}
+.sum .btn{width:100%;justify-content:center}
+.sum .meta{display:flex;justify-content:space-between;margin-top:12px;font:500 10px/1 var(--mono);color:var(--grey);letter-spacing:.1em}
+</style></head>
+<body>
+<div data-nav></div>
+<section class="stage">
+  <div class="bg">Your<br><b>R1</b></div>
+  <div class="plat"></div>
+  <div id="c3d"></div>
+  <div class="wipe"></div>
+  <div class="nm"><div class="idx">Configurator · R1 Gravel</div><h1 style="margin-top:18px">Build your<br><span class="volt">R1.</span></h1><div class="code">BUILD CODE · VLT-R1-8XK2</div></div>
+  <div class="toast"><i></i><div>Frame → Volt Lime<small>RE-PAINTING · 0.8 S</small></div></div>
+  <div class="huds">
+    <div class="hud"><div class="k">Range · Tour</div><div class="v">158<small>KM</small></div><div class="bar" style="--p:84%"><i></i></div><div class="delta">▲ +16 KM · AERO</div></div>
+    <div class="hud"><div class="k">Weight · size M</div><div class="v">16.4<small>KG</small></div><div class="bar" style="--p:55%"><i></i></div><div class="delta">▼ −0.4 KG</div></div>
+    <div class="hud"><div class="k">Built &amp; delivered</div><div class="v">12<small>NOV</small></div><div class="bar" style="--p:30%"><i></i></div><div class="delta">IN 9 DAYS · AMS</div></div>
+  </div>
+  <div class="cursor"><span>DRAG<br>· ROTATE ·</span></div>
+  <div class="ctrls"><span class="k" data-ic="rotate"></span><span class="pill on">Studio</span><span class="pill">Night street</span><span class="pill">X-ray</span></div>
+  <div class="ang"><span class="pill">Side</span><span class="pill on">3/4</span><span class="pill">Front</span><span class="pill">Top</span></div>
+</section>
+
+<aside class="panel">
+  <div class="steps"><span class="on"></span><span class="on"></span><span class="on"></span><span class="half"></span><span></span></div>
+  <div class="sec"><div class="hd"><span><em>02</em>Frame colour</span><b>Volt Lime</b></div>
+    <div class="sws">
+      <div><i style="background:#2a2c30"></i>GRAPHITE</div>
+      <div><i style="background:#e8ebee"></i>ARCTIC</div>
+      <div class="on"><i style="background:#d4ec00"></i>VOLT</div>
+      <div><i style="background:#ff5a1f"></i>SIGNAL</div>
+      <div><i style="background:#0f4a4c"></i>CANAL</div>
+    </div></div>
+  <div class="sec"><div class="hd"><span><em>03</em>Wheels</span><b>Aero disc</b></div>
+    <div class="opts">
+      <div class="opt"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" fill="none" stroke="#c0925c" stroke-width="4"/><circle cx="22" cy="22" r="15" fill="none" stroke="#555" stroke-width="2"/><g stroke="#888" stroke-width="1"><path d="M22 7v30M7 22h30M11 11l22 22M33 11 11 33"/></g></svg><b>Carbon 45</b><span>24 spokes · light</span><em>Incl.</em></div>
+      <div class="opt on"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" fill="none" stroke="#c0925c" stroke-width="4"/><circle cx="22" cy="22" r="16" fill="#151618" stroke="#e6ff00" stroke-width="1"/><circle cx="22" cy="22" r="4" fill="#888"/></svg><b>Aero disc</b><span>+16 km · whisper quiet</span><em>+€690</em></div>
+    </div></div>
+  <div class="sec bats"><div class="hd"><span><em>04</em>Battery</span><b>750 Wh</b></div>
+    <div class="b"><b>500 Wh</b><div class="tr" style="--w:58%"><i></i></div><em>110 km · incl.</em></div>
+    <div class="b"><b>625 Wh</b><div class="tr" style="--w:72%"><i></i></div><em>134 km · +€250</em></div>
+    <div class="b on"><b>750 Wh</b><div class="tr" style="--w:90%"><i></i></div><em>158 km · +€500</em></div></div>
+  <div class="sec" style="border-bottom:0"><div class="hd"><span><em>05</em>Extras</span><b>2 added</b></div>
+    <div class="ext"><span class="on"><span data-ic="check"></span>GPS tracker · €89</span><span class="on"><span data-ic="check"></span>Fenders · €79</span><span><span data-ic="plus"></span>Rear rack</span><span><span data-ic="plus"></span>Kickstand</span><span><span data-ic="plus"></span>Phantom lock</span></div></div>
+  <div class="sum">
+    <div class="row"><div><div class="mono grey" style="margin-bottom:8px">Your build</div><b>€7,848</b></div><span>or <em>€218 / month</em>36 mo · 0% APR</span></div>
+    <a class="btn">Add build to bag <span data-ic="arrow"></span></a>
+    <div class="meta"><span>⤓ SAVE BUILD</span><span>↗ SHARE CODE</span><span>COMPARE WITH STOCK</span></div>
+  </div>
+</aside>
+
+<script src="volta.js"></script>
+<script>volta('Configure');</script>
+<script type="module">
+import * as THREE from 'three';
+await Promise.all([document.fonts.load('italic 800 40px "Barlow Condensed"'), document.fonts.load('600 18px Inter')]);
+const K = VOLTA3D(THREE, {});
+const s = K.stage(document.getElementById('c3d'), { w: 970, h: 900, fov: 24 });
+if (s) {
+  const b = K.bike({ color: '#d4ec00', accent: '#e6ff00', wheels: 'disc', battery: 2, fenders: true });
+  s.scene.add(b.root); b.setWheels('disc');
+  b.M.accent.color.set('#1c1d1f'); b.M.accent.emissive.set('#000000');
+  s.camera.position.set(0, 0.42, 4.9); s.camera.lookAt(0.0, 0.25, 0);
+  K.dust(s.scene, { spread: 2.4 });
+  s.run(t => { b.root.rotation.y = -0.5 + Math.sin(t * .3) * .12; b.spin(t * .8); });
+}
+</script>
+</body></html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Checkout — Sonora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sonora.css">
+<style>
+.ch{display:grid;grid-template-columns:repeat(12,1fr);margin:0 40px;height:76px;align-items:center;border-bottom:1px solid var(--ink)}
+.ch .brand{grid-column:1/3;font:800 22px/1 var(--sans);font-stretch:125%;letter-spacing:-.03em;display:flex;align-items:center;gap:10px}
+.ch .brand i{width:12px;height:12px;background:var(--sig)}
+.ch .sec{grid-column:3/5;display:flex;gap:8px;align-items:center;font:500 11px/1 var(--mono);text-transform:uppercase}
+.ch .sec .ic{width:15px;height:15px;color:var(--sig)}
+.ch .stp{grid-column:5/11;display:grid;grid-template-columns:repeat(4,1fr);height:100%}
+.ch .stp span{display:flex;align-items:center;gap:10px;padding-left:14px;border-left:1px solid var(--line);font:500 11px/1 var(--mono);text-transform:uppercase;color:var(--grey);position:relative}
+.ch .stp span b{font:300 34px/1 var(--sans);font-stretch:62%;color:inherit}
+.ch .stp span.d{color:var(--ink)}
+.ch .stp span.on{color:var(--ink);background:var(--paper-2)}.ch .stp span.on b{color:var(--sig)}
+.ch .stp span.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--sig)}
+.ch .help{grid-column:11/13;text-align:right;font:500 11px/1.5 var(--mono);text-transform:uppercase;color:var(--grey)}
+.ch .help b{color:var(--ink);font-weight:500}
+.co{display:grid;grid-template-columns:repeat(12,1fr);margin:0 40px}
+.form{grid-column:1/8;padding:44px 60px 80px 0}
+.form h1{font-size:98px}
+.form h1 small{font:300 64px/.8 var(--sans);font-stretch:62%;letter-spacing:-.03em;color:var(--grey);margin-bottom:4px}
+.exp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:40px 0 0}
+.exp span{height:54px;display:flex;align-items:center;justify-content:center;gap:10px;font:600 14px/1 var(--sans);border:1px solid var(--ink)}
+.exp span:first-child{background:var(--ink);color:var(--paper)}
+.or{display:flex;align-items:center;gap:16px;margin:26px 0 6px;font:500 11px/1 var(--mono);text-transform:uppercase;color:var(--grey)}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.fs{margin-top:34px}
+.fs .h{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--ink);padding-top:12px;margin-bottom:6px}
+.fs .h b{font:700 22px/1 var(--sans);font-stretch:112%;letter-spacing:-.02em}
+.fs .h b .idx{color:var(--sig);font-size:11px;margin-right:10px;vertical-align:middle}
+.fs .h span{font:500 11px/1 var(--mono);text-transform:uppercase;color:var(--grey)}
+.row{display:grid;gap:0 24px}
+.f{position:relative;padding-top:24px;border-bottom:1px solid var(--line);height:72px}
+.f label{position:absolute;top:18px;left:0;font:500 10px/1 var(--mono);text-transform:uppercase;color:var(--grey);letter-spacing:.04em}
+.f div{font:500 17px/1 var(--sans);padding-top:14px;display:flex;justify-content:space-between;align-items:center}
+.f div .ok{width:18px;height:18px;background:var(--ink);color:var(--paper);display:grid;place-items:center}
+.f div .ok .ic{width:12px;height:12px}
+.f.ph div{color:var(--grey-2);font-weight:400}
+.f.focus{border-bottom:2px solid var(--sig)}
+.f.focus label{color:var(--sig)}
+.f.focus .caret{display:inline-block;width:2px;height:20px;background:var(--sig);animation:blink 1s steps(2) infinite;margin-left:2px;vertical-align:middle}
+.f.focus .hint{position:absolute;right:0;bottom:-24px;font:400 10px/1 var(--mono);color:var(--sig);text-transform:uppercase}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.opts>div{border:1px solid var(--line);padding:14px;display:flex;flex-direction:column;gap:18px;position:relative;min-height:118px}
+.opts>div .rd{width:18px;height:18px;border-radius:50%;border:1px solid var(--ink)}
+.opts>div.on{border:2px solid var(--ink);padding:13px}
+.opts>div.on .rd{background:radial-gradient(circle,var(--sig) 0 4px,var(--paper) 5px)}
+.opts div b{display:block;font:600 15px/1.2 var(--sans)}
+.opts div small{font:400 10px/1.4 var(--mono);text-transform:uppercase;color:var(--grey)}
+.opts div .p{position:absolute;right:14px;top:14px;font:500 13px/1 var(--mono)}
+.cardf{display:grid;grid-template-columns:2fr 1fr 1fr;gap:0 24px;margin-top:6px}
+.acts{display:flex;justify-content:space-between;align-items:center;margin-top:40px}
+.acts .btn{width:380px;height:66px}
+.acts a.bk{font:500 12px/1 var(--mono);text-transform:uppercase;display:flex;align-items:center;gap:10px}
+
+.sum{grid-column:8/13;background:var(--ink);color:var(--paper);margin:0 -40px 0 0;padding:40px 40px 50px 40px;position:relative}
+.sum::before{content:"";position:absolute;inset:0;background-image:linear-gradient(90deg,rgba(242,241,238,.06) 1px,transparent 1px);background-size:calc((1440px - 80px)/12) 100%;pointer-events:none}
+.sum>*{position:relative}
+.sum .k{display:flex;justify-content:space-between;font:500 11px/1 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.sum h2{font-size:58px;margin:16px 0 26px}
+.item{display:grid;grid-template-columns:110px 1fr auto;gap:18px;padding:16px 0;border-top:1px solid rgba(242,241,238,.16)}
+.item .im{height:110px;background:#1e1e1e}
+.item b{display:block;font:700 19px/1 var(--sans);font-stretch:118%;letter-spacing:-.03em;text-transform:uppercase}
+.item small{display:block;font:400 10px/1.6 var(--mono);text-transform:uppercase;color:var(--grey-2);margin-top:8px}
+.item .pr{font:300 34px/.85 var(--sans);font-stretch:62%;text-align:right}
+.item .q{font:400 10px/1 var(--mono);color:var(--grey-2);margin-top:8px;text-align:right}
+.trade{margin-top:14px;border:1px solid var(--sig);padding:18px 18px 16px;position:relative;background:rgba(255,77,0,.06)}
+.trade .tag{position:absolute;top:-11px;left:16px;background:var(--sig);color:var(--ink);font:600 10px/1 var(--mono);padding:5px 7px;text-transform:uppercase}
+.trade .top{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}
+.trade b{font:700 18px/1.15 var(--sans)}
+.trade small{display:block;font:400 10px/1.5 var(--mono);color:var(--grey-2);text-transform:uppercase;margin-top:6px}
+.trade .cr{font:200 64px/.8 var(--sans);font-stretch:62%;color:var(--sig);letter-spacing:-.04em;text-align:right}
+.trade .cond{display:grid;grid-template-columns:repeat(4,1fr);margin-top:14px;border:1px solid rgba(242,241,238,.4)}
+.trade .cond span{height:38px;display:flex;flex-direction:column;justify-content:center;align-items:center;font:500 10px/1.2 var(--mono);text-transform:uppercase;border-right:1px solid rgba(242,241,238,.25)}
+.trade .cond span:last-child{border-right:0}
+.trade .cond span em{font-style:normal;color:var(--grey-2);font-size:9px}
+.trade .cond span.on{background:var(--paper);color:var(--ink)}.trade .cond span.on em{color:var(--sig)}
+.trade .dev{display:flex;align-items:center;gap:10px;margin-top:12px;font:400 11px/1.3 var(--mono);color:var(--grey-2);text-transform:uppercase}
+.promo{display:flex;justify-content:space-between;align-items:center;height:52px;margin-top:18px;border-bottom:1px solid rgba(242,241,238,.3);font:400 12px/1 var(--mono);color:var(--grey-2);text-transform:uppercase}
+.promo b{color:var(--paper);font-weight:500}
+.tot{margin-top:18px}
+.tot div{display:flex;justify-content:space-between;padding:8px 0;font:400 13px/1 var(--mono)}
+.tot div span:first-child{color:var(--grey-2);text-transform:uppercase;font-size:11px}
+.tot .neg{color:var(--sig)}
+.grand{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;padding-top:18px;border-top:1px solid var(--paper)}
+.grand .flap{font-size:66px}
+.grand .flap span{background:#1f1f1f}
+.grand .flap span::after{background:var(--ink);box-shadow:calc(.72em - 1px) 0 0 var(--ink)}
+.grand .flap span.cur,.grand .flap span.cm{background:none;width:.5em}.grand .flap span.cm{width:.25em}
+.grand .flap span.cur::before,.grand .flap span.cur::after,.grand .flap span.cm::before,.grand .flap span.cm::after{display:none}
+.grand .flap span.sig{background:var(--sig);color:var(--ink)}
+.grand .l{font:500 11px/1.5 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.grand .l b{display:block;font:800 30px/1 var(--sans);font-stretch:125%;color:var(--paper);letter-spacing:-.03em;margin-bottom:6px}
+.toast{position:absolute;right:40px;top:66px;z-index:5;background:var(--paper);color:var(--ink);box-shadow:0 20px 50px rgba(11,11,11,.25);padding:14px 16px;display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:center;width:250px;font:600 13px/1.25 var(--sans);animation:float 3s ease-in-out infinite}
+.toast small{display:block;font:400 10px/1.3 var(--mono);color:var(--grey);text-transform:uppercase;margin-top:3px}
+.toast i{width:30px;height:30px;background:var(--sig);display:grid;place-items:center}
+@keyframes float{50%{transform:translateY(-6px)}}
+.sum .assure{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:30px;border-top:1px solid rgba(242,241,238,.16)}
+.sum .assure div{padding-top:14px;font:400 10px/1.4 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.sum .assure b{display:block;font:600 13px/1.2 var(--sans);text-transform:none;color:var(--paper);margin-bottom:4px}
+.cfoot{display:grid;grid-template-columns:repeat(12,1fr);margin:0 40px;padding:22px 0 30px;border-top:1px solid var(--ink);font:400 11px/1.4 var(--mono);text-transform:uppercase;color:var(--grey)}
+.cfoot span:nth-child(1){grid-column:1/5}.cfoot span:nth-child(2){grid-column:5/9}.cfoot span:nth-child(3){grid-column:9/13;text-align:right}
+.tl{margin-top:34px;border-top:1px solid rgba(242,241,238,.16);padding-top:16px}
+.tl .bar{display:grid;grid-template-columns:repeat(4,1fr);margin-top:18px;position:relative}
+.tl .bar::before{content:"";position:absolute;left:0;right:0;top:5px;height:1px;background:rgba(242,241,238,.25)}
+.tl .bar::after{content:"";position:absolute;left:0;width:30%;top:4px;height:3px;background:var(--sig)}
+.tl .bar div{position:relative;padding-top:24px;font:400 10px/1.4 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.tl .bar div::before{content:"";position:absolute;left:0;top:0;width:11px;height:11px;background:var(--ink);border:1px solid var(--paper)}
+.tl .bar div.d::before{background:var(--sig);border-color:var(--sig)}
+.tl .bar b{display:block;font:600 14px/1.2 var(--sans);text-transform:none;color:var(--paper);margin-bottom:4px}
+.eng{display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:center;margin-top:30px;padding:16px;border:1px solid rgba(242,241,238,.16)}
+.eng .av{width:64px;height:64px}
+.eng b{display:block;font:600 15px/1.2 var(--sans)}
+.eng small{font:400 10px/1.5 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.eng .wv{width:120px;color:var(--sig)}
+</style></head>
+<body>
+<header class="ch">
+  <a class="brand"><i></i>SONORA</a>
+  <span class="sec"><span data-ic="lock"></span>Secure checkout</span>
+  <div class="stp"><span class="d"><b>01</b>Cart ✓</span><span class="on"><b>02</b>Details</span><span><b>03</b>Delivery</span><span><b>04</b>Payment</span></div>
+  <div class="help">Need help?<br><b>+41 44 512 08 80</b></div>
+</header>
+
+<main class="co">
+  <section class="form">
+    <div class="mono"><span class="sig">[02 / 04]</span> &nbsp;Your details</div>
+    <h1 class="disp" style="margin-top:20px">Checkout<span class="sig">.</span></h1>
+    <div class="exp"><span>One-tap wallet</span><span>Pay in 3 · 0 %</span><span>Invoice (CH)</span></div>
+    <div class="or">or fill in your details</div>
+
+    <div class="fs"><div class="h"><b><span class="idx">A</span>Contact</b><span>Have an account? Sign in</span></div>
+      <div class="row" style="grid-template-columns:3fr 2fr">
+        <div class="f"><label>Email</label><div>lea.brunner@example.ch<span class="ok"><span data-ic="check"></span></span></div></div>
+        <div class="f"><label>Phone · for the courier</label><div>+41 79 418 22 60<span class="ok"><span data-ic="check"></span></span></div></div>
+      </div></div>
+
+    <div class="fs"><div class="h"><b><span class="idx">B</span>Shipping address</b><span>Switzerland · EU · UK</span></div>
+      <div class="row" style="grid-template-columns:1fr 1fr"><div class="f"><label>First name</label><div>Lea</div></div><div class="f"><label>Last name</label><div>Brunner</div></div></div>
+      <div class="row" style="grid-template-columns:2fr 1fr"><div class="f"><label>Street &amp; number</label><div>Weinbergstrasse 42</div></div><div class="f focus"><label>Floor / apartment</label><div><span>3. OG, links<span class="caret"></span></span></div><span class="hint">Optional · helps the courier</span></div></div>
+      <div class="row" style="grid-template-columns:1fr 2fr 2fr"><div class="f"><label>Postcode</label><div>8006</div></div><div class="f"><label>City</label><div>Zürich</div></div><div class="f"><label>Country</label><div>Switzerland <span style="font:400 12px var(--mono);color:var(--grey)">▾</span></div></div></div>
+    </div>
+
+    <div class="fs"><div class="h"><b><span class="idx">C</span>Delivery</b><span>Hand-built items ship in 6 days</span></div>
+      <div class="opts">
+        <div class="on"><span class="rd"></span><span class="p">€0</span><div><b>Standard</b><small>Tue 3 Nov · tracked</small></div></div>
+        <div><span class="rd"></span><span class="p">€15</span><div><b>Express morning</b><small>Before 10:00 · signed</small></div></div>
+        <div><span class="rd"></span><span class="p">€0</span><div><b>Pick up &amp; listen</b><small>Hardturm showroom, ZH</small></div></div>
+      </div></div>
+
+    <div class="fs"><div class="h"><b><span class="idx">D</span>Payment</b><span><span data-ic="lock"></span></span></div>
+      <div class="opts" style="grid-template-columns:repeat(4,1fr)">
+        <div class="on" style="min-height:92px"><span class="rd"></span><div><b>Card</b><small>Debit · credit</small></div></div>
+        <div style="min-height:92px"><span class="rd"></span><div><b>Bank transfer</b><small>2 % off</small></div></div>
+        <div style="min-height:92px"><span class="rd"></span><div><b>Pay in 3</b><small>3 × €376.67</small></div></div>
+        <div style="min-height:92px"><span class="rd"></span><div><b>Invoice</b><small>CH only · 30 days</small></div></div>
+      </div>
+      <div class="cardf"><div class="f ph"><label>Card number</label><div>0000 0000 0000 0000</div></div><div class="f ph"><label>Expiry</label><div>MM / YY</div></div><div class="f ph"><label>CVC</label><div>•••</div></div></div>
+    </div>
+    <div class="acts"><a class="bk"><span data-ic="left"></span>Back to cart</a><a class="btn sig">Continue to delivery <span data-ic="arrow"></span></a></div>
+  </section>
+
+  <aside class="sum">
+    <div class="toast"><i><span data-ic="check"></span></i><div>Trade-in credit applied<small>−€120 · prepaid label by email</small></div></div>
+    <div class="k"><span>Order summary</span><span>2 items · ref SN-26-04281</span></div>
+    <h2 class="disp">Your<br>order<span class="sig">.</span></h2>
+    <div class="item"><div class="im" data-img="1599669454699-248893623440|300"></div><div><b>Kontur H1</b><small>Graphit · Merino felt cushions<br>Leather band · Engraved “L.B.”<br>Hard shell case</small></div><div><div class="pr">€860</div><div class="q">Qty 01</div></div></div>
+    <div class="item"><div class="im" data-img="1582978571763-2d039e56f0c3|300"></div><div><b>Tram P1</b><small>Kreide · Portable · IP67<br>Leather strap</small></div><div><div class="pr">€390</div><div class="q">Qty 01</div></div></div>
+    <div class="trade"><span class="tag">Trade-in</span>
+      <div class="top"><div><b>Send us your old headphones</b><small>Any brand · we repair or recycle every part</small></div><div class="cr">−€120</div></div>
+      <div class="dev"><span class="chip" style="border-color:rgba(242,241,238,.3);color:var(--paper)">Over-ear · ANC · 2019–2022</span><span>Change</span></div>
+      <div class="cond"><span>Mint<em>€160</em></span><span class="on">Good<em>€120</em></span><span>Worn<em>€70</em></span><span>Faulty<em>€25</em></span></div>
+    </div>
+    <div class="promo"><span>Promo or gift code</span><b>Apply →</b></div>
+    <div class="tot">
+      <div><span>Subtotal</span><span>€1,250.00</span></div>
+      <div><span>Trade-in credit</span><span class="neg">−€120.00</span></div>
+      <div><span>Delivery · Standard</span><span>Free</span></div>
+      <div><span>VAT 8.1 % (incl.)</span><span>€84.70</span></div>
+    </div>
+    <div class="grand"><div class="l"><b>Total</b>CHF 1,062 · incl. VAT</div><div class="flap"><span class="cur">€</span><span>1</span><span class="cm">,</span><span>1</span><span class="flip sig">3</span><span>0</span></div></div>
+    <div class="tl"><div class="k"><span>Your build</span><span>Est. arrival Tue 3 Nov</span></div><div class="bar"><div class="d"><b>Ordered</b>Today</div><div><b>Built</b>Thu 29 Oct</div><div><b>Measured</b>Fri 30 Oct</div><div><b>Shipped</b>Mon 2 Nov</div></div></div>
+    <div class="eng"><span class="av" data-img="1758876020848-6d1bed1d7453|200"></span><div><b>Jonas Frei will tune your pair</b><small>Build engineer · signs the measurement sheet</small></div><div class="wv" data-wave="30|1|36|3"></div></div>
+    <div class="assure"><div><b>30-day trial</b>Free returns</div><div><b>10-yr parts</b>Repair service</div><div><b>Encrypted</b>TLS · 3-D Secure</div></div>
+  </aside>
+</main>
+<footer class="cfoot"><span>© 2026 Sonora Akustik AG · Zürich</span><span>Terms of sale · Privacy · Warranty</span><span>Questions? hallo@sonora.example</span></footer>
+<script src="sonora.js"></script>
+<script>sonora('');</script>
+</body></html>

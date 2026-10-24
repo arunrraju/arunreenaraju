@@ -233,6 +233,917 @@
       ]
     },
     {
+      "title": "20 website samples",
+      "description": "Twenty concept e-commerce sites, 120 screens. Each brand has its own art direction, motion and real-time 3D.",
+      "tags": [
+        "2026",
+        "Web design",
+        "3D"
+      ],
+      "letter": "20",
+      "image": "samples/cover.webp",
+      "role": "Designer and builder",
+      "summary": "Twenty fictional premium brands, from a Paris fragrance house to an electric hypercar, each designed from scratch with its own type, palette, motion language and full shopping flow from first impression to checkout. Fourteen of them render their hero product live in WebGL with Three.js. Open any site to scroll its screens or try the live build.",
+      "stats": [
+        {
+          "value": "20",
+          "label": "Brands, each with its own art direction"
+        },
+        {
+          "value": "120",
+          "label": "High-fidelity desktop screens"
+        },
+        {
+          "value": "14",
+          "label": "Built with real-time 3D"
+        }
+      ],
+      "sites_title": "Twenty brands. Twenty worlds.",
+      "sites": [
+        {
+          "dir": "samples/01-nocte",
+          "name": "Nocté",
+          "niche": "Luxury fragrance house",
+          "category": "Luxury",
+          "domain": "nocte.paris",
+          "tags": [
+            "Dark cinematic",
+            "Glass & grain",
+            "Motion"
+          ],
+          "colors": [
+            "#070605",
+            "#d8b26a",
+            "#c8692b",
+            "#efe6d8"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "collection",
+              "label": "Collection"
+            },
+            {
+              "file": "product",
+              "label": "Or Liquide"
+            },
+            {
+              "file": "finder",
+              "label": "Scent finder"
+            },
+            {
+              "file": "atelier",
+              "label": "Atelier"
+            },
+            {
+              "file": "bag",
+              "label": "Bag"
+            }
+          ]
+        },
+        {
+          "dir": "samples/02-sonora",
+          "name": "Sonora",
+          "niche": "Premium audio",
+          "category": "Tech",
+          "domain": "sonora.ch",
+          "tags": [
+            "Swiss minimal",
+            "Technical grid",
+            "Waveforms"
+          ],
+          "colors": [
+            "#f2f1ee",
+            "#0b0b0b",
+            "#ff4d00"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "product",
+              "label": "Kontur H1"
+            },
+            {
+              "file": "configure",
+              "label": "Configure"
+            },
+            {
+              "file": "listen",
+              "label": "Listening room"
+            },
+            {
+              "file": "studio",
+              "label": "Studio"
+            },
+            {
+              "file": "cart",
+              "label": "Checkout"
+            }
+          ]
+        },
+        {
+          "dir": "samples/03-voidworks",
+          "name": "Voidworks",
+          "niche": "Streetwear drops",
+          "category": "Fashion",
+          "domain": "voidworks.supply",
+          "tags": [
+            "Neo-brutalist",
+            "Glitch",
+            "Drop culture"
+          ],
+          "colors": [
+            "#0a0a0a",
+            "#ffffff",
+            "#d4ff00",
+            "#ff2e2e"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Drop 07"
+            },
+            {
+              "file": "shop",
+              "label": "Shop all"
+            },
+            {
+              "file": "product",
+              "label": "Null Hoodie"
+            },
+            {
+              "file": "raffle",
+              "label": "Raffle"
+            },
+            {
+              "file": "lookbook",
+              "label": "Lookbook"
+            },
+            {
+              "file": "cart",
+              "label": "Bag"
+            }
+          ]
+        },
+        {
+          "dir": "samples/04-halo",
+          "name": "Halo",
+          "niche": "Smart ring wearable",
+          "category": "Tech",
+          "domain": "halo.health",
+          "tags": [
+            "Soft futurism",
+            "Aurora glass",
+            "3D"
+          ],
+          "colors": [
+            "#f7f6fb",
+            "#c9b8ff",
+            "#ffc9b0",
+            "#b8f0dc"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "product",
+              "label": "Configure"
+            },
+            {
+              "file": "science",
+              "label": "Science"
+            },
+            {
+              "file": "app",
+              "label": "The app"
+            },
+            {
+              "file": "sizing",
+              "label": "Sizing kit"
+            },
+            {
+              "file": "checkout",
+              "label": "Checkout"
+            }
+          ]
+        },
+        {
+          "dir": "samples/05-oromo",
+          "name": "Oromo",
+          "niche": "Specialty coffee roasters",
+          "category": "Food & drink",
+          "domain": "oromo.coffee",
+          "tags": [
+            "Organic editorial",
+            "Hand-drawn",
+            "Paper"
+          ],
+          "colors": [
+            "#f1e7d6",
+            "#2b1a12",
+            "#c65d3b",
+            "#8fa58a"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "coffees",
+              "label": "Shop coffee"
+            },
+            {
+              "file": "product",
+              "label": "Guji Hambela"
+            },
+            {
+              "file": "origin",
+              "label": "Origins"
+            },
+            {
+              "file": "subscribe",
+              "label": "Subscription"
+            },
+            {
+              "file": "brew",
+              "label": "Brew guide"
+            }
+          ]
+        },
+        {
+          "dir": "samples/06-halden",
+          "name": "Forma Atelier",
+          "niche": "Sculptural furniture",
+          "category": "Home",
+          "domain": "forma-atelier.pt",
+          "tags": [
+            "Gallery drama",
+            "3D configurator",
+            "Colour-blocked"
+          ],
+          "colors": [
+            "#5a1f1b",
+            "#1f3a2f",
+            "#e9e2d6",
+            "#b08d57"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "collection",
+              "label": "Gallery"
+            },
+            {
+              "file": "product",
+              "label": "Orbe chair"
+            },
+            {
+              "file": "room",
+              "label": "Room planner"
+            },
+            {
+              "file": "atelier",
+              "label": "Atelier"
+            },
+            {
+              "file": "cart",
+              "label": "Checkout"
+            }
+          ]
+        },
+        {
+          "dir": "samples/07-vanta",
+          "name": "Vanta",
+          "niche": "Electric hypercar",
+          "category": "Mobility",
+          "domain": "vanta.auto",
+          "tags": [
+            "Sci-fi HUD",
+            "3D hypercar",
+            "Configurator"
+          ],
+          "colors": [
+            "#05070d",
+            "#00e5ff",
+            "#ff2bd6",
+            "#ffffff"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "model",
+              "label": "Engineering"
+            },
+            {
+              "file": "performance",
+              "label": "Telemetry"
+            },
+            {
+              "file": "configure",
+              "label": "Configurator"
+            },
+            {
+              "file": "experience",
+              "label": "Ownership"
+            },
+            {
+              "file": "reserve",
+              "label": "Reserve"
+            }
+          ]
+        },
+        {
+          "dir": "samples/08-juno",
+          "name": "Juno",
+          "niche": "Botanical sparkling tonics",
+          "category": "Food & drink",
+          "domain": "juno.drinks",
+          "tags": [
+            "Playful maximalism",
+            "Candy colour",
+            "Bouncy"
+          ],
+          "colors": [
+            "#ff7a1a",
+            "#ff8fc7",
+            "#c6f432",
+            "#2647ff"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "flavours",
+              "label": "Flavours"
+            },
+            {
+              "file": "product",
+              "label": "Pink Fizz"
+            },
+            {
+              "file": "build",
+              "label": "Build a box"
+            },
+            {
+              "file": "story",
+              "label": "Our story"
+            },
+            {
+              "file": "cart",
+              "label": "Cart"
+            }
+          ]
+        },
+        {
+          "dir": "samples/09-lumen",
+          "name": "Éclat",
+          "niche": "High jewellery",
+          "category": "Luxury",
+          "domain": "eclat.paris",
+          "tags": [
+            "Jewel tones",
+            "3D diamond",
+            "Ring builder"
+          ],
+          "colors": [
+            "#0d2a22",
+            "#0b1633",
+            "#c9a24a",
+            "#e8eef2"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "collection",
+              "label": "Coloured stones"
+            },
+            {
+              "file": "product",
+              "label": "Étoile Solitaire"
+            },
+            {
+              "file": "bespoke",
+              "label": "Ring builder"
+            },
+            {
+              "file": "appointment",
+              "label": "Private salon"
+            },
+            {
+              "file": "bag",
+              "label": "Checkout"
+            }
+          ]
+        },
+        {
+          "dir": "samples/10-casa-alba",
+          "name": "Sahra",
+          "niche": "Desert dome resort",
+          "category": "Travel",
+          "domain": "sahra.om",
+          "tags": [
+            "Golden hour",
+            "3D dunes",
+            "Night sky"
+          ],
+          "colors": [
+            "#c98a4b",
+            "#3a2a4f",
+            "#0e1230",
+            "#f5efe6"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "suites",
+              "label": "The reserve"
+            },
+            {
+              "file": "suite",
+              "label": "Observatory suite"
+            },
+            {
+              "file": "experiences",
+              "label": "Experiences"
+            },
+            {
+              "file": "booking",
+              "label": "Booking"
+            },
+            {
+              "file": "confirmation",
+              "label": "Itinerary"
+            }
+          ]
+        },
+        {
+          "dir": "samples/11-kairos",
+          "name": "Kairos",
+          "niche": "Haute horlogerie",
+          "category": "Luxury",
+          "domain": "kairos.ch",
+          "tags": [
+            "Midnight precision",
+            "3D watch",
+            "Tourbillon"
+          ],
+          "colors": [
+            "#0a1428",
+            "#c9ced6",
+            "#3d6bff",
+            "#c98d6b"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "collection",
+              "label": "Collection"
+            },
+            {
+              "file": "product",
+              "label": "Meridian Tourbillon"
+            },
+            {
+              "file": "configurator",
+              "label": "Configure"
+            },
+            {
+              "file": "manufacture",
+              "label": "Manufacture"
+            },
+            {
+              "file": "appointment",
+              "label": "Private viewing"
+            }
+          ]
+        },
+        {
+          "dir": "samples/12-keyform",
+          "name": "Keyform",
+          "niche": "Mechanical keyboards",
+          "category": "Tech",
+          "domain": "keyform.co",
+          "tags": [
+            "Industrial playful",
+            "Dot-matrix",
+            "3D keyboard"
+          ],
+          "colors": [
+            "#efede8",
+            "#2b2b2b",
+            "#ff5a1f",
+            "#cbc3ff"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "shop",
+              "label": "Shop"
+            },
+            {
+              "file": "product",
+              "label": "Model 75"
+            },
+            {
+              "file": "builder",
+              "label": "Builder"
+            },
+            {
+              "file": "lab",
+              "label": "Sound lab"
+            },
+            {
+              "file": "cart",
+              "label": "Checkout"
+            }
+          ]
+        },
+        {
+          "dir": "samples/13-aether",
+          "name": "Aether",
+          "niche": "Orbital spaceflight",
+          "category": "Travel",
+          "domain": "aether.space",
+          "tags": [
+            "Cinematic space",
+            "3D Earth",
+            "Mission control"
+          ],
+          "colors": [
+            "#000000",
+            "#3d8bff",
+            "#f5f7ff"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "missions",
+              "label": "Missions"
+            },
+            {
+              "file": "mission",
+              "label": "Lunar flyby"
+            },
+            {
+              "file": "training",
+              "label": "Training"
+            },
+            {
+              "file": "booking",
+              "label": "Choose a seat"
+            },
+            {
+              "file": "checkout",
+              "label": "Checkout"
+            }
+          ]
+        },
+        {
+          "dir": "samples/14-prism",
+          "name": "Prism",
+          "niche": "Mixed-reality headset",
+          "category": "Tech",
+          "domain": "prism.vision",
+          "tags": [
+            "Liquid chrome",
+            "Iridescent",
+            "3D headset"
+          ],
+          "colors": [
+            "#eef0f6",
+            "#c7b6ff",
+            "#8fe3f0",
+            "#ff9fd0"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "product",
+              "label": "Prism One"
+            },
+            {
+              "file": "experiences",
+              "label": "Experiences"
+            },
+            {
+              "file": "compare",
+              "label": "Compare"
+            },
+            {
+              "file": "configure",
+              "label": "Fit & configure"
+            },
+            {
+              "file": "checkout",
+              "label": "Checkout"
+            }
+          ]
+        },
+        {
+          "dir": "samples/15-cacao",
+          "name": "Cacao Noir",
+          "niche": "Bean-to-bar chocolate",
+          "category": "Food & drink",
+          "domain": "cacaonoir.be",
+          "tags": [
+            "Indulgent",
+            "Molten 3D",
+            "Box builder"
+          ],
+          "colors": [
+            "#2a1610",
+            "#6b3a24",
+            "#f3e6d3",
+            "#c8a15a"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "shop",
+              "label": "Bars by origin"
+            },
+            {
+              "file": "product",
+              "label": "Arriba 72%"
+            },
+            {
+              "file": "box-builder",
+              "label": "Box builder"
+            },
+            {
+              "file": "craft",
+              "label": "The craft"
+            },
+            {
+              "file": "gifting",
+              "label": "Gifting"
+            }
+          ]
+        },
+        {
+          "dir": "samples/16-azure",
+          "name": "Azure Estates",
+          "niche": "Clifftop villas",
+          "category": "Home",
+          "domain": "azure-estates.com",
+          "tags": [
+            "Architectural",
+            "3D dollhouse",
+            "Golden hour"
+          ],
+          "colors": [
+            "#f7f6f2",
+            "#0f5e7a",
+            "#d8c7a9",
+            "#e9995a"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "properties",
+              "label": "Portfolio map"
+            },
+            {
+              "file": "villa",
+              "label": "Villa Halcyon"
+            },
+            {
+              "file": "tour",
+              "label": "Dollhouse tour"
+            },
+            {
+              "file": "stay",
+              "label": "Viewing or stay"
+            },
+            {
+              "file": "reserve",
+              "label": "Reserve"
+            }
+          ]
+        },
+        {
+          "dir": "samples/17-volta",
+          "name": "Volta",
+          "niche": "Premium e-bikes",
+          "category": "Mobility",
+          "domain": "volta.bike",
+          "tags": [
+            "Kinetic sport",
+            "3D bike",
+            "X-ray"
+          ],
+          "colors": [
+            "#1c1d1f",
+            "#e6ff00",
+            "#ffffff"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "bikes",
+              "label": "Line-up"
+            },
+            {
+              "file": "product",
+              "label": "R1 Gravel"
+            },
+            {
+              "file": "configure",
+              "label": "Configure"
+            },
+            {
+              "file": "ride",
+              "label": "Test ride"
+            },
+            {
+              "file": "checkout",
+              "label": "Checkout"
+            }
+          ]
+        },
+        {
+          "dir": "samples/18-vinea",
+          "name": "Domaine Vinea",
+          "niche": "Wine estate",
+          "category": "Food & drink",
+          "domain": "domaine-vinea.fr",
+          "tags": [
+            "Candlelit",
+            "3D bottle",
+            "Wine club"
+          ],
+          "colors": [
+            "#4a0f1c",
+            "#120a0c",
+            "#efe4d0",
+            "#b8955a"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "wines",
+              "label": "The wines"
+            },
+            {
+              "file": "wine",
+              "label": "Clos des Ombres"
+            },
+            {
+              "file": "estate",
+              "label": "Estate & tours"
+            },
+            {
+              "file": "club",
+              "label": "Cellar society"
+            },
+            {
+              "file": "checkout",
+              "label": "Checkout"
+            }
+          ]
+        },
+        {
+          "dir": "samples/19-mochi",
+          "name": "Mochi Monsters",
+          "niche": "Designer art toys",
+          "category": "Lifestyle",
+          "domain": "mochimonsters.jp",
+          "tags": [
+            "Claymorphism",
+            "3D characters",
+            "Blind box"
+          ],
+          "colors": [
+            "#ffb59a",
+            "#9fe3c6",
+            "#c7b6ff",
+            "#ffe58a"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "shop",
+              "label": "Sugar Rush series"
+            },
+            {
+              "file": "character",
+              "label": "Peachy Bun"
+            },
+            {
+              "file": "drops",
+              "label": "Drops & artists"
+            },
+            {
+              "file": "unbox",
+              "label": "Blind box"
+            },
+            {
+              "file": "cart",
+              "label": "Checkout"
+            }
+          ]
+        },
+        {
+          "dir": "samples/20-oceane",
+          "name": "Océane",
+          "niche": "Superyacht charter",
+          "category": "Travel",
+          "domain": "oceane.yachts",
+          "tags": [
+            "Nautical luxury",
+            "3D ocean",
+            "Itinerary"
+          ],
+          "colors": [
+            "#0b1f33",
+            "#2a8c9a",
+            "#f4f1ea",
+            "#a0703f"
+          ],
+          "pages": [
+            {
+              "file": "home",
+              "label": "Home"
+            },
+            {
+              "file": "fleet",
+              "label": "The fleet"
+            },
+            {
+              "file": "yacht",
+              "label": "M/Y Aurelia"
+            },
+            {
+              "file": "experiences",
+              "label": "Experiences"
+            },
+            {
+              "file": "itinerary",
+              "label": "Itinerary"
+            },
+            {
+              "file": "enquire",
+              "label": "Enquire"
+            }
+          ]
+        }
+      ],
+      "shots": [],
+      "demo": "",
+      "quotes": [],
+      "links": []
+    },
+    {
       "title": "30+ websites at Alionbot",
       "description": "Designed and shipped 30+ WordPress sites and stores. Organic traffic up 50%, conversions up 35%.",
       "tags": [

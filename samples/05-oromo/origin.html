@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Oromo — Origins: Finca La Esperanza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="oromo.css">
+<style>
+.hero{position:relative;height:900px;background:var(--esp);color:var(--paper);z-index:3}
+.hero .ph{position:absolute;inset:0}
+.hero .ph img{filter:grayscale(1) contrast(1.1) brightness(1.3)}
+.hero .duo{position:absolute;inset:0;background:linear-gradient(160deg,var(--sage) 0%,#5f7a5a 45%,var(--terra) 120%);mix-blend-mode:multiply;opacity:.8}
+.hero .duo2{position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,26,18,.35),transparent 30%,transparent 55%,rgba(43,26,18,.75))}
+.hero .tx{position:absolute;left:56px;bottom:110px;z-index:3}
+.hero .crumb{font:700 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;display:flex;gap:10px;align-items:center}
+.hero .crumb i{width:30px;height:1.5px;background:var(--mustard)}
+.hero h1{font-size:196px;line-height:.78;letter-spacing:-.055em;font-style:italic;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144;margin:24px 0 0;color:var(--cream)}
+.hero h1 span{font-style:normal;font-weight:300;font-size:110px;letter-spacing:-.04em;display:block;margin-bottom:10px}
+.hero .chips{position:absolute;right:56px;bottom:120px;display:grid;gap:10px;z-index:3;width:340px}
+.hero .chips div{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-radius:16px;background:rgba(246,238,223,.14);backdrop-filter:blur(10px);border:1px solid rgba(246,238,223,.3);font-size:14px}
+.hero .chips b{font:400 24px/1 var(--serif)}
+.hero .stamp{position:absolute;right:420px;top:120px;color:var(--mustard);width:190px;height:190px;z-index:3}
+.hero .stamp .core{background:var(--mustard);color:var(--esp)}
+.hero .stk{left:1060px;top:330px;transform:rotate(6deg);z-index:4}
+
+.map{padding:130px 56px 110px}
+.map .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px}
+.map h2{font-size:100px;line-height:.88;letter-spacing:-.045em}
+.map h2 em{color:var(--terra)}
+.map .hd p{max-width:420px;color:var(--soft);font-size:17px}
+.mapbox{position:relative;height:660px;border-radius:30px;background:var(--cream);border:1.5px solid var(--esp);overflow:hidden}
+.mapbox::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(43,26,18,.18) 1.2px,transparent 1.4px);background-size:22px 22px}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.land{fill:var(--sage-2);stroke:var(--esp);stroke-width:1.5}
+.land.eu{fill:#f2d391}
+.rt{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:2 10;animation:march 1.2s linear infinite}
+.rt.main{stroke:var(--terra);stroke-width:5;stroke-dasharray:14 10}
+@keyframes march{to{stroke-dashoffset:-24}}
+.pin{position:absolute;transform:translate(-50%,-100%);z-index:3;display:flex;flex-direction:column;align-items:center}
+.pin .card{background:var(--paper);border:1.5px solid var(--esp);border-radius:14px;padding:10px 14px;font-size:12px;white-space:nowrap;box-shadow:3px 3px 0 var(--esp)}
+.pin .card b{display:block;font:italic 400 20px/1.1 var(--serif)}
+.pin i{width:16px;height:16px;border-radius:50%;background:var(--terra);border:3px solid var(--esp);margin-top:8px}
+.pin.below{flex-direction:column-reverse;transform:translate(-50%,-8px)}
+.pin.below i{margin:0 0 8px}
+.pin.big .card{background:var(--esp);color:var(--paper);box-shadow:3px 3px 0 var(--terra)}
+.pin.big .card b{color:var(--mustard)}
+.ship{position:absolute;z-index:3;width:54px;height:54px;border-radius:50%;background:var(--mustard);border:2px solid var(--esp);display:grid;place-items:center;animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{translate:0 -6px}}
+.legend{position:absolute;left:30px;bottom:30px;z-index:3;background:var(--paper);border:1.5px solid var(--esp);border-radius:18px;padding:18px 22px;display:grid;gap:10px;font-size:13px}
+.legend div{display:flex;align-items:center;gap:12px}
+.legend i{width:40px;height:0;border-top:4px dashed var(--terra)}
+.legend b{font:400 36px/1 var(--serif);letter-spacing:-.02em}
+.dist{position:absolute;right:30px;bottom:30px;z-index:3;display:flex;gap:10px}
+.dist div{background:var(--esp);color:var(--paper);border-radius:18px;padding:16px 20px;min-width:150px}
+.dist small{font:700 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mustard)}
+.dist b{display:block;font:400 34px/1.1 var(--serif);margin-top:6px}
+
+.farmer{padding:60px 56px 130px;display:grid;grid-template-columns:560px 1fr;gap:80px;align-items:center}
+.farmer .pic{position:relative;height:760px}
+.farmer .arch{position:absolute;inset:0 40px 0 0;border-radius:280px 280px 24px 24px;border:1.5px solid var(--esp)}
+.farmer .bk{position:absolute;inset:30px 0 -30px 40px;border-radius:280px 280px 24px 24px;background:var(--terra)}
+.farmer .sm{position:absolute;right:-50px;bottom:60px;width:230px;height:260px;border:8px solid #fffaf0;transform:rotate(6deg);box-shadow:0 20px 40px rgba(43,26,18,.25);z-index:3}
+.farmer .stk{left:-10px;top:120px;transform:rotate(-8deg);z-index:3}
+.farmer h2{font-size:120px;line-height:.84;letter-spacing:-.05em;margin:20px 0 30px;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144}
+.farmer h2 em{color:var(--terra)}
+.farmer .q{font:italic 300 40px/1.18 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.02em;position:relative;padding-left:60px}
+.farmer .q::before{content:"“";position:absolute;left:0;top:-30px;font:italic 400 130px/1 var(--serif);color:var(--terra)}
+.farmer .sig{font:italic 400 44px/1 var(--serif);color:var(--terra);margin:24px 0 6px 60px;transform:rotate(-4deg);display:inline-block}
+.farmer .who{margin-left:60px;font-size:14px;color:var(--soft)}
+.farmer .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:40px}
+.farmer .facts div{background:var(--cream);border-radius:18px;padding:18px;border:1.5px solid var(--esp)}
+.farmer .facts small{font:700 10px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.farmer .facts b{display:block;font:400 26px/1.1 var(--serif);margin-top:8px}
+
+.harvest{background:var(--sage);padding:130px 56px 140px;position:relative}
+.harvest .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px}
+.harvest h2{font-size:96px;line-height:.88;letter-spacing:-.045em}
+.harvest h2 em{color:var(--paper)}
+.tl{position:relative;padding-top:60px}
+.months{display:grid;grid-template-columns:repeat(12,1fr);border-top:2px solid var(--esp);border-bottom:2px solid var(--esp)}
+.months span{padding:12px 0;text-align:center;font:700 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;border-right:1.5px dashed rgba(43,26,18,.35)}
+.months span:last-child{border-right:0}
+.phases{position:relative;height:250px;margin-top:20px}
+.phase{position:absolute;height:64px;border-radius:999px;border:1.5px solid var(--esp);display:flex;align-items:center;gap:12px;padding:0 20px;font-size:14px;font-weight:600;overflow:hidden}
+.phase small{font-weight:400;opacity:.8}
+.phase .ic{width:22px;height:22px}
+.now{position:absolute;top:0;bottom:-20px;width:0;border-left:3px solid var(--terra);z-index:3}
+.now span{position:absolute;top:-4px;left:-2px;transform:translateX(-50%);background:var(--terra);color:var(--paper);padding:8px 12px;border-radius:999px;font:700 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.now::after{content:"";position:absolute;bottom:-6px;left:-8px;width:13px;height:13px;border-radius:50%;background:var(--terra)}
+.harvest .pics{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:20px;margin-top:40px}
+.harvest .pics>div{height:260px;border-radius:20px;border:1.5px solid var(--esp);position:relative}
+.harvest .pics>div span{position:absolute;left:14px;bottom:14px;background:var(--paper);padding:7px 12px;border-radius:999px;font:700 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase}
+
+.impact{background:var(--esp);color:var(--cream);padding:150px 56px 150px;margin-bottom:40px}
+.impact h2{font-size:110px;line-height:.86;letter-spacing:-.05em;color:var(--paper);max-width:900px}
+.impact h2 em{color:var(--mustard)}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:80px}
+.nums div{border-top:2px solid rgba(239,227,204,.3);padding-top:24px}
+.nums b{display:block;font:300 108px/.9 var(--serif);letter-spacing:-.05em;color:var(--paper);font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144}
+.nums b em{color:var(--terra);font-size:.6em}
+.nums p{font-size:15px;color:rgba(239,227,204,.7);margin-top:12px;max-width:260px}
+.price{margin-top:90px;display:grid;grid-template-columns:420px 1fr;gap:60px;align-items:center}
+.price h4{font:italic 400 40px/1.1 var(--serif);color:var(--paper)}
+.bars{display:grid;gap:16px}
+.bars div{display:grid;grid-template-columns:200px 1fr 90px;align-items:center;gap:20px;font-size:14px}
+.bars .t{height:44px;border-radius:12px;background:rgba(239,227,204,.08);position:relative;overflow:hidden}
+.bars .t i{position:absolute;inset:0 auto 0 0;border-radius:12px}
+.bars b{font:400 28px/1 var(--serif);text-align:right}
+.impact .stamp{color:var(--mustard);width:180px;height:180px;position:absolute;right:56px;top:130px}
+.impact .stamp .core{background:var(--terra);color:var(--paper)}
+
+.buyrow{padding:60px 56px 140px;display:grid;grid-template-columns:1fr auto auto;gap:40px;align-items:center}
+.buyrow h2{font-size:84px;line-height:.9;letter-spacing:-.04em}
+.buyrow .bg{width:360px;height:420px;border-radius:30px;display:grid;place-items:center;position:relative;border:1.5px solid var(--esp)}
+.buyrow .bg .pr{position:absolute;left:20px;bottom:18px;font:400 26px var(--serif)}
+.buyrow .bg .nm{position:absolute;left:20px;top:18px;font:700 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="hero tear-b">
+  <div class="ph" data-img="1633437805600-2c58bf56663c|2000"></div><i class="duo"></i><i class="duo2"></i>
+  <div class="stamp" data-stamp="Direct trade since 2020 ✺ Huila, Colombia ✺ ">Lote<br>14</div>
+  <span class="sticker stk">✺ 1,750 m above sea</span>
+  <div class="tx">
+    <div class="crumb">Origins <i></i> Colombia <i></i> Huila · Pitalito</div>
+    <h1><span>Finca</span>La Esperanza</h1>
+  </div>
+  <div class="chips"><div>Farmer<b class="it">Rosalba Muñoz</b></div><div>Farm size<b>6.2 ha</b></div><div>Varieties<b style="font-size:19px">Caturra · Pink Bourbon</b></div><div>With Oromo since<b>2020</b></div></div>
+</section>
+
+<section class="map">
+  <div class="hd"><h2>From her hillside<br>to your <em class="it">kettle.</em></h2><p>Every lot travels in hermetic-lined jute sacks, by truck to Cartagena and by sea to Lisbon. We track it the whole way — and so can you, with the code on your bag.</p></div>
+  <div class="mapbox">
+    <svg viewBox="0 0 1328 660" preserveAspectRatio="none">
+      <path class="land" d="M120 60 C 220 40, 330 60, 360 120 C 380 170, 330 210, 300 250 C 290 290, 320 320, 330 335 L 315 340 C 280 310, 250 280, 230 240 C 190 200, 140 170, 120 130Z"/>
+      <path class="land" d="M318 340 C 350 320, 400 330, 430 370 C 470 400, 480 430, 455 480 C 430 540, 400 600, 380 660 L 350 660 C 345 580, 330 520, 320 470 C 300 430, 300 380, 318 340Z"/>
+      <path class="land eu" d="M660 80 C 700 50, 790 55, 830 90 C 850 125, 810 150, 775 162 C 745 176, 722 200, 690 196 C 668 186, 674 160, 660 140 C 645 120, 645 95, 660 80Z"/>
+      <path class="land" d="M680 222 C 740 205, 830 212, 880 250 C 920 290, 952 330, 944 360 C 934 400, 920 440, 900 480 C 880 530, 850 580, 820 620 C 800 640, 780 625, 775 590 C 765 520, 760 470, 740 430 C 700 400, 660 370, 650 320 C 645 280, 655 240, 680 222Z"/>
+      <path class="land" d="M940 120 C 1040 90, 1180 100, 1260 150 C 1300 190, 1270 240, 1200 260 C 1120 280, 1040 260, 990 230 C 950 210, 920 160, 940 120Z" style="fill:#e6dccb"/>
+      <path class="rt" stroke="#6f8a6a" d="M900 392 L925 372 C 900 320, 870 262, 850 228 C 800 204, 740 192, 692 172"/>
+      <path class="rt" stroke="#b07c1c" d="M885 452 L905 482 C 960 432, 952 402, 925 372"/>
+      <path class="rt main" d="M330 402 L345 347 C 420 300, 560 240, 692 172"/>
+      <circle cx="692" cy="172" r="26" fill="none" stroke="#c65d3b" stroke-width="2"><animate attributeName="r" values="12;34;12" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0;1" dur="2.4s" repeatCount="indefinite"/></circle>
+    </svg>
+    <div class="pin below" style="left:330px;top:402px"><div class="card"><b>La Esperanza</b>Pitalito, Huila · harvest Apr–Jun</div><i></i></div>
+    <div class="pin" style="left:345px;top:347px;transform:translate(-112%,-100%)"><div class="card"><b>Cartagena</b>port · loaded 14 Jul</div><i style="background:var(--mustard)"></i></div>
+    <div class="pin big" style="left:692px;top:172px"><div class="card"><b>Lisbon roastery</b>arrived 2 Aug · roasted Mondays</div><i style="background:var(--mustard)"></i></div>
+    <div class="pin" style="left:900px;top:392px;transform:translate(-8%,-100%)"><div class="card"><b>Sidama &amp; Guji</b>via Djibouti · 14 farms</div><i style="background:var(--sage)"></i></div>
+    <div class="pin" style="left:885px;top:452px;transform:translate(-100%,-30%)"><div class="card"><b>Nyeri</b>via Mombasa · 11 farms</div><i style="background:var(--mustard)"></i></div>
+    <div class="ship" style="left:500px;top:240px">🚢</div>
+    <div class="legend"><div><i></i>Route of Lote 14 · this coffee</div><div><i style="border-color:#6f8a6a;border-top-style:dotted"></i>Other Oromo origins</div></div>
+    <div class="dist"><div><small>Distance</small><b>8,412 km</b></div><div><small>At sea</small><b>19 days</b></div><div><small>CO₂ / bag</small><b>41 g</b></div></div>
+  </div>
+</section>
+
+<section class="farmer">
+  <div class="pic"><i class="bk"></i><div class="arch" data-img="1772228616071-aa344913b93e|1000"></div><div class="sm" data-img="1645926680403-d3a4a7d75f60|500"></div><span class="sticker stk">Meet the farmer</span></div>
+  <div>
+    <div class="eyebrow terra">The people · Rosalba Muñoz, 54</div>
+    <h2>Three generations,<br><em class="it">six hectares.</em></h2>
+    <div class="q">Before, we sold to whoever came up the road. Now I know where my coffee goes — and who drinks it in Lisbon.</div>
+    <div class="sig">Rosalba M.</div>
+    <div class="who">Owner, Finca La Esperanza · grows under guamo shade trees with her sons Julián and Andrés</div>
+    <div class="facts"><div><small>Pickers</small><b>14 at peak</b></div><div><small>Lot size</small><b>38 sacks</b></div><div><small>Cup score</small><b>86.75</b></div><div><small>Shade cover</small><b>60%</b></div></div>
+  </div>
+</section>
+
+<section class="harvest tear-t tear-b">
+  <div class="hd"><h2>A year in the life<br>of <em class="it">one bag.</em></h2><p style="max-width:380px;font-size:17px">From white blossom in February to the cup in your kitchen — the 2026 crop, tracked month by month.</p></div>
+  <div class="tl">
+    <div class="months"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span></div>
+    <div class="phases">
+      <div class="phase" style="left:8.33%;width:16.6%;top:0;background:var(--paper)"><span data-ic="leaf"></span>Flowering <small>Feb–Mar</small></div>
+      <div class="phase" style="left:16.6%;width:25%;top:76px;background:var(--blush)"><span data-ic="drop"></span>Cherry ripens <small>Mar–May</small></div>
+      <div class="phase" style="left:25%;width:25%;top:152px;background:var(--terra);color:var(--paper)"><span data-ic="check"></span>Harvest &amp; washed <small>Apr–Jun</small></div>
+      <div class="phase" style="left:50%;width:16.6%;top:0;background:var(--mustard)"><span data-ic="truck"></span>Sea freight <small>Jul–Aug</small></div>
+      <div class="phase" style="left:66.6%;width:33.3%;top:76px;background:var(--esp);color:var(--paper)"><span data-ic="thermo"></span>Roasted every Monday in Lisbon <small>Aug → Mar</small></div>
+    </div>
+    <div class="now" style="left:79%"><span>You are here · Oct</span></div>
+  </div>
+  <div class="pics">
+    <div data-img="1662559102063-a665b04771fd|600"><span>Mar · ripening</span></div>
+    <div data-img="1762277142767-6e614520de15|600"><span>May · picking</span></div>
+    <div data-img="1465176728568-7da7e336b1e9|600"><span>Jul · 38 sacks</span></div>
+    <div data-img="1561986810-4f3ba2f46ceb|600"><span>Oct · Lisbon</span></div>
+  </div>
+</section>
+
+<section class="impact" style="position:relative">
+  <div class="stamp" data-stamp="Price printed on every bag ✺ Price printed ✺ ">€9.80<br>/kg</div>
+  <div class="eyebrow" style="color:var(--mustard)">Impact report · 2026 harvest</div>
+  <h2 style="margin-top:22px">What direct trade <em class="it">actually</em> changed.</h2>
+  <div class="nums">
+    <div><b>2.4<em>×</em></b><p>the Fairtrade minimum, paid to Rosalba per kilo of green coffee</p></div>
+    <div><b>€41<em>k</em></b><p>paid up-front before harvest across our 12 Colombian farms</p></div>
+    <div><b>3</b><p>new solar dryers co-funded in Pitalito, cutting drying time by 4 days</p></div>
+    <div><b>60<em>%</em></b><p>shade cover kept on every partner farm — birds, soil and flavour</p></div>
+  </div>
+  <div class="price"><h4>What a kilo of green coffee was worth in 2026</h4>
+    <div class="bars">
+      <div><span>New York “C” market</span><span class="t"><i style="width:36%;background:rgba(239,227,204,.35)"></i></span><b>€3.60</b></div>
+      <div><span>Fairtrade minimum</span><span class="t"><i style="width:41%;background:var(--sage)"></i></span><b>€4.10</b></div>
+      <div><span style="color:var(--mustard);font-weight:700">Oromo paid</span><span class="t"><i style="width:98%;background:linear-gradient(90deg,var(--terra),var(--mustard))"></i></span><b style="color:var(--mustard)">€9.80</b></div>
+    </div></div>
+</section>
+
+<section class="buyrow">
+  <div><div class="eyebrow terra">Taste this farm</div><h2>Rosalba’s coffees,<br><span class="it terra">roasted Monday.</span></h2><a class="btn t" style="margin-top:30px">Shop La Esperanza <span data-ic="arrow"></span></a></div>
+  <div class="bg" style="background:var(--blush)"><span class="nm">Huila · Washed</span><div data-bag="Huila|La Esperanza · Washed|#c65d3b|#c9a877|Red apple · panela|2|250 G|#2b1a12|#e0a93b|#2b1a12" data-w="210"></div><span class="pr">€16</span></div>
+  <div class="bg" style="background:#f2d391"><span class="nm">Pink Bourbon · Natural</span><div data-bag="Pink Bourbon|La Esperanza · Natural|#efb9a0|#d4b78b|Watermelon · hibiscus|2|250 G|#2b1a12|#c65d3b|#e0a93b" data-w="210"></div><span class="pr">€29</span></div>
+</section>
+
+<div data-footer></div>
+<script src="oromo.js"></script>
+<script>oromo('Origins');
+document.querySelector('.ship').innerHTML = '<svg class="ic" viewBox="0 0 24 24" style="width:28px;height:28px"><path d="M3 15h18l-3 5H6l-3-5Z"/><path d="M6 15V9h12v6M9 9V5h6v4"/><path d="M2 21c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"/></svg>';
+</script>
+</body></html>

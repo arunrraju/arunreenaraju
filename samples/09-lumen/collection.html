@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Coloured Stones · ÉCLAT</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Prata&family=DM+Serif+Display:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="eclat.css">
+<script src="eclat.js"></script><script src="eclat3d.js"></script>
+<style>
+.chero{position:relative;height:940px;overflow:hidden;background:
+  radial-gradient(38% 50% at 22% 45%,rgba(31,174,110,.38),transparent 70%),
+  radial-gradient(34% 46% at 80% 40%,rgba(176,32,63,.42),transparent 70%),
+  radial-gradient(50% 60% at 52% 62%,rgba(47,85,196,.55),transparent 70%),
+  linear-gradient(180deg,#050a1b,#0b1633 60%,#060c1f)}
+.chero .t1,.chero .t2{position:absolute;left:0;right:0;text-align:center;z-index:1;white-space:nowrap}
+.chero .t1{top:150px;font:400 250px/1 var(--disp);letter-spacing:-.03em;padding-top:.1em}
+.chero .t2{top:470px;font:italic 400 280px/1 var(--ital);letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1.4px rgba(236,208,138,.85);text-shadow:0 0 40px rgba(236,208,138,.25)}
+.chero #gems{position:absolute;left:0;top:0;z-index:3}
+.chero .crumb{position:absolute;left:64px;top:128px;z-index:5;font:500 11px/1 var(--ui);letter-spacing:.24em;text-transform:uppercase;color:var(--pt3)}
+.chero .crumb b{color:var(--pt);font-weight:500}
+.glab{position:absolute;z-index:6;padding:14px 16px;width:230px}
+.glab .k{font:600 9.5px/1 var(--ui);letter-spacing:.24em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.glab b{display:block;font:400 21px/1.1 var(--disp);margin-bottom:6px}
+.glab small{color:var(--pt2);font-size:12px}
+.glab::before{content:"";position:absolute;left:50%;bottom:100%;width:1px;height:46px;background:linear-gradient(0deg,rgba(255,255,255,.8),transparent)}.glab::after{content:"";position:absolute;left:calc(50% - 3px);bottom:calc(100% + 44px);width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 10px #fff}
+.chero .meta{position:absolute;left:64px;right:64px;bottom:44px;z-index:5;display:flex;justify-content:space-between;align-items:flex-end}
+.chero .meta p{max-width:420px;color:var(--pt2);font-size:16px}
+.chero .meta .cnt{text-align:right}
+.chero .meta .cnt b{display:block;font:400 72px/1 var(--disp)}
+
+/* filter bar */
+.fbar{position:relative;z-index:10;margin:-1px 0 0;padding:22px 64px;display:flex;align-items:center;gap:26px;background:rgba(6,12,31,.86);backdrop-filter:blur(16px);border-block:1px solid var(--line)}
+.fbar .grp{display:flex;align-items:center;gap:8px}
+.fbar .lbl{font:600 10px/1 var(--ui);letter-spacing:.24em;text-transform:uppercase;color:var(--pt3);margin-right:6px}
+.chip{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border:1px solid var(--line2);font-size:13px;color:var(--pt2);white-space:nowrap}
+.chip.on{border-color:var(--gold2);color:var(--pt);background:rgba(201,162,74,.12)}
+.chip .gem{width:12px;height:12px}
+.shpbtn{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line2);color:var(--pt2)}
+.shpbtn.on{border-color:var(--gold2);color:var(--gold2);background:rgba(201,162,74,.1)}
+.shpbtn .shp{width:22px;height:22px}
+.range{width:220px}
+.range .tr{position:relative;height:2px;background:var(--line2);margin:10px 0 9px}
+.range .tr i{position:absolute;left:8%;right:30%;top:0;bottom:0;background:linear-gradient(90deg,var(--gold3),var(--gold2))}
+.range .tr b{position:absolute;top:-7px;width:16px;height:16px;background:var(--pt);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.range span{display:flex;justify-content:space-between;font-size:12px;color:var(--pt2)}
+.fbar .sort{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--pt2)}
+.fbar .sort b{color:var(--pt);font-weight:500}
+.active{padding:20px 64px 0;display:flex;gap:10px;align-items:center;font-size:12.5px;color:var(--pt3)}
+.active .chip{height:30px;font-size:12px}
+
+/* grid */
+.grid{padding:30px 64px 100px;display:grid;grid-template-columns:repeat(4,1fr);gap:40px 24px;background:linear-gradient(180deg,#060c1f,var(--em2) 70%)}
+.card{position:relative}
+.card .img{position:relative;height:400px;overflow:hidden;--cut:16px}
+.card .img .bg{position:absolute;inset:0}
+.card .img .rn{position:absolute;inset:0;background-size:88%;background-position:center 46%;background-repeat:no-repeat;filter:drop-shadow(0 26px 30px rgba(0,0,0,.55))}
+.card .img .badge{position:absolute;left:16px;top:16px}
+.card .img .wish{position:absolute;right:16px;top:16px;width:36px;height:36px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.2);color:var(--pt)}
+.card .img .floor{position:absolute;left:50%;bottom:38px;width:200px;height:24px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent)}
+.card .info{padding:18px 2px 0;display:grid;grid-template-columns:1fr auto;gap:6px 12px}
+.card h3{font:400 22px/1.15 var(--disp)}
+.card .d{grid-column:1;color:var(--pt3);font-size:13px}
+.card .p{grid-row:1/3;grid-column:2;text-align:right}
+.card .sw{grid-column:1/3;display:flex;gap:8px;margin-top:10px;align-items:center}
+.card .sw .metal{width:18px;height:18px}
+.card .sw small{color:var(--pt3);font-size:12px;margin-left:6px}
+.card.hover .img{box-shadow:0 0 0 1px var(--gold2)}
+.card.hover{transform:translateY(-10px)}
+.card.hover .qa{position:absolute;left:14px;right:14px;bottom:14px;padding:16px;z-index:3}
+.qa .row{display:flex;gap:6px;margin:10px 0 14px}
+.qa .row span{flex:1;height:32px;display:grid;place-items:center;border:1px solid var(--line2);font-size:12px}
+.qa .row span.on{background:var(--pt);color:#06140f;border-color:var(--pt)}
+.qa .btn{width:100%;justify-content:center;height:44px}
+.cursor.v{left:auto}
+.edit{grid-column:span 2;position:relative;height:520px;overflow:hidden;--cut:22px}
+.edit .ph{position:absolute;inset:0}
+.edit .ov{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,10,27,.96) 0%,rgba(5,10,27,.8) 38%,rgba(5,10,27,.05) 72%)}
+.edit .tx{position:absolute;left:40px;bottom:40px;width:380px}
+.edit h3{font:400 58px/.95 var(--disp);margin:16px 0 14px}
+.edit p{color:var(--pt2);font-size:14px;margin-bottom:22px}
+.more{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:30px}
+.more .bar{width:320px;height:2px;background:var(--line2);position:relative}
+.more .bar i{position:absolute;left:0;top:0;bottom:0;width:10%;background:var(--gold2)}
+
+/* gem guide */
+.guide{background:var(--em2);padding:40px 64px 130px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.gg{padding:30px;border:1px solid var(--line2);position:relative;overflow:hidden}
+.gg .orb{width:130px;height:130px;margin-bottom:30px;background-size:contain;background-repeat:no-repeat;background-position:center}
+.gg h4{font:400 30px/1 var(--disp);margin-bottom:8px}
+.gg dl{display:grid;grid-template-columns:1fr auto;gap:8px;font-size:13px;color:var(--pt2);margin-top:18px;padding-top:16px;border-top:1px solid var(--line2)}
+.gg dd{color:var(--pt);text-align:right}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="chero">
+  <div class="t1 plat">Coloured</div>
+  <div class="t2">light.</div>
+  <div id="gems"></div>
+  <div data-sparkles="40" style="position:absolute;inset:0;z-index:4;pointer-events:none"></div>
+  <div class="crumb">Maison Éclat / <b>Coloured stones</b></div>
+  <div id="labels"></div>
+  <div class="meta"><p>Emeralds, sapphires, rubies and padparadscha, each one hand-picked in Colombo, Bogotá or Montepuez, then re-cut in Paris for brightness.</p>
+    <div class="cnt"><div class="eyebrow">In the vault</div><b class="plat">117</b><span class="dim">pieces · 64 one of a kind</span></div></div>
+</section>
+
+<div class="fbar">
+  <div class="grp"><span class="lbl">Stone</span><span class="chip">All</span><span class="chip"><span class="gem dia"></span>Diamond</span><span class="chip on"><span class="gem emr"></span>Emerald</span><span class="chip on"><span class="gem sap"></span>Sapphire</span><span class="chip"><span class="gem rub"></span>Ruby</span><span class="chip"><span class="gem pad"></span>Padparadscha</span></div>
+  <div class="grp"><span class="lbl">Shape</span><span class="shpbtn"><i data-shape="round"></i></span><span class="shpbtn on"><i data-shape="oval"></i></span><span class="shpbtn on"><i data-shape="emerald"></i></span><span class="shpbtn"><i data-shape="cushion"></i></span><span class="shpbtn"><i data-shape="pear"></i></span></div>
+  <div class="grp"><span class="lbl">Price</span><div class="range"><div class="tr"><i></i><b style="left:calc(8% - 8px)"></b><b style="left:calc(70% - 8px)"></b></div><span><span>€4,800</span><span>€60,000</span></span></div></div>
+  <div class="sort">Sort <b>Featured</b> <span data-ic="plus"></span></div>
+</div>
+<div class="active" style="background:#060c1f">Showing <b style="color:var(--pt);font-weight:500">48</b> of 117 · <span class="chip on">Emerald ×</span><span class="chip on">Sapphire ×</span><span class="chip on">Oval, Emerald cut ×</span><span class="chip on">€4,800 – €60,000 ×</span><span style="color:var(--gold2);margin-left:6px">Clear all</span></div>
+
+<div class="grid" id="grid"></div>
+
+<section class="guide" id="guide"></section>
+
+<div data-footer></div>
+<script>
+const BG = { emerald: 'radial-gradient(70% 55% at 50% 42%,#1f7a55,#07291c 75%)', sapphire: 'radial-gradient(70% 55% at 50% 42%,#2b4fb8,#08143d 75%)', ruby: 'radial-gradient(70% 55% at 50% 42%,#9e1d3a,#2c0510 75%)', diamond: 'radial-gradient(70% 55% at 50% 42%,#46525c,#11161b 75%)', padparadscha: 'radial-gradient(70% 55% at 50% 42%,#a4554a,#2e100d 75%)' };
+window.ITEMS = [
+  { n: 'Émeraude Trois-Pierres', d: 'Emerald cut, 2.4 ct · 18k yellow', p: '€12,800', k: 'ring', o: { shape: 'emerald', metalKey: 'yellow', gem: 'emerald', carat: 2.4 }, b: 'New', m: ['yg', 'pt'] },
+  { n: 'Saphir Royal', d: 'Oval sapphire, 3.1 ct · Platinum', p: '€9,600', k: 'ring', o: { shape: 'oval', metalKey: 'platinum', gem: 'sapphire', carat: 3.1 }, b: 'Unheated', m: ['pt', 'yg', 'rg'], hover: true },
+  { n: 'La Goutte', d: 'Pear sapphire pendant, 4.1 ct', p: '€32,600', k: 'pendant', o: { gem: 'sapphire' }, b: '12 made', m: ['pt'] },
+  { n: 'Émeraude Ovale', d: 'Oval emerald, 1.9 ct · Platinum', p: '€8,900', k: 'ring', o: { shape: 'oval', metalKey: 'platinum', gem: 'emerald', carat: 1.9 }, m: ['pt', 'yg'] },
+  { edit: 1, img: '1535632066927-ab7c9ab60908|1100|50% 50%', t: 'Les Boucles <span class="it gild">Saphir</span>', p: 'Pear sapphires in baguette frames. A pair, cut from one crystal.', c: 'Shop earrings · from €14,500' },
+  { n: 'Saphir Coussin', d: 'Cushion sapphire, 2.6 ct · 18k rose', p: '€11,400', k: 'ring', o: { shape: 'cushion', metalKey: 'rose', gem: 'sapphire', carat: 2.6 }, m: ['rg', 'pt'] },
+  { n: 'Goutte Émeraude', d: 'Pear emerald pendant, 3.3 ct', p: '€27,900', k: 'pendant', o: { gem: 'emerald' }, b: 'Only 1', m: ['yg'] },
+  { n: 'Émeraude Grande', d: 'Emerald cut, 5.0 ct · Platinum', p: '€48,500', k: 'ring', o: { shape: 'emerald', metalKey: 'platinum', gem: 'emerald', carat: 5 }, b: 'Haute', m: ['pt'] },
+  { n: 'Saphir Nuit', d: 'Loose oval sapphire, 6.2 ct', p: '€58,000', k: 'stone', o: { gem: 'sapphire', shape: 'oval' }, b: 'Set to order', m: [] },
+  { n: 'Saphir Étoile', d: 'Round sapphire, 1.6 ct · 18k yellow', p: '€6,200', k: 'ring', o: { shape: 'round', metalKey: 'yellow', gem: 'sapphire', carat: 1.6 }, m: ['yg', 'pt', 'rg'] },
+  { n: 'Rubis Cœur', d: 'Cushion ruby, 2.2 ct · 18k rose', p: '€14,200', k: 'ring', o: { shape: 'cushion', metalKey: 'rose', gem: 'ruby', carat: 2.2 }, b: 'New', m: ['rg', 'yg'] },
+  { n: 'Goutte Rubis', d: 'Pear ruby pendant, 2.9 ct', p: '€21,500', k: 'pendant', o: { gem: 'ruby' }, m: ['pt', 'rg'] },
+  { n: 'Aurore', d: 'Pear padparadscha, 1.8 ct · 18k rose', p: '€8,700', k: 'ring', o: { shape: 'pear', metalKey: 'rose', gem: 'padparadscha', carat: 1.8 }, b: 'Rare', m: ['rg'] },
+  { edit: 1, img: '1721103418939-5112f0ccfac8|1100|50% 55%', t: 'Collier <span class="it gild">Jardin Vert</span>', p: 'Forty-one emerald drops on a rose-gold lattice. Four hundred hours at the bench.', c: 'Discover the collier · €84,000' },
+];
+const sw = { pt: 'Platinum', yg: '18k yellow', rg: '18k rose' };
+document.getElementById('grid').innerHTML = ITEMS.map((it, i) => it.edit
+  ? `<div class="edit cut"><div data-img="${it.img}"></div><div class="ov"></div><div class="tx"><div class="eyebrow">Editorial</div><h3>${it.t}</h3><p>${it.p}</p><a class="btn ghost">${it.c}</a></div></div>`
+  : `<div class="card${it.hover ? ' hover' : ''}"><div class="img cut"><div class="bg" style="background:${BG[it.o.gem]}"></div><div class="floor"></div><div class="rn" id="rn${i}"></div>${it.b ? `<span class="tag badge">${it.b}</span>` : ''}<span class="wish">${ic('heart')}</span>
+    ${it.hover ? `<div class="qa glass"><div class="mono" style="color:var(--pt)">Ring size · EU</div><div class="row"><span>50</span><span>52</span><span class="on">54</span><span>56</span><span>58</span></div><a class="btn">Add to bag ${ic('bag')}</a></div>` : ''}</div>
+    <div class="info"><h3>${it.n}</h3><div class="p"><span class="price">${it.p}</span></div><div class="d">${it.d}</div><div class="sw">${it.m.map(m => `<span class="metal ${m}"></span>`).join('')}${it.m.length ? `<small>${sw[it.m[0]]}</small>` : '<small>Choose your setting</small>'}</div></div>
+    ${it.hover ? `<div class="cursor" style="left:200px;top:120px"><div class="o"></div><span>Quick view</span></div>` : ''}</div>`).join('')
+  + `<div class="more"><span class="dim" style="font-size:13px">You've seen 14 of 117 pieces</span><div class="bar"><i></i></div><a class="btn ghost">Show more</a></div>`;
+const G = [['Emerald', 'emerald', 'emerald', 'Beryl · 7.5–8 Mohs', [['Origin', 'Colombia, Zambia'], ['Treatment', 'Minor oil only'], ['From', '€6,900']]], ['Sapphire', 'sapphire', 'oval', 'Corundum · 9 Mohs', [['Origin', 'Sri Lanka, Madagascar'], ['Treatment', 'Unheated above 3 ct'], ['From', '€4,800']]], ['Ruby', 'ruby', 'cushion', 'Corundum · 9 Mohs', [['Origin', 'Mozambique'], ['Treatment', 'None or heat only'], ['From', '€7,600']]], ['Padparadscha', 'padparadscha', 'pear', 'Corundum · 9 Mohs', [['Origin', 'Sri Lanka'], ['Colour', 'Lotus pink-orange'], ['From', '€8,700']]]];
+document.getElementById('guide').innerHTML = `<div style="grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px"><div><div class="eyebrow">Gem guide</div><h2 style="font:400 72px/1 var(--disp);margin-top:20px">Know your <span class="it gild">stone.</span></h2></div><a class="btn ghost">Talk to a gemologist</a></div>`
+  + G.map(([n, g, s, sub, rows]) => `<div class="gg"><div class="orb" id="orb-${g}"></div><h4>${n}</h4><div class="mono">${sub}</div><dl>${rows.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl></div>`).join('');
+eclat('Coloured Stones');
+</script>
+<script type="module">
+import * as THREE from 'three';
+const E = Eclat(THREE);
+const st = E.stage(document.getElementById('gems'), { w: 1440, h: 940, fov: 30, cam: [0, 0, 10], target: [0, 0, 0], theme: 'sapphire' });
+const defs = [
+  { gem: 'emerald', shape: 'emerald', R: 0.72, p: [-3.0, 0.35, 0], r: [0.9, 0.5, 0.25], lab: ['Emerald · Colombia', 'Step cut, 4.82 ct', 'Vivid green · minor oil'] },
+  { gem: 'sapphire', shape: 'oval', R: 0.9, p: [0.2, -0.45, 1.0], r: [0.75, 0.2, -0.15], lab: ['Sapphire · Ceylon', 'Oval, 6.20 ct', 'Royal blue · unheated'] },
+  { gem: 'ruby', shape: 'cushion', R: 0.66, p: [3.05, 0.45, -0.2], r: [0.7, -0.6, 0.2], lab: ['Ruby · Mozambique', 'Cushion, 3.05 ct', "Pigeon's blood · heat only"] },
+  { gem: 'diamond', shape: 'round', R: 0.4, p: [-1.0, 1.75, -1.2], r: [1.0, 0, 0.3] },
+  { gem: 'padparadscha', shape: 'pear', R: 0.42, p: [1.75, -1.85, 0.4], r: [0.6, 0.4, 2.6] },
+  { gem: 'emerald', shape: 'round', R: 0.28, p: [-4.3, -1.7, -0.8], r: [0.4, 0, 0] },
+  { gem: 'sapphire', shape: 'cushion', R: 0.26, p: [4.15, -1.6, -1], r: [0.8, 0.3, 0] }
+];
+const meshes = defs.map(d => { const m = E.buildStone(st, { gem: d.gem, shape: d.shape, R: d.R, sparkle: 1.3 }); m.position.set(...d.p); m.rotation.set(...d.r); st.scene.add(m); return m; });
+st.scene.add(E.sparkles(160, [12, 7, 4], { center: [0, 0, -1], size: 22, colors: [0xffffff, 0xffe2a0, 0x9ff0c8, 0xa9c2ff] }));
+const fl = E.flares(5, new THREE.Vector3(0.1, -0.1, 1.6), 3.5, 0.9); st.scene.add(fl);
+st.onFrame(t => { meshes.forEach((m, i) => { m.rotation.y = defs[i].r[1] + t * (0.18 + i * 0.03); m.position.y = defs[i].p[1] + Math.sin(t * 0.7 + i) * 0.08; }); fl.userData.tick(t); });
+E.start();
+// glass labels pinned to the projected gem positions
+const L = document.getElementById('labels');
+defs.forEach((d, i) => { if (!d.lab) return;
+  const v = new THREE.Vector3(...d.p).project(st.camera); const x = (v.x + 1) / 2 * 1440, y = (1 - v.y) / 2 * 940;
+  const off = d.R * 170 + 50;
+  L.insertAdjacentHTML('beforeend', `<div class="glab glass" style="left:${x - 115}px;top:${y + off}px"><div class="k"><span class="gem ${{ emerald: 'emr', sapphire: 'sap', ruby: 'rub' }[d.gem]}"></span>${d.lab[0]}</div><b>${d.lab[1]}</b><small>${d.lab[2]}</small></div>`);
+});
+// card renders
+ITEMS.forEach((it, i) => { if (it.edit) return; const el = document.getElementById('rn' + i);
+  const theme = it.o.gem === 'sapphire' ? 'sapphire' : 'emerald';
+  let url;
+  if (it.k === 'ring') url = E.snapshot((sc, s) => { const r = E.buildRing(s, it.o); r.rotation.set(0.32, -0.65 + (i % 3) * 0.25, 0); sc.add(r); }, { w: 460, h: 460, cam: [0, 1.6, 5.6], target: [0, 0.55, 0], theme });
+  else if (it.k === 'pendant') url = E.snapshot((sc, s) => { const p = E.buildPendant(s, { gem: it.o.gem, shape: 'pear', carat: 3.6 }); p.position.y = -0.4; sc.add(p); }, { w: 460, h: 460, cam: [0, 0, 6], target: [0, 0.25, 0], theme });
+  else url = E.snapshot((sc, s) => { const m = E.buildStone(s, { gem: it.o.gem, shape: it.o.shape, R: 1.05 }); m.rotation.set(0.6, 0.4, 0); sc.add(m); }, { w: 460, h: 460, cam: [0, 0, 4.6], target: [0, 0, 0], theme });
+  el.style.backgroundImage = `url(${url})`;
+});
+for (const [g, s] of [['emerald', 'emerald'], ['sapphire', 'oval'], ['ruby', 'cushion'], ['padparadscha', 'pear']])
+  document.getElementById('orb-' + g).style.backgroundImage = `url(${E.snapshot((sc, st2) => { const m = E.buildStone(st2, { gem: g, shape: s, R: 1.1 }); m.rotation.set(0.5, 0.3, 0); sc.add(m); }, { w: 180, h: 180, cam: [0, 0, 4.4], target: [0, 0, 0], theme: g === 'sapphire' ? 'sapphire' : 'emerald' })})`;
+</script>
+</body></html>

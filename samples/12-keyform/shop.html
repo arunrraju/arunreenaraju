@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Shop — KEYFORM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Doto:ROND,wght@0..100,100..900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kf.css">
+<style>
+.head{position:relative;padding:50px 56px 0;overflow:hidden}
+.head .row{display:flex;justify-content:space-between;align-items:flex-end}
+.head .big{font:900 250px/.8 var(--dot);letter-spacing:-.04em;display:flex;align-items:flex-start;gap:24px}
+.head .big sup{font:600 15px/1 var(--mono);letter-spacing:.06em;background:var(--or);color:#fff;padding:8px 10px;border-radius:8px;margin-top:20px}
+.head .intro{max-width:400px;margin-bottom:12px}
+.head .intro p{font-size:17px;color:var(--ink2);margin-top:14px}
+.tabs{display:flex;gap:14px;margin-top:44px;padding-bottom:34px;border-bottom:1px solid var(--line);align-items:center}
+.tabs .key{height:64px;padding:0 24px;font-size:17px}
+.tabs .key em{font:500 11px/1 var(--mono);font-style:normal;opacity:.6}
+.tabs .r{margin-left:auto;display:flex;gap:8px}
+.main{display:grid;grid-template-columns:260px 1fr;gap:30px;padding:34px 56px 110px}
+.side{display:flex;flex-direction:column;gap:30px}
+.side h5{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-bottom:14px;display:flex;justify-content:space-between}
+.side .ck{display:grid;gap:10px;font-size:14px}
+.side .ck div{display:flex;align-items:center;gap:10px}
+.side .ck i{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line2);display:grid;place-items:center}
+.side .ck i.on{background:var(--ink);border-color:var(--ink)}
+.side .ck i.on::after{content:"";width:8px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.side .ck small{margin-left:auto;font:500 11px/1 var(--mono);color:var(--ink3)}
+.side .sws{display:flex;gap:9px;flex-wrap:wrap}
+.range{height:6px;background:rgba(43,43,43,.12);border-radius:3px;position:relative;margin:18px 6px 12px}
+.range i{position:absolute;left:0;right:30%;top:0;bottom:0;background:var(--ink);border-radius:3px}
+.range b{position:absolute;top:50%;width:22px;height:22px;border-radius:6px;background:linear-gradient(#fff,#e7e4dd);border:1px solid var(--line2);box-shadow:0 2px 0 #c9c5bc;transform:translate(-50%,-50%)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pc{display:flex;flex-direction:column;position:relative;overflow:visible}
+.pc .stage{height:250px;border-radius:19px 19px 0 0;position:relative;display:grid;place-items:center;perspective:1000px;overflow:hidden;border-bottom:1px solid var(--line)}
+.pc .stage .iso{transform:rotateX(55deg) rotateZ(-30deg)}
+.pc .stage.ph{border-radius:19px 19px 0 0}
+.pc .info{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
+.pc .info .r{display:flex;justify-content:space-between;align-items:center}
+.pc h3{font:600 19px/1.1 var(--sans);letter-spacing:-.02em}
+.pc .sp{font:500 10.5px/1.4 var(--mono);color:var(--ink2);text-transform:uppercase;letter-spacing:.04em}
+.pc .sws{display:flex;gap:6px}
+.pc .sws .sw{width:16px;height:16px}
+.banner{grid-column:span 2;background:var(--ink);color:#efede8;border-radius:20px;padding:34px;position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;min-height:420px}
+.banner .iso{transform:rotateX(55deg) rotateZ(-30deg)}
+.cd{display:flex;gap:10px;margin-top:22px}
+.cd div{background:#3a3a38;border-radius:12px;padding:12px 12px 10px;text-align:center}
+.cd b{display:block;font:900 52px/.85 var(--dot);color:var(--or)}
+.cd span{font:500 9px/1 var(--mono);letter-spacing:.1em;color:#8d8a83}
+.qv{position:absolute;left:12px;right:12px;bottom:12px;z-index:5;background:rgba(248,247,243,.92);backdrop-filter:blur(12px);border:1px solid var(--line2);border-radius:16px;padding:14px;box-shadow:0 20px 40px -18px rgba(43,43,43,.45)}
+.qv .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 12px}
+.qv .opts span{border:1px solid var(--line2);border-radius:9px;padding:8px 4px;text-align:center;font:600 11px/1.1 var(--sans);background:#fff}
+.qv .opts span.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.qv .opts span small{display:block;font:500 9px/1 var(--mono);color:var(--ink2);margin-top:3px}
+.kcl{position:relative;width:250px;height:170px;transform:rotateX(55deg) rotateZ(-30deg);transform-style:preserve-3d}
+.kcl i{position:absolute;width:62px;height:62px;border-radius:12px;box-shadow:inset 0 -9px 0 rgba(0,0,0,.14),inset 0 3px 0 rgba(255,255,255,.55),0 9px 0 -2px rgba(0,0,0,.18),0 18px 20px -10px rgba(0,0,0,.35);display:grid;place-items:start;padding:10px 0 0 12px;font:700 14px/1 var(--mono)}
+.swp{display:grid;grid-template-columns:repeat(4,46px);gap:10px;transform:rotateX(50deg) rotateZ(-30deg)}
+.swp span{width:46px;height:46px;border-radius:9px;background:linear-gradient(145deg,#fff,#e2dfd8);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08),0 8px 10px -6px rgba(0,0,0,.4);display:grid;place-items:center}
+.swp span i{width:16px;height:16px;position:relative}
+.swp span i::before,.swp span i::after{content:"";position:absolute;background:var(--st);border-radius:1px}
+.swp span i::before{left:5.5px;top:0;width:5px;height:16px}.swp span i::after{left:0;top:5.5px;width:16px;height:5px}
+.grid>.pc:nth-child(2) .stage{height:auto;flex:1}
+.more{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:40px}
+.more .bar{width:260px;height:4px;background:rgba(43,43,43,.12);border-radius:2px}
+.more .bar i{display:block;width:38%;height:100%;background:var(--or);border-radius:2px}
+</style></head>
+<body>
+<div data-tick></div>
+<div data-nav></div>
+
+<section class="head dotbg">
+  <div class="row">
+    <div class="big">SHOP<sup>47 ITEMS</sup></div>
+    <div class="intro"><div class="lbl or">[ Catalogue · autumn 2026 ]</div><p>Boards, switches and keycaps that all fit each other — no compatibility charts, no guesswork. Every part ships from Eindhoven in 48 hours.</p></div>
+  </div>
+  <span class="stk l" style="left:860px;top:70px;transform:rotate(7deg)">★ Everything fits everything</span>
+  <div class="tabs">
+    <span class="key or">Boards <em>06</em></span><span class="key">Switches <em>14</em></span><span class="key">Keycaps <em>17</em></span><span class="key">Extras <em>10</em></span>
+    <div class="r"><span class="chip on">Sort: Featured</span><span class="chip"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Grid</span></div>
+  </div>
+</section>
+
+<div class="main">
+  <aside class="side">
+    <div><h5>Layout <span>clear</span></h5><div class="ck"><div><i class="on"></i>75% <small>04</small></div><div><i></i>65% <small>01</small></div><div><i></i>TKL <small>01</small></div></div></div>
+    <div><h5>Case colour</h5><div class="sws"><i class="sw on" style="background:linear-gradient(135deg,#f1f0ec,#bdbbb5)"></i><i class="sw" style="background:linear-gradient(135deg,#5a5a5c,#2f2f31)"></i><i class="sw" style="background:linear-gradient(135deg,#ff8a5c,#e5440d)"></i><i class="sw" style="background:linear-gradient(135deg,#e1dcff,#a79ef0)"></i><i class="sw" style="background:linear-gradient(135deg,#faf8f3,#dcd8cf)"></i><i class="sw" style="background:linear-gradient(135deg,#f0d18f,#b8873a)"></i></div></div>
+    <div><h5>Switch feel</h5><div class="ck"><div><i class="on"></i>Linear <small>06</small></div><div><i class="on"></i>Tactile <small>05</small></div><div><i></i>Clicky <small>02</small></div><div><i></i>Silent <small>01</small></div></div></div>
+    <div><h5>Price <span>€0 — €490</span></h5><div class="range"><i></i><b style="left:0"></b><b style="left:70%"></b></div><div class="lbl" style="display:flex;justify-content:space-between"><span>€0</span><span>€690</span></div></div>
+    <div><h5>Mount</h5><div class="ck"><div><i class="on"></i>Gasket <small>05</small></div><div><i></i>Top mount <small>01</small></div></div></div>
+    <div class="card" style="padding:20px;background:var(--lil);border-color:transparent"><div class="dot" style="font-size:52px">?</div><div style="font:600 18px/1.15 var(--sans);margin:10px 0 6px">Not sure what to pick?</div><div style="font-size:14px;color:var(--ink2);margin-bottom:16px">Three questions, one board. Takes 40 seconds.</div><a class="key" style="height:46px;width:100%" href="builder.html">Take the quiz</a></div>
+  </aside>
+
+  <div>
+    <div class="grid">
+      <div class="banner">
+        <div style="display:flex;flex-direction:column;justify-content:space-between;position:relative;z-index:2">
+          <div><span class="tag or">Batch 07 · open now</span><h2 class="h2" style="font-size:54px;margin-top:18px">600 cases.<br><span style="color:var(--or)">412 left.</span></h2><p style="color:#a9a69e;margin-top:14px;max-width:300px;font-size:15px">Milled in one run, anodised in five colours, shipping 12 November.</p></div>
+          <div><div class="cd"><div><b>02</b><span>DAYS</span></div><div><b>14</b><span>HRS</span></div><div><b>36</b><span>MIN</span></div><div><b class="blink">08</b><span>SEC</span></div></div><a class="key or" style="margin-top:20px" href="product.html">Claim a case <small>↵</small></a></div>
+        </div>
+        <div style="position:relative;display:grid;place-items:center;perspective:1200px">
+          <div style="position:absolute;width:380px;height:140px;background:radial-gradient(closest-side,rgba(255,90,31,.35),transparent);filter:blur(10px);top:30%"></div>
+          <div class="iso" style="transform:rotateX(55deg) rotateZ(-30deg) translate(0px,-80px)"><div data-mb data-w="310" data-cw="signal" data-case="orange"></div></div>
+          <span class="stk w" style="left:20px;top:0;transform:rotate(-5deg)">Safety Orange · new</span>
+        </div>
+      </div>
+      <a class="card pc" href="product.html"><div class="stage dotbg"><div class="iso"><div data-mb data-w="270" data-cw="paper" data-case="silver"></div></div><span class="stk y" style="left:14px;top:14px;transform:rotate(-4deg)">Bestseller</span></div>
+        <div class="info"><div class="r"><span class="tag o">KF-75 · Raw</span><span class="stars">★★★★★</span></div><h3>Model 75 Raw</h3><div class="sp">Silver · Paper · Cream linear</div><div class="r" style="margin-top:6px"><div class="sws"><i class="sw on" style="background:#d3d1cc"></i><i class="sw" style="background:#404042"></i><i class="sw" style="background:#ff5a1f"></i><i class="sw" style="background:#bdb4f7"></i></div><span class="price">€349</span></div></div></a>
+
+      <a class="card pc" href="product.html" style="z-index:3;box-shadow:0 30px 60px -24px rgba(43,43,43,.45);border-color:var(--ink)"><div class="stage dotbg" style="height:250px"><div class="iso" style="transform:rotateX(55deg) rotateZ(-30deg) translateZ(30px) scale(1.04)"><div data-mb data-w="270" data-cw="signal" data-case="graphite"></div></div>
+          <div class="qv"><div class="r" style="display:flex;justify-content:space-between"><b style="font:600 13px/1 var(--sans)">Quick add · switch</b><span class="lbl">84 pcs incl.</span></div><div class="opts"><span class="on">Cream<small>45g</small></span><span>Thock<small>55g</small></span><span>Clack<small>50g</small></span><span>Hush<small>+€12</small></span></div><span class="key or" style="width:100%;height:42px;font-size:14px">Add to cart — €389</span></div></div>
+        <div class="info"><div class="r"><span class="tag o">KF-75 · Signal</span><span class="stars">★★★★★</span></div><h3>Model 75 Signal</h3><div class="sp">Graphite · Signal · Thock tactile</div><div class="r" style="margin-top:6px"><div class="sws"><i class="sw" style="background:#d3d1cc"></i><i class="sw on" style="background:#404042"></i><i class="sw" style="background:#ff5a1f"></i></div><span class="price">€389</span></div></div>
+        <div class="cur" style="right:24px;top:28px"><i><svg class="ic" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M12 5v14M5 12h14"/></svg></i><span>QUICK ADD</span></div></a>
+      <a class="card pc" href="product.html"><div class="stage dotbg"><div class="iso"><div data-mb data-w="270" data-cw="lilac" data-case="paper"></div></div><span class="stk l" style="right:14px;top:14px;transform:rotate(5deg)">Entry</span></div>
+        <div class="info"><div class="r"><span class="tag o">KF-75 · Lite</span><span class="stars">★★★★☆</span></div><h3>Model 75 Lite</h3><div class="sp">Polycarbonate case · tray mount</div><div class="r" style="margin-top:6px"><div class="sws"><i class="sw on" style="background:#ebe8e1"></i><i class="sw" style="background:#bdb4f7"></i></div><span class="price">€189</span></div></div></a>
+      <a class="card pc" href="product.html"><div class="stage" style="background:radial-gradient(rgba(43,43,43,.16) 1.1px,transparent 1.3px) 0 0/22px 22px,linear-gradient(160deg,#f6ead0,#ecdcb7)"><div class="iso"><div data-mb data-w="270" data-cw="retro" data-case="brass"></div></div><span class="stk k" style="left:14px;top:14px;transform:rotate(-3deg)">№ 001 – 150</span></div>
+        <div class="info"><div class="r"><span class="tag or">Founders</span><span class="lbl">numbered</span></div><h3>Founders Edition Brass</h3><div class="sp">Solid brass case · 3.4 kg · signed</div><div class="r" style="margin-top:6px"><div class="sws"><i class="sw on" style="background:#d4ad62"></i></div><span class="price">€690</span></div></div></a>
+
+      <a class="card pc" href="lab.html"><div class="stage dotbg"><div class="swp"></div></div>
+        <div class="info"><div class="r"><span class="tag o">Switches · 90 pcs</span><span class="lbl">linear</span></div><h3>KF Cream × 90</h3><div class="sp">45 g · factory-lubed · 5-pin</div><div class="r" style="margin-top:6px"><div style="width:90px;height:22px;color:var(--or)" data-wave data-n="18" data-seed="2" data-kind="cream"></div><span class="price">€54</span></div></div></a>
+      <a class="card pc" href="lab.html"><div class="stage dotbg"><div class="swp"></div></div>
+        <div class="info"><div class="r"><span class="tag o">Switches · 90 pcs</span><span class="lbl">tactile</span></div><h3>KF Thock × 90</h3><div class="sp">55 g · round bump · 5-pin</div><div class="r" style="margin-top:6px"><div style="width:90px;height:22px;color:#8d82ea" data-wave data-n="18" data-seed="3" data-kind="thock"></div><span class="price">€59</span></div></div></a>
+      <a class="card pc"><div class="stage dotbg" style="perspective:900px"><div class="kcl" data-kcl="lilac"></div></div>
+        <div class="info"><div class="r"><span class="tag l">Keycaps · 142</span><span class="stars">★★★★★</span></div><h3>Lilac Haze set</h3><div class="sp">PBT dye-sub · Cherry profile</div><div class="r" style="margin-top:6px"><div class="sws"><i class="sw" style="background:#efecff"></i><i class="sw" style="background:#cbc3ff"></i><i class="sw" style="background:#8d82ea"></i><i class="sw" style="background:#ff5a1f"></i></div><span class="price">€119</span></div></div></a>
+
+      <a class="card pc"><div class="stage ph" data-img="1648392368628-6e984d89e2f3|800"><span class="stk w" style="left:14px;top:14px;transform:rotate(-4deg)">Community pick</span></div>
+        <div class="info"><div class="r"><span class="tag o">Keycaps · 156</span><span class="stars">★★★★★</span></div><h3>Pool Party set</h3><div class="sp">PBT dye-sub · ISO + ANSI kits</div><div class="r" style="margin-top:6px"><div class="sws"><i class="sw" style="background:#dfeff0"></i><i class="sw" style="background:#2f8fd8"></i><i class="sw" style="background:#f2c14e"></i><i class="sw" style="background:#e85d3f"></i></div><span class="price">€109</span></div></div></a>
+      <a class="card pc"><div class="stage ph" data-img="1602025882379-e01cf08baa51|800"></div>
+        <div class="info"><div class="r"><span class="tag o">Keycaps · 142</span><span class="lbl">low stock</span></div><h3>Navy &amp; Brass set</h3><div class="sp">Doubleshot ABS · brass enter</div><div class="r" style="margin-top:6px"><div class="sws"><i class="sw" style="background:#33415c"></i><i class="sw" style="background:#9aa3b5"></i><i class="sw" style="background:#d4ad62"></i></div><span class="price">€139</span></div></div></a>
+      <a class="card pc"><div class="stage dotbg"><svg width="220" height="160" viewBox="0 0 220 160"><path d="M14 120 C 50 120, 40 40, 80 40" stroke="#2b2b2b" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M80 40 q6 -16 12 0 q6 16 12 0 q6 -16 12 0 q6 16 12 0 q6 -16 12 0 q6 16 12 0 q6 -16 12 0" stroke="#ff5a1f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M164 40 C 200 40, 200 120, 170 128" stroke="#ff5a1f" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="150" y="120" width="34" height="20" rx="5" fill="#d4ad62"/><rect x="2" y="112" width="26" height="16" rx="4" fill="#2b2b2b"/></svg></div>
+        <div class="info"><div class="r"><span class="tag o">Extras</span><span class="lbl">matches Orange case</span></div><h3>Coiled aviator cable</h3><div class="sp">USB-C · 1.8 m · brass GX16</div><div class="r" style="margin-top:6px"><div class="sws"><i class="sw on" style="background:#ff5a1f"></i><i class="sw" style="background:#cbc3ff"></i><i class="sw" style="background:#2b2b2b"></i></div><span class="price">€29</span></div></div></a>
+    </div>
+    <div class="more"><span class="lbl">Showing 10 of 47</span><div class="bar"><i></i></div><span class="key">Load more <small>↓</small></span></div>
+  </div>
+</div>
+
+<div data-foot></div>
+<script src="kf.js"></script>
+<script>
+KF_CASE.brass = 'linear-gradient(160deg,#f3d896,#d4ad62 55%,#a8803b)';
+keyform('Boards', { cart: 2 });
+
+const packs = [['#ff5a1f'], ['#cbc3ff']];
+document.querySelectorAll('.swp').forEach((el, i) => { el.innerHTML = Array.from({ length: 12 }, () => `<span><i style="--st:${packs[i][0]}"></i></span>`).join(''); });
+document.querySelectorAll('[data-kcl]').forEach(el => {
+  const L = [['esc', '#ff5a1f', '#fff', 0, 0], ['Q', '#efecff', '#3b3570', 70, 0], ['W', '#efecff', '#3b3570', 140, 0], ['A', '#efecff', '#3b3570', 18, 70], ['S', '#cbc3ff', '#3b3570', 88, 70], ['↑', '#8d82ea', '#fff', 158, 70], ['fn', '#cbc3ff', '#3b3570', 36, 140], ['K', '#efecff', '#3b3570', 106, 140]];
+  el.innerHTML = L.map(([t, b, c, x, y]) => `<i style="left:${x}px;top:${y}px;background:${b};color:${c}">${t}</i>`).join('');
+});
+</script>
+</body></html>

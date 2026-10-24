@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>HALO — Free sizing kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="halo.css">
+<style>
+html,body{height:1080px;overflow:hidden}
+.wrap{position:relative;height:1080px;overflow:hidden}
+.head{position:absolute;left:64px;top:132px;z-index:3}
+.head h1{font-size:92px;font-weight:200;letter-spacing:-.06em;margin-top:18px}
+.steps{position:absolute;left:64px;top:340px;display:flex;align-items:center;gap:14px;z-index:3}
+.steps .s{display:flex;align-items:center;gap:10px;padding:8px 18px 8px 8px;border-radius:999px;font:600 13px/1 var(--sans)}
+.steps .s i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 12px/1 var(--sans);font-style:normal;background:rgba(36,35,44,.08)}
+.steps .s.done i{background:linear-gradient(135deg,var(--mint),var(--sky))}
+.steps .s.on{background:var(--ink);color:#fff}.steps .s.on i{background:linear-gradient(135deg,var(--lilac),var(--peach));color:var(--ink)}
+.steps .ln{width:60px;height:2px;border-radius:2px;background:rgba(36,35,44,.12);position:relative;overflow:hidden}
+.steps .ln.fl::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--mint),var(--lilac))}
+.photo{position:absolute;right:64px;top:118px;width:430px;height:236px;border-radius:var(--r-xl);z-index:2;box-shadow:var(--shadow)}
+.photo .chip{position:absolute;z-index:3}
+.cols{position:absolute;left:40px;right:40px;top:410px;bottom:40px;display:grid;grid-template-columns:400px 1fr 420px;gap:20px;z-index:3}
+.cols>.glass{padding:30px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.cols .tag{display:flex;justify-content:space-between;align-items:center}
+.cols .tag .n{font:300 13px/1 var(--display);color:var(--dim)}
+.cols h2{font-size:34px;font-weight:300;margin:14px 0 6px}
+.cols .lead{font-size:14px;color:var(--ink-2)}
+.hand{position:relative;height:330px;margin-top:4px}
+.hand svg{position:absolute;left:20px;top:0;width:287px;height:330px;overflow:visible}
+.hand .callout{position:absolute;left:176px;top:212px;padding:10px 14px;border-radius:16px}
+.hand .callout b{display:block;font:400 15px/1.2 var(--display)}
+.hand .callout small{font-size:11px;color:var(--dim)}
+.fingers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:auto}
+.fingers span{padding:12px 10px;border-radius:16px;text-align:center;font:600 12px/1.3 var(--sans);background:rgba(255,255,255,.6);border:1px solid #fff}
+.fingers span small{display:block;font-weight:500;color:var(--dim);font-size:11px}
+.fingers span.on{background:var(--ink);color:#fff}.fingers span.on small{color:rgba(255,255,255,.6)}
+
+.fan{position:relative;height:196px;margin:12px 0 10px}
+.sz{position:absolute;border-radius:50%;display:grid;place-items:center;font:400 15px/1 var(--display);color:var(--ink-2)}
+.sz::before{content:"";position:absolute;inset:0;border-radius:50%;padding:10px;background:conic-gradient(from 200deg,#4a4c56,#9b9faa,#e6e8ee,#9b9faa,#3d3f48,#8d919c,#4a4c56);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;box-shadow:0 10px 18px rgba(40,30,80,.25)}
+.sz.on{color:var(--ink);font-size:28px;font-weight:300}
+.sz.on::before{background:conic-gradient(from 200deg,#8f78ff,#ffc9b0,#b8f0dc,#b9d8ff,#c9b8ff,#8f78ff);padding:13px}
+.sz.on::after{content:"";position:absolute;inset:-18px;border-radius:50%;border:1.5px dashed rgba(125,102,242,.45);animation:spin 14s linear infinite}
+.chart{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:4px}
+.chart div{border-radius:14px;padding:10px 4px;text-align:center;background:rgba(255,255,255,.55);border:1px solid #fff}
+.chart div b{display:block;font:400 17px/1 var(--display)}
+.chart div small{font-size:10px;color:var(--dim);font-weight:600}
+.chart div.on{background:#fff;box-shadow:0 0 0 2px var(--ink)}
+.fit{margin-top:18px;padding:18px 20px;border-radius:22px;background:rgba(255,255,255,.55);border:1px solid #fff}
+.fit .bar{height:10px;border-radius:10px;background:linear-gradient(90deg,#b9d8ff,#b8f0dc 40%,#b8f0dc 60%,#ffc9b0);position:relative;margin:14px 0 10px}
+.fit .bar i{position:absolute;left:52%;top:50%;width:26px;height:26px;margin:-13px;border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(76,58,150,.35);border:4px solid var(--teal)}
+.fit .lb{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);font-weight:600}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-top:16px;font-size:13px;color:var(--ink-2)}
+.checks span{display:flex;align-items:center;gap:8px}
+.checks .ic{width:20px;height:20px;padding:3px;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--sky));color:var(--ink)}
+
+.kitbox{flex:none;height:150px;border-radius:28px;margin:12px 0 8px;position:relative;overflow:hidden;background:linear-gradient(135deg,#efe9ff,#e5f1ff 50%,#e4f9f1)}
+.kitbox .lid{position:absolute;left:30px;right:30px;top:16px;bottom:16px;border-radius:22px;background:linear-gradient(160deg,#fff,#f3f0fa);box-shadow:0 30px 40px -18px rgba(76,58,150,.35);display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;padding:14px 18px;gap:6px 10px}
+.kitbox .lid span{width:34px;height:34px;align-self:center;border-radius:50%;background:conic-gradient(from 200deg,#4a4c56,#9b9faa,#e6e8ee,#9b9faa,#3d3f48,#4a4c56);-webkit-mask:radial-gradient(closest-side,transparent 64%,#000 67%,#000 97%,transparent 100%);mask:radial-gradient(closest-side,transparent 64%,#000 67%,#000 97%,transparent 100%);justify-self:center}
+.kitbox .lid span.on{background:conic-gradient(#8f78ff,#ffc9b0,#b8f0dc,#b9d8ff,#8f78ff)}
+.kitbox .stk{position:absolute;right:16px;top:12px;transform:rotate(8deg)}
+.sum{display:grid;gap:2px}
+.sum .r{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:8px 0;border-top:1px solid var(--line)}
+.sum .r b{font:400 16px/1 var(--display)}
+.addr{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:20px;background:rgba(255,255,255,.6);border:1px solid #fff;margin-top:6px}
+.addr .ic{color:var(--violet)}
+.addr b{display:block;font-size:13px}
+.addr small{font-size:12px;color:var(--dim)}
+.addr .ch{margin-left:auto;font-size:12px;font-weight:700;color:var(--violet)}
+.cols .btn.dark{width:100%;justify-content:space-between;margin-top:auto;height:62px;padding-left:28px}
+.cols .btn.dark .ic{margin-right:-16px}
+.small{font-size:12px;color:var(--dim);text-align:center;margin-top:10px}
+</style></head>
+<body>
+<div class="wrap">
+  <div data-aurora="100,120,480;600,600,520,.55;980,200,460;1180,700,420,.6"></div>
+  <div data-nav></div>
+  <div class="head"><span class="eyebrow">Free sizing kit · 3 steps</span><h1>Find your <span class="au">perfect fit.</span></h1></div>
+  <div class="steps"><span class="s done glass"><i class="ck" data-ic="check"></i>Choose your finger</span><span class="ln fl"></span><span class="s on"><i>2</i>Try the sizers for 24h</span><span class="ln"></span><span class="s glass"><i>3</i>Order your kit</span></div>
+  <div class="photo blob" data-img="1576670792800-c400a08d69ca|1000"></div>
+  <div class="chip glass" style="position:absolute;right:330px;top:318px;z-index:4"><span class="d t-mint" data-ic="ruler"></span><div><b>Size 9 · index</b><small>Matched in 2 days</small></div></div>
+
+  <div class="cols">
+    <div class="glass">
+      <div class="tag"><span class="n">Step 01</span><span class="pill" style="background:#e3f8ef;color:#2b9d7a">Done</span></div>
+      <h2>Index finger</h2><p class="lead">The strongest, steadiest pulse signal — and the least in the way.</p>
+      <div class="hand"><svg viewBox="0 0 330 380">
+        <defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1ebff"/><stop offset="1" stop-color="#ffe9df"/></linearGradient>
+        <linearGradient id="hi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9ccff"/><stop offset="1" stop-color="#b9a4ff"/></linearGradient>
+        <linearGradient id="bm" x1="0" x2="1"><stop offset="0" stop-color="#6b717e"/><stop offset=".3" stop-color="#e4e7ee"/><stop offset=".45" stop-color="#fff"/><stop offset=".7" stop-color="#9aa0ab"/><stop offset="1" stop-color="#5d626e"/></linearGradient>
+        <radialGradient id="glw"><stop offset="0" stop-color="#c9b8ff" stop-opacity=".9"/><stop offset="1" stop-color="#c9b8ff" stop-opacity="0"/></radialGradient></defs>
+        <g stroke="rgba(36,35,44,.16)" stroke-width="1.4">
+          <rect x="77" y="205" width="46" height="150" rx="23" fill="url(#hg)" transform="rotate(-30 100 350)"/>
+          <rect x="150" y="22" width="48" height="220" rx="24" fill="url(#hg)"/>
+          <rect x="204" y="48" width="46" height="200" rx="23" fill="url(#hg)"/>
+          <rect x="254" y="100" width="40" height="160" rx="20" fill="url(#hg)"/>
+          <rect x="84" y="196" width="214" height="184" rx="76" fill="url(#hg)"/>
+        </g>
+        <circle cx="122" cy="186" r="62" fill="url(#glw)"><animate attributeName="r" values="52;66;52" dur="3s" repeatCount="indefinite"/></circle>
+        <rect x="98" y="52" width="48" height="200" rx="24" fill="url(#hi)" stroke="#9b86ff" stroke-width="1.6"/>
+        <rect x="95" y="172" width="54" height="26" rx="9" fill="url(#bm)" stroke="#fff" stroke-width="1"/>
+        <rect x="95" y="172" width="54" height="7" rx="3.5" fill="#fff" opacity=".6"/>
+        <path d="M120 80 v40" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <circle cx="149" cy="185" r="5" fill="#fff" stroke="#7d66f2" stroke-width="2.5"/>
+        <path d="M154 188 L186 236" stroke="#7d66f2" stroke-width="1.3" stroke-dasharray="3 3"/>
+      </svg>
+      <div class="callout glass solid"><b>19.0 mm</b><small>inner diameter · size 9</small></div></div>
+      <div class="fingers"><span class="on">Index<small>Recommended</small></span><span>Middle<small>Good</small></span><span>Ring<small>Good</small></span></div>
+    </div>
+
+    <div class="glass">
+      <div class="tag"><span class="n">Step 02</span><span class="live" style="color:var(--violet)">Day 1 of 1</span></div>
+      <h2>Wear a sizer for 24 hours</h2><p class="lead">Fingers swell at night — sleep in it before you decide.</p>
+      <div class="fan">
+        <span class="sz" style="width:64px;height:64px;left:0;top:100px">6</span>
+        <span class="sz" style="width:68px;height:68px;left:52px;top:56px">7</span>
+        <span class="sz" style="width:72px;height:72px;left:112px;top:20px">8</span>
+        <span class="sz on" style="width:120px;height:120px;left:190px;top:4px">9</span>
+        <span class="sz" style="width:76px;height:76px;left:322px;top:20px">10</span>
+        <span class="sz" style="width:78px;height:78px;left:372px;top:84px">11</span>
+        <span class="chip glass" style="position:absolute;left:96px;top:140px;padding:8px 16px 8px 8px"><span class="d t-mint" data-ic="check"></span><div><b style="font-size:16px">Feels just right</b><small>Logged 07:12, after sleep</small></div></span>
+      </div>
+      <div class="chart"><div><b>6</b><small>16.5</small></div><div><b>7</b><small>17.3</small></div><div><b>8</b><small>18.2</small></div><div class="on"><b>9</b><small>19.0</small></div><div><b>10</b><small>19.8</small></div><div><b>11</b><small>20.6</small></div><div><b>12</b><small>21.4</small></div><div><b>13</b><small>22.2</small></div></div>
+      <div class="fit"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font:400 16px/1 var(--display)">How does size 9 feel?</b><span class="pill" style="height:28px;background:#e3f8ef;color:#2b9d7a;border:none">Just right</span></div><div class="bar"><i></i></div><div class="lb"><span>Spins freely</span><span>Snug, slides over knuckle</span><span>Leaves a mark</span></div></div>
+      <div class="checks"><span><span data-ic="check" class="c"></span>Worn overnight</span><span><span data-ic="check" class="c"></span>Tested after a workout</span><span><span data-ic="check" class="c"></span>Sensor bump faces palm</span><span><span data-ic="check" class="c"></span>Slides over the knuckle</span></div>
+    </div>
+
+    <div class="glass solid">
+      <div class="tag"><span class="n">Step 03</span><span class="pill">Free · €0</span></div>
+      <h2>Order your sizing kit</h2><p class="lead">Eight reusable sizers, posted in a slim letterbox pack.</p>
+      <div class="kitbox"><div class="lid"><span></span><span></span><span></span><span class="on"></span><span></span><span></span><span></span><span></span></div><span class="pill stk">Sizes 6–13</span></div>
+      <div class="sum">
+        <div class="r"><span>HALO sizing kit</span><b>€0</b></div>
+        <div class="r"><span>Tracked letterbox delivery</span><b>Free</b></div>
+        <div class="r"><span>Arrives</span><b>Thu 16 – Fri 17 Oct</b></div>
+      </div>
+      <div class="addr"><span data-ic="home"></span><div><b>Lena Vogt</b><small>Kastanienallee 41, 10435 Berlin</small></div><span class="ch">Change</span></div>
+      <a class="btn dark" href="checkout.html">Order free kit <span data-ic="arrow"></span></a>
+      <p class="small">Your ring ships the day you confirm your size in the app.</p>
+    </div>
+  </div>
+</div>
+<script src="halo.js"></script>
+<script>halo('Sizing', { bag: 1, progress: 66 });</script>
+</body></html>

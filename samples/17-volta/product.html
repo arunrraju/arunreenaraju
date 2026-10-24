@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOLTA R1 Gravel — €6,490</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,600;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="volta.css">
+<script src="volta3d.js"></script>
+<style>
+.pdp{position:relative;height:1010px;overflow:hidden;background:radial-gradient(60% 70% at 34% 62%,#2d3034 0%,#17181a 55%,#0f1011 85%)}
+.pdp .bigR{position:absolute;left:40px;top:120px;z-index:1;font:italic 900 820px/.78 var(--disp);color:transparent;-webkit-text-stroke:2px rgba(230,255,0,.16);letter-spacing:-.04em}
+.pdp .bigR.f{z-index:4;-webkit-text-stroke:2px rgba(230,255,0,.6);clip-path:inset(76% 0 0 0)}
+.pdp canvas{position:absolute;left:0;top:60px;z-index:3}
+.pdp .crumb{position:absolute;left:64px;top:118px;z-index:5;font:500 11px/1 var(--mono);color:var(--grey);letter-spacing:.12em}
+.pdp .crumb b{color:var(--white);font-weight:500}
+.pdp .views{position:absolute;left:64px;bottom:44px;z-index:5;display:flex;gap:10px;align-items:flex-end}
+.pdp .views .v{width:132px;height:86px;background:rgba(255,255,255,.04);border:1px solid var(--line);position:relative}
+.pdp .views .v img{object-fit:contain}
+.pdp .views .v.on{border-color:var(--volt);box-shadow:0 0 0 1px var(--volt)}
+.pdp .views .v span{position:absolute;left:8px;top:7px;font:500 9px/1 var(--mono);color:var(--grey);letter-spacing:.1em}
+.pdp .mode{position:absolute;left:640px;bottom:62px;z-index:5;display:flex;gap:6px}
+.pdp .cursor{left:470px;top:330px}
+.pdp .hud{z-index:5}
+.buy{position:absolute;right:40px;top:104px;width:470px;z-index:6;background:rgba(20,21,23,.78);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--line2);padding:30px 32px 28px}
+.buy h1{font:italic 800 96px/.82 var(--disp);text-transform:uppercase;margin:14px 0 10px}
+.buy .rt{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--grey)}
+.buy .rt .s{display:flex;color:var(--volt)}.buy .rt .ic{width:13px;height:13px}
+.buy .price{display:flex;align-items:baseline;gap:14px;margin:18px 0 20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.buy .price b{font:italic 800 54px/1 var(--disp)}
+.buy .price span{font-size:13px;color:var(--grey)}
+.buy .price span em{color:var(--volt);font-style:normal;font-weight:600}
+.buy .lb{display:flex;justify-content:space-between;font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--grey);margin:18px 0 10px;text-transform:uppercase}
+.buy .lb b{color:var(--white);font-weight:500}
+.buy .cols{display:flex;gap:10px}
+.buy .cols i{width:40px;height:40px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2),inset -6px -8px 14px rgba(0,0,0,.35)}
+.buy .cols i.on{outline:2px solid var(--volt);outline-offset:4px}
+.buy .sizes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.buy .sizes span{height:46px;display:grid;place-items:center;border:1px solid var(--line2);font:600 14px/1 var(--sans)}
+.buy .sizes span small{display:block;font:500 9px/1 var(--mono);color:var(--grey);margin-top:3px;text-align:center}
+.buy .sizes span.on{background:var(--white);color:var(--ink);border-color:var(--white)}
+.buy .sizes span.on small{color:#555}
+.buy .bats{display:grid;gap:6px}
+.buy .bats div{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:11px 14px;border:1px solid var(--line2);font-size:13px}
+.buy .bats div b{font:italic 800 22px/1 var(--disp)}
+.buy .bats div span{color:var(--grey)}
+.buy .bats div em{font-style:normal;font-weight:600}
+.buy .bats div.on{border-color:var(--volt);background:rgba(230,255,0,.06)}
+.buy .ctas{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:22px}
+.buy .ctas .btn{justify-content:center}
+.buy .ship{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;font-size:12px;color:var(--grey)}
+.buy .ship div{display:flex;gap:9px;align-items:center}
+.buy .ship .ic{color:var(--volt);width:16px;height:16px}
+
+.specs{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--g0)}
+.specs div{padding:34px 0 30px 36px;border-right:1px solid var(--line);position:relative}
+.specs div:last-child{border-right:0}
+.specs b{display:block;font:italic 800 76px/.9 var(--disp)}
+.specs b small{font:600 15px var(--sans);font-style:normal;color:var(--volt);margin-left:4px}
+.specs span{font:500 10px/1 var(--mono);color:var(--grey);letter-spacing:.14em;text-transform:uppercase}
+
+.calc{padding:140px 64px 130px;position:relative;overflow:hidden}
+.calc .sh{margin-bottom:60px}
+.calc .body{display:grid;grid-template-columns:1fr 560px;gap:60px;align-items:stretch}
+.ctrl{background:var(--g1);padding:36px 38px}
+.ctrl .row{padding:22px 0;border-bottom:1px solid var(--line)}
+.ctrl .row:first-child{padding-top:0}
+.ctrl .row:last-child{border-bottom:0;padding-bottom:0}
+.ctrl .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.ctrl .hd span{font:500 11px/1 var(--mono);color:var(--grey);letter-spacing:.14em;text-transform:uppercase;display:flex;gap:10px;align-items:center}
+.ctrl .hd span .ic{color:var(--volt)}
+.ctrl .hd b{font:italic 800 30px/1 var(--disp)}
+.segc{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.segc span{height:52px;display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(255,255,255,.04);font:italic 800 22px/1 var(--disp);text-transform:uppercase;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.segc span small{font:500 9px/1 var(--mono);font-style:normal;color:var(--grey);margin-top:4px;letter-spacing:.1em}
+.segc span.on{background:var(--volt);color:var(--ink)}.segc span.on small{color:#3d4500}
+.slider{position:relative;height:30px}
+.slider .tr{position:absolute;left:0;right:0;top:13px;height:4px;background:rgba(255,255,255,.1)}
+.slider .tr i{position:absolute;left:0;top:0;bottom:0;width:var(--p);background:var(--volt);box-shadow:0 0 12px rgba(230,255,0,.5)}
+.slider u{position:absolute;top:5px;left:var(--p);width:20px;height:20px;margin-left:-10px;background:var(--white);border:4px solid var(--volt);transform:rotate(45deg)}
+.slider .tk{position:absolute;left:0;right:0;top:32px;display:flex;justify-content:space-between;font:500 9px/1 var(--mono);color:var(--grey)}
+.gauge{position:relative;background:radial-gradient(70% 60% at 50% 40%,#23262a,#16171a);padding:36px;display:flex;flex-direction:column;align-items:center}
+.gauge svg.ring{width:420px;height:420px}
+.gauge .val{position:absolute;left:0;right:0;top:150px;text-align:center}
+.gauge .val b{display:block;font:italic 900 170px/.8 var(--disp);letter-spacing:-.02em}
+.gauge .val span{font:500 12px/1 var(--mono);color:var(--volt);letter-spacing:.2em}
+.gauge .trip{width:100%;margin-top:14px;display:grid;gap:8px}
+.gauge .trip div{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;background:rgba(255,255,255,.04);font-size:13px}
+.gauge .trip div b{font:italic 800 20px/1 var(--disp)}
+.gauge .trip .ok{color:var(--volt)}
+.modes4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+.modes4 div{position:relative;height:150px;background:rgba(255,255,255,.03);display:flex;flex-direction:column;justify-content:flex-end;padding:12px}
+.modes4 div i{position:absolute;left:12px;right:12px;bottom:46px;height:var(--h);background:linear-gradient(180deg,rgba(230,255,0,.75),rgba(230,255,0,.1))}
+.modes4 div.on i{background:linear-gradient(180deg,var(--volt),rgba(230,255,0,.3));box-shadow:0 0 24px rgba(230,255,0,.3)}
+.modes4 div b{font:italic 800 24px/1 var(--disp);position:relative}
+.modes4 div span{font:500 9px/1 var(--mono);color:var(--grey);letter-spacing:.12em;position:relative;margin-top:4px}
+
+.expl{position:relative;height:940px;overflow:hidden;background:linear-gradient(180deg,#0f1011,#17191b 50%,#0f1011)}
+.expl .grid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);background-size:24px 24px;mask-image:radial-gradient(60% 60% at 50% 55%,#000,transparent)}
+.expl canvas{position:absolute;left:0;top:150px;z-index:2}
+.expl .hd{position:absolute;left:64px;top:110px;z-index:4}
+.expl .hd h2{font-size:130px}
+.expl .list{position:absolute;right:64px;top:118px;width:330px;z-index:4;background:rgba(20,21,23,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line2);padding:22px 24px}
+.expl .list div{display:grid;grid-template-columns:30px 1fr auto;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+.expl .list div:last-child{border-bottom:0}
+.expl .list div i{font:italic 800 16px/1 var(--disp);color:var(--volt);font-style:italic}
+.expl .list div span{color:var(--grey);font:500 11px/1.3 var(--mono)}
+.expl .list .tot{color:var(--white)}
+.expl .list .tot b{font:italic 800 22px/1 var(--disp)}
+.num3{position:absolute;z-index:5;width:34px;height:34px;margin:-17px 0 0 -17px;display:grid;place-items:center;background:var(--volt);color:var(--ink);font:italic 800 18px/1 var(--disp);clip-path:polygon(25% 0,100% 0,75% 100%,0 100%);box-shadow:0 0 20px var(--volt)}
+
+.tech{padding:130px 64px 120px;display:grid;grid-template-columns:1fr 1fr;gap:70px}
+.tech h2{font:italic 800 100px/.84 var(--disp);text-transform:uppercase}
+.tbl{margin-top:40px}
+.tbl div{display:grid;grid-template-columns:180px 1fr;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+.tbl div span{font:500 11px/1.6 var(--mono);color:var(--grey);letter-spacing:.1em;text-transform:uppercase}
+.geo{background:var(--g1);padding:30px;position:relative}
+.geo svg{width:100%;height:auto;display:block}
+.geo .tbs{display:flex;gap:6px;margin-bottom:10px}
+.revs{padding:0 64px 140px;display:grid;grid-template-columns:380px 1fr 1fr 1fr;gap:18px}
+.revs .sum{background:var(--volt);color:var(--ink);padding:32px}
+.revs .sum b{display:block;font:italic 900 130px/.8 var(--disp)}
+.revs .sum .bars div{display:grid;grid-template-columns:20px 1fr 40px;gap:10px;align-items:center;font:600 11px/1 var(--mono);margin-top:9px}
+.revs .sum .bars div i{height:5px;background:rgba(0,0,0,.15);position:relative}
+.revs .sum .bars div i::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--ink)}
+.revs .r{background:var(--g1);padding:28px 28px 26px;display:flex;flex-direction:column}
+.revs .r .st{display:flex;color:var(--volt)}.revs .r .st .ic{width:14px;height:14px}
+.revs .r h4{font:italic 800 32px/.95 var(--disp);text-transform:uppercase;margin:16px 0 12px}
+.revs .r p{color:rgba(244,246,248,.75);font-size:14px;flex:1}
+.revs .r .who{display:flex;align-items:center;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:13px}
+.revs .r .who i{width:40px;height:40px;border-radius:50%;overflow:hidden;position:relative;flex:none;background:var(--g3);display:grid;place-items:center;font:italic 800 18px/1 var(--disp);font-style:normal}
+.revs .r .who small{display:block;color:var(--grey);font:500 10px/1.4 var(--mono)}
+</style></head>
+<body>
+<section class="pdp">
+  <div data-nav></div>
+  <div class="bigR">R1</div>
+  <div class="speed" data-n="20" style="z-index:2;top:260px;bottom:280px;right:500px;opacity:.6"></div>
+  <div class="crumb">BIKES / GRAVEL / <b>R1 GRAVEL · ARCTIC</b></div>
+  <div id="h3d"></div>
+  <div class="bigR f">R1</div>
+  <div class="cursor"><span>DRAG<br>· 360° ·</span></div>
+  <div class="hud" style="left:64px;top:190px"><div class="k">Range · 750 Wh · Tour</div><div class="v">142<small>KM</small></div><div class="bar" style="--p:78%"><i></i></div></div>
+  <div class="views">
+    <div class="v on"><img class="snap" data-i="0" alt=""><span>SIDE</span></div>
+    <div class="v"><img class="snap" data-i="1" alt=""><span>3/4 FRONT</span></div>
+    <div class="v"><img class="snap" data-i="2" alt=""><span>X-RAY</span></div>
+    <div class="v"><img class="snap" data-i="3" alt=""><span>REAR</span></div>
+  </div>
+  <div class="mode"><span class="pill on">360°</span><span class="pill">X-ray</span><span class="pill">Exploded</span><span class="pill">AR · view in room</span></div>
+
+  <aside class="buy">
+    <div style="display:flex;justify-content:space-between;align-items:center"><span class="tag"><span>Gravel · 2027</span></span><span class="mono volt">● In stock · M, L</span></div>
+    <h1>R1 Gravel</h1>
+    <div class="rt"><span class="s"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></span>4.9 · 1,284 rides reviewed</div>
+    <div class="price"><b>€6,990</b><span>or <em>€194/mo</em> · 36 months, 0% APR</span></div>
+    <div class="lb">Colour <b>Arctic white</b></div>
+    <div class="cols"><i class="on" style="background:#e8ebee"></i><i style="background:#2a2c30"></i><i style="background:#ff5a1f"></i><i style="background:#d4ec00"></i><i style="background:#0f4a4c"></i></div>
+    <div class="lb">Frame size <b>Fit guide ↗</b></div>
+    <div class="sizes"><span>S<small>158–170</small></span><span class="on">M<small>170–182</small></span><span>L<small>182–192</small></span><span>XL<small>192+</small></span></div>
+    <div class="lb">Battery <b>Range in Tour mode</b></div>
+    <div class="bats">
+      <div><b>500 Wh</b><span>95 km · 15.9 kg</span><em>−€500</em></div>
+      <div><b>625 Wh</b><span>118 km · 16.4 kg</span><em>−€290</em></div>
+      <div class="on"><b>750 Wh</b><span>142 km · 16.8 kg</span><em class="volt">Selected</em></div>
+    </div>
+    <div class="ctas"><a class="btn">Add to bag · €6,990 <span data-ic="arrow"></span></a><a class="btn ghost" style="padding:0 22px"><span data-ic="heart"></span></a></div>
+    <div class="ship"><div><span data-ic="truck"></span>Delivered assembled · Thu 6 Nov</div><div><span data-ic="shield"></span>30-day ride-it-home return</div></div>
+  </aside>
+</section>
+
+<div class="specs">
+  <div><b>142<small>KM</small></b><span>Tour range · 750 Wh</span></div>
+  <div><b>85<small>NM</small></b><span>Rear hub torque</span></div>
+  <div><b>16.8<small>KG</small></b><span>Ready to ride, M</span></div>
+  <div><b>25<small>KM/H</small></b><span>Assist limit · EU</span></div>
+  <div><b>45<small>MM</small></b><span>Gum-wall gravel tyres</span></div>
+  <div><b>1.2K<small>LM</small></b><span>Auto-dusk headlight</span></div>
+</div>
+
+<section class="calc">
+  <div class="sh"><div><div class="idx">Range calculator</div><h2 style="margin-top:22px">How far is<br><span class="volt">your far?</span></h2></div>
+    <p class="grey" style="max-width:400px">Based on 412,000 logged VOLTA rides. Tell us how you ride and we will tell you how far one charge goes, honestly.</p></div>
+  <div class="body">
+    <div>
+      <div class="ctrl">
+        <div class="row"><div class="hd"><span><span data-ic="bolt"></span>Assist mode</span><b>Tour</b></div>
+          <div class="segc"><span>Eco<small>+50%</small></span><span class="on">Tour<small>+120%</small></span><span>Sport<small>+200%</small></span><span>Boost<small>+300%</small></span></div></div>
+        <div class="row"><div class="hd"><span><span data-ic="user"></span>Rider + cargo</span><b>82 kg</b></div>
+          <div class="slider" style="--p:41%"><div class="tr"><i></i></div><u></u><div class="tk"><span>50</span><span>80</span><span>110</span><span>140</span></div></div></div>
+        <div class="row"><div class="hd"><span><span data-ic="mountain"></span>Terrain</span><b>Rolling</b></div>
+          <div class="segc"><span>Flat<small>NL · DK</small></span><span class="on">Rolling<small>+300 m</small></span><span>Hilly<small>+800 m</small></span><span>Alpine<small>+1500 m</small></span></div></div>
+        <div class="row"><div class="hd"><span><span data-ic="sun"></span>Temperature</span><b>12 °C</b></div>
+          <div class="slider" style="--p:56%"><div class="tr"><i></i></div><u></u><div class="tk"><span>−10°</span><span>0°</span><span>10°</span><span>20°</span><span>30°</span></div></div></div>
+      </div>
+      <div class="modes4">
+        <div style="--h:76px"><i></i><b>196 km</b><span>ECO</span></div>
+        <div class="on" style="--h:58px"><i></i><b class="volt">142 km</b><span>TOUR · YOU</span></div>
+        <div style="--h:40px"><i></i><b>104 km</b><span>SPORT</span></div>
+        <div style="--h:28px"><i></i><b>78 km</b><span>BOOST</span></div>
+      </div>
+    </div>
+    <div class="gauge">
+      <svg class="ring" viewBox="0 0 420 420">
+        <defs><linearGradient id="gg" x1="0" x2="1" y1="1" y2="0"><stop offset="0" stop-color="#e6ff00" stop-opacity=".3"/><stop offset="1" stop-color="#e6ff00"/></linearGradient><filter id="gl"><feGaussianBlur stdDeviation="6"/></filter></defs>
+        <g transform="translate(210 210) rotate(135)">
+          <circle r="180" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="18" stroke-dasharray="848 1131"/>
+          <circle r="180" fill="none" stroke="url(#gg)" stroke-width="18" stroke-dasharray="560 1131" filter="url(#gl)" opacity=".7"/>
+          <circle r="180" fill="none" stroke="url(#gg)" stroke-width="18" stroke-dasharray="560 1131"/>
+          <g stroke="rgba(255,255,255,.35)" stroke-width="2">
+            <line x1="200" y1="0" x2="212" y2="0"/><line x1="200" y1="0" x2="212" y2="0" transform="rotate(45)"/><line x1="200" y1="0" x2="212" y2="0" transform="rotate(90)"/><line x1="200" y1="0" x2="212" y2="0" transform="rotate(135)"/><line x1="200" y1="0" x2="212" y2="0" transform="rotate(180)"/><line x1="200" y1="0" x2="212" y2="0" transform="rotate(225)"/><line x1="200" y1="0" x2="212" y2="0" transform="rotate(270)"/>
+          </g>
+          <circle r="11" cx="180" fill="#e6ff00" transform="rotate(178)"/>
+        </g>
+        <text x="66" y="372" fill="#8b9198" font-family="JetBrains Mono" font-size="11">0 KM</text><text x="306" y="372" fill="#8b9198" font-family="JetBrains Mono" font-size="11">220 KM</text>
+      </svg>
+      <div class="val"><span>ESTIMATED RANGE</span><b>142</b><span>KILOMETRES · ±8</span></div>
+      <div class="trip">
+        <div><span>Utrecht ⇄ Amsterdam · 2 × 46 km</span><b class="ok">✓ 50 km spare</b></div>
+        <div><span>Weekly commute · 5 × 22 km</span><b>1 charge</b></div>
+        <div><span>Cost of a full charge</span><b>€0.21</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="expl">
+  <div class="grid"></div>
+  <div class="hd"><div class="idx">Exploded view</div><h2 class="d" style="margin-top:22px">Every part,<br><span class="ol v">on the table.</span></h2></div>
+  <div id="e3d"></div>
+  <div class="num3" id="n1">1</div><div class="num3" id="n2">2</div><div class="num3" id="n3">3</div><div class="num3" id="n4">4</div><div class="num3" id="n5">5</div><div class="num3" id="n6">6</div><div class="num3" id="n7">7</div>
+  <div class="list">
+    <div><i>1</i>Hydroformed 6069 frame<span>1,540 g</span></div>
+    <div><i>2</i>750 Wh slide-out pack<span>3,890 g</span></div>
+    <div><i>3</i>85 Nm rear hub motor<span>2,940 g</span></div>
+    <div><i>4</i>Integrated cockpit + display<span>620 g</span></div>
+    <div><i>5</i>Carbon aero wheels 45 mm<span>1,610 g</span></div>
+    <div><i>6</i>Belt drive 55t / 22t<span>410 g</span></div>
+    <div><i>7</i>Halo 1200 lm headlight<span>96 g</span></div>
+    <div class="tot"><i>Σ</i>Ready to ride, size M<b>16.8 kg</b></div>
+  </div>
+</section>
+
+<section class="tech">
+  <div><div class="idx">Tech specs</div><h2 style="margin-top:22px">The small<br><span class="volt">print, big.</span></h2>
+    <div class="tbl">
+      <div><span>Frame</span>Hydroformed 6069 aluminium, internal routing, 3 bottle mounts</div>
+      <div><span>Fork</span>Full carbon, 12 mm thru-axle, fender &amp; rack mounts</div>
+      <div><span>Motor</span>VOLTA HX-85 rear hub · 250 W nominal · 85 Nm peak</div>
+      <div><span>Battery</span>750 Wh Li-ion, 40 × 21700, removable, 2h10 to 80%</div>
+      <div><span>Drivetrain</span>Carbon belt, 2-speed auto-shift hub</div>
+      <div><span>Brakes</span>Hydraulic disc, 160 / 160 mm, regen on lever</div>
+      <div><span>Lights</span>1,200 lm front, 60 lm brake-sensing rear</div>
+      <div><span>Connectivity</span>V-OS 4.2 · GPS tracking · find-my-bike · OTA updates</div>
+    </div></div>
+  <div class="geo"><div class="tbs"><span class="pill">S</span><span class="pill on">M</span><span class="pill">L</span><span class="pill">XL</span></div>
+    <svg viewBox="0 0 600 420">
+      <g fill="none" stroke="rgba(255,255,255,.18)" stroke-width="2"><circle cx="140" cy="290" r="100"/><circle cx="460" cy="290" r="100"/></g>
+      <g fill="none" stroke="#f4f6f8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M140 290 L268 306 L222 128 L400 120 L412 160 Z"/><path d="M140 290 L222 128"/><path d="M412 160 L460 290"/><path d="M222 128 L214 92"/><path d="M400 120 L394 88 L430 84"/></g>
+      <path d="M268 306 L412 160" stroke="#e6ff00" stroke-width="12" stroke-linecap="round"/>
+      <path d="M190 88 h60" stroke="#f4f6f8" stroke-width="7" stroke-linecap="round"/>
+      <g stroke="#e6ff00" stroke-width="1.2" fill="none" stroke-dasharray="4 4"><path d="M140 400 H460"/><path d="M222 50 H400"/><path d="M520 120 V306"/></g>
+      <g fill="#e6ff00" font-family="JetBrains Mono" font-size="12"><text x="268" y="418">WHEELBASE 1,042</text><text x="252" y="42">REACH 386 · STACK 598</text><text x="530" y="218">BB 72</text></g>
+      <g fill="#8b9198" font-family="JetBrains Mono" font-size="11"><text x="372" y="190">HEAD 71°</text><text x="160" y="190">SEAT 73.5°</text></g>
+    </svg>
+    <div class="tbl" style="margin-top:6px"><div><span>Rider height</span>170–182 cm · inseam 78–86 cm</div><div><span>Max load</span>140 kg rider + cargo</div></div>
+  </div>
+</section>
+
+<section class="revs">
+  <div class="sum"><div class="mono" style="color:#2d3200">Rider score</div><b style="margin-top:18px">4.9</b><div style="font-weight:600;margin-top:10px">1,284 verified owners</div>
+    <div class="bars"><div>5<i style="--w:88%"></i>88%</div><div>4<i style="--w:9%"></i>9%</div><div>3<i style="--w:2%"></i>2%</div><div>2<i style="--w:1%"></i>1%</div></div></div>
+  <div class="r"><div class="st"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><h4>Gravel on Saturday, office on Monday</h4><p>The gum tyres grip the dune paths at Schoorl and still roll fast on asphalt. The hub motor is genuinely silent: people on the path don’t hear me coming, so I use the bell a lot.</p><div class="who"><i>MK</i><div>Maarten K.<small>HAARLEM · 3,210 KM</small></div></div></div>
+  <div class="r"><div class="st"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><h4>Range calculator was right to the km</h4><p>It promised 128 km for my hilly loop in Tour mode at 4 °C. I got home with 9% left after 121 km. The pack slides out so I charge it at my desk.</p><div class="who"><i>LS</i><div>Lea S.<small>FREIBURG · 6,880 KM</small></div></div></div>
+  <div class="r"><div class="st"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><h4>Light enough to carry upstairs</h4><p>16.8 kg is the reason I bought it. Fourth floor, no lift, every day. The auto headlight in the tunnel under Centraal is a small joy.</p><div class="who"><i>TB</i><div>Tomás B.<small>AMSTERDAM · 1,940 KM</small></div></div></div>
+</section>
+
+<div data-footer></div>
+
+<script src="volta.js"></script>
+<script>volta('Gravel');</script>
+<script type="module">
+import * as THREE from 'three';
+await Promise.all([document.fonts.load('italic 800 40px "Barlow Condensed"'), document.fonts.load('600 18px Inter')]);
+const K = VOLTA3D(THREE, {});
+const C = { color: '#e8ebee' };
+/* angle thumbnails */
+const th = [
+  K.snapshot([{ ...C, ry: 0 }], { w: 264, h: 172 })[0],
+  K.snapshot([{ ...C, ry: -1.0 }], { w: 264, h: 172 })[0],
+  (() => { const st = K.stage(document.createElement('div'), { w: 264, h: 172, fov: 24 }); const b = K.bike(C); b.setXray(1); b.root.rotation.y = -0.2; st.scene.add(b.root); st.camera.position.set(0, 0.2, 3.25); st.camera.lookAt(0.04, 0.12, 0); st.renderer.render(st.scene, st.camera); const u = st.renderer.domElement.toDataURL(); window.__pending3d--; st.renderer.dispose(); st.renderer.forceContextLoss(); return u; })(),
+  K.snapshot([{ ...C, ry: 2.6 }], { w: 264, h: 172 })[0]
+];
+document.querySelectorAll('img.snap').forEach(im => { im.src = th[+im.dataset.i]; });
+
+/* hero */
+const s = K.stage(document.getElementById('h3d'), { w: 1000, h: 950, fov: 24 });
+if (s) {
+  const b = K.bike(C); s.scene.add(b.root);
+  s.camera.position.set(0, 0.3, 4.45); s.camera.lookAt(0.0, 0.1, 0);
+  const up = K.streaks(s.scene, { x0: -2.5, x1: 2.5 }); K.dust(s.scene, { spread: 2.5 });
+  let last = 0;
+  s.run(t => { up(Math.min(t - last, .05)); last = t; b.root.rotation.y = -0.62 + Math.sin(t * .25) * .14; b.spin(t * 2); });
+}
+/* exploded */
+const e = K.stage(document.getElementById('e3d'), { w: 1440, h: 900, fov: 24 });
+if (e) {
+  const b = K.bike({ color: '#2a2c30' }); e.scene.add(b.root); b.setExplode(1);
+  e.camera.position.set(0, 0.5, 4.3); e.camera.lookAt(-0.05, 0.12, 0);
+  const marks = [[b.parts.frame, [0.05, 0.5, 0]], [b.parts.battery, [0.15, 0.1, 0]], [b.parts.rearWheel, [0, 0.0, 0.05]], [b.parts.cockpit, [0.46, 0.67, 0]], [b.parts.frontWheel, [0.2, -0.2, 0.01]], [b.parts.drive, [-0.075, -0.065, 0.07]], [b.parts.fork, [0.53, 0.43, 0]]];
+  const V = new THREE.Vector3();
+  e.run(t => {
+    b.root.rotation.y = -0.5 + Math.sin(t * .2) * .08; b.spin(t * .4);
+    marks.forEach(([o, p], i) => { const q = K.project(o.localToWorld(V.set(...p)), e); const el = document.getElementById('n' + (i + 1)); el.style.left = q.x + 'px'; el.style.top = (q.y + 150) + 'px'; });
+  });
+}
+</script>
+</body></html>

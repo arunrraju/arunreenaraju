@@ -65,7 +65,7 @@ content:
           - { name: title, label: Title, type: string }
           - { name: description, label: Description, type: text }
           - { name: tags, label: Tags, type: string, list: true, description: "Year first, then two topics" }
-          - { name: letter, label: Big letter, type: string, description: "One letter on the card art" }
+          - { name: letter, label: Big letter, type: string, description: "One letter (or a number) on the card art" }
           - { name: image, label: Cover image, type: image, description: "Optional. Replaces the generated art on the card and the panel." }
           # Everything below shows in the panel that opens when someone clicks the card
           - { name: role, label: Your role, type: string }
@@ -121,6 +121,27 @@ content:
             fields:
               - { name: label, label: Button text, type: string }
               - { name: url, label: URL, type: string }
+          - { name: sites_title, label: Website samples heading, type: string, description: "The last word gets the colour. e.g. Twenty brands. Twenty worlds." }
+          - name: sites
+            label: Website samples
+            type: object
+            list: true
+            description: "Optional. Each site opens in a viewer with its screens and live pages. Files live in samples/<folder>/"
+            fields:
+              - { name: name, label: Brand, type: string }
+              - { name: niche, label: What it is, type: string }
+              - { name: category, label: Filter group, type: string, description: "e.g. Tech, Luxury, Travel" }
+              - { name: dir, label: Folder, type: string, description: "e.g. samples/01-nocte. Holds the live pages and screens/<page>.webp" }
+              - { name: domain, label: Address shown in the frame, type: string }
+              - { name: tags, label: Tags, type: string, list: true }
+              - { name: colors, label: Palette, type: string, list: true, description: "Hex colours, e.g. #d8b26a" }
+              - name: pages
+                label: Pages
+                type: object
+                list: true
+                fields:
+                  - { name: file, label: Page file, type: string, description: "Without .html, e.g. home. The screen is screens/<file>.webp" }
+                  - { name: label, label: Tab name, type: string }
 
       - name: gallery
         label: Gallery

@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Sonora — Swiss-engineered sound</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sonora.css">
+<style>
+.hero{position:relative;height:1060px;overflow:hidden}
+.hero .meta{position:absolute;top:88px;left:40px;right:40px;display:grid;grid-template-columns:repeat(12,1fr)}
+.hero .meta>div:nth-child(1){grid-column:1/5}.hero .meta>div:nth-child(2){grid-column:5/9}.hero .meta>div:nth-child(3){grid-column:9/13;text-align:right}
+.hero h1{position:absolute;left:34px;top:126px;font-size:238px;white-space:nowrap;z-index:1}
+.hero h1 .o{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.hero .stage{position:absolute;left:390px;top:300px;width:660px;height:600px;z-index:3;mix-blend-mode:multiply}
+.hero .stage .ph{position:absolute;inset:0;-webkit-mask-image:radial-gradient(closest-side,#000 78%,transparent 100%);mask-image:radial-gradient(closest-side,#000 78%,transparent 100%)}.hero .stage .ph img{filter:brightness(1.07) contrast(1.06)}
+.hero .stage .ph img{object-fit:cover;transform:scale(1.02)}
+.hero .rings{left:445px;top:330px;width:560px;height:560px;z-index:2}
+.hero .rings b:nth-of-type(1){inset:0}.hero .rings b:nth-of-type(2){inset:70px}.hero .rings b:nth-of-type(3){inset:140px}
+.hero svg.call{position:absolute;inset:0;z-index:4;pointer-events:none}
+.call-l{position:absolute;z-index:5;font:500 11px/1.35 var(--mono);text-transform:uppercase;letter-spacing:.04em;background:var(--paper);padding:6px 0}
+.call-l b{display:block;font:700 15px/1.1 var(--sans);text-transform:none;letter-spacing:-.01em;margin-top:3px}
+.call-l .idx{color:var(--sig)}
+.hero .left{position:absolute;left:40px;top:470px;width:300px;z-index:5}
+.hero .left .flap{font-size:84px;margin:16px 0 10px}
+.hero .left p{font-size:15px;color:var(--ink-2);margin:26px 0 0;max-width:270px}
+.hero .left .sp{margin-top:30px;border-top:1px solid var(--ink)}
+.hero .left .sp div{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font:400 12px/1.2 var(--mono)}
+.hero .right{position:absolute;right:40px;top:470px;width:340px;z-index:5}
+.hero .price{font:300 92px/.8 var(--sans);font-stretch:62%;letter-spacing:-.04em;margin:14px 0 6px}
+.hero .price small{font:500 13px/1 var(--mono);letter-spacing:.04em;vertical-align:top;margin-left:6px}
+.sw{display:flex;gap:8px;margin:24px 0 8px}
+.sw i{width:34px;height:34px;display:block;border:1px solid var(--line)}
+.sw i.on{outline:1px solid var(--ink);outline-offset:3px}
+.hero .right .btn{width:100%;margin-top:10px}
+.hero .cursor{left:830px;top:520px}
+.player{position:absolute;left:40px;right:40px;bottom:36px;height:86px;z-index:6;display:grid;grid-template-columns:86px 260px 1fr 150px 190px;align-items:center;background:var(--ink);color:var(--paper)}
+.player .pb{height:86px;background:var(--sig);color:var(--ink);display:grid;place-items:center}
+.player .pb .ic{width:26px;height:26px}
+.player .tt{padding:0 22px;font:500 11px/1.4 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.player .tt b{display:block;font:600 16px/1.2 var(--sans);text-transform:none;color:var(--paper);margin-bottom:4px}
+.player .wv{position:relative;padding:0 10px}
+.player .wv .head{position:absolute;left:calc(10px + 38%);top:-10px;bottom:-10px;width:2px;background:var(--paper)}
+.player .wv .head::before{content:"01:30";position:absolute;top:-20px;left:-18px;font:500 10px/1 var(--mono);background:var(--paper);color:var(--ink);padding:3px 5px}
+.player .tm{font:500 13px/1 var(--mono);text-align:center}
+.player .tm span{color:var(--grey-2)}
+.player .anc{display:flex;height:86px;border-left:1px solid rgba(242,241,238,.15)}
+.player .anc span{flex:1;display:grid;place-items:center;font:500 11px/1 var(--mono);letter-spacing:.05em}
+.player .anc span.on{background:var(--paper);color:var(--ink)}
+
+/* collection */
+.coll{padding:120px 0 130px;position:relative}
+.coll .sh h2{grid-column:3/13;font-size:100px}
+.coll .sh .tabs{grid-column:3/13;display:flex;gap:6px;margin-top:34px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:70px 40px 0;border-left:1px solid var(--line)}
+.pc{position:relative;border-right:1px solid var(--line);padding:0 0 26px;height:600px}
+.pc .im{height:470px;margin:0 0 0;position:relative;background:var(--paper-2);overflow:hidden}
+.pc .im img{position:absolute;inset:0;mix-blend-mode:multiply}
+.pc .id{position:absolute;left:16px;top:14px;z-index:2;font:500 11px/1 var(--mono)}
+.pc .tag{position:absolute;right:14px;top:12px;z-index:2;background:var(--sig);color:var(--ink);font:500 10px/1 var(--mono);padding:5px 7px;text-transform:uppercase;letter-spacing:.05em}
+.pc .bd{padding:22px 18px 0}
+.pc h3{font:800 34px/.9 var(--sans);font-stretch:118%;letter-spacing:-.04em;text-transform:uppercase}
+.pc .ty{font:400 12px/1.3 var(--mono);color:var(--grey);margin-top:10px;text-transform:uppercase}
+.pc .pr{display:flex;justify-content:space-between;align-items:flex-end;margin-top:34px;padding-top:12px;border-top:1px solid var(--line)}
+.pc .pr b{font:300 44px/.8 var(--sans);font-stretch:62%;letter-spacing:-.03em}
+.pc .pr span{font:400 11px/1.3 var(--mono);color:var(--grey);text-align:right}
+.pc.open{background:var(--ink);color:var(--paper);transform:translateY(-34px);box-shadow:0 40px 80px rgba(11,11,11,.28);z-index:3;height:650px}
+.pc.open .im{height:300px;background:#1b1b1b}
+.pc.open .im img{mix-blend-mode:normal}
+.pc.open .bd{padding-top:20px}
+.pc.open .ty{color:var(--grey-2)}
+.pc.open table{width:100%;border-collapse:collapse;margin:18px 0 16px;font:400 12px/1 var(--mono)}
+.pc.open td{padding:8px 0;border-bottom:1px solid rgba(242,241,238,.14)}
+.pc.open td:last-child{text-align:right;color:var(--paper)}
+.pc.open td:first-child{color:var(--grey-2);text-transform:uppercase}
+.pc.open .fb{height:44px;color:var(--sig);margin:4px 0 18px}
+.pc.open .btn{width:100%;height:52px}
+.pc.open .mini{display:flex;justify-content:space-between;font:400 10px/1 var(--mono);color:var(--grey-2);margin-top:-12px;margin-bottom:16px}
+.coll .cursor{left:870px;top:520px}
+.coll .foot{margin:46px 40px 0;display:grid;grid-template-columns:repeat(12,1fr);align-items:center;font:500 11px/1 var(--mono);text-transform:uppercase}
+.coll .foot .tr{grid-column:3/11;height:1px;background:var(--line);position:relative}
+.coll .foot .tr i{position:absolute;left:0;top:-1px;height:3px;width:40%;background:var(--ink)}
+
+/* zurich */
+.zh{padding:0 0 120px;position:relative}
+.zh .wrap{display:grid;grid-template-columns:repeat(12,1fr);margin:0 40px}
+.zh h2{grid-column:1/8;font-size:128px;margin-top:70px}
+.zh h2 .sig{color:var(--sig)}
+.zh .txt{grid-column:1/5;margin-top:56px;font-size:18px;line-height:1.5}
+.zh .txt p+p{margin-top:16px;color:var(--grey);font-size:15px}
+.zh .lab{grid-column:6/13;grid-row:2/4;height:640px;margin-top:56px;position:relative}
+.zh .lab::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(11,11,11,.7))}
+.zh .lab>*:not(img){position:absolute;z-index:2}
+.cross{width:120px;height:120px;border:1px solid var(--sig)}
+.cross::before,.cross::after{content:"";position:absolute;background:var(--sig)}
+.cross::before{left:50%;top:-30px;bottom:-30px;width:1px}.cross::after{top:50%;left:-30px;right:-30px;height:1px}
+.zh .lab .tagl{background:var(--paper);padding:8px 10px;font:500 11px/1.3 var(--mono);text-transform:uppercase}
+.zh .lab .fbars{left:28px;right:28px;bottom:26px;height:120px;color:var(--sig)}
+.zh .lab .scale{left:28px;right:28px;bottom:6px;display:flex;justify-content:space-between;font:400 10px/1 var(--mono);color:rgba(242,241,238,.7)}
+.zh .stats{grid-column:1/6;display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:60px;border-top:1px solid var(--ink)}
+.zh .stats>div{padding:20px 20px 24px 0;border-bottom:1px solid var(--line)}
+.zh .stats b{display:block;font:200 96px/.8 var(--sans);font-stretch:62%;letter-spacing:-.04em;margin:16px 0 10px}
+.zh .stats b sup{font:500 14px/1 var(--mono);vertical-align:top;margin-left:4px;color:var(--sig)}
+.zh .stats span{font-size:13px;color:var(--grey)}
+
+/* dark A/B */
+.ab{padding:120px 0 120px}
+.ab .wrap{display:grid;grid-template-columns:repeat(12,1fr);margin:0 40px;column-gap:0}
+.ab .ph{grid-column:1/6;height:760px;position:relative}
+.ab .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,11,.1),rgba(11,11,11,.55))}
+.ab .ph .rings{left:250px;top:120px;width:300px;height:300px;z-index:2}
+.ab .ph .lbl{position:absolute;left:24px;bottom:24px;z-index:3;font:500 11px/1.4 var(--mono);text-transform:uppercase}
+.ab .tx{grid-column:7/13;padding-top:8px}
+.ab h2{font-size:86px;margin:34px 0 30px}
+.ab .tog{display:flex;border:1px solid var(--paper);width:max-content;margin-top:40px}
+.ab .tog span{height:48px;padding:0 22px;display:flex;align-items:center;gap:10px;font:500 12px/1 var(--mono);letter-spacing:.05em}
+.ab .tog span.on{background:var(--sig);color:var(--ink)}
+.ab .cmp{margin-top:34px;border-top:1px solid rgba(242,241,238,.3)}
+.ab .cmp>div{display:grid;grid-template-columns:120px 1fr 90px;align-items:center;gap:20px;padding:20px 0;border-bottom:1px solid rgba(242,241,238,.14)}
+.ab .cmp .k{font:500 11px/1.3 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.ab .cmp .v{font:300 44px/.8 var(--sans);font-stretch:62%;text-align:right}
+.ab .big{display:flex;align-items:flex-end;gap:24px;margin-top:40px}
+.ab .big b{font:200 220px/.72 var(--sans);font-stretch:62%;letter-spacing:-.05em;color:var(--sig)}
+.ab .big span{font:500 12px/1.5 var(--mono);text-transform:uppercase;color:var(--grey-2);padding-bottom:14px}
+
+/* reviews */
+.rv{padding:130px 0 140px}
+.rv .wrap{display:grid;grid-template-columns:repeat(12,1fr);margin:56px 40px 0}
+.rv .score{grid-column:1/4;padding-right:30px}
+.rv .score b{font:200 200px/.75 var(--sans);font-stretch:62%;letter-spacing:-.05em;display:block}
+.rv .score .dist{margin-top:30px}
+.rv .score .dist div{display:grid;grid-template-columns:20px 1fr 44px;gap:10px;align-items:center;font:400 11px/1 var(--mono);padding:5px 0}
+.rv .score .dist i{height:6px;background:var(--paper-3);position:relative;display:block}
+.rv .score .dist i s{position:absolute;inset:0 auto 0 0;background:var(--ink)}
+.rv .cards{grid-column:4/13;display:grid;grid-template-columns:repeat(3,1fr);border-left:1px solid var(--line)}
+.rv .card{padding:0 26px 30px;border-right:1px solid var(--line);display:flex;flex-direction:column}
+.rv .card .st{display:flex;gap:3px;margin:18px 0 20px}.rv .card .st i{width:16px;height:5px;background:var(--ink)}
+.rv .card .st i.h{background:var(--paper-3)}
+.rv .card q{font:600 25px/1.15 var(--sans);font-stretch:108%;letter-spacing:-.025em;quotes:none;flex:1}
+.rv .card .who{display:flex;gap:12px;align-items:center;margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font:400 11px/1.4 var(--mono);text-transform:uppercase}
+.rv .card .who .av{width:44px;height:44px;flex:none}
+.rv .card .who b{display:block;font:600 14px/1.2 var(--sans);text-transform:none}
+.rv .card.hl{background:var(--sig)}
+.rv .card.hl .st i{background:var(--ink)}
+.rv .card.hl .who{border-color:rgba(11,11,11,.3)}
+.press{display:grid;grid-template-columns:repeat(5,1fr);margin:70px 40px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+.press span{height:110px;display:grid;place-items:center;border-right:1px solid var(--line);font:700 20px/1 var(--sans);color:var(--grey);letter-spacing:-.01em}
+.press span:last-child{border-right:0}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="hero">
+  <div class="meta mono"><div><span class="idx sig">01</span> &nbsp;Kontur H1 — Over-ear · Adaptive noise cancelling</div><div>Designed &amp; measured in Zürich</div><div>Series 04 / 2026 · <span class="sig">■</span> In stock</div></div>
+  <h1 class="disp">Kont<span class="o">u</span>r<span class="sig">.</span></h1>
+  <div class="rings"><b></b><b></b><b></b><i></i><i></i><i></i><i></i></div>
+  <div class="stage"><div class="ph" data-img="1722891067479-5fd39edbfc3d|1400"></div></div>
+  <svg class="call" viewBox="0 0 1440 1060">
+    <g stroke="#0b0b0b" stroke-width="1" fill="none">
+      <path d="M722 432 L660 398 H400"/><path d="M590 668 L540 598 H400"/><path d="M852 852 L800 904 H400"/>
+    </g>
+    <g fill="#ff4d00"><rect x="718" y="428" width="8" height="8"/><rect x="586" y="664" width="8" height="8"/><rect x="848" y="848" width="8" height="8"/></g>
+    <g fill="none" stroke="#ff4d00"><circle cx="852" cy="852" r="18" class="blink"/><circle cx="590" cy="668" r="14"/></g>
+  </svg>
+  <div class="call-l" style="left:400px;top:360px"><span class="idx">A</span> Headband<b>Merino felt · 254 g total</b></div>
+  <div class="call-l" style="left:400px;top:560px"><span class="idx">B</span> Hinge<b>Machined aluminium 6061-T6</b></div>
+  <div class="call-l" style="left:400px;top:866px"><span class="idx">C</span> Driver<b>40 mm beryllium dome</b></div>
+
+  <div class="left">
+    <div class="mono">Noise reduction <span class="dim">/ measured</span></div>
+    <div class="flap"><span>−</span><span>4</span><span class="flip sig">2</span></div>
+    <div class="mono">dB · 20 Hz – 4 kHz band</div>
+    <div class="sp"><div><span>Frequency</span><span>4 Hz – 40 kHz</span></div><div><span>THD @ 94 dB</span><span>&lt; 0.003 %</span></div><div><span>Battery</span><span>60 h · ANC on</span></div><div><span>Codec</span><span>LDAC · aptX Lossless</span></div></div>
+  </div>
+  <div class="right">
+    <div class="mono">Kontur H1 · Kreide</div>
+    <div class="price">€690<small>CHF 650</small></div>
+    <div class="mono dim">Incl. VAT · Free delivery in 2 days</div>
+    <div class="sw"><i class="on" style="background:#d9cfc1"></i><i style="background:#1d1d1d"></i><i style="background:#b5c4a8"></i><i style="background:#ff4d00"></i></div>
+    <div class="mono s dim" style="margin-bottom:20px">Kreide · Graphit · Salbei · Signal</div>
+    <a class="btn">Add to cart <span data-ic="arrow"></span></a>
+    <a class="btn ghost">Configure yours <span data-ic="ne"></span></a>
+  </div>
+  <div class="cursor" style="left:780px;top:560px"><span class="eq"><s></s><s></s><s></s><s></s></span>LISTEN</div>
+
+  <div class="player">
+    <div class="pb"><span data-ic="pause"></span></div>
+    <div class="tt"><b>Limmat, 05:12 AM</b>Demo master · 24 bit / 96 kHz</div>
+    <div class="wv"><div data-wave="150|.38|54|4" data-rest="rgba(242,241,238,.28)"></div><span class="head"></span></div>
+    <div class="tm">01:30 <span>/ 03:58</span></div>
+    <div class="anc"><span class="on">ANC</span><span>AWARE</span><span>OFF</span></div>
+  </div>
+</section>
+
+<div class="ticker"><div class="t">
+  <span>40 mm beryllium driver</span><i></i><span>4 Hz – 40 kHz</span><i></i><span><b>−42 dB</b> adaptive ANC</span><i></i><span>60 h battery</span><i></i><span>254 g</span><i></i><span>8 microphones</span><i></i><span>LDAC · aptX Lossless</span><i></i><span>10-year spare parts</span><i></i><span>Tuned in Zürich</span><i></i>
+  <span>40 mm beryllium driver</span><i></i><span>4 Hz – 40 kHz</span><i></i><span><b>−42 dB</b> adaptive ANC</span><i></i><span>60 h battery</span><i></i><span>254 g</span><i></i><span>8 microphones</span><i></i><span>LDAC · aptX Lossless</span><i></i><span>10-year spare parts</span><i></i><span>Tuned in Zürich</span><i></i>
+</div></div>
+
+<section class="coll">
+  <div class="sh"><div class="k"><b>[02]</b> Collection<br><span class="dim">05 instruments</span></div><h2 class="disp">Instruments<br>for list<span class="sig">e</span>ning</h2>
+    <div class="tabs"><span class="chip on">All 05</span><span class="chip">Headphones</span><span class="chip">Speakers</span><span class="chip">Accessories</span></div></div>
+  <div class="grid4">
+    <div class="pc"><div class="im" data-img="1599669454699-248893623440|800"><span class="id" style="color:#f2f1ee">[01]</span><span class="tag">New</span></div>
+      <div class="bd"><h3>Kontur H1</h3><div class="ty">Over-ear · Wireless · ANC</div><div class="pr"><b>€690</b><span>4 finishes<br>CHF 650</span></div></div></div>
+    <div class="pc open"><div class="im" data-img="1583394838336-acd977736f90|800" style="background:#e9e8e4"><span class="id">[02]</span><span class="tag" style="background:var(--paper)">Reference</span></div>
+      <div class="bd"><h3>Kontur Studio</h3><div class="ty">Open-back · Wired · 300 Ω</div>
+        <table><tr><td>Driver</td><td>50 mm beryllium</td></tr><tr><td>Response</td><td>3 Hz – 48 kHz</td></tr><tr><td>Weight</td><td>318 g</td></tr><tr><td>Cable</td><td>4.4 mm balanced</td></tr></table>
+        <div class="fb" data-bars="40|3"></div><div class="mini"><span>20 Hz</span><span>1 kHz</span><span>20 kHz</span></div>
+        <a class="btn sig">Add to cart — €1,190 <span data-ic="arrow"></span></a></div></div>
+    <div class="pc"><div class="im" data-img="1703843943664-867123b25898|800"><span class="id">[03]</span></div>
+      <div class="bd"><h3>Fels S3</h3><div class="ty">Active monitor · Pair</div><div class="pr"><b>€1,900</b><span>2 finishes<br>CHF 1,790</span></div></div></div>
+    <div class="pc"><div class="im" data-img="1582978571763-2d039e56f0c3|800"><span class="id" style="color:#f2f1ee">[04]</span></div>
+      <div class="bd"><h3>Tram P1</h3><div class="ty">Portable · 18 h · IP67</div><div class="pr"><b>€390</b><span>3 finishes<br>CHF 370</span></div></div></div>
+  </div>
+  <div class="cursor sigc" style="left:604px;top:330px"><span class="eq"><s></s><s></s><s></s><s></s></span>LISTEN</div>
+  <div class="foot"><span>02 / 05</span><div class="tr"><i></i></div><span style="grid-column:12;text-align:right">All products →</span></div>
+</section>
+
+<section class="zh">
+  <div class="sh"><div class="k"><b>[03]</b> Engineered<br>in Zürich</div><div class="mono dim" style="grid-column:9/13;text-align:right">47.3909° N · 8.5113° E</div></div>
+  <div class="wrap">
+    <h2 class="disp">Measured<br>twice. Tuned<br>once<span class="sig">.</span></h2>
+    <div class="txt"><p>Every Kontur is calibrated against its own frequency response in our anechoic room on the Hardturmstrasse — 1,284 sweeps before it leaves the bench.</p><p>We publish the measurement sheet with your serial number. If a driver ever drifts, we replace it. For ten years.</p></div>
+    <div class="lab" data-img="1760780567530-389d8a3fba75|1400">
+      <div class="cross" style="left:420px;top:150px"></div>
+      <div class="tagl" style="left:560px;top:112px"><span class="sig">●</span> REC · Sweep 0912 / 1284</div>
+      <div class="tagl" style="left:24px;top:24px">Lab B · Noise floor −18 dB(A)</div>
+      <div class="fbars" data-bars="64|11"></div>
+      <div class="scale"><span>20 Hz</span><span>100</span><span>500</span><span>1k</span><span>5k</span><span>10k</span><span>20 kHz</span></div>
+    </div>
+    <div class="stats">
+      <div><span class="mono">Distortion</span><b>0.003<sup>%</sup></b><span>THD at 94 dB SPL, 1 kHz</span></div>
+      <div style="padding-left:20px;border-left:1px solid var(--line)"><span class="mono">Sweeps</span><b>1,284</b><span>per unit, logged to serial</span></div>
+      <div><span class="mono">Parts</span><b>38</b><span>all replaceable by hand</span></div>
+      <div style="padding-left:20px;border-left:1px solid var(--line)"><span class="mono">Warranty</span><b>10<sup>yr</sup></b><span>spare parts guaranteed</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="ab dark">
+  <div class="sh"><div class="k"><b>[04]</b> A / B</div><div class="mono" style="grid-column:9/13;text-align:right;color:var(--grey-2)">Tram 11, Escher-Wyss-Platz · 72 dB(A)</div></div>
+  <div class="wrap" style="margin-top:50px">
+    <div class="ph" data-img="1718382341267-aef8a9e4ecef|1000"><div class="rings"><b style="inset:40px"></b><i></i><i></i><i></i><i></i></div><div class="lbl"><span class="sig">■</span> Field test 07 · Uetliberg, 06:40</div></div>
+    <div class="tx">
+      <div class="mono" style="color:var(--grey-2)">Adaptive noise cancelling</div>
+      <h2 class="disp">Silence,<br>measured<span class="sig">.</span></h2>
+      <p style="color:var(--grey-2);max-width:500px;font-size:17px">Eight microphones sample the world 50,000 times a second. Toggle to hear the same tram ride with Kontur on and off.</p>
+      <div class="tog"><span class="on">A · ANC ON</span><span>B · ANC OFF</span></div>
+      <div class="cmp">
+        <div><span class="k">Outside<br>Tram 11</span><div data-wave="90|1|46|9" data-played="rgba(242,241,238,.55)"></div><span class="v">72 dB</span></div>
+        <div><span class="k">Inside<br>Kontur H1</span><div data-wave="90|1|46|21" data-played="#ff4d00" data-fill=".5" style="transform:scaleY(.32)"></div><span class="v sig">30 dB</span></div>
+      </div>
+      <div class="big"><b>−42</b><span>Decibels removed<br>between 20 Hz and 4 kHz<br>Lab report ZH-0412</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="sh"><div class="k"><b>[05]</b> Reviews</div><h2 class="disp" style="grid-column:3/11;font-size:96px">Heard by<br>2,418 owners</h2></div>
+  <div class="wrap">
+    <div class="score"><div class="mono">Average rating</div><b>4.9</b><div class="mono dim">/ 5.0 · verified owners</div>
+      <div class="dist"><div><span>5</span><i><s style="width:88%"></s></i><span>2,127</span></div><div><span>4</span><i><s style="width:9%"></s></i><span>218</span></div><div><span>3</span><i><s style="width:2%"></s></i><span>48</span></div><div><span>2</span><i><s style="width:1%"></s></i><span>17</span></div><div><span>1</span><i><s style="width:.5%"></s></i><span>8</span></div></div></div>
+    <div class="cards">
+      <div class="card"><div class="mono dim">Hörwelt Magazin · 03/26</div><div class="st"><i></i><i></i><i></i><i></i><i></i></div><q>“The flattest bass we have measured on a wireless headphone. It sounds like nothing — which is the highest compliment.”</q><div class="who"><span class="av" style="background:var(--ink);display:grid;place-items:center;color:var(--sig);font:800 15px var(--sans)">HW</span><div><b>Test verdict 9.4</b>Editor’s choice</div></div></div>
+      <div class="card hl"><div class="mono">Verified owner · Basel</div><div class="st"><i></i><i></i><i></i><i></i><i></i></div><q>“I sat on the train to Milan and forgot the train existed. The felt band means I wear them for the whole trip.”</q><div class="who"><span class="av" data-img="1758876020848-6d1bed1d7453|200"></span><div><b>Matthias Keller</b>Kontur H1 · Graphit</div></div></div>
+      <div class="card"><div class="mono dim">Verified owner · Lyon</div><div class="st"><i></i><i></i><i></i><i></i><i class="h"></i></div><q>“The measurement sheet in the box is a lovely touch. Swapped the cushions myself after two years — four screws.”</q><div class="who"><span class="av" data-img="1584582835835-c483999a7ae7|200"></span><div><b>Camille Duret</b>Kontur H1 · Kreide</div></div></div>
+    </div>
+  </div>
+  <div class="press"><span>HÖRWELT</span><span style="font-stretch:125%;font-weight:800">KLANGBILD</span><span style="font-family:var(--mono);font-weight:500;font-size:17px">the_audio_ledger</span><span style="font-style:italic">Tonmeister Quarterly</span><span style="font-stretch:62%;font-size:26px">MONITOR/MAG</span></div>
+</section>
+
+<div data-footer></div>
+<script src="sonora.js"></script>
+<script>sonora('Headphones');</script>
+</body></html>

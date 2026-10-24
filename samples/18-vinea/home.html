@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Domaine Vinea — Grand Cru Estate</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vinea.css">
+<script src="v3d.js"></script>
+<style>
+.hero{position:relative;height:1080px;overflow:hidden;background:var(--ink)}
+.hero canvas{position:absolute;left:0;top:0;z-index:1}
+.hero .copy{position:absolute;left:72px;top:250px;z-index:4;width:400px}
+.hero .copy p{color:var(--pd);font-size:17px;margin:26px 0 34px}
+.hero .copy .cta{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.hero .copy .rate{display:flex;align-items:center;gap:14px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--pd)}
+.hero .copy .rate b{font:400 40px/1 var(--disp);color:var(--par)}
+.hero h1{position:absolute;left:66px;right:60px;bottom:58px;z-index:4;font-size:142px;line-height:.9;white-space:nowrap;text-shadow:0 14px 50px rgba(0,0,0,.7)}
+.hero h1 em{color:var(--goldl)}
+.hero .side{position:absolute;left:72px;top:170px;z-index:4;display:flex;align-items:center;gap:16px}
+.hero .side .ln{width:80px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.hero .card{position:absolute;right:72px;top:178px;width:300px;z-index:4;padding:22px 24px;background:rgba(26,10,14,.5);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.hero .card .row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line2);font-size:13px;color:var(--pd)}
+.hero .card .row:last-child{border:0}
+.hero .card .row b{font:400 19px/1 var(--disp);color:var(--par)}
+.hero .card h3{font-size:32px;margin:14px 0 6px}
+.hero .card .sc{display:flex;gap:6px;margin:14px 0 6px}.hero .card .sc i{flex:1;height:4px;background:var(--bur2)}.hero .card .sc i.on{background:var(--gold)}
+.hero .price{position:absolute;right:72px;top:560px;z-index:4;width:300px}
+.hero .price .p{display:flex;align-items:baseline;gap:14px;margin:12px 0 20px}
+.hero .price .p b{font:400 64px/1 var(--disp)}
+.hero .price .p s{color:var(--pf);font-size:14px;text-decoration:none}
+.hero .price .sizes{display:flex;gap:8px;margin-bottom:14px}
+.hero .price .sizes span{flex:1;height:42px;border:1px solid var(--line);display:grid;place-items:center;font:600 12px/1 var(--sans);letter-spacing:.06em;color:var(--pd)}
+.hero .price .sizes span.on{border-color:var(--gold);color:var(--par);background:rgba(184,149,90,.12)}
+.hero .seal{position:absolute;width:124px;height:124px;left:476px;top:268px;z-index:5;animation:drift 6s ease-in-out infinite}
+.hero .cursor{left:1004px;top:470px}
+.hero .cursor i{width:88px;height:88px}
+.hero .scroll{position:absolute;right:72px;bottom:72px;z-index:4;display:flex;align-items:center;gap:14px;font:700 10px/1 var(--sans);letter-spacing:.3em;color:var(--pf)}
+.hero .scroll i{width:120px;height:1px;background:var(--line2);position:relative}.hero .scroll i::after{content:"";position:absolute;left:0;top:0;height:1px;width:36%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+
+.manif{padding:170px 72px 150px;position:relative;display:grid;grid-template-columns:260px 1fr 260px;gap:60px}
+.manif .l{border-top:1px solid var(--line);padding-top:22px}
+.manif .l p{font:italic 400 17px/1.5 var(--it);color:var(--pd);margin-top:18px}
+.manif .txt{font:400 54px/1.18 var(--disp);letter-spacing:-.01em;text-align:center}
+.manif .txt .cap{float:left;font-size:178px;line-height:.78;margin:10px 18px 0 0;color:var(--goldl);font-family:var(--disp)}
+.manif .txt em{color:var(--goldl)}
+.manif .txt .f{color:rgba(239,228,208,.26)}
+.manif .txt{text-align:left}
+.manif .r{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between}
+.manif .r .seal{width:150px;height:150px}
+.stats{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);margin-top:60px;border-top:1px solid var(--line)}
+.stats div{padding:34px 0 0;border-right:1px solid var(--line2);padding-left:30px}
+.stats div:first-child{padding-left:0}.stats div:last-child{border:0}
+.stats b{display:block;font:400 92px/1 var(--disp);letter-spacing:-.03em}
+.stats b sup{font-size:30px;color:var(--gold);vertical-align:top;margin-left:6px;position:relative;top:10px}
+.stats span{font:700 11px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--pd)}
+
+.trip{padding:40px 72px 170px;position:relative}
+.trip .sh{margin-bottom:70px}
+.trip .sh p{max-width:380px;color:var(--pd)}
+.trip .row{display:grid;grid-template-columns:1fr 1.12fr 1fr;gap:26px;align-items:end}
+.arch{position:relative;border-radius:280px 280px 4px 4px;overflow:hidden;height:720px;padding:46px 40px 36px;display:flex;flex-direction:column;border:1px solid var(--line)}
+.arch.r{background:radial-gradient(70% 50% at 50% 42%,#6b1a2b 0%,#33091a 55%,#1a0a0f 100%)}
+.arch.ro{background:radial-gradient(70% 50% at 50% 42%,#d88a7c 0%,#7a3a40 50%,#2a1015 100%);height:800px}
+.arch.s{background:radial-gradient(70% 50% at 50% 42%,#6a5a30 0%,#2e2614 55%,#141008 100%)}
+.arch .lab{text-align:center}
+.arch .lab .mono{color:rgba(239,228,208,.75)}
+.arch h3{font-size:84px;margin-top:14px;text-align:center}
+.arch .bt{position:absolute;left:50%;bottom:118px;width:118px;height:380px;transform:translateX(-50%)}
+.arch.ro .bt{height:430px;width:132px;bottom:150px}
+.arch .bt.b2{transform:translateX(-14%) rotate(9deg);filter:brightness(.7);z-index:0}
+.arch .bt.b1{transform:translateX(-86%) rotate(-7deg);filter:brightness(.7);z-index:0}
+.arch .bt.m{z-index:1}
+.arch .rim{position:absolute;left:50%;bottom:120px;width:330px;height:60px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent)}
+.arch .af{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;position:relative;z-index:2;border-top:1px solid rgba(239,228,208,.18);padding-top:18px}
+.arch .af b{font:400 22px/1.1 var(--disp)}
+.arch .af>div span{font-size:13px;color:var(--pd)}
+.arch .qa{position:absolute;left:40px;right:40px;bottom:112px;z-index:3;padding:18px 20px;background:rgba(18,10,12,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(239,228,208,.18);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.arch .qa b{font:400 20px/1 var(--disp)}.arch .qa small{display:block;color:var(--pd);font-size:12px;margin-top:6px}
+.arch .qa .btn{height:44px;padding:0 18px}
+.arch .note{position:absolute;z-index:3;font:600 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;padding:9px 12px;border-radius:999px;background:rgba(239,228,208,.12);border:1px solid rgba(239,228,208,.2);backdrop-filter:blur(8px)}
+
+.land{position:relative;height:900px;overflow:hidden}
+.land img{position:absolute;inset:0;filter:saturate(.9) contrast(1.05) brightness(.82)}
+.land::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--ink) 0%,rgba(18,10,12,.1) 30%,rgba(18,10,12,.2) 60%,var(--ink) 100%),radial-gradient(60% 60% at 70% 30%,rgba(255,170,90,.2),transparent)}
+.land svg.map{position:absolute;inset:0;z-index:2}
+.land .ttl{position:absolute;left:72px;top:150px;z-index:3}
+.land h2{font-size:150px;text-shadow:0 10px 50px rgba(0,0,0,.5)}
+.land h2 em{color:var(--goldl)}
+.land .pin{position:absolute;z-index:3;display:flex;align-items:center;gap:12px}
+.land .pin i{width:16px;height:16px;border-radius:50%;background:var(--goldl);box-shadow:0 0 0 6px rgba(220,192,138,.25);animation:pulse 2.4s infinite}
+.land .pin div{padding:12px 16px;background:rgba(18,10,12,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line)}
+.land .pin b{display:block;font:400 22px/1 var(--disp)}.land .pin small{font-size:12px;color:var(--pd)}
+.land .legend{position:absolute;right:72px;bottom:110px;z-index:3;width:360px;padding:28px;background:rgba(18,10,12,.66);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.land .legend li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px;color:var(--pd);list-style:none}
+.land .legend li b{color:var(--par);font-weight:500}
+
+.vint{padding:140px 0 0;overflow:hidden}
+.club{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:110px 72px 160px;border:1px solid var(--line);position:relative}
+.club .ph{position:relative;min-height:720px;overflow:hidden}
+.club .ph img{position:absolute;inset:0;filter:brightness(.8) saturate(1.05)}
+.club .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 60%,var(--ink))}
+.club .ph .q{position:absolute;left:44px;bottom:40px;z-index:2;max-width:420px;font:italic 400 26px/1.3 var(--it)}
+.club .ph .q small{display:block;margin-top:14px;font:700 11px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--goldl)}
+.club .tx{padding:70px 64px;background:linear-gradient(160deg,#1d0b11,var(--ink))}
+.club h2{font-size:96px;margin:22px 0 22px}
+.club h2 em{color:var(--goldl)}
+.tiers{display:grid;gap:12px;margin:34px 0 36px}
+.tier{display:grid;grid-template-columns:60px 1fr auto;gap:18px;align-items:center;padding:18px 22px;border:1px solid var(--line2);background:rgba(239,228,208,.02)}
+.tier.on{border-color:var(--gold);background:linear-gradient(90deg,rgba(184,149,90,.14),rgba(184,149,90,.02));box-shadow:0 20px 40px -20px rgba(184,149,90,.4)}
+.tier .n{font:400 40px/1 var(--disp);color:var(--gold)}
+.tier b{font:400 24px/1 var(--disp)}.tier small{display:block;color:var(--pd);font-size:13px;margin-top:6px}
+.tier .pr{font:400 26px/1 var(--disp)}.tier .pr small{text-align:right}
+
+.voices{padding:20px 72px 170px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.voice{padding:40px 36px;position:relative}
+.voice .stars{color:var(--gold);letter-spacing:.3em;font-size:13px}
+.voice p{font:400 27px/1.25 var(--disp);margin:22px 0 30px}
+.voice .who{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--pd)}
+.voice .who i{width:44px;height:44px;border-radius:50%;background:var(--bur2);display:grid;place-items:center;font:400 18px/1 var(--disp);font-style:normal;color:var(--goldl)}
+.voice .who b{display:block;color:var(--par);font-weight:600}
+</style></head>
+<body>
+<div class="ann"><span><i class="dot"></i>Harvest 2026 is resting in barrel — <b>pre-release allocations open 3 November</b></span><span>Cellar-temperature delivery across the EU · Free over €250</span></div>
+<nav class="nav abs"><div class="l"><a href="wines.html">The Wines</a><a href="wine.html">Grand Cru</a><a href="club.html">Cellar Society</a></div>
+<a class="logo" href="home.html"><span class="cr" data-crest></span><b>DOMAINE VINEA</b></a>
+<div class="r"><a href="estate.html">Estate &amp; Tours</a><a href="#"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a><a class="case-btn" href="checkout.html">Case <i>4</i></a></div></nav>
+
+<section class="hero">
+  <canvas id="hero3d"></canvas>
+  <div class="side"><span class="mono">N° 01 — Côte de Vinea</span><span class="ln"></span></div>
+  <span class="seal" data-seal="CLOS DES OMBRES · GRAND CRU · MMXIX ·" data-mono="V"></span>
+  <div class="copy">
+    <div class="mono" style="color:var(--pd)">Family estate · eleventh generation</div>
+    <p>Grand Cru reds, saignée rosé and long-aged sparkling from fourteen hectares of limestone — picked by hand, sealed in wax and shipped to your door at cellar temperature.</p>
+    <div class="cta"><a class="btn p" href="wines.html">Explore the wines <span class="ar"></span></a><a class="btn g" href="estate.html">Book a cellar tour</a></div>
+    <div class="rate"><b>98</b><span>points · Revue des Caves<br>“All velvet and dark fruit.”</span></div>
+  </div>
+  <div class="card frm"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+    <div class="mono">Tonight’s pour</div>
+    <h3>Clos des Ombres</h3>
+    <div class="dim" style="font:italic 400 15px/1.4 var(--it)">Grand Cru · Pinot Noir · 2019</div>
+    <div class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+    <div class="row"><span>Black cherry · violet</span><b>Body 4/5</b></div>
+    <div class="row"><span>Drink window</span><b>2026 – 2048</b></div>
+    <div class="row"><span>Serve at</span><b>16 °C</b></div>
+  </div>
+  <div class="cursor"><i>Swirl</i></div>
+  <div class="price">
+    <div class="mono">Allocation · 312 of 9,600 left</div>
+    <div class="p"><b>€420</b><s>75 cl bottle</s></div>
+    <div class="sizes"><span class="on">75 cl</span><span>Magnum</span><span>Case · 6</span></div>
+    <a class="btn par" href="wine.html" style="width:100%;justify-content:space-between">Reserve a bottle <span class="ar"></span></a>
+  </div>
+  <h1>Poured by <em>candlelight.</em></h1>
+  </section>
+
+<section class="manif">
+  <div class="l"><span class="num">I.</span><p>“We do very little. We wait, we listen to the weather, and we let the hill speak.”<br><br>— Hélène Vauquelin, eleventh-generation vigneronne</p></div>
+  <p class="txt"><span class="cap">S</span>ince 1812, one family has tended the same slope above the Saône — <em>fourteen hectares</em> of limestone, old vines and patience. <span class="f">Every bottle is picked by hand, aged in our own oak beneath the house, and sealed in wax by the people who grew it.</span></p>
+  <div class="r"><span class="seal" data-seal="MIS EN BOUTEILLE AU DOMAINE · " data-mono="1812" data-color="#5a0f1f"></span><span class="mono" style="text-align:right;line-height:1.8">Certified organic<br>since 2008</span></div>
+  <div class="stats">
+    <div><b>214<sup>yrs</sup></b><span>of family winemaking</span></div>
+    <div><b>14<sup>ha</sup></b><span>across nine parcels</span></div>
+    <div><b>64<sup>yrs</sup></b><span>average vine age</span></div>
+    <div><b>9,600</b><span>bottles of Grand Cru a year</span></div>
+  </div>
+</section>
+
+<section class="trip">
+  <div class="sh"><div><div class="mono">The house in three colours</div><h2 style="margin-top:22px">Rouge, rosé <em class="gold">&amp; bubbles.</em></h2></div><p>Each colour has its own cellar and its own rhythm: eighteen months in oak for the reds, a single night on the skins for the rosé, five years on the lees for the sparkling.</p></div>
+  <div class="row">
+    <a class="arch r" href="wines.html">
+      <div class="lab"><div class="mono">I · Rouge</div><h3>Pinot <em>Noir</em></h3></div>
+      <span class="bt b1" data-bottle="old" data-name="Les Chandelles" data-year="2020" data-cru="Premier Cru"></span>
+      <span class="bt m" data-bottle="red" data-name="Clos des Ombres" data-year="2019"></span>
+      <span class="rim"></span>
+      <div class="af"><div><b>Six reds</b><br><span>From €38 to €420</span></div><span class="btn g" style="height:42px;padding:0 16px">Shop</span></div>
+    </a>
+    <a class="arch ro" href="wines.html">
+      <span class="note" style="left:40px;top:240px">Wild strawberry</span><span class="note" style="right:40px;top:300px">Pink grapefruit</span><span class="note" style="left:56px;top:400px">Rose petal</span>
+      <div class="lab"><div class="mono">II · Rosé</div><h3>Saignée <em>Aube</em></h3></div>
+      <span class="bt m" data-bottle="rose" data-name="Aube" data-year="2023" data-cru="Rosé de Saignée"></span>
+      <span class="rim"></span>
+      <div class="qa"><div><b>Aube 2023</b><small>Rosé de Saignée · 75 cl · €42</small></div><span class="btn par">Add <span class="ar" style="width:18px"></span></span></div>
+      <div class="af"><div><b>Two rosés</b><br><span>Pressed at dawn, bottled by spring</span></div><span class="btn par" style="height:42px;padding:0 16px">Shop</span></div>
+    </a>
+    <a class="arch s" href="wines.html">
+      <div class="lab"><div class="mono">III · Pétillant</div><h3>Mille <em>Bougies</em></h3></div>
+      <span class="bt b2" data-bottle="bdn" data-name="Blanc de Noirs" data-year="2016" data-cru="Extra Brut"></span>
+      <span class="bt m" data-bottle="spark" data-name="Mille Bougies" data-year="NV" data-cru="Crémant Brut"></span>
+      <span class="rim"></span>
+      <div class="af"><div><b>Three sparkling</b><br><span>Five years on the lees</span></div><span class="btn g" style="height:42px;padding:0 16px">Shop</span></div>
+    </a>
+  </div>
+</section>
+
+<section class="land">
+  <img src="https://images.unsplash.com/photo-1568930157403-9ad464e5f075?auto=format&fit=crop&q=82&w=1800" alt="Rolling vineyard hills at sunset">
+  <svg class="map" viewBox="0 0 1440 900" fill="none"><path d="M180 700 C 420 560, 640 640, 860 520 S 1220 420, 1380 470" stroke="rgba(220,192,138,.55)" stroke-dasharray="4 8"/><path d="M640 610 l120 -40 l60 70 l-130 40 z" stroke="rgba(220,192,138,.8)" fill="rgba(140,42,61,.28)"/><path d="M1070 280 l140 -30 l40 60 l-150 34 z" stroke="rgba(220,192,138,.6)" fill="rgba(125,148,80,.2)"/><path d="M330 690 l130 -20 l30 60 l-140 22z" stroke="rgba(220,192,138,.5)" fill="rgba(220,192,138,.12)"/></svg>
+  <div class="ttl"><div class="mono">The terroir</div><h2 style="margin-top:22px">Fourteen hectares<br>of <em>limestone.</em></h2></div>
+  <div class="pin" style="left:686px;top:596px"><i></i><div><b>Clos des Ombres</b><small>Grand Cru · 2.1 ha · south-east · 290 m</small></div></div>
+  <div class="pin" style="left:1080px;top:262px"><i></i><div><b>Les Chandelles</b><small>Premier Cru · 3.4 ha</small></div></div>
+  <div class="legend frm"><span class="c tl"></span><span class="c br"></span><div class="mono" style="margin-bottom:12px">Nine parcels</div><ul><li>Clos des Ombres <b>Grand Cru</b></li><li>Les Chandelles <b>Premier Cru</b></li><li>Coteau Saint-Aubert <b>Village</b></li><li>Les Aubes <b>Rosé</b></li></ul><a class="btn g" href="estate.html" style="margin-top:22px;width:100%;justify-content:space-between">Walk the estate <span class="ar"></span></a></div>
+</section>
+
+<section class="vint">
+  <div class="marq"><div class="tr">
+    <span>2019</span><b></b><span class="o">Exceptional</span><b></b><span>2015</span><b></b><span class="o">Legendary</span><b></b><span>2010</span><b></b><span class="o">Classic</span><b></b><span>2005</span><b></b><span class="o">Monumental</span><b></b>
+    <span>2019</span><b></b><span class="o">Exceptional</span><b></b><span>2015</span><b></b><span class="o">Legendary</span><b></b><span>2010</span><b></b><span class="o">Classic</span><b></b><span>2005</span><b></b><span class="o">Monumental</span><b></b>
+  </div></div>
+</section>
+
+<section class="club">
+  <div class="ph"><img src="https://images.unsplash.com/photo-1561906814-23da9a8bfee0?auto=format&fit=crop&q=82&w=1100" alt="Barrel cellar beneath the house"><div class="q">“Opening the quarterly case feels like being let into the family cellar.”<small>Marguerite L. · Member since 2019</small></div></div>
+  <div class="tx">
+    <div class="mono">The Cellar Society</div>
+    <h2>A case at your <em>table,</em> four times a year.</h2>
+    <p class="dim" style="max-width:480px">Members receive first allocations of every Grand Cru, library releases from the family cellar, and an invitation to the harvest supper each September.</p>
+    <div class="tiers">
+      <div class="tier"><span class="n">I</span><div><b>Bougie</b><small>6 bottles · village &amp; rosé</small></div><div class="pr">€240<small>/qtr</small></div></div>
+      <div class="tier on"><span class="n">II</span><div><b>Chandelle</b><small>6 bottles · incl. one Premier Cru</small></div><div class="pr">€420<small>/qtr</small></div></div>
+      <div class="tier"><span class="n">III</span><div><b>Lustre</b><small>12 bottles · Grand Cru &amp; library</small></div><div class="pr">€1,180<small>/qtr</small></div></div>
+    </div>
+    <a class="btn p" href="club.html">Build your first case <span class="ar"></span></a>
+  </div>
+</section>
+
+<section class="voices">
+  <div class="voice frm"><span class="c tl"></span><span class="c br"></span><div class="stars">◆◆◆◆◆</div><p>“The 2019 Clos des Ombres is all velvet and dark fruit — the kind of bottle you plan a whole evening around.”</p><div class="who"><i>R</i><div><b>Revue des Caves</b>98 points · March 2026</div></div></div>
+  <div class="voice frm"><span class="c tl"></span><span class="c br"></span><div class="stars">◆◆◆◆◆</div><p>“Our case arrived at exactly 14&nbsp;°C, with a handwritten card from the cellar master. Faultless.”</p><div class="who"><i>T</i><div><b>Tomas Ekberg</b>Stockholm · Lustre member</div></div></div>
+  <div class="voice frm"><span class="c tl"></span><span class="c br"></span><div class="stars">◆◆◆◆◆</div><p>“The candlelit tasting in the old barrel vault was the highlight of our whole trip through the valley.”</p><div class="who"><i>A</i><div><b>Amara Okafor</b>London · Cellar tour, June</div></div></div>
+</section>
+
+<footer class="foot"><div class="glow"></div>
+  <div class="top">
+    <div class="news"><h4>The Cellar Letter</h4><p>Harvest notes, release dates and the occasional <em>library bottle</em> — four letters a year.</p><form><span>Your email address</span><b>SUBSCRIBE</b></form></div>
+    <div><h4>Wines</h4><ul><li>Grand Cru</li><li>Premier Cru</li><li>Rosé</li><li>Sparkling</li><li>Library releases</li></ul></div>
+    <div><h4>Estate</h4><ul><li>Our story</li><li>The nine parcels</li><li>Cellar tours</li><li>Harvest supper</li><li>Press</li></ul></div>
+    <div><h4>Service</h4><ul><li>Delivery &amp; temperature</li><li>Cellar Society</li><li>Gift cases</li><li>Contact the cellar</li><li>Drink responsibly</li></ul></div>
+  </div>
+  <div class="big"><span class="seal" data-seal="DOMAINE VINEA · CÔTE DE VINEA · " data-mono="V"></span><h2>VINEA</h2></div>
+  <div class="legal"><span>© 2026 Domaine Vinea · Concept project</span><span>L’abus d’alcool est dangereux pour la santé — enjoy with moderation.</span><span>Privacy · Terms · Accessibility</span></div>
+</footer>
+
+<script src="vinea.js"></script>
+<script type="module">
+import * as THREE from 'three';
+const V = window.V3D(THREE);
+await V.fonts();
+const W = 1440, H = 1080;
+const canvas = document.getElementById('hero3d');
+const renderer = V.renderer(canvas, W, H);
+const scene = new THREE.Scene();
+scene.environment = V.studioEnv(renderer);
+const camera = new THREE.PerspectiveCamera(25, W / H, 0.1, 100);
+camera.position.set(0, 1.62, 10.4); camera.lookAt(0.1, 1.38, 0);
+const back = V.backdrop({ w: 10.5, h: 7.6, cx: .53, cy: .5, r: .4, text: '2019', textSize: 640, textY: .6, stops: [[0, '#5e1628'], [0.3, '#300b15'], [0.68, '#170a0e'], [1, '#120a0c']] });
+back.position.set(0.1, 1.45, -3); scene.add(back);
+const warm = V.glow(3.4, 3.4, [[0, 'rgba(255,190,120,.45)'], [0.5, 'rgba(255,140,70,.1)'], [1, 'rgba(0,0,0,0)']]);
+warm.position.set(1.0, 1.4, -1.2); scene.add(warm);
+
+const bottle = V.bottle({ labelOpts: { name: 'Clos des Ombres', cru: 'Grand Cru', year: '2019' } });
+bottle.position.set(-0.52, 0, 0); bottle.rotation.y = -0.18; scene.add(bottle);
+const glass = V.wineGlass({ level: 1.62, swirl: 0.085 });
+glass.position.set(0.92, 0, 0.15); glass.scale.setScalar(0.92); scene.add(glass);
+
+// mid-swirl droplets leaving the rim
+const dropMat = glass.userData.wineMat;
+const drops = new THREE.Group();
+[[0.5, 2.62, 0.62, .035], [0.62, 2.84, 0.58, .026], [0.74, 3.0, 0.52, .02], [0.86, 3.1, 0.48, .014], [0.36, 2.72, 0.7, .018]].forEach(([x, y, z, r]) => {
+  const d = new THREE.Mesh(new THREE.SphereGeometry(r, 20, 14), dropMat); d.position.set(x + 0.42, y * 0.92 - 0.12, z - 0.4); d.scale.y = 1.25; drops.add(d);
+});
+scene.add(drops);
+
+// ground: dark polished table with soft shadows + reflection glint
+const table = new THREE.Mesh(new THREE.CircleGeometry(6, 64), new THREE.MeshPhysicalMaterial({ color: 0x140709, roughness: 0.35, metalness: 0.2, clearcoat: 1, clearcoatRoughness: 0.15, transparent: true, opacity: 0.0 }));
+table.rotation.x = -Math.PI / 2; scene.add(table);
+const sh1 = V.shadow(1.9, 1.3, 0.9); sh1.position.set(-0.52, 0.003, 0.05); scene.add(sh1);
+const sh2 = V.shadow(1.6, 1.1, 0.7); sh2.position.set(0.92, 0.003, 0.2); scene.add(sh2);
+const wineCast = V.shadow(1.2, 0.8, 0.45, '120,10,30'); wineCast.position.set(1.2, 0.004, 0.5); scene.add(wineCast);
+
+const key = new THREE.SpotLight(0xffe2bd, 90, 0, 0.5, 0.8, 2); key.position.set(-4, 6, 5); key.target.position.set(0, 1.2, 0); scene.add(key, key.target);
+const rim = new THREE.DirectionalLight(0xffb070, 2.4); rim.position.set(3, 3, -5); scene.add(rim);
+const rim2 = new THREE.DirectionalLight(0xff6a7a, 1.2); rim2.position.set(-4, 2, -4); scene.add(rim2);
+const candle = new THREE.PointLight(0xff9a4a, 6, 0, 2); candle.position.set(1.6, 0.6, 1.4); scene.add(candle);
+scene.add(new THREE.AmbientLight(0x3a1a20, 0.6));
+
+// candle-lit dust
+const N = 260, pp = new Float32Array(N * 3);
+for (let i = 0; i < N; i++) { pp[i * 3] = (Math.random() - 0.5) * 7; pp[i * 3 + 1] = Math.random() * 4; pp[i * 3 + 2] = (Math.random() - 0.5) * 3 - 0.5; }
+const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3));
+const dc = document.createElement('canvas'); dc.width = dc.height = 64; const dg = dc.getContext('2d'); const gr = dg.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(255,220,170,1)'); gr.addColorStop(1, 'rgba(255,200,140,0)'); dg.fillStyle = gr; dg.fillRect(0, 0, 64, 64);
+const dust = new THREE.Points(pg, new THREE.PointsMaterial({ size: 0.05, map: new THREE.CanvasTexture(dc), transparent: true, opacity: 0.55, depthWrite: false, blending: THREE.AdditiveBlending }));
+scene.add(dust);
+
+let t = 0.6, first = true;
+function frame() {
+  t += 0.016;
+  bottle.rotation.y = -0.18 + Math.sin(t * 0.35) * 0.22;
+  glass.userData.update(t);
+  drops.children.forEach((d, i) => { d.position.y += Math.sin(t * 2 + i) * 0.0008; });
+  dust.rotation.y = t * 0.02;
+  camera.position.x = Math.sin(t * 0.2) * 0.25; camera.lookAt(0.1, 1.38, 0);
+  renderer.render(scene, camera);
+  if (first) { first = false; window.__ready3d = true; }
+  requestAnimationFrame(frame);
+}
+frame();
+</script>
+</body></html>

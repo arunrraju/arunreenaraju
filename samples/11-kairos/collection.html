@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Collection — Kairos</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kairos.css">
+<script src="kairos3d.js"></script>
+<style>
+.head{position:relative;height:640px;overflow:hidden;background:radial-gradient(ellipse 40% 70% at 80% 30%,#14295a,var(--night) 70%)}
+.head .big{position:absolute;right:40px;top:70px;font:200 560px/.8 var(--disp);letter-spacing:-.07em;color:transparent;-webkit-text-stroke:1.4px rgba(157,185,255,.3)}
+.head .big::after{content:"";position:absolute;left:-30px;right:-30px;top:52%;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent);box-shadow:0 0 16px var(--blue)}
+.head h1{position:absolute;left:64px;top:190px;font:400 112px/.9 var(--disp);letter-spacing:-.05em;color:var(--silver)}
+.head h1 em{font-style:normal;font-weight:200}
+.head .sub{position:absolute;left:64px;top:470px;width:460px}
+.head .count{position:absolute;right:64px;top:520px;text-align:right}
+.filters{position:relative;z-index:5;margin:0 64px;display:flex;align-items:center;gap:10px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.chip{height:40px;padding:0 18px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;gap:10px;font:500 10.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.chip i{font-style:normal;color:var(--mute)}
+.chip.on{background:var(--silver);color:var(--midnight);border-color:var(--silver)}
+.chip.on i{color:var(--blue-d)}
+.chip .sw{width:12px;height:12px;border-radius:50%}
+.range{margin-left:auto;display:flex;align-items:center;gap:16px}
+.range .rail{width:220px;height:1px;background:var(--line-2);position:relative}
+.range .rail i{position:absolute;left:0;right:22%;top:-1px;height:3px;background:var(--blue);box-shadow:0 0 10px var(--blue)}
+.range .rail b{position:absolute;top:-7px;width:15px;height:15px;border-radius:50%;background:var(--silver);box-shadow:0 0 0 4px rgba(91,140,255,.25)}
+.feat{position:relative;margin:56px 64px 0;height:600px;border:1px solid var(--line);overflow:hidden;background:radial-gradient(ellipse 50% 70% at 70% 50%,#1a3166,#070d1e 70%)}
+.feat .img{position:absolute;right:0;top:0;width:900px;height:600px}
+.feat .img img{object-fit:contain}
+.feat .in{position:absolute;left:56px;top:56px;bottom:56px;width:460px;display:flex;flex-direction:column}
+.feat h2{font:400 84px/.9 var(--disp);letter-spacing:-.05em;color:var(--silver);margin:24px 0}
+.feat .specs{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);margin-top:auto}
+.feat .specs div{padding:16px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--dim)}
+.feat .specs b{display:block;font:500 13px var(--mono);color:var(--silver);margin-top:4px}
+.feat .ed{position:absolute;right:40px;top:40px;width:240px;text-align:right}.feat .ed .dots{justify-content:flex-end}
+.dots{display:flex;gap:6px;margin-top:12px}
+.dots i{width:18px;height:18px;border:1px solid var(--line-2);border-radius:50%}
+.dots i.s{background:var(--steel);border-color:var(--steel)}
+.dots i.r{border-color:var(--blue);box-shadow:inset 0 0 0 4px var(--night),inset 0 0 0 10px var(--blue)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:24px 64px 0}
+.c{position:relative;height:660px;border:1px solid var(--line);background:linear-gradient(180deg,#0c1834,#050a16);overflow:hidden}
+.c .img{position:absolute;left:0;right:0;top:44px;height:470px}
+.c .img img{object-fit:contain;-webkit-mask-image:linear-gradient(transparent,#000 9%,#000 86%,transparent);mask-image:linear-gradient(transparent,#000 9%,#000 86%,transparent)}
+.c .top{position:absolute;top:22px;left:24px;right:24px;display:flex;justify-content:space-between}
+.c .bot{position:absolute;left:24px;right:24px;bottom:24px}
+.c h3{font:400 28px/1 var(--disp);letter-spacing:-.03em;color:var(--silver);margin-bottom:10px}
+.c .meta{display:flex;justify-content:space-between;align-items:end;font-size:13px;color:var(--dim)}
+.c .meta b{font:500 16px var(--mono);color:var(--silver)}
+.c .ed{display:flex;gap:3px;margin-top:16px}
+.c .ed i{flex:1;height:3px;background:var(--steel)}
+.c .ed i.f{background:rgba(201,209,220,.15)}
+.c .no{position:absolute;right:20px;top:60px;font:200 120px/.8 var(--disp);color:transparent;-webkit-text-stroke:1px rgba(201,209,220,.12)}
+.c .fav{position:absolute;top:56px;left:22px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--dim)}
+.c.hov{border-color:rgba(91,140,255,.6);box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 70px rgba(91,140,255,.18)}
+.c.hov::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 36%,rgba(91,140,255,.3),transparent 55%)}
+.c.hov .img{transform:scale(1.06) translateY(-14px)}
+.c .qv{position:absolute;left:14px;right:14px;bottom:14px;padding:20px;z-index:3}
+.c .qv .row{display:flex;justify-content:space-between;font:400 11px/1 var(--mono);letter-spacing:.12em;color:var(--dim);padding:9px 0;border-bottom:1px solid var(--line)}
+.c .qv .row b{color:var(--silver);font-weight:500}
+.c .rot{position:absolute;left:50%;top:84px;transform:translateX(-50%);z-index:2;display:flex;gap:8px;align-items:center;padding:8px 14px;border-radius:999px;font:500 9.5px/1 var(--mono);letter-spacing:.2em;color:var(--silver)}
+.c.sold .img{filter:grayscale(.6) brightness(.6)}
+.c .soldtag{white-space:nowrap;position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) rotate(-8deg);padding:12px 20px;border:1px solid var(--silver);font:500 11px/1 var(--mono);letter-spacing:.3em;color:var(--silver);background:rgba(5,10,22,.6);backdrop-filter:blur(6px)}
+.compare{position:relative;margin:40px 64px 0;height:86px;display:flex;align-items:center;gap:20px;padding:0 14px 0 24px}
+.compare .th{width:56px;height:56px;border:1px solid var(--line);background:#0a1530}
+.compare .th img{object-fit:contain}
+.atelier{position:relative;margin:120px 0 0;height:560px;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr}
+.atelier .l{padding:90px 64px;position:relative}
+.atelier .r{position:relative}
+.atelier .r img{filter:brightness(.7)}
+.atelier .r::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,var(--night),transparent 40%)}
+</style></head>
+<body>
+<div data-nav="collection.html" data-p=".4"></div>
+
+<section class="head">
+  <div class="grid-bg"></div>
+  <div class="big">06</div>
+  <div class="tag" style="position:absolute;left:64px;top:140px">Collection 2026 · <b>six references</b> · 139 watches total</div>
+  <h1>Six ways<br>to keep <em class="steel-text">time.</em></h1>
+  <p class="lead sub">Every reference shares the KC-1 calibre family and a hand-turned dial. What changes is the metal, the light, and how much of the movement we let you see.</p>
+  <div class="count"><div class="tag">Ref. 01 — 06</div><div class="tag" style="margin-top:10px">Allocation opens <b>1 Nov</b></div></div>
+  <div class="x" style="left:57px;top:600px"></div><div class="x" style="right:57px;top:600px"></div>
+</section>
+
+<div class="filters">
+  <span class="chip on">All <i>06</i></span><span class="chip">Tourbillon <i>04</i></span><span class="chip">Squelette <i>03</i></span>
+  <span class="chip"><span class="sw" style="background:linear-gradient(135deg,#f3f6f9,#8e98a6)"></span>Steel</span>
+  <span class="chip"><span class="sw" style="background:linear-gradient(135deg,#f7d2bf,#b8775c)"></span>Rose gold</span>
+  <span class="chip"><span class="sw" style="background:linear-gradient(135deg,#ffffff,#c4cad3)"></span>Platinum</span>
+  <span class="chip"><span class="sw" style="background:linear-gradient(135deg,#c6ccd4,#5b636e)"></span>Titanium</span>
+  <div class="range"><span class="tag">€ 18k</span><div class="rail"><i></i><b style="left:-6px"></b><b style="left:calc(78% - 8px)"></b></div><span class="tag" style="color:var(--silver)">€ 240k</span></div>
+</div>
+
+<section class="feat">
+  <div class="grid-bg" style="opacity:.7"></div>
+  <div class="img"><img data-big alt=""></div>
+  <div class="ring" style="left:765px;top:300px;width:520px;height:520px;margin:-260px 0 0 -260px"><svg viewBox="0 0 520 520"><circle cx="260" cy="260" r="255" fill="none" stroke="rgba(157,185,255,.3)" stroke-dasharray="1 12.35"/><circle cx="260" cy="5" r="4" fill="#5b8cff"/></svg></div>
+  <div class="in">
+    <span class="tag">Ref. KZ-00.08 · <b>Haute complication</b></span>
+    <h2>Kairos<br><span class="outline">Zéro</span></h2>
+    <p style="color:var(--dim);max-width:400px">Platinum 950, fully openworked KC-1Z with a 48-hour constant-force tourbillon. Eight pieces, each delivered with its own engraved movement ledger.</p>
+    <div class="specs"><div>Case<b>Platinum · 42 mm</b></div><div>Reserve<b>72 h</b></div><div>Components<b>338</b></div><div>Price<b>€ 240,000</b></div></div>
+  </div>
+  <div class="ed"><span class="tag">Edition · 3 of 8 remaining</span><div class="dots"><i class="s"></i><i class="s"></i><i class="s"></i><i class="s"></i><i class="s"></i><i class="r"></i><i></i><i></i></div>
+    <a class="btn blue" style="margin-top:20px;width:100%;justify-content:center" href="appointment.html">Request allocation</a></div>
+</section>
+
+<section class="grid">
+  <article class="c"><div class="no">01</div><div class="top"><span class="tag">KT-01.42</span><span class="tag"><b>17</b> / 42 left</span></div><a class="fav" href="#"><span data-ic="heart"></span></a><div class="img"><img data-snap="0" alt=""></div>
+    <div class="bot"><h3>Meridian</h3><div class="meta"><span>Steel · blue guilloché · alligator</span><b>€ 86,000</b></div><div class="ed"><i></i><i></i><i></i><i></i><i></i><i></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div></div></article>
+  <article class="c hov"><div class="no">02</div><div class="top"><span class="tag">KS-02.18</span><span class="tag"><b>4</b> / 18 left</span></div><div class="rot glass"><span data-ic="rotate"></span>Drag to turn</div><div class="img"><img data-snap="1" alt=""></div>
+    <div class="qv glass"><div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:10px"><h3 style="font:400 24px/1 var(--disp);color:var(--silver)">Nocturne</h3><b class="mono" style="color:var(--silver)">€ 128,000</b></div>
+      <div class="row"><span>Case</span><b>Titanium grade 5 · 41 mm</b></div><div class="row"><span>Movement</span><b>KC-1S openworked</b></div><div class="row"><span>Strap</span><b>Rubber · folding clasp</b></div>
+      <div style="display:flex;gap:8px;margin-top:16px"><a class="btn blue" style="height:44px;flex:1;justify-content:center" href="product.html">View piece</a><a class="btn ghost" style="height:44px" href="configurator.html">Configure</a></div></div></article>
+  <article class="c"><div class="no">03</div><div class="top"><span class="tag">KA-03.25</span><span class="tag"><b>9</b> / 25 left</span></div><a class="fav" href="#"><span data-ic="heart"></span></a><div class="img"><img data-snap="2" alt=""></div>
+    <div class="bot"><h3>Aurora Rose</h3><div class="meta"><span>18k rose gold · argenté dial</span><b>€ 112,000</b></div><div class="ed"><i></i><i></i><i></i><i></i><i></i><i></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div></div></article>
+  <article class="c"><div class="no">04</div><div class="top"><span class="tag">KE-04.12</span><span class="tag"><b>2</b> / 12 left</span></div><a class="fav" href="#"><span data-ic="heart"></span></a><div class="img"><img data-snap="3" alt=""></div>
+    <div class="bot"><h3>Equinox Platine</h3><div class="meta"><span>Platinum 950 · onyx · calfskin</span><b>€ 164,000</b></div><div class="ed"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="f"></i><i class="f"></i></div></div></article>
+  <article class="c"><div class="no">05</div><div class="top"><span class="tag">KP-05.30</span><span class="tag"><b>11</b> / 30 left</span></div><a class="fav" href="#"><span data-ic="heart"></span></a><div class="img"><img data-snap="4" alt=""></div>
+    <div class="bot"><h3>Perihelion</h3><div class="meta"><span>Steel · openworked · bracelet</span><b>€ 94,500</b></div><div class="ed"><i></i><i></i><i></i><i></i><i></i><i></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div></div></article>
+  <article class="c sold"><div class="no">06</div><div class="top"><span class="tag">KN-06.20</span><span class="tag">Allocated</span></div><div class="img"><img data-snap="5" alt=""></div><div class="soldtag">Waiting list · 14</div>
+    <div class="bot"><h3>Nuit Bleue</h3><div class="meta"><span>Titanium · blue guilloché</span><b>€ 98,000</b></div><div class="ed"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></article>
+</section>
+
+<div class="compare glass">
+  <span class="tag" style="color:var(--silver)">Compare</span>
+  <div class="th"><img data-snap="0" alt=""></div><div class="th"><img data-snap="1" alt=""></div><div class="th" style="display:grid;place-items:center;color:var(--mute)"><span data-ic="plus"></span></div>
+  <span style="color:var(--dim);font-size:14px;margin-left:10px">Meridian vs Nocturne — case, movement, finishing, reserve</span>
+  <a class="btn steel" style="margin-left:auto;height:56px">Compare 2 pieces <span data-ic="arrow"></span></a>
+</div>
+
+<section class="atelier">
+  <div class="l"><div class="grid-bg" style="opacity:.8"></div>
+    <span class="tag" style="position:relative">Atelier Édition · <b>KC-0</b></span>
+    <h2 class="disp" style="font-size:76px;margin:28px 0;position:relative">The first<br>Kairos. <span class="outline">€18,000.</span></h2>
+    <p class="lead" style="max-width:480px;position:relative">Time-only, hand-wound, the same guilloché and the same hands — built in the atelier by our apprentices under a master's signature.</p>
+    <div style="display:flex;gap:12px;margin-top:36px;position:relative"><a class="btn steel" href="configurator.html">Configure KC-0 <span data-ic="arrow"></span></a><a class="btn ghost" href="manufacture.html">The apprentice programme</a></div>
+  </div>
+  <div class="r" data-img="1623304741393-54f6c11c0da6" data-w="1100"></div>
+</section>
+
+<div data-foot></div>
+<script src="kairos.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = KAIROS3D(THREE, { RoundedBoxGeometry });
+const R = [-.3, -.42, .12];
+K.snapshots([
+  { metal: 'steel', dial: 'blue', strap: 'alligator', rot: R },
+  { metal: 'titanium', dial: 'skeleton', strap: 'rubber', rot: [-.3, .45, -.1] },
+  { metal: 'rose', dial: 'silver', strap: 'alligator', rot: R },
+  { metal: 'platinum', dial: 'onyx', strap: 'calf', rot: [-.3, .42, -.12] },
+  { metal: 'steel', dial: 'skeleton', strap: 'bracelet', rot: R },
+  { metal: 'titanium', dial: 'blue', strap: 'rubber', rot: [-.3, .42, -.12] }
+], { w: 600, h: 660, cam: { pos: [0, 0, 205], fov: 26, shift: [0, -.04] }, shadow: { pos: [0, -34, -10], size: [70, 40] } }).then(u => document.querySelectorAll('[data-snap]').forEach(i => i.src = u[+i.dataset.snap]));
+K.snapshots([{ metal: 'platinum', dial: 'skeleton', strap: 'alligator', rot: [-.62, -.25, .5] }],
+  { w: 900, h: 600, cam: { pos: [0, 0, 150], fov: 24, shift: [.12, 0] }, shadow: false }).then(u => document.querySelector('[data-big]').src = u[0]);
+</script>
+</body></html>

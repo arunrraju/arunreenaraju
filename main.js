@@ -307,7 +307,8 @@
       // Same colours as the card, so the grow animation is seamless
       ['--a', '--b', '--c'].forEach((v) => stage.style.setProperty(v, card?.style.getPropertyValue(v) || ''));
       if (w.image) art.style.setProperty('--img', `url('${w.image}')`); else art.style.removeProperty('--img');
-      $('.case__glyph', art).textContent = (w.letter || w.title || '').trim().charAt(0).toUpperCase();
+      const g = String(w.letter || w.title || '').trim();
+      $('.case__glyph', art).textContent = (g.match(/^\d{1,2}/) || [g.charAt(0)])[0].toUpperCase();
 
       let d = 0;
       const rv = () => `class="case-rv" style="--d:${d++}"`;
@@ -330,6 +331,29 @@
       // Several testimonials (quotes) sit side by side; the single quote field still works
       const quotes = arr(w.quotes).filter((x) => x.text).length ? arr(w.quotes).filter((x) => x.text) : (w.quote?.text ? [w.quote] : []);
       const next = projects[(current + 1) % projects.length];
+      // Website samples: a filterable wall of browser frames; each opens in the site viewer
+      const sites = arr(w.sites).filter((x) => x.dir);
+      const sitesTitle = esc(w.sites_title || 'Website samples').replace(/(\S+)$/, '<span class="iri">$1</span>');
+      const cats = [...new Set(sites.map((x) => x.category).filter(Boolean))];
+      const siteTiles = sites.map((x, i) => {
+        const dir = esc(String(x.dir).replace(/\/+$/, ''));
+        const first = arr(x.pages)[0]?.file || 'home';
+        return `
+        <li class="site" data-cat="${esc(x.category)}" style="--i:${i % 2};--s1:${esc(arr(x.colors)[1] || '#8fa0ff')};--s2:${esc(arr(x.colors)[2] || arr(x.colors)[0] || '#ff8fb1')}">
+          <button class="site__btn" type="button" data-site="${i}" data-cursor="Open" aria-label="Open ${esc(x.name)}">
+            <span class="site__frame">
+              <span class="site__bar" aria-hidden="true"><i></i><i></i><i></i><span class="site__url mono">${esc(x.domain || x.name)}</span></span>
+              <span class="site__view"><img src="${dir}/screens/cover.webp" alt="${esc(x.name)} home page" loading="lazy" decoding="async"><img class="site__long" data-src="${dir}/screens/${esc(first)}.webp" alt=""></span>
+            </span>
+          </button>
+          <div class="site__meta">
+            <span class="site__n mono">${n(i)}</span>
+            <div><h4 class="site__name">${esc(x.name)}</h4><p class="site__niche">${esc(x.niche)}</p></div>
+            <span class="site__sw" aria-hidden="true">${arr(x.colors).map((c) => `<i style="background:${esc(c)}"></i>`).join('')}</span>
+          </div>
+          <p class="site__tags mono">${[`${arr(x.pages).length} screens`, ...arr(x.tags)].map((t) => `<span>${esc(t)}</span>`).join('')}</p>
+        </li>`;
+      }).join('');
 
       body.innerHTML = `
         <header class="case__head wrap">
@@ -347,6 +371,11 @@
             ${stats ? `<dl class="case__stats">${stats}</dl>` : ''}
           </div>
           ${shots ? `<section class="case__section"><p class="label mono wrap"><span class="label__dot"></span>Screens</p><ol class="case__stack" role="list">${shots}</ol></section>` : ''}
+          ${sites.length ? `<section class="case__section sites"><div class="wrap sites__head">
+            <p class="label mono"><span class="label__dot"></span>Website samples · ${sites.length} sites</p>
+            <h3 class="sites__title">${sitesTitle}</h3>
+            ${cats.length > 1 ? `<div class="sites__filters" role="group" aria-label="Filter sites">${['All', ...cats].map((c, i) => `<button type="button" data-site-filter="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join('')}</div>` : ''}
+          </div><ol class="sites__grid wrap" role="list">${siteTiles}</ol></section>` : ''}
           ${quotes.length ? `<section class="case__section wrap"><p class="label mono"><span class="label__dot"></span>${esc(w.quotes_title || 'In their words')}</p>${w.quotes_style === 'typing' && quotes.length > 1 ? `
             <blockquote class="case__quote case__typed" ${rv()} data-typed>
               <ul class="sr-only">${quotes.map((x) => `<li>${esc(x.text)}</li>`).join('')}</ul>
@@ -357,6 +386,7 @@
         </div>`;
       body.scrollTop = 0;
       typeQuotes(quotes.map((x) => x.text));
+      wireSites();
       stage.style.setProperty('--sp', 0);
     };
 
@@ -396,6 +426,7 @@
         setTimeout(() => {
           caseDlg.close();
           typeQuotes([]);
+          siteIO?.disconnect();
           root.classList.remove('case-open');
           busy = false;
         }, reduceMotion ? 0 : to ? 820 : 300);
@@ -445,6 +476,135 @@
       });
     }
 
+    // Website samples: tiles rise in as they scroll into view, tilt toward the pointer,
+    // and on hover the frame scrolls through the whole home page.
+    let siteIO = null;
+    function wireSites() {
+      siteIO?.disconnect();
+      const tiles = $$('.site', body);
+      if (!tiles.length) return;
+      if (reduceMotion || !('IntersectionObserver' in window)) { tiles.forEach((t) => t.classList.add('is-seen')); return; }
+      siteIO = new IntersectionObserver((list) => list.forEach((en) => {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('is-seen');
+        siteIO.unobserve(en.target);
+      }), { root: body, rootMargin: '0px 0px -8% 0px' });
+      tiles.forEach((t) => siteIO.observe(t));
+    }
+    const wakeLong = (tile) => {
+      const img = tile && $('.site__long', tile);
+      if (img && !img.src) { img.onload = () => tile.classList.add('has-long'); img.src = img.dataset.src; }
+    };
+    body.addEventListener('pointerover', (e) => wakeLong(e.target.closest?.('.site')));
+    body.addEventListener('focusin', (e) => wakeLong(e.target.closest?.('.site')));
+    body.addEventListener('pointermove', (e) => {
+      const btn = !reduceMotion && e.pointerType === 'mouse' && e.target.closest?.('.site__btn');
+      if (!btn) return;
+      const r = btn.getBoundingClientRect();
+      btn.style.setProperty('--rx', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+      btn.style.setProperty('--ry', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+    }, { passive: true });
+    body.addEventListener('pointerout', (e) => {
+      const btn = e.target.closest?.('.site__btn');
+      if (btn && !btn.contains(e.relatedTarget)) { btn.style.removeProperty('--rx'); btn.style.removeProperty('--ry'); }
+    });
+    const filterSites = (cat) => {
+      $$('[data-site-filter]', body).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.siteFilter === cat)));
+      $$('.site', body).forEach((t) => { t.hidden = cat !== 'All' && t.dataset.cat !== cat; });
+    };
+
+    // Site viewer: every page of a sample as a full-length screen, or the live build scaled to fit
+    const viewer = $('.viewer');
+    const vw = viewer && {
+      img: $('[data-viewer-img]', viewer), screen: $('[data-viewer-screen]', viewer), live: $('[data-viewer-live]', viewer),
+      frame: $('[data-viewer-frame]', viewer), tabs: $('[data-viewer-tabs]', viewer), open: $('[data-viewer-open]', viewer),
+      bar: $('[data-viewer-progress]', viewer),
+    };
+    let vSites = [], vSite = 0, vPage = 0, vMode = 'screens';
+    const vDir = () => String(vSites[vSite].dir).replace(/\/+$/, '');
+    const fitLive = () => {
+      const k = Math.min(1, vw.live.clientWidth / 1440);
+      vw.frame.style.transform = `scale(${k})`;
+      vw.frame.style.height = `${Math.ceil(vw.live.clientHeight / k)}px`;
+    };
+    const showPage = (p) => {
+      const site = vSites[vSite];
+      const pages = arr(site.pages);
+      vPage = (p + pages.length) % pages.length;
+      const file = pages[vPage]?.file || 'home';
+      $$('button', vw.tabs).forEach((b, i) => b.setAttribute('aria-pressed', String(i === vPage)));
+      $$('button', vw.tabs)[vPage]?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+      vw.open.href = `${vDir()}/${file}.html`;
+      $('[data-viewer-url]', viewer).textContent = `${site.domain || site.name}/${file === 'home' ? '' : file}`;
+      if (vMode === 'live') {
+        vw.frame.src = `${vDir()}/${file}.html`;
+        fitLive();
+      } else {
+        vw.frame.src = 'about:blank';
+        viewer.classList.add('is-loading');
+        vw.img.onload = () => viewer.classList.remove('is-loading');
+        vw.img.src = `${vDir()}/screens/${file}.webp`;
+        vw.img.alt = `${site.name}: ${pages[vPage]?.label || file}`;
+        vw.screen.scrollTop = 0;
+        vw.bar.style.setProperty('--p', 0);
+      }
+    };
+    const showSite = (k) => {
+      vSite = (k + vSites.length) % vSites.length;
+      const site = vSites[vSite];
+      const cols = arr(site.colors);
+      viewer.style.setProperty('--s1', cols[1] || '#8fa0ff');
+      viewer.style.setProperty('--s2', cols[2] || cols[0] || '#ff8fb1');
+      $('[data-viewer-count]', viewer).textContent = `${String(vSite + 1).padStart(2, '0')} / ${String(vSites.length).padStart(2, '0')}`;
+      $('[data-viewer-name]', viewer).textContent = site.name;
+      $('[data-viewer-niche]', viewer).textContent = site.niche || '';
+      vw.tabs.innerHTML = arr(site.pages).map((x, i) => `<button type="button" data-viewer-page="${i}" aria-pressed="false"><span class="mono">${String(i + 1).padStart(2, '0')}</span>${esc(x.label || x.file)}</button>`).join('');
+      showPage(0);
+    };
+    const setMode = (m) => {
+      vMode = m;
+      viewer.dataset.mode = m;
+      $$('[data-viewer-mode]', viewer).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.viewerMode === m)));
+      showPage(vPage);
+    };
+    const openViewer = (k) => {
+      if (!viewer) return;
+      vSites = arr(projects[current]?.sites).filter((x) => x.dir);
+      if (!vSites.length) return;
+      vMode = 'screens';
+      viewer.dataset.mode = 'screens';
+      $$('[data-viewer-mode]', viewer).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.viewerMode === 'screens')));
+      showSite(k);
+      viewer.showModal();
+      requestAnimationFrame(() => viewer.classList.add('is-in'));
+    };
+    const closeViewer = () => {
+      if (!viewer?.open) return;
+      viewer.classList.remove('is-in');
+      setTimeout(() => { viewer.close(); vw.frame.src = 'about:blank'; }, reduceMotion ? 0 : 350);
+    };
+    if (viewer) {
+      viewer.addEventListener('cancel', (e) => { e.preventDefault(); closeViewer(); });
+      viewer.addEventListener('click', (e) => {
+        const t = e.target.closest('button, a');
+        if (!t) return;
+        if (t.matches('[data-viewer-close]')) closeViewer();
+        else if (t.dataset.viewerPage) showPage(Number(t.dataset.viewerPage));
+        else if (t.dataset.viewerMode) setMode(t.dataset.viewerMode);
+        else if (t.dataset.viewerStep) showSite(vSite + Number(t.dataset.viewerStep));
+      });
+      viewer.addEventListener('keydown', (e) => {
+        if (e.target.closest('input, textarea')) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); showSite(vSite + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); showSite(vSite - 1); }
+      });
+      vw.screen.addEventListener('scroll', () => {
+        const max = vw.screen.scrollHeight - vw.screen.clientHeight;
+        vw.bar.style.setProperty('--p', max > 0 ? (vw.screen.scrollTop / max).toFixed(3) : 0);
+      }, { passive: true });
+      if ('ResizeObserver' in window) new ResizeObserver(() => vMode === 'live' && fitLive()).observe(vw.live);
+    }
+
     $$('[data-case]').forEach((a) => a.addEventListener('click', (e) => {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
       e.preventDefault();
@@ -455,6 +615,10 @@
       if (e.target.closest('[data-case-close]')) closeCase();
       if (e.target.closest('[data-case-next]')) goNext();
       if (e.target.closest('[data-demo-open]')) openDemo(projects[current]);
+      const siteBtn = e.target.closest('[data-site]');
+      if (siteBtn) openViewer(Number(siteBtn.dataset.site));
+      const filter = e.target.closest('[data-site-filter]');
+      if (filter) filterSites(filter.dataset.siteFilter);
     });
     // Screens stack: each one pins near the top and the next slides over it,
     // pushing the ones underneath back (scaled down, tilted and dimmed).

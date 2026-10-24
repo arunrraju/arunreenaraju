@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Aether — Choose your seat</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="aether.css">
+<script src="aether3d.js"></script>
+<style>
+html,body{height:1080px;overflow:hidden}
+body{background:radial-gradient(800px 600px at 33% 62%,rgba(61,139,255,.16),transparent 70%),#000}
+.bk{position:absolute;inset:84px 0 0 0}
+.bk .ttl{position:absolute;left:56px;top:40px;z-index:1}
+.bk .ttl h1{font:200 128px/.86 var(--sans);letter-spacing:-.055em;margin-top:16px}
+.bk .ttl h1 span{font-weight:100;color:transparent;-webkit-text-stroke:1.2px rgba(244,242,236,.55)}
+#cStage{position:absolute;left:0;top:0;width:900px;height:996px;z-index:2}
+.seatlab{position:absolute;z-index:4;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+.seatlab span{font:400 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:7px 10px;border-radius:999px;border:1px solid var(--line2);background:rgba(0,0,0,.6);backdrop-filter:blur(8px);white-space:nowrap;color:#c4cbd8}
+.seatlab i{width:1px;height:34px;background:linear-gradient(rgba(156,196,255,.8),transparent)}
+.seatlab.sel span{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 30px rgba(61,139,255,.8)}
+.seatlab.tk span{opacity:.55;text-decoration:line-through}
+.seatlab.cmd span{border-style:dashed}
+.legend{position:absolute;left:56px;bottom:40px;z-index:4;display:flex;gap:22px;align-items:center}
+.legend span{display:flex;gap:9px;align-items:center;font:400 10.5px var(--mono);letter-spacing:.12em;color:#c4cbd8;text-transform:uppercase}
+.legend i{width:12px;height:12px;border-radius:3px;border:1px solid var(--line2)}
+.views{position:absolute;left:56px;bottom:84px;z-index:4;display:flex;gap:8px}
+.hudr{position:absolute;left:640px;top:70px;z-index:4;display:grid;gap:14px;text-align:right}
+.hudr .hud{position:static}
+
+.panel{position:absolute;right:28px;top:20px;bottom:28px;width:540px;z-index:5;padding:30px 32px;display:flex;flex-direction:column;border-radius:24px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:26px}
+.steps div{font:400 10px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);padding-top:12px;border-top:2px solid var(--line2)}
+.steps div b{display:block;font:300 13px var(--sans);letter-spacing:0;text-transform:none;color:#c4cbd8;margin-top:3px}
+.steps div.on{border-color:var(--blue);color:var(--ice)}
+.steps div.on b{color:#fff}
+.mis{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border:1px solid var(--line2);border-radius:14px;background:rgba(255,255,255,.03)}
+.mis b{font:300 20px var(--sans);display:block;letter-spacing:-.01em}
+.wins{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 22px}
+.wins div{border:1px solid var(--line2);border-radius:12px;padding:10px 12px;font:400 10px var(--mono);letter-spacing:.1em;color:var(--dim)}
+.wins div b{display:block;font:300 15px var(--sans);color:var(--sol);letter-spacing:0;margin:3px 0 4px}
+.wins div em{font-style:normal;letter-spacing:3px;color:var(--blue)}
+.wins div.on{border-color:var(--blue);background:rgba(61,139,255,.13);box-shadow:inset 0 0 0 1px var(--blue)}
+.wins div.x{opacity:.35}
+.seat{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.seat .no{font:100 64px/1 var(--sans);letter-spacing:-.04em;color:var(--ice)}
+.seat h3{font:300 22px/1.2 var(--sans);letter-spacing:-.01em}
+.seat p{font-size:13px;color:var(--dim)}
+.seat .pr{text-align:right;font:300 22px var(--sans)}
+.seat .pr small{display:block;font:400 9.5px var(--mono);letter-spacing:.14em;color:var(--dim)}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 20px}
+.feat span{display:flex;gap:9px;align-items:center;font-size:13px;color:#c4cbd8}
+.feat svg{color:var(--blue);width:15px;height:15px}
+.next{border-radius:16px;border:1px dashed rgba(156,196,255,.35);padding:16px 18px}
+.next .r{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#c4cbd8;padding:7px 0}
+.next .r span{display:flex;gap:10px;align-items:center}
+.next .r svg{width:15px;height:15px;color:var(--ice)}
+.next .r em{font-style:normal;font:400 10px var(--mono);letter-spacing:.1em;color:var(--dim)}
+.crew{display:flex;align-items:center;gap:14px;margin-top:18px}
+.crew .av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:400 11px var(--mono);border:1px solid var(--line2);background:radial-gradient(circle at 30% 30%,#2a4b80,#0a1222);margin-left:-10px}
+.crew .av:first-child{margin-left:0}
+.crew .av.me{background:var(--blue);border-color:var(--blue);color:#fff}
+.crew p{font-size:13px;color:var(--dim);line-height:1.45}
+.crew p b{color:var(--sol);font-weight:400}
+.tot{margin-top:auto;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end}
+.tot small{display:block;font:400 10px var(--mono);letter-spacing:.14em;color:var(--dim);text-transform:uppercase;margin-bottom:6px}
+.tot b{font:200 40px/1 var(--sans);letter-spacing:-.03em}
+.tot .sub{font-size:12px;color:var(--dim);margin-top:6px}
+</style></head>
+<body>
+<header data-nav="missions" data-cta="ghost"></header>
+<main class="bk">
+  <div class="ttl"><div class="tag">Step 1 of 4 · AE-14 Meridian</div><h1>Choose<br><span>your</span> seat.</h1></div>
+  <div class="hudr">
+    <div class="hud">Cabin volume<b>9.3 m³ · 4 seats</b></div>
+    <div class="hud">Seat recline at launch<b>62°</b></div>
+    <div class="hud">Dome window<b class="ice">Ø 1.2 m</b></div>
+  </div>
+  <div id="cStage"></div>
+  <div id="labs"></div>
+  <div class="views"><span class="chip on">Cutaway</span><span class="chip">Exterior</span><span class="chip" data-icon="rot">&nbsp;Seat POV</span></div>
+  <div class="legend"><span><i style="background:var(--blue);border-color:var(--blue)"></i>Your seat</span><span><i style="background:#fff"></i>Open</span><span><i style="background:#2a2f38"></i>Reserved</span><span><i style="border-style:dashed"></i>Commander</span></div>
+  <div class="cursor" style="left:600px;top:760px"><div class="ring"></div><span>Drag to rotate</span></div>
+
+  <aside class="glass panel">
+    <div class="steps"><div class="on">01<b>Seat</b></div><div>02<b>Medical</b></div><div>03<b>Training</b></div><div>04<b>Deposit</b></div></div>
+    <div class="mis"><div><span class="mono">Mission</span><b>AE-14 Meridian · 3 days</b></div><span class="chip blue">Change</span></div>
+    <div class="wins">
+      <div class="on">MAR<b>14 · 2027</b><em>●●○○</em></div><div>AUG<b>02 · 2027</b><em>○○○○</em></div><div>NOV<b>21 · 2027</b><em>●○○○</em></div><div class="x">JAN<b>Full</b><em>●●●●</em></div>
+    </div>
+    <div class="seat"><div class="no">03</div><div><h3>Starboard window</h3><p>Right of the commander · faces the dome</p></div><div class="pr"><small>SEAT</small>€450,000</div></div>
+    <div class="feat"><span data-icon="check">Direct dome view</span><span data-icon="check">Liner moulded to you</span><span data-icon="check">Personal 4K camera mount</span><span data-icon="check">Galley side · first to eat</span></div>
+    <div class="next"><div class="mono" style="margin-bottom:6px">Next · before your seat is confirmed</div>
+      <div class="r"><span data-icon="heart">Class 2 aviation medical</span><em>ANY AME · 1 DAY</em></div>
+      <div class="r"><span data-icon="zap">Cardiac stress test & ECG</span><em>LISBON · 2 H</em></div>
+      <div class="r"><span data-icon="rot">Centrifuge tolerance · 4.5 g</span><em>COLOGNE · 1 DAY</em></div>
+      <div class="r"><span data-icon="cal">10-week training block</span><em>STARTS 6 DEC</em></div>
+    </div>
+    <div class="crew"><div style="display:flex"><span class="av">CMD</span><span class="av">RK</span><span class="av me">YOU</span><span class="av" style="border-style:dashed;background:none">?</span></div><p><b>Flying with</b> Cmdr. Lea Marchetti and Rafael Kühn, a glacier scientist. Seat 04 still open.</p></div>
+    <div class="tot"><div><small>Due today · refundable deposit</small><b>€45,000</b><div class="sub">10% held in escrow · balance after medical clearance</div></div>
+      <a class="btn blue" href="checkout.html">Continue <span class="dot" data-icon="arrow"></span></a></div>
+  </aside>
+</main>
+<script src="aether.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = A3D(THREE, { RoomEnvironment });
+const S = K.stage(document.getElementById('cStage'), { w: 900, h: 996, fov: 30, exposure: 1.05 });
+const { scene, camera } = S; camera.position.set(2.9, 4.6, 7.2); camera.lookAt(.15, .25, 0);
+const key = new THREE.DirectionalLight('#ffffff', 2.4); key.position.set(3, 6, 4); scene.add(key);
+const rim = new THREE.DirectionalLight('#5d9bff', 2.2); rim.position.set(-5, 2, -4); scene.add(rim);
+scene.add(new THREE.AmbientLight('#203050', .3));
+const cap = new THREE.Group(); cap.scale.setScalar(2.0); scene.add(cap);
+const PS = Math.PI * .2, PL = Math.PI * 1.32;   // cutaway: open wedge faces the camera
+const hull = K.M.hull(); hull.side = THREE.DoubleSide;
+cap.add(K.lathe(K.CREW, hull, 96, PS, PL));
+const liner = new THREE.MeshPhysicalMaterial({ color: '#9aa3b0', roughness: .8, sheen: 1, sheenColor: new THREE.Color('#9cc4ff'), sheenRoughness: .6, side: THREE.DoubleSide });
+cap.add(K.lathe(K.CREW.map(([r, y]) => [Math.max(0, r - .03), y]), liner, 96, PS, PL));
+const shield = K.lathe([[0, -.03], [.3, -.025], [.49, 0], [.51, .03], [.5, .06], [0, .06]], K.M.shield(), 96); cap.add(shield);
+// glowing section lines along the cut edges
+[PS, PS + PL].forEach(a => { const pts = K.CREW.slice(1, -1).map(([r, y]) => new THREE.Vector3(r * Math.sin(a), y, r * Math.cos(a)));
+  const tube = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 80, .006, 6), K.M.emit('#3d8bff', 3)); cap.add(tube); });
+[.1, .3, .52, .7].forEach(y => { const r = y < .1 ? .5 : (y < .3 ? .5 - (y - .1) * .3 : y < .52 ? .44 - (y - .3) * .5 : .33 - (y - .52) * .61); const t = new THREE.Mesh(new THREE.TorusGeometry(r - .015, .004, 6, 96, PL), K.M.emit('#9cc4ff', 1.2)); t.rotation.x = Math.PI / 2; t.rotation.z = -PS - PL + Math.PI / 2; t.position.y = y; cap.add(t); });
+// floor
+const floorTex = K.canvasTex(512, 512, (c, w, h) => { c.fillStyle = '#1b1f27'; c.fillRect(0, 0, w, h); c.strokeStyle = 'rgba(156,196,255,.18)'; for (let i = 0; i < w; i += 32) { c.beginPath(); c.moveTo(i, 0); c.lineTo(i, h); c.stroke(); c.beginPath(); c.moveTo(0, i); c.lineTo(w, i); c.stroke(); } });
+const floor = new THREE.Mesh(new THREE.CircleGeometry(.47, 64), new THREE.MeshStandardMaterial({ map: floorTex, roughness: .6, metalness: .3 })); floor.rotation.x = -Math.PI / 2; floor.position.y = .1; cap.add(floor);
+// console + screens on the far wall
+const scr = K.canvasTex(1024, 256, (c, w, h) => { const bg = c.createLinearGradient(0, 0, 0, h); bg.addColorStop(0, '#1d4f9c'); bg.addColorStop(1, '#0a1a36'); c.fillStyle = bg; c.fillRect(0, 0, w, h); c.strokeStyle = 'rgba(156,196,255,.25)'; for (let x = 0; x < w; x += 40) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x, h); c.stroke(); }
+  const g = c.createRadialGradient(170, 128, 10, 170, 128, 110); g.addColorStop(0, '#9cc4ff'); g.addColorStop(.3, '#3d8bff'); g.addColorStop(1, '#020611'); c.fillStyle = g; c.beginPath(); c.arc(170, 128, 96, 0, 7); c.fill();
+  c.strokeStyle = '#3d8bff'; c.lineWidth = 2; c.beginPath(); c.ellipse(170, 128, 130, 40, -.3, 0, 7); c.stroke();
+  c.fillStyle = '#9cc4ff'; c.font = '22px Space Mono, monospace'; ['ALT  412.6 KM', 'VEL  7.66 KM/S', 'O2   21.0 %', 'CABIN 22.4 °C'].forEach((t, i) => c.fillText(t, 360, 70 + i * 44));
+  c.strokeStyle = '#55e0a8'; c.lineWidth = 3; c.beginPath(); for (let x = 0; x < 300; x++) c.lineTo(690 + x, 128 + Math.sin(x / 18) * 40 * Math.cos(x / 70)); c.stroke();
+  c.fillStyle = '#ffffff'; c.font = '600 26px Sora, sans-serif'; c.fillText('AETHER · AE-14', 700, 52); });
+const panel = new THREE.Mesh(new THREE.CylinderGeometry(.37, .42, .2, 48, 1, true, Math.PI * .72, Math.PI * .56), new THREE.MeshBasicMaterial({ map: scr, side: THREE.DoubleSide, toneMapped: false }));
+panel.position.y = .42; panel.scale.set(1, 1, 1); cap.add(panel);
+const desk = new THREE.Mesh(new THREE.CylinderGeometry(.42, .43, .03, 48, 1, false, Math.PI * .7, Math.PI * .6), K.M.dark()); desk.position.y = .36; cap.add(desk);
+// overhead light ring
+const lr = new THREE.Mesh(new THREE.TorusGeometry(.2, .006, 6, 64, PL), K.M.emit('#ffffff', 2)); lr.rotation.x = Math.PI / 2; lr.rotation.z = -PS - PL + Math.PI / 2; lr.position.y = .74; cap.add(lr);
+// docking tunnel
+const tun = K.lathe([[.17, .78], [.17, .93], [.12, .95]], K.M.steel(), 48); cap.add(tun);
+// seats
+const seatMat = (c) => new THREE.MeshPhysicalMaterial({ color: c, roughness: .55, sheen: 1, sheenColor: new THREE.Color('#ffffff'), sheenRoughness: .4, clearcoat: .2 });
+const frame = new THREE.MeshPhysicalMaterial({ color: '#2b3039', metalness: .9, roughness: .3 });
+const frameDark = new THREE.MeshPhysicalMaterial({ color: '#1a1d23', metalness: .4, roughness: .35, clearcoat: 1, clearcoatRoughness: .2 });
+function SEAT(width, t) {
+  const C = [[-.15, .0], [-.08, .06], [.05, .045], [.11, .09], [.19, .22], [.22, .29]].map(p => new THREE.Vector2(...p));
+  const out = [], inn = [];
+  C.forEach((p, i) => { const a = C[Math.max(0, i - 1)], b = C[Math.min(C.length - 1, i + 1)]; const d = b.clone().sub(a).normalize(); const n = new THREE.Vector2(-d.y, d.x); out.push(p.clone().addScaledVector(n, t)); inn.push(p.clone().addScaledVector(n, -t)); });
+  const sh = new THREE.Shape(out); inn.reverse().forEach(p => sh.lineTo(p.x, p.y)); sh.closePath();
+  const geo = new THREE.ExtrudeGeometry(sh, { depth: width, bevelEnabled: true, bevelThickness: .01, bevelSize: .008, bevelSegments: 4, curveSegments: 12 });
+  geo.translate(0, 0, -width / 2); geo.rotateY(-Math.PI / 2); return geo;
+}
+const seats = [
+  { x: -.255, state: 'tk', label: '02 · Reserved', col: '#3a3f48' },
+  { x: -.085, state: 'cmd', label: '01 · Commander', col: '#e9ebef' },
+  { x: .085, state: 'sel', label: '03 · You', col: '#3d8bff' },
+  { x: .255, state: 'op', label: '04 · Open', col: '#e9ebef' }];
+const anchors = [];
+seats.forEach(s => {
+  const g = new THREE.Group(); g.position.set(s.x, .14, .02 + Math.abs(s.x) * .25); g.rotation.y = -s.x * .9;
+  const m = seatMat(s.col);
+  const shell = new THREE.Mesh(SEAT(.13, .016), frameDark); shell.position.y = .045; g.add(shell);
+  const cush = new THREE.Mesh(SEAT(.1, .012), m); cush.position.set(0, .06, .006); g.add(cush);
+  const head = new THREE.Mesh(new RoundedBoxGeometry(.075, .045, .03, 3, .012), m); head.position.set(0, .3, .225); head.rotation.x = -.9; g.add(head);
+  const strut = new THREE.Mesh(new THREE.CylinderGeometry(.006, .006, .07, 8), frame); strut.position.set(0, .025, .02); g.add(strut);
+  [-.07, .07].forEach(x => { const arm = new THREE.Mesh(new THREE.BoxGeometry(.008, .012, .14), frame); arm.position.set(x, .09, .03); g.add(arm); });
+  if (s.state === 'sel') {
+    const glow = new THREE.Mesh(new THREE.CircleGeometry(.11, 48), new THREE.MeshBasicMaterial({ color: new THREE.Color('#3d8bff').multiplyScalar(2), transparent: true, opacity: .55, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
+    glow.rotation.x = -Math.PI / 2; glow.position.y = .005; g.add(glow);
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(.15, .24, .24)), new THREE.LineBasicMaterial({ color: '#9cc4ff', transparent: true, opacity: .7 })); e.position.set(0, .12, .03); g.add(e);
+  }
+  cap.add(g); anchors.push([g, s]);
+});
+// service module (closed) + engine
+const sm = new THREE.Group(); sm.position.y = -.02;
+sm.add(K.lathe([[0, -.36], [.4, -.36], [.44, -.32], [.44, -.06], [.46, -.05], [.46, 0], [0, 0]], K.M.foil(), 96));
+[-.2, -.26].forEach(y => { const r = new THREE.Mesh(new THREE.TorusGeometry(.443, .006, 6, 96), K.M.steel()); r.rotation.x = Math.PI / 2; r.position.y = y; sm.add(r); });
+const band = new THREE.Mesh(new THREE.CylinderGeometry(.452, .452, .08, 96, 1, true), hull); band.position.y = -.1; sm.add(band);
+sm.add(K.lathe([[.08, -.34], [.1, -.4], [.16, -.52], [.21, -.62], [.205, -.625], [.155, -.52], [.095, -.4], [.075, -.34]], new THREE.MeshPhysicalMaterial({ color: '#5a5048', metalness: 1, roughness: .35, side: THREE.DoubleSide }), 48));
+cap.add(sm);
+// holo platform
+const plat = new THREE.Group(); plat.position.y = -1.95; scene.add(plat);
+[1.3, 1.55, 1.9].forEach((r, i) => { const l = K.orbit(K.ellipse(r, r, 160), { color: i === 1 ? '#9cc4ff' : '#3d8bff', opacity: .5 - i * .12, dashed: i === 2 }); plat.add(l); });
+const sh = new THREE.Mesh(new THREE.CircleGeometry(1.6, 64), new THREE.MeshBasicMaterial({ map: K.canvasTex(256, 256, (c, w, h) => { const g = c.createRadialGradient(128, 128, 0, 128, 128, 128); g.addColorStop(0, 'rgba(61,139,255,.55)'); g.addColorStop(.5, 'rgba(61,139,255,.12)'); g.addColorStop(1, 'rgba(0,0,0,0)'); c.fillStyle = g; c.fillRect(0, 0, w, h); }), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+sh.rotation.x = -Math.PI / 2; plat.add(sh);
+scene.add(K.stars({ count: 1400, seed: 4, radius: 60 }));
+cap.position.y = -.5;
+// labels
+const labs = document.getElementById('labs');
+const els = anchors.map(([g, s]) => { const d = document.createElement('div'); d.className = 'seatlab ' + s.state; d.innerHTML = `<span>${s.label}</span><i style="height:${['cmd', 'op'].includes(s.state) ? 110 : 36}px"></i>`; labs.appendChild(d); return [g, d]; });
+const off = new THREE.Vector3(0, .33, .24);
+S.run(t => {
+  cap.rotation.y = .88 + Math.sin(t * .25) * .04; plat.rotation.y = t * .1;
+  cap.updateMatrixWorld();
+  els.forEach(([g, d], i) => { const v = off.clone().applyMatrix4(g.matrixWorld).project(camera); d.style.left = ((v.x + 1) / 2 * 900) + 'px'; d.style.top = ((1 - v.y) / 2 * 996) + 'px'; });
+});
+</script>
+</body></html>

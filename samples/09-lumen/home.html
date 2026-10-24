@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>ÉCLAT Haute Joaillerie</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Prata&family=DM+Serif+Display:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="eclat.css">
+<script src="eclat.js"></script><script src="eclat3d.js"></script>
+<style>
+/* hero */
+.hero{position:relative;height:1040px;overflow:hidden}
+.hero .word{position:absolute;left:0;right:0;top:96px;padding-top:.2em;text-align:center;font:400 372px/1 var(--disp);letter-spacing:.06em;margin-right:-.06em;z-index:1;white-space:nowrap}
+.hero .word::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(7,26,20,.75) 75%)}
+.hero #ring{position:absolute;left:0;top:0;z-index:3}
+.hero .beam{left:420px;top:-40px;width:600px;height:900px;z-index:2}
+.hero .copy{position:absolute;left:64px;bottom:96px;z-index:5;width:440px}
+.hero .copy h1{font:400 64px/.98 var(--disp);letter-spacing:-.02em;margin:22px 0 22px}
+.hero .copy h1 .it{font-size:70px;color:var(--gold2)}
+.hero .copy p{color:var(--pt2);font-size:16px;max-width:380px;margin-bottom:30px}
+.hero .copy .row{display:flex;gap:14px}
+.spec{position:absolute;right:64px;bottom:96px;z-index:5;width:340px;padding:26px 26px 22px}
+.spec .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.spec h3{font:400 30px/1 var(--disp)}
+.spec .grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2);margin:18px 0}
+.spec .grid div{background:rgba(8,24,19,.85);padding:12px 14px;font-size:13px}
+.spec .grid span{display:block;font:600 9.5px/1 var(--ui);letter-spacing:.22em;text-transform:uppercase;color:var(--pt3);margin-bottom:6px}
+.spec .foot{display:flex;justify-content:space-between;align-items:center}
+.spec .foot a{display:inline-flex;align-items:center;gap:8px;font:600 11px/1 var(--ui);letter-spacing:.2em;text-transform:uppercase;color:var(--gold2)}
+.hero .seal{right:150px;top:420px;z-index:5}
+.hero .sp{position:absolute;inset:0;z-index:4;pointer-events:none}
+.hero .rail{position:absolute;left:64px;right:64px;bottom:34px;z-index:5;display:flex;justify-content:space-between;align-items:center;font:500 11px/1 var(--ui);letter-spacing:.26em;text-transform:uppercase;color:var(--pt3)}
+.hero .rail .prog{flex:1;margin:0 40px;height:1px;background:var(--line2);position:relative}
+.hero .rail .prog::before{content:"";position:absolute;left:0;top:-1px;height:3px;width:28%;background:linear-gradient(90deg,var(--gold3),var(--gold2),#fff);box-shadow:0 0 12px var(--gold2)}
+.hero .facet{width:760px;height:760px;left:340px;top:120px;z-index:0;opacity:.6}
+
+/* intro statement */
+.intro{background:linear-gradient(180deg,var(--em2),var(--em));padding:150px 64px 130px;display:grid;grid-template-columns:240px 1fr;gap:60px;position:relative;overflow:hidden}
+.intro .st{font:400 66px/1.12 var(--disp);letter-spacing:-.015em}
+.intro .st .it{color:var(--gold2)}
+.intro .pillimg{display:inline-block;width:150px;height:62px;vertical-align:middle;margin:0 6px;clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px),0 14px)}
+.intro .pillimg.r{width:110px}
+.intro .dimtail{color:rgba(238,241,243,.28)}
+.nums{grid-column:2;display:grid;grid-template-columns:repeat(4,1fr);margin-top:80px;border-top:1px solid var(--line)}
+.nums div{padding:28px 24px 0 0}
+.nums b{display:block;font:400 64px/1 var(--disp);margin-bottom:10px}
+.nums span{color:var(--pt2);font-size:14px}
+
+/* four houses */
+.houses{background:radial-gradient(60% 50% at 50% 0%,#1a2f66,var(--sa) 50%,var(--sa2));}
+.hcards{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:end}
+.hc{position:relative;height:560px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:.5s}
+.hc .bg{position:absolute;inset:0;z-index:0}
+.hc>*:not(.bg):not(.stone){position:relative;z-index:2}
+.hc .stone{position:absolute;left:50%;top:40%;width:300px;height:300px;transform:translate(-50%,-50%);background-size:contain;background-position:center;background-repeat:no-repeat;z-index:1;filter:drop-shadow(0 30px 40px rgba(0,0,0,.5))}
+.hc .n{display:flex;justify-content:space-between;font:600 10px/1 var(--ui);letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.hc h3{font:400 46px/1 var(--disp);margin-bottom:10px}
+.hc h3 .it{display:block;font-size:22px;color:var(--gold2);margin-bottom:8px}
+.hc p{font-size:13.5px;color:rgba(238,241,243,.75)}
+.hc .from{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.18);font-size:13px}
+.hc.open{height:620px;box-shadow:0 0 0 1px var(--gold2),0 40px 120px rgba(31,174,110,.35)}
+.hc.open .go{white-space:nowrap;display:inline-flex;align-items:center;gap:10px;background:var(--pt);color:#06140f;padding:12px 16px;font:600 10.5px/1 var(--ui);letter-spacing:.2em;text-transform:uppercase}
+
+/* pendant */
+.pend{position:relative;height:1060px;overflow:hidden;background:radial-gradient(45% 55% at 62% 45%,#203f8a 0%,#0b1633 50%,#040817 100%)}
+.pend .big{position:absolute;right:-30px;top:120px;font:italic 400 330px/.82 var(--ital);letter-spacing:-.03em;z-index:1;text-align:right;color:transparent;-webkit-text-stroke:1px rgba(207,233,255,.35)}
+.pend .big b{display:block;font-weight:400;color:transparent;background:linear-gradient(100deg,#6f86c9,#e8f1ff 40%,#90a6e4 70%,#fff);-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:0}
+.pend #pend{position:absolute;left:470px;top:0;z-index:3}
+.pend .copy{position:absolute;left:64px;top:170px;width:400px;z-index:5}
+.pend .copy h2{font:400 84px/.95 var(--disp);margin:22px 0 26px}
+.pend .copy p{color:var(--pt2);margin-bottom:34px}
+.pend dl{display:grid;grid-template-columns:auto 1fr;gap:14px 26px;font-size:14px;border-top:1px solid var(--line);padding-top:24px;margin-bottom:34px}
+.pend dt{font:600 10px/1.9 var(--ui);letter-spacing:.24em;text-transform:uppercase;color:var(--pt3)}
+.pend .hs{z-index:6}
+.pend .bottom{position:absolute;left:64px;right:64px;bottom:56px;z-index:5;display:flex;gap:16px;align-items:center}
+.pend .bottom .thumb{width:84px;height:84px;background:rgba(255,255,255,.05);border:1px solid var(--line2);background-size:contain;background-position:center;background-repeat:no-repeat}
+.pend .bottom .thumb.on{border-color:var(--gold2);box-shadow:0 0 30px rgba(236,208,138,.25)}
+.pend .bottom .lbl{margin-left:14px;font-size:13px;color:var(--pt2)}
+
+/* editorial */
+.edit{background:var(--em2);display:grid;grid-template-columns:640px 1fr;gap:28px;padding:130px 64px}
+.edit .tall{height:860px;position:relative}
+.edit .tall .ph{height:100%}
+.edit .tall .cap{position:absolute;left:28px;bottom:28px;right:28px;padding:22px 24px;display:flex;justify-content:space-between;align-items:center}
+.edit .side{display:grid;grid-template-rows:auto 1fr auto;gap:28px}
+.edit h2{font:400 104px/.9 var(--disp);letter-spacing:-.03em}
+.edit h2 .it{color:var(--gold2)}
+.edit .pair{display:grid;grid-template-columns:1.3fr 1fr;gap:28px}
+.edit .pair .ph{height:430px}
+.edit .quote{display:flex;flex-direction:column;justify-content:space-between;padding:30px;background:linear-gradient(160deg,#173f33,#0b231c);border:1px solid var(--line)}
+.edit .quote p{font:italic 400 28px/1.25 var(--ital)}
+.edit .quote small{color:var(--pt3);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.edit .shop{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:24px}
+
+/* lab-grown */
+.lab{background:radial-gradient(50% 70% at 20% 50%,#173f33,var(--em) 50%,var(--em2));display:grid;grid-template-columns:520px 1fr;gap:80px;align-items:center}
+.lab h2{font:400 80px/.95 var(--disp);margin:22px 0 26px}
+.lab .cmp{display:grid;gap:18px}
+.lab .row{display:grid;grid-template-columns:220px 1fr 130px;align-items:center;gap:22px;padding:22px 26px;border:1px solid var(--line2);background:rgba(255,255,255,.025)}
+.lab .row b{font:400 22px/1.1 var(--disp)}
+.lab .row small{display:block;color:var(--pt3);font-size:12px;margin-top:4px}
+.lab .bars{display:grid;gap:8px}
+.lab .bar{height:10px;position:relative;background:rgba(255,255,255,.06)}
+.lab .bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--gold3),var(--gold2));animation:grow 2.4s cubic-bezier(.2,.8,.2,1) both}
+.lab .bar.mine i{background:linear-gradient(90deg,#3b4a52,#7e8b94)}
+.lab .bar em{position:absolute;right:-90px;top:-3px;font:600 10px/1 var(--ui);letter-spacing:.18em;font-style:normal;color:var(--pt3);width:80px}
+.lab .row .v{text-align:right;font:400 32px/1 var(--disp)}
+@keyframes grow{from{width:0}}
+
+/* bespoke cta */
+.bcta{position:relative;height:760px;overflow:hidden;background:radial-gradient(40% 60% at 70% 50%,#1b3a80,#0b1633 55%,#050a1b)}
+.bcta .fan{position:absolute;right:40px;top:40px;width:820px;height:680px}
+.bcta .fan div{position:absolute;width:420px;height:420px;background-size:contain;background-repeat:no-repeat;background-position:center;filter:drop-shadow(0 40px 50px rgba(0,0,0,.55))}
+.bcta .copy{position:absolute;left:64px;top:150px;width:560px;z-index:3}
+.bcta h2{font:400 100px/.9 var(--disp);letter-spacing:-.03em;margin:24px 0 28px}
+.bcta h2 .it{color:var(--gold2)}
+.bcta .steps{display:flex;gap:10px;margin:36px 0 40px}
+.bcta .steps span{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--line2);font-size:12.5px;color:var(--pt2)}
+.bcta .steps span b{color:var(--gold2);font:400 14px/1 var(--disp)}
+.bcta .chip{position:absolute;z-index:4;padding:12px 16px;font-size:12px;display:flex;align-items:center;gap:10px}
+
+/* voices */
+.voices{background:var(--em2);display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.voice{padding:36px;border:1px solid var(--line2);background:linear-gradient(170deg,rgba(255,255,255,.04),transparent);position:relative}
+.voice .stars{display:flex;gap:3px;color:var(--gold2);margin-bottom:22px}
+.voice .stars .ic{width:14px;height:14px}
+.voice p{font:400 22px/1.38 var(--disp);margin-bottom:28px}
+.voice .who{display:flex;justify-content:space-between;color:var(--pt3);font-size:12.5px;border-top:1px solid var(--line2);padding-top:18px}
+.voice .who b{color:var(--pt);font-weight:500}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="hero velvet-em">
+  <div data-facet></div>
+  <div class="beam"></div>
+  <div class="word plat">ÉCLAT</div>
+  <div id="ring"></div>
+  <div class="sp" data-sparkles="34"></div>
+  <div data-seal="Lab-grown ◆ Hand-cut in Paris ◆ Platinum 950 ◆ " data-icon="diamond"></div>
+
+  <div class="hs" style="right:845px;top:300px;flex-direction:row-reverse;text-align:right"><span class="dot"></span><span class="ln" style="background:linear-gradient(270deg,#fff,var(--gold))"></span><span>57 facets, cut by hand<small>Excellent · Hearts & arrows</small></span></div>
+  <div class="hs" style="left:902px;top:424px"><span class="dot"></span><span class="ln"></span><span>34 pavé brilliants<small>0.31 ct · micro-set</small></span></div>
+
+  <div class="copy">
+    <div class="eyebrow">Collection Étoile · Autumn 2026</div>
+    <h1>Light, held<br><span class="it">in platinum.</span></h1>
+    <p>Lab-grown diamonds and rare coloured stones, hand-cut and set in our Paris atelier. Each piece is made once, for one person.</p>
+    <div class="row"><a class="btn">Discover Étoile <span data-ic="arrow"></span></a><a class="btn ghost">Design your ring</a></div>
+  </div>
+
+  <div class="spec glass cut">
+    <div class="top"><span class="tag">N° 001 / 120</span><span class="mono">IGI certified</span></div>
+    <h3>Étoile Solitaire</h3>
+    <div class="grid"><div><span>Carat</span>2.02 ct</div><div><span>Colour</span>D · colourless</div><div><span>Clarity</span>VVS1</div><div><span>Cut</span>Excellent</div></div>
+    <div class="foot"><span class="price">€18,400</span><a>View piece <span data-ic="arrow"></span></a></div>
+  </div>
+
+  <div class="cursor" style="left:700px;top:500px"><div class="o"></div><span>Drag · rotate</span></div>
+  <div class="rail"><span>01 / 05 · Étoile</span><span class="prog"></span><span>Scroll to explore</span></div>
+</section>
+
+<div class="marq"><div class="tr gild">
+  <span>Lab-grown diamonds <i></i> Colombian-green emeralds <i></i> Ceylon sapphires <i></i> Mozambique rubies <i></i> Platinum 950 <i></i> 18k gold <i></i></span>
+  <span>Lab-grown diamonds <i></i> Colombian-green emeralds <i></i> Ceylon sapphires <i></i> Mozambique rubies <i></i> Platinum 950 <i></i> 18k gold <i></i></span>
+</div></div>
+
+<section class="intro">
+  <div><div class="eyebrow">The Maison</div><div data-facet style="width:200px;height:200px;position:relative;margin-top:60px;opacity:.8"></div></div>
+  <div class="st">We grow diamonds the way the earth does <span class="pillimg" data-img="1605100804763-247f67b3557e|400|50% 45%"></span> heat, pressure, time. Then we cut them by hand in Paris, <span class="it">fifty-seven facets</span> <span class="pillimg r" data-img="1721103418939-5112f0ccfac8|300|60% 60%"></span> <span class="dimtail">at a time, until the light has nowhere left to go.</span></div>
+  <div class="nums">
+    <div><b class="plat">57</b><span>facets on every brilliant, polished by one cutter</span></div>
+    <div><b class="plat">0</b><span>mines. Every diamond grown, every gem traced to its source</span></div>
+    <div><b class="plat">140h</b><span>at the bench for a single Étoile solitaire</span></div>
+    <div><b class="plat">17</b><span>years in the Rue de la Paix atelier</span></div>
+  </div>
+</section>
+
+<section class="sec houses">
+  <div class="hd2"><div><div class="eyebrow">Four houses of colour</div><h2 style="margin-top:22px">One stone, <span class="it gild">four lights.</span></h2></div><p>Each house has its own cutter, its own setting and its own way of catching light. Choose a stone, then a setting.</p></div>
+  <div class="hcards">
+    <div class="hc"><div class="bg" style="background:radial-gradient(80% 60% at 50% 40%,#3a4752,#141a20 70%)"></div><div class="stone" id="st-dia"></div>
+      <div class="n"><span>I · Diamant</span><span>42 pieces</span></div>
+      <div><h3><span class="it">Maison</span>Diamant</h3><p>D–F colour lab-grown brilliants, from 0.5 to 6 carats.</p><div class="from"><span class="dim">From</span><span class="price">€2,400</span></div></div></div>
+    <div class="hc open"><div class="bg" style="background:radial-gradient(80% 60% at 50% 40%,#1d8a5c,#06301f 72%)"></div><div class="stone" id="st-emr"></div>
+      <div class="n"><span>II · Émeraude</span><span>24 pieces</span></div>
+      <div><h3><span class="it">Maison</span>Émeraude</h3><p>Step-cut Colombian-green emeralds, minor oil only, set in yellow gold.</p><div class="from"><span class="go">Explore 24 pieces <span data-ic="arrow"></span></span><span class="price">€6,900</span></div></div></div>
+    <div class="hc"><div class="bg" style="background:radial-gradient(80% 60% at 50% 40%,#2f55c4,#0a1846 72%)"></div><div class="stone" id="st-sap"></div>
+      <div class="n"><span>III · Saphir</span><span>31 pieces</span></div>
+      <div><h3><span class="it">Maison</span>Saphir</h3><p>Ceylon cornflower and royal-blue sapphires, unheated above 3 ct.</p><div class="from"><span class="dim">From</span><span class="price">€4,800</span></div></div></div>
+    <div class="hc"><div class="bg" style="background:radial-gradient(80% 60% at 50% 40%,#b0203f,#3a0612 72%)"></div><div class="stone" id="st-rub"></div>
+      <div class="n"><span>IV · Rubis</span><span>18 pieces</span></div>
+      <div><h3><span class="it">Maison</span>Rubis</h3><p>Pigeon's-blood Mozambique rubies, framed in micro-pavé.</p><div class="from"><span class="dim">From</span><span class="price">€7,600</span></div></div></div>
+  </div>
+</section>
+
+<section class="pend">
+  <div class="big">La<b>Goutte</b></div>
+  <div id="pend"></div>
+  <div data-sparkles="26" style="position:absolute;inset:0;z-index:4;pointer-events:none"></div>
+  <div class="copy">
+    <div class="eyebrow">High jewellery · Pendant</div>
+    <h2>A drop of <span class="it gild">deep water.</span></h2>
+    <p>A 4.1-carat pear sapphire, cut in Colombo and framed in Paris by twenty-six brilliants on a hand-linked platinum chain.</p>
+    <dl><dt>Centre</dt><dd>Pear sapphire, 4.10 ct, unheated</dd><dt>Halo</dt><dd>26 lab-grown brilliants, 0.62 ct</dd><dt>Chain</dt><dd>Platinum 950 cable, 42–45 cm</dd><dt>Edition</dt><dd>12 pieces, each numbered</dd></dl>
+    <div style="display:flex;align-items:center;gap:26px"><a class="btn gold">Reserve · €32,600</a><a class="mono" style="color:var(--pt)">Book a viewing →</a></div>
+  </div>
+  <div class="hs" style="left:1100px;top:930px"><span class="dot"></span><span class="ln"></span><span>Unheated Ceylon sapphire<small>Certificate · GRS</small></span></div>
+  <div class="bottom"><div class="thumb on" id="pt1"></div><div class="thumb" id="pt2"></div><div class="thumb" id="pt3"></div><span class="lbl">Also cut in emerald, ruby and diamond · <span style="color:var(--gold2)">4 stones</span></span></div>
+</section>
+
+<section class="edit">
+  <div class="tall cutframe" style="--cut:28px"><div data-img="1694062045776-f48d9b6de57e|1300|50% 30%"></div>
+    <div class="cap glass"><div><div class="mono" style="color:var(--gold2)">Worn by Inès, Paris</div><div style="font:400 24px/1.2 var(--disp);margin-top:6px">Collier Jardin · 18k gold</div></div><span class="price">€24,900</span></div></div>
+  <div class="side">
+    <div><div class="eyebrow">Campaign · After dark</div><h2 style="margin-top:22px">Made to be <span class="it">seen by candle&shy;light.</span></h2></div>
+    <div class="pair">
+      <div class="cutframe" style="--cut:22px"><div data-img="1721103418939-5112f0ccfac8|900|50% 55%" style="height:430px"></div></div>
+      <div class="quote"><p>“An emerald should look like a forest after rain. If it looks like glass, we keep cutting.”</p><small>Hélène Vasseur · Master gem cutter</small></div>
+    </div>
+    <div class="shop"><span class="dim">Shop the campaign · 14 pieces from €3,200</span><a class="btn ghost">View the campaign <span data-ic="arrow"></span></a></div>
+  </div>
+</section>
+
+<section class="sec lab">
+  <div><div class="eyebrow">Lab-grown, explained</div><h2>The same diamond.<br><span class="it gild">None of the mine.</span></h2>
+    <p class="dim" style="font-size:16px;margin-bottom:34px">Our diamonds are grown from a carbon seed in eight weeks, using solar power in France. Chemically, physically and optically they are diamonds, and every one is graded by an independent lab.</p>
+    <a class="btn ghost">Read our sourcing report</a></div>
+  <div class="cmp">
+    <div class="row"><div><b>Hardness</b><small>Mohs scale</small></div><div class="bars"><div class="bar"><i style="width:100%"></i><em>Éclat</em></div><div class="bar mine"><i style="width:100%"></i><em>Mined</em></div></div><div class="v plat">10 / 10</div></div>
+    <div class="row"><div><b>Carbon per carat</b><small>kg CO₂e</small></div><div class="bars"><div class="bar"><i style="width:7%"></i><em>Éclat</em></div><div class="bar mine"><i style="width:100%"></i><em>Mined</em></div></div><div class="v plat">−92%</div></div>
+    <div class="row"><div><b>Earth moved</b><small>tonnes per carat</small></div><div class="bars"><div class="bar"><i style="width:1%"></i><em>Éclat</em></div><div class="bar mine"><i style="width:100%"></i><em>Mined</em></div></div><div class="v plat">0 t</div></div>
+    <div class="row"><div><b>Price for 2 ct, D VVS1</b><small>Comparable cut</small></div><div class="bars"><div class="bar"><i style="width:34%"></i><em>Éclat</em></div><div class="bar mine"><i style="width:100%"></i><em>Mined</em></div></div><div class="v plat">−66%</div></div>
+  </div>
+</section>
+
+<section class="bcta">
+  <div data-sparkles="30" style="position:absolute;inset:0;pointer-events:none"></div>
+  <div class="fan"><div id="f1" style="left:0;top:170px;transform:rotate(-14deg)"></div><div id="f3" style="left:420px;top:150px;transform:rotate(12deg)"></div><div id="f2" style="left:200px;top:40px;width:480px;height:480px"></div></div>
+  <div class="chip glass" style="right:470px;top:610px"><span class="gem sap"></span>Oval sapphire · 3.2 ct</div>
+  <div class="chip glass" style="right:90px;top:130px"><span class="metal yg" style="width:18px;height:18px"></span>18k yellow gold</div>
+  <div class="copy">
+    <div class="eyebrow">Bespoke · In 3D</div>
+    <h2>Design it here. <span class="it">We cut it in Paris.</span></h2>
+    <p class="dim" style="font-size:16px;max-width:460px">Choose the shape, stone, metal and carat, and watch the ring change as you go. A gemologist reviews every design within 24 hours.</p>
+    <div class="steps"><span><b>01</b>Shape</span><span><b>02</b>Stone</span><span><b>03</b>Metal</span><span><b>04</b>Setting</span></div>
+    <a class="btn">Open the ring builder <span data-ic="arrow"></span></a>
+  </div>
+</section>
+
+<section class="sec voices">
+  <div class="voice"><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><p>“They let me hold three emeralds under a loupe before I chose. The one I took home has a tiny garden inside it.”</p><div class="who"><b>Camille R., Lyon</b><span>Émeraude Trois-Pierres</span></div></div>
+  <div class="voice"><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><p>“I designed the ring on the builder at midnight. Four weeks later a courier handed it to me in a velvet box.”</p><div class="who"><b>Daniel O., London</b><span>Bespoke oval, platinum</span></div></div>
+  <div class="voice"><div class="stars"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><p>“A 2-carat stone I could never have afforded mined, and it is honestly brighter than my mother's.”</p><div class="who"><b>Priya S., Dubai</b><span>Étoile Solitaire 2.02 ct</span></div></div>
+</section>
+
+<div data-footer></div>
+<script>eclat('High Jewellery');</script>
+<script type="module">
+import * as THREE from 'three';
+const E = Eclat(THREE);
+// hero: solitaire on a velvet plinth
+const hero = E.stage(document.getElementById('ring'), { w: 1440, h: 1040, fov: 24, cam: [0, 3.7, 10.6], target: [0, 1.32, 0] });
+const ring = E.buildRing(hero, { shape: 'round', carat: 2 }); ring.position.y = 0.985; hero.scene.add(ring);
+const pl = E.plinth({ r: 1.4, h: 0.9 }); hero.scene.add(pl);
+const sh = E.shadow(2.4, 0.9, .85); sh.position.y = 0.003; hero.scene.add(sh);
+hero.scene.add(E.sparkles(70, [2.6, 0.02, 2.6], { center: [0, 0.02, 0], shape: 'disc', size: 18, colors: [0xffffff, 0x9ff0c8, 0xcfe6ff, 0xffe2a0] })); // caustics on velvet
+hero.scene.add(E.sparkles(110, [9, 5, 3], { center: [0, 2, -1.5], size: 22 }));
+const fl = E.flares(4, new THREE.Vector3(0.05, 0.985 + ring.userData.stoneY + 0.12, 0.3), 0.55, 1.0); hero.scene.add(fl);
+hero.onFrame(t => { ring.rotation.y = -0.9 + t * 0.12; fl.userData.tick(t); });
+
+// pendant
+const pd = E.stage(document.getElementById('pend'), { w: 900, h: 1060, fov: 28, cam: [0, -0.1, 7.6], target: [0, 0.55, 0], theme: 'sapphire' });
+const pen = E.buildPendant(pd, { gem: 'sapphire', shape: 'pear', carat: 4.1 }); pen.position.y = -0.3; pd.scene.add(pen);
+pd.scene.add(E.sparkles(90, [6, 6, 3], { center: [0, 0.3, -1], size: 22, colors: [0xffffff, 0x9fbcff, 0xcfe6ff] }));
+const pfl = E.flares(3, new THREE.Vector3(0, -0.15, 0.4), 0.6, 0.9); pd.scene.add(pfl);
+pd.onFrame(t => { pen.rotation.y = Math.sin(t * 0.5) * 0.35; pen.rotation.z = Math.sin(t * 0.8) * 0.03; pfl.userData.tick(t); });
+E.start();
+
+// product renders for cards
+const looseStone = (gem, shape, R = 0.95) => E.snapshot((sc, s) => { const m = E.buildStone(s, { gem, shape, R }); m.rotation.set(0.55, 0.3, 0); sc.add(m); }, { w: 420, h: 420, cam: [0, 0, 4.4], target: [0, 0, 0], theme: gem === 'sapphire' ? 'sapphire' : 'emerald' });
+const set = (id, url) => document.getElementById(id).style.backgroundImage = `url(${url})`;
+set('st-dia', looseStone('diamond', 'round')); set('st-emr', looseStone('emerald', 'emerald')); set('st-sap', looseStone('sapphire', 'oval')); set('st-rub', looseStone('ruby', 'cushion'));
+const pth = (gem) => E.snapshot((sc, s) => { const p = E.buildPendant(s, { gem, shape: 'pear', carat: 4, chain: false }); sc.add(p); }, { w: 168, h: 168, cam: [0, 0, 4.2], target: [0, 0.05, 0], theme: 'sapphire' });
+set('pt1', pth('sapphire')); set('pt2', pth('emerald')); set('pt3', pth('ruby'));
+const ringShot = (o, sz = 420) => E.snapshot((sc, s) => { const r = E.buildRing(s, o); r.rotation.set(0.3, -0.7, 0); sc.add(r); }, { w: sz, h: sz, cam: [0, 1.6, 5.6], target: [0, 0.55, 0], theme: 'sapphire' });
+set('f1', ringShot({ shape: 'emerald', metalKey: 'platinum', gem: 'emerald' }));
+set('f2', ringShot({ shape: 'oval', metalKey: 'yellow', gem: 'sapphire', carat: 3.2 }, 480));
+set('f3', ringShot({ shape: 'cushion', metalKey: 'rose', gem: 'diamond' }));
+</script>
+</body></html>

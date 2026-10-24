@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Build a Case — The Cellar Society — Domaine Vinea</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vinea.css">
+<script src="v3d.js"></script>
+<style>
+html,body{height:1080px;overflow:hidden}
+.stage{position:absolute;inset:0;height:1080px}
+.stage canvas{position:absolute;left:0;top:0;z-index:0}
+.stage::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(18,10,12,.0) 55%,rgba(18,10,12,.55) 75%),linear-gradient(180deg,rgba(18,10,12,.7),transparent 18%,transparent 82%,rgba(18,10,12,.75))}
+.nav.abs{top:0;border-bottom-color:rgba(184,149,90,.14)}
+.head{position:absolute;left:72px;top:140px;z-index:3;width:560px}
+.head h1{font-size:118px;line-height:.86;margin:22px 0 0;text-shadow:0 10px 40px rgba(0,0,0,.7)}
+.head h1 em{color:var(--goldl)}
+.steps{position:absolute;left:72px;top:420px;z-index:3;display:grid;gap:10px;width:250px}
+.steps div{display:flex;gap:14px;align-items:center;padding:12px 14px;border:1px solid var(--line2);background:rgba(18,10,12,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:13px;color:var(--pd)}
+.steps div b{font:400 22px/1 var(--disp);color:var(--gold);width:26px}
+.steps div strong{display:block;font:400 18px/1.1 var(--disp);color:var(--par)}
+.steps div.done b{color:var(--vine)}
+.steps div.on{border-color:var(--gold);background:rgba(184,149,90,.12)}
+.lbl3{position:absolute;z-index:3;display:flex;align-items:center;gap:10px;pointer-events:none}
+.lbl3 .dt{width:10px;height:10px;border-radius:50%;background:var(--goldl);box-shadow:0 0 0 5px rgba(220,192,138,.2),0 0 14px var(--gold)}
+.lbl3 .ln{height:1px;background:linear-gradient(90deg,var(--gold),rgba(184,149,90,.2))}
+.lbl3 .bx{padding:9px 13px;background:rgba(18,10,12,.66);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);font:600 10px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--pd);white-space:nowrap}
+.lbl3 .bx b{display:block;font:400 17px/1.1 var(--disp);letter-spacing:0;text-transform:none;color:var(--par)}
+.lbl3.drop .bx{border-color:var(--gold);background:rgba(74,15,28,.75)}
+.lbl3.empty .bx{border-style:dashed;border-color:rgba(220,192,138,.6)}
+.meter{position:absolute;left:72px;bottom:40px;z-index:3;width:520px;padding:20px 24px;background:rgba(18,10,12,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.meter .r{display:flex;justify-content:space-between;align-items:baseline}
+.meter .r b{font:400 36px/1 var(--disp)}
+.meter .sl{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:16px 0 12px}
+.meter .sl i{height:8px;background:var(--gold);box-shadow:0 0 10px rgba(184,149,90,.5)}
+.meter .sl i.e{background:transparent;border:1px dashed var(--gold);box-shadow:none;animation:pulse 2s infinite}
+.meter small{font-size:12px;color:var(--pd)}
+.meter small b{color:var(--vine);font-weight:600}
+.cursor.c3{left:520px;top:300px}
+.panel{position:absolute;right:56px;top:116px;bottom:36px;width:440px;z-index:4;padding:28px 28px 24px;background:rgba(30,14,19,.72);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);display:flex;flex-direction:column}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:14px 0 14px;padding:5px;border:1px solid var(--line2)}
+.seg span{height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:400 18px/1 var(--disp);color:var(--pd)}
+.seg span small{font:600 10px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;margin-top:5px}
+.seg span.on{background:var(--par);color:var(--ink)}
+.filt{display:flex;gap:6px;margin-bottom:10px}
+.filt .chip{height:30px;padding:0 12px;font-size:11px}
+.list{display:grid;gap:0}
+.it{display:grid;grid-template-columns:28px 1fr auto;gap:14px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line2)}
+.it [data-bottle]{width:28px;height:62px}
+.it [data-bottle] svg{filter:none}
+.it b{font:400 18px/1.1 var(--disp)}
+.it small{display:block;font-size:12px;color:var(--pd);margin-top:3px}
+.it .q{display:flex;align-items:center;gap:10px;font:400 18px/1 var(--disp)}
+.it .q i{width:28px;height:28px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font:400 14px/1 var(--sans);font-style:normal;color:var(--gold)}
+.it .q span.p{font-size:15px;color:var(--pd);min-width:44px;text-align:right}
+.it.add{background:linear-gradient(90deg,rgba(184,149,90,.14),transparent);box-shadow:inset 2px 0 0 var(--gold);padding-left:10px;margin-left:-10px}
+.rh{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rh div{padding:10px 12px;border:1px solid var(--line2)}
+.rh div.on{border-color:var(--gold);background:rgba(184,149,90,.1)}
+.rh b{display:block;font:400 18px/1.1 var(--disp)}
+.rh small{font-size:11px;color:var(--pd)}
+.rh .sv{display:inline-block;margin-top:6px;font:700 9px/1 var(--sans);letter-spacing:.16em;padding:5px 7px;background:var(--vine);color:var(--ink)}
+.tot{margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
+.tot .r{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--pd);padding:3px 0}
+.tot .r.big{color:var(--par);margin:6px 0 12px}
+.tot .r.big b{font:400 40px/1 var(--disp)}
+.tot .r s{color:var(--pf)}
+.tot .btn{width:100%;justify-content:space-between}
+</style></head>
+<body>
+<section class="stage">
+  <canvas id="club3d"></canvas>
+  <nav class="nav abs"><div class="l"><a href="wines.html">The Wines</a><a href="wine.html">Grand Cru</a><a class="on" href="club.html">Cellar Society</a></div>
+  <a class="logo" href="home.html"><span class="cr" data-crest></span><b>DOMAINE VINEA</b></a>
+  <div class="r"><a href="estate.html">Estate &amp; Tours</a><a href="#"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a><a class="case-btn" href="checkout.html">Case <i>5</i></a></div></nav>
+
+  <div class="head"><div class="mono">The Cellar Society · Build a case</div><h1>Fill your <em>oak case.</em></h1></div>
+  <div class="lbl3 drop" style="left:606px;top:400px"><span class="dt"></span><span class="ln" style="width:50px"></span><span class="bx">Dropping into slot V<b>Blanc de Noirs 2016</b></span></div>
+  <div class="lbl3" style="left:150px;top:610px"><span class="bx">Slot IV<b>Clos des Ombres 2019</b></span><span class="ln" style="width:44px"></span><span class="dt"></span></div>
+  <div class="lbl3 empty" style="left:110px;top:790px"><span class="bx">Hand-engraved oak<b>Your name on the lid</b></span><span class="ln" style="width:44px"></span><span class="dt"></span></div>
+
+  <div class="meter frm"><span class="c tl"></span><span class="c br"></span>
+    <div class="r"><span class="mono">Your case</span><b>5 <span style="color:var(--pf)">/ 6</span></b></div>
+    <div class="sl"><i></i><i></i><i></i><i></i><i></i><i class="e"></i></div>
+    <small>Add one more bottle to seal the case · <b>free wax-sealed delivery unlocked</b></small>
+  </div>
+
+  <aside class="panel frm"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+    <div class="mono">Step II · Choose the wines</div>
+    <div class="seg"><span class="on">6 bottles<small>Engraved oak</small></span><span>12 bottles<small>Double crate</small></span></div>
+    <div class="filt"><span class="chip on">All</span><span class="chip">Rouge</span><span class="chip">Rosé</span><span class="chip">Pétillant</span><span class="chip">Grand Cru</span></div>
+    <div class="list">
+      <div class="it"><span data-bottle="red" data-name="Clos des Ombres" data-year="2019"></span><div><b>Clos des Ombres 2019</b><small>Grand Cru · members only</small></div><div class="q"><i>−</i>1<i>+</i><span class="p">€420</span></div></div>
+      <div class="it"><span data-bottle="old" data-name="Les Chandelles" data-year="2020" data-cru="Premier Cru"></span><div><b>Les Chandelles 2020</b><small>Premier Cru</small></div><div class="q"><i>−</i>2<i>+</i><span class="p">€296</span></div></div>
+      <div class="it"><span data-bottle="rose" data-name="Aube" data-year="2023" data-cru="Rosé"></span><div><b>Aube 2023</b><small>Rosé de Saignée</small></div><div class="q"><i>−</i>1<i>+</i><span class="p">€42</span></div></div>
+      <div class="it add"><span data-bottle="bdn" data-name="Blanc de Noirs" data-year="2016" data-cru="Extra Brut"></span><div><b>Blanc de Noirs 2016</b><small>Extra Brut · just added</small></div><div class="q"><i>−</i>1<i>+</i><span class="p">€128</span></div></div>
+      <div class="it"><span data-bottle="spark" data-name="Mille Bougies" data-year="NV" data-cru="Crémant"></span><div><b>Mille Bougies NV</b><small>Crémant Brut</small></div><div class="q"><i>−</i>0<i>+</i><span class="p">€54</span></div></div>
+    </div>
+    <div class="rh"><div><b>Just this case</b><small>Delivered in 3 days</small></div><div class="on"><b>Every season</b><small>Chandelle tier · 4× a year</small><br><span class="sv">SAVE 10% · FIRST POUR</span></div></div>
+    <div class="tot">
+      <div class="r"><span>5 bottles</span><span>€886</span></div>
+      <div class="r"><span>Cellar Society −10%</span><span style="color:var(--vine)">−€88.60</span></div>
+      <div class="r"><span>Engraved oak case &amp; 14 °C delivery</span><span><s>€35</s> Free</span></div>
+      <div class="r big"><span>Per season</span><b>€797.40</b></div>
+      <a class="btn p" href="checkout.html">Seal the case &amp; join <span class="ar"></span></a>
+    </div>
+  </aside>
+  <div class="cursor c3"><i>Drop</i></div>
+</section>
+<script src="vinea.js"></script>
+<script type="module">
+import * as THREE from 'three';
+const V = window.V3D(THREE);
+await V.fonts();
+const W = 1440, H = 1080;
+const renderer = V.renderer(document.getElementById('club3d'), W, H);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x120a0c);
+scene.fog = new THREE.FogExp2(0x140a0b, 0.05);
+scene.environment = V.studioEnv(renderer, { key: 3, fill: 2 });
+const camera = new THREE.PerspectiveCamera(33, W / H, 0.1, 120);
+camera.position.set(0.3, 6.4, 12.4); camera.lookAt(0, 1.3, -1.4);
+camera.setViewOffset(W, H, 170, -95, W, H);
+
+// floor + vault
+const stoneT = V.stone(); stoneT.repeat.set(3, 18);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(10, 60), new THREE.MeshStandardMaterial({ map: stoneT, roughness: .85, color: 0x9a8070 }));
+floor.rotation.x = -Math.PI / 2; floor.position.set(0, -1, -22); scene.add(floor);
+const vT = V.stone(); vT.repeat.set(8, 14);
+const vault = new THREE.Mesh(new THREE.CylinderGeometry(4.4, 4.4, 60, 40, 1, true), new THREE.MeshStandardMaterial({ map: vT, roughness: .9, side: THREE.BackSide, color: 0x8a6a58 }));
+vault.rotation.x = Math.PI / 2; vault.position.set(0, 0.2, -24); scene.add(vault);
+
+// barrels: three tiers each side receding into the dark
+const mats = []; const m4 = new THREE.Matrix4(); const q = new THREE.Quaternion(); const e = new THREE.Euler();
+for (const side of [-1, 1]) for (let tier = 0; tier < 3; tier++) for (let k = 0; k < 30; k++) {
+  const z = -3.2 - k * 1.1 - (tier % 2) * 0.55; const y = -1 + 0.54 + tier * 0.93; const x = side * (2.75 - tier * 0.12);
+  e.set(0, 0, side < 0 ? -Math.PI / 2 : Math.PI / 2); q.setFromEuler(e);
+  m4.compose(new THREE.Vector3(x, y, z), q, new THREE.Vector3(1, 1, 1)); mats.push(m4.clone());
+}
+V.barrels(mats).forEach(m => scene.add(m));
+
+// tasting table
+const tWood = V.wood('#3a2012', 1024, 512, { seed: 41, planks: 5 }); tWood.repeat.set(1.5, 1);
+const table = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.16, 3.4), new THREE.MeshPhysicalMaterial({ map: tWood, roughness: .45, clearcoat: .5, clearcoatRoughness: .3 }));
+table.position.set(0, -0.08, 0.2); scene.add(table);
+for (const [x, z] of [[-2.3, -1.2], [2.3, -1.2], [-2.3, 1.6], [2.3, 1.6]]) { const l = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.92, 0.16), table.material); l.position.set(x, -0.6, z); scene.add(l); }
+
+// the case
+const box = V.wineCase({ caseText: 'SIX GRANDS VINS · CAVE N° III · MMXXVI' });
+box.position.set(0, 0, 0); scene.add(box);
+const sh = V.shadow(4.2, 3.2, .85); sh.position.set(0, 0.002, 0); scene.add(sh);
+const slots = box.userData.slots;
+const defs = [
+  { labelOpts: { name: 'Les Chandelles', cru: 'Premier Cru', year: '2020' }, capsule: 0x3a1a12 },
+  { shape: 'bordeaux', glass: 0xfff1ec, atten: 0xffe4dc, attenDist: 3, transmission: .96, wine: 0xf0846f, wineGlow: 0x6a1c14, capsule: 0xd8b48a, level: 2.2, labelOpts: { name: 'Aube', cru: 'Rosé de Saignée', year: '2023', bg: '#f6ece0', ink: '#6b2030', accent: '#b9786a' }, collarOpts: { bg: '#e8c8b0', accent: '#7a2a32', year: '2023' } },
+  { labelOpts: { name: 'Les Chandelles', cru: 'Premier Cru', year: '2020' }, capsule: 0x3a1a12 },
+  { labelOpts: { name: 'Clos des Ombres', year: '2019' } },
+  null,
+  { shape: 'sparkling', glass: 0x1a3a22, capsule: 0xb8955a, capRough: .18, level: 2.1, labelOpts: { name: 'Mille Bougies', cru: 'Crémant Brut', year: 'NV', bg: '#161010', ink: '#efe0c0', accent: '#c9a36a', dark: true } }
+];
+defs.forEach((d, i) => { if (!d) return; const b = V.bottle({ ...d, seg: 48 }); b.position.copy(slots[i]); b.rotation.y = (i * 1.3) % 1 - 0.5; box.add(b); });
+// empty slot glow + shaft
+const es = slots[4];
+const ring = new THREE.Mesh(new THREE.RingGeometry(0.3, 0.37, 48), new THREE.MeshBasicMaterial({ color: 0xffd28a, transparent: true, opacity: .9, toneMapped: false, side: THREE.DoubleSide }));
+ring.rotation.x = -Math.PI / 2; ring.position.set(es.x, 0.1, es.z); box.add(ring);
+const sc = document.createElement('canvas'); sc.width = 4; sc.height = 256; const sg = sc.getContext('2d'); const lg = sg.createLinearGradient(0, 0, 0, 256); lg.addColorStop(0, 'rgba(255,200,120,0)'); lg.addColorStop(1, 'rgba(255,200,120,.55)'); sg.fillStyle = lg; sg.fillRect(0, 0, 4, 256);
+const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.38, 2.6, 40, 1, true), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
+shaft.position.set(es.x, 1.4, es.z); box.add(shaft);
+// the bottle being dropped in, caught mid-air
+const drop = V.bottle({ shape: 'sparkling', glass: 0x16301c, capsule: 0x151012, capRing: 0xc9a36a, level: 2.1, labelOpts: { name: 'Blanc de Noirs', cru: 'Extra Brut', year: '2016', ac: 'MÉTHODE TRADITIONNELLE · EXTRA BRUT', small: 'CINQ ANS SUR LATTES · 750 ML · 12 % VOL.' } });
+drop.position.set(es.x, 1.8, es.z); drop.rotation.set(0.05, 0.1, -0.1); box.add(drop);
+
+// lights: lanterns down the vault
+for (const z of [-3.5, -10, -17, -25]) {
+  const p = new THREE.PointLight(0xffa25a, 22, 0, 2); p.position.set(0, 3.2, z); scene.add(p);
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffd9a0, toneMapped: false })); bulb.position.copy(p.position); scene.add(bulb);
+  const gl = V.glow(1.6, 1.6, [[0, 'rgba(255,200,120,.8)'], [.4, 'rgba(255,150,70,.18)'], [1, 'rgba(0,0,0,0)']]); gl.material.blending = THREE.AdditiveBlending; gl.position.copy(p.position); gl.lookAt(camera.position); scene.add(gl);
+}
+const key = new THREE.SpotLight(0xffe2c0, 300, 0, 0.55, 0.7, 2); key.position.set(-3.5, 7, 5.5); key.target.position.set(0, 0.6, 0); scene.add(key, key.target);
+const rim = new THREE.SpotLight(0xff9a50, 80, 0, 0.6, 0.8, 2); rim.position.set(2.5, 4.5, -4); rim.target.position.set(0, 1, 0); scene.add(rim, rim.target);
+scene.add(new THREE.HemisphereLight(0x5a2a20, 0x120808, 0.6));
+
+// floating dust in the lantern light
+const N = 400, pp = new Float32Array(N * 3);
+for (let i = 0; i < N; i++) { pp[i * 3] = (Math.random() - .5) * 6; pp[i * 3 + 1] = Math.random() * 4 - .5; pp[i * 3 + 2] = -Math.random() * 14 + 2; }
+const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3));
+const dc = document.createElement('canvas'); dc.width = dc.height = 64; const dg = dc.getContext('2d'); const gr = dg.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(255,220,170,1)'); gr.addColorStop(1, 'rgba(255,200,140,0)'); dg.fillStyle = gr; dg.fillRect(0, 0, 64, 64);
+const dust = new THREE.Points(pg, new THREE.PointsMaterial({ size: .05, map: new THREE.CanvasTexture(dc), transparent: true, opacity: .6, depthWrite: false, blending: THREE.AdditiveBlending }));
+scene.add(dust);
+
+let t = 0, first = true;
+function frame() {
+  t += 0.016;
+  drop.position.y = 1.8 + Math.sin(t * 1.4) * 0.06; drop.rotation.y = 0.1 + Math.sin(t * .5) * .25;
+  ring.material.opacity = .6 + Math.sin(t * 3) * .3;
+  box.rotation.y = -0.08 + Math.sin(t * .2) * .04;
+  dust.rotation.y = t * .01;
+  renderer.render(scene, camera);
+  if (first) { first = false; window.__ready3d = true; }
+  requestAnimationFrame(frame);
+}
+frame();
+</script>
+</body></html>

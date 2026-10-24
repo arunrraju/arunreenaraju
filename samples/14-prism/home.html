@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>PRISM — Prism One mixed-reality headset</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prism.css">
+<style>
+.hero{position:relative;height:1040px;overflow:hidden}
+.hero .giant{position:absolute;left:0;right:0;top:112px;text-align:center;font:700 352px/.8 var(--disp);letter-spacing:-.07em;z-index:1;white-space:nowrap}
+.hero canvas{position:absolute;left:0;top:40px;z-index:2}
+.hero .one{position:absolute;right:300px;top:540px;z-index:3;font:300 150px/1 var(--disp);letter-spacing:-.06em;font-style:italic}
+.hero .bl{position:absolute;left:64px;bottom:64px;z-index:4;width:560px}
+.hero .bl h1{font:500 54px/1.02 var(--disp);letter-spacing:-.045em;margin:18px 0 20px}
+.hero .bl p{font-size:17px;color:var(--ink2);max-width:440px;margin-bottom:28px}
+.hero .ctas{display:flex;gap:14px;align-items:center}
+.hero .br{position:absolute;right:64px;bottom:64px;z-index:4;width:360px;border-radius:30px;padding:22px 24px}
+.hero .br .row{display:flex;justify-content:space-between;align-items:baseline}
+.hero .br .pr{font:600 40px/1 var(--disp);letter-spacing:-.04em}
+.hero .br .sw{display:flex;gap:8px;margin-top:16px}
+.hero .br .sw i{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 2px #fff,0 3px 8px rgba(0,0,0,.12)}
+.hero .br .sw i.on{outline:2px solid var(--ink);outline-offset:2px}
+.tag{position:absolute;z-index:4;border-radius:22px;padding:12px 16px 12px 12px;display:flex;align-items:center;gap:12px;font-size:13px}
+.tag b{display:block;font:600 15px/1.1 var(--disp);letter-spacing:-.02em}
+.tag .bubble{width:38px;height:38px;flex:none}
+.tag span{color:var(--ink2)}
+.ticker{position:relative;z-index:5;margin:-8px 24px 0;height:84px;border-radius:99px;display:flex;align-items:center}
+.ticker .tr span{font:500 26px/1 var(--disp);letter-spacing:-.03em}
+.ticker .tr i{width:14px;height:14px;border-radius:50%;background:var(--holo);background-size:200%;display:inline-block}
+.state{padding:150px 64px 120px;position:relative}
+.state p{font:400 66px/1.12 var(--disp);letter-spacing:-.05em;max-width:1280px}
+.state p .pill{display:inline-block;width:150px;height:62px;border-radius:99px;vertical-align:middle;background-size:cover;background-position:center;margin:0 6px;box-shadow:0 10px 24px rgba(70,60,130,.18),inset 0 0 0 3px rgba(255,255,255,.8)}
+.state p .dim{color:#b3b6c7}
+.state .sig{display:flex;justify-content:space-between;margin-top:56px;border-top:1px solid var(--line);padding-top:24px}
+.state .sig div{font-size:14px;color:var(--ink2);width:300px}
+.state .sig b{display:block;font:600 44px/1 var(--disp);letter-spacing:-.04em;color:var(--ink);margin-bottom:8px}
+.ctrl{position:relative;height:880px;margin:0 24px;border-radius:48px;overflow:hidden;background:radial-gradient(70% 90% at 70% 50%,#fff 0%,#ebe6ff 45%,#dff4f7 80%,#f3e8f6 100%);border:1px solid #fff}
+.ctrl canvas{position:absolute;left:0;top:0;z-index:2}
+.ctrl .tx{position:absolute;left:64px;top:84px;width:470px;z-index:3}
+.ctrl h2{font:600 84px/.92 var(--disp);letter-spacing:-.06em;margin:20px 0 22px}
+.ctrl .tx p{color:var(--ink2);font-size:17px}
+.ctrl .list{margin-top:34px;display:grid;gap:10px}
+.ctrl .list div{display:flex;gap:16px;align-items:center;padding:14px 18px;border-radius:20px}
+.ctrl .list b{font:600 15px/1.2 var(--disp);letter-spacing:-.02em;display:block}
+.ctrl .list span{font-size:13px;color:var(--ink2)}
+.ctrl .list em{font:600 12px/1 var(--sans);font-style:normal;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:#fff;flex:none}
+.ctrl .back{position:absolute;right:-30px;bottom:-40px;font:700 260px/.8 var(--disp);letter-spacing:-.07em;color:rgba(255,255,255,.7);z-index:1;text-shadow:0 2px 0 rgba(160,140,255,.18)}
+.ctrl .price{position:absolute;right:56px;top:56px;z-index:3;border-radius:24px;padding:16px 20px;width:250px}
+.bento{padding:140px 64px 60px}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px}
+.sh h2{font:600 76px/.94 var(--disp);letter-spacing:-.06em;margin-top:18px}
+.sh p{max-width:360px;color:var(--ink2)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:300px;gap:18px}
+.card{position:relative;border-radius:34px;overflow:hidden;padding:28px;background:#fff;border:1px solid #fff;box-shadow:0 20px 50px rgba(70,60,130,.08)}
+.card h3{font:600 28px/1 var(--disp);letter-spacing:-.04em;position:relative;z-index:2}
+.card p{font-size:14px;color:var(--ink2);margin-top:10px;max-width:300px;position:relative;z-index:2}
+.card .big{font:600 92px/.9 var(--disp);letter-spacing:-.06em;position:relative;z-index:2}
+.c1{grid-column:span 7;grid-row:span 2;background-size:cover;background-position:center;color:#fff;display:flex;flex-direction:column;justify-content:flex-end}
+.c1 p{color:rgba(255,255,255,.85)}
+.c1::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,16,40,0) 40%,rgba(20,16,40,.6))}
+.c2{grid-column:span 5;background:linear-gradient(140deg,#efeaff,#fff 60%)}
+.c3{grid-column:span 5;background:linear-gradient(140deg,#e3f8fa,#fff 60%)}
+.c4{grid-column:span 4}
+.c5{grid-column:span 4;background:#14141c;color:#fff}
+.c5 p{color:#a9abbd}
+.c6{grid-column:span 4;background-size:cover;background-position:center 30%}
+.knit{position:absolute;right:-40px;bottom:-60px;width:330px;height:220px;border-radius:120px;transform:rotate(-14deg);background:repeating-linear-gradient(90deg,#c3b4ff 0 6px,#d6cbff 6px 9px,#b3a1fb 9px 12px);box-shadow:inset 0 10px 20px rgba(255,255,255,.6),inset 0 -14px 24px rgba(90,60,200,.25),0 20px 40px rgba(90,60,200,.25)}
+.knit::after{content:"";position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(0deg,rgba(255,255,255,.18) 0 2px,transparent 2px 7px)}
+.ring{position:absolute;right:28px;bottom:26px;width:150px;height:150px;border-radius:50%;background:conic-gradient(#b9a6ff 0 25%,#8fe8f0 25% 55%,#ffb6dc 55% 78%,#e9eaf2 78%);display:grid;place-items:center}
+.ring::after{content:"";position:absolute;inset:16px;border-radius:50%;background:#fff}
+.ring b{position:relative;z-index:2;font:600 30px/1 var(--disp);letter-spacing:-.04em}
+.wave{position:absolute;left:28px;right:28px;bottom:30px;height:90px;display:flex;align-items:center;gap:5px}
+.wave i{flex:1;height:100%;border-radius:9px;background:var(--holo);background-size:600% 100%;animation:wv 1.6s ease-in-out infinite alternate}
+@keyframes wv{from{transform:scaleY(.4)}}
+.os{position:absolute;left:28px;right:28px;bottom:26px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.os i{aspect-ratio:1;border-radius:18px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.7),0 8px 18px rgba(70,60,130,.12)}
+.c6 .lab{position:absolute;left:20px;bottom:20px;right:20px;border-radius:22px;padding:16px 18px}
+.c6 .lab h3{font-size:22px}
+.scan{position:absolute;left:0;right:0;top:46%;height:2px;background:linear-gradient(90deg,transparent,#8fe8f0,#fff,#b9a6ff,transparent);box-shadow:0 0 18px #8fe8f0;animation:scan 3s ease-in-out infinite alternate}
+@keyframes scan{to{top:20%}}
+.worlds{padding:120px 0 60px;overflow:hidden}
+.worlds .sh{padding:0 64px}
+.track{display:flex;gap:22px;padding:0 64px}
+.w{flex:none;width:380px;height:520px;border-radius:38px;overflow:hidden;position:relative;background-size:cover;background-position:center;box-shadow:0 30px 60px rgba(70,60,130,.16)}
+.w:nth-child(2){transform:translateY(40px) rotate(1.5deg)}
+.w:nth-child(3){transform:rotate(-1.5deg)}
+.w .lab{position:absolute;left:16px;right:16px;bottom:16px;border-radius:26px;padding:18px 20px}
+.w .lab h4{font:600 24px/1 var(--disp);letter-spacing:-.04em}
+.w .lab p{font-size:13px;color:var(--ink2);margin-top:6px}
+.w .lab .meta{display:flex;justify-content:space-between;margin-top:12px;font:600 12px/1 var(--sans)}
+.w .chipx{position:absolute;left:16px;top:16px}
+.w.hov{outline:3px solid #fff;outline-offset:-3px}
+.w .play{position:absolute;right:20px;top:20px;width:64px;height:64px}
+.voices{padding:120px 64px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.q{border-radius:32px;padding:32px;min-height:300px;display:flex;flex-direction:column;justify-content:space-between}
+.q p{font:400 22px/1.32 var(--disp);letter-spacing:-.03em}
+.q .who{display:flex;gap:12px;align-items:center;font-size:13px;color:var(--ink2)}
+.q .who i{width:44px;height:44px;border-radius:50%;background-size:cover;background-position:center}
+.q .who b{display:block;color:var(--ink);font-size:14px}
+.stars{letter-spacing:4px;font-size:14px}
+.demo{position:relative;margin:40px 24px 24px;height:560px;border-radius:48px;overflow:hidden;display:grid;place-items:center;text-align:center;background:linear-gradient(120deg,#cdbfff,#a9eef4 25%,#ffd0e8 50%,#e9f8d4 75%,#cdbfff);background-size:200% 100%;animation:holo 14s linear infinite}
+.demo h2{font:600 108px/.9 var(--disp);letter-spacing:-.065em;position:relative;z-index:2}
+.demo p{font-size:18px;color:#3d3f52;margin:20px 0 30px;position:relative;z-index:2}
+.demo .bubble{position:absolute}
+.demo .cities{display:flex;gap:10px;justify-content:center;position:relative;z-index:2;margin-top:26px}
+</style></head>
+<body data-page="home">
+<div data-nav></div>
+
+<section class="hero">
+  <div class="haze"><i></i><i></i><i></i></div>
+  <div class="giant chrome">PRISM</div>
+  <canvas id="hero"></canvas>
+  <div class="one holo-ink">One</div>
+  <div class="tag glass" style="left:64px;top:520px"><span class="bubble"></span><div><b>23 million pixels</b><span>Micro-OLED, 3,660 ppi</span></div></div>
+  
+  <div class="cursor" style="left:850px;top:820px"><div class="cring">Drag<br>to orbit</div></div>
+  <div class="bl">
+    <span class="eyebrow">New · Prism One · Ships 12 Nov</span>
+    <h1>The world, <span class="holo-ink">softly</span><br>rewritten.</h1>
+    <p>A mixed-reality headset you forget you’re wearing. Iridescent glass, a knit strap that breathes, and passthrough so clear you’ll read your watch.</p>
+    <div class="ctas"><a class="btn dark" href="configure.html">Configure yours <span class="ar">→</span></a><a class="btn light" href="product.html">Watch the film <span class="ar">▶</span></a></div>
+  </div>
+  <div class="br glass">
+    <div class="row"><span class="eyebrow">From</span><span class="mono">or €103.75/mo · 24 mo</span></div>
+    <div class="row" style="margin-top:12px"><span class="pr">€2,490</span><span class="chip"><span class="dot"></span>In stock</span></div>
+    <div class="sw"><i class="on" style="background:linear-gradient(135deg,#fff,#cfd2de)"></i><i style="background:linear-gradient(135deg,#fff,#f1e6f3)"></i><i style="background:linear-gradient(135deg,#efe9ff,#b6a3ff)"></i><i style="background:linear-gradient(135deg,#8a8c99,#3d3e48)"></i><span class="mono" style="margin-left:auto;align-self:center">Liquid Silver</span></div>
+  </div>
+</section>
+
+<div class="ticker glass mq"><div class="tr">
+  <span>Spatial computing, made light</span><i></i><span>12 ms photon-to-photon</span><i></i><span>Prism OS 3</span><i></i><span>Prescription inserts in 48 h</span><i></i><span>Hand + eye tracking</span><i></i><span>3.5 h battery, hot-swap</span><i></i>
+  <span>Spatial computing, made light</span><i></i><span>12 ms photon-to-photon</span><i></i><span>Prism OS 3</span><i></i><span>Prescription inserts in 48 h</span><i></i><span>Hand + eye tracking</span><i></i><span>3.5 h battery, hot-swap</span><i></i>
+</div></div>
+
+<section class="state">
+  <span class="eyebrow">( 01 ) The idea</span>
+  <p style="margin-top:34px">We built a headset that feels like <span class="pill" style="background-image:url(https://images.unsplash.com/photo-1634244106844-107aa05a2df0?auto=format&fit=crop&q=82&w=400)"></span> wearing light, not a machine. <span class="dim">Your room stays. Your people stay. Everything else</span> <span class="pill" style="background-image:url(https://images.unsplash.com/photo-1637150899351-0ce1779710c7?auto=format&fit=crop&q=82&w=400)"></span> <span class="holo-ink">floats in.</span></p>
+  <div class="sig">
+    <div><b>4K+</b>per eye, on a micro-OLED the size of a postage stamp</div>
+    <div><b>12 ms</b>from photon to pixel, so passthrough feels like glass</div>
+    <div><b>−38%</b>pressure on the cheeks vs. strap-only designs</div>
+    <div><b>1 min</b>to swap a battery without taking the headset off</div>
+  </div>
+</section>
+
+<section class="ctrl">
+  <div class="back">TOUCH</div>
+  <canvas id="ctrl"></canvas>
+  <div class="tx">
+    <span class="eyebrow">( 02 ) Prism Halo controllers</span>
+    <h2>Hands, <span class="holo-ink">upgraded.</span></h2>
+    <p>Pearl-glazed tracking rings with 48 hidden LEDs, haptics tuned per finger, and a grip that disappears in your palm. Or leave them in the dock: your hands work just as well.</p>
+    <div class="list">
+      <div class="glass"><em>01</em><div><b>TruTouch haptics</b><span>Two voice-coil motors, 320 Hz texture range</span></div></div>
+      <div class="glass"><em>02</em><div><b>Capacitive everything</b><span>Rest, point, pinch — read before you press</span></div></div>
+      <div class="glass"><em>03</em><div><b>40 hours per charge</b><span>USB-C, or drop them on the Prism dock</span></div></div>
+    </div>
+  </div>
+  <div class="price glass"><span class="eyebrow">Pair</span><div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:10px"><b style="font:600 30px/1 var(--disp);letter-spacing:-.04em">€329</b><span class="mono" style="white-space:nowrap;font-size:11px">Included with One</span></div></div>
+</section>
+
+<section class="bento">
+  <div class="sh"><div><span class="eyebrow">( 03 ) Inside the glass</span><h2>Every detail,<br><span class="holo-ink">refracted.</span></h2></div><p>Six things we obsessed over for three years, so you never have to think about them at all.</p></div>
+  <div class="grid">
+    <div class="card c1" style="background-image:url(https://images.unsplash.com/photo-1603847734787-9e8a3f3e9d60?auto=format&fit=crop&q=82&w=1100)"><span class="chip" style="position:absolute;top:24px;left:24px;z-index:2;color:var(--ink)">Visor · laminated glass</span><h3 style="font-size:52px">Iridescent by nature.</h3><p>Seven nano-layers bend light into a shifting rainbow outside, while staying perfectly neutral on the inside. No two angles look alike.</p></div>
+    <div class="card c2"><h3>Knit that breathes</h3><p>3D-knit strap from recycled yarn, 41% lighter than silicone. Machine-washable.</p><div class="knit"></div></div>
+    <div class="card c3"><h3>All-day battery,<br>half-day weight</h3><p>3.5 h per pack, hot-swap in under a minute.</p><div class="ring"><b>3.5h</b></div></div>
+    <div class="card c4"><h3>Spatial audio</h3><p>Pods sit off the ear. You hear the room, and the room hears nothing.</p><div class="wave"><i></i><i style="animation-delay:-.2s"></i><i style="animation-delay:-.5s"></i><i style="animation-delay:-.1s"></i><i style="animation-delay:-.7s"></i><i style="animation-delay:-.3s"></i><i style="animation-delay:-.9s"></i><i style="animation-delay:-.4s"></i><i style="animation-delay:-.6s"></i><i style="animation-delay:-.15s"></i><i style="animation-delay:-.8s"></i><i style="animation-delay:-.35s"></i><i style="animation-delay:-.55s"></i><i style="animation-delay:-.25s"></i><i style="animation-delay:-.75s"></i><i style="animation-delay:-.45s"></i></div></div>
+    <div class="card c5"><span class="eyebrow" style="color:#a9abbd">Prism OS 3</span><div class="big holo" style="margin-top:18px">1,800+</div><p>native spatial apps at launch, plus every 2D app you already use.</p></div>
+    <div class="card c6" style="background-image:url(https://images.unsplash.com/photo-1572466040501-4d2415fcbb88?auto=format&fit=crop&q=82&w=700)"><div class="scan"></div><div class="lab glass"><h3>Eyes are the cursor</h3><p style="margin-top:6px">Look, pinch, done. Calibrates in 9 seconds.</p></div></div>
+  </div>
+</section>
+
+<section class="worlds">
+  <div class="sh"><div><span class="eyebrow">( 04 ) Worlds to step into</span><h2>Made for <span class="holo-ink">being there.</span></h2></div><a class="btn light" href="experiences.html">All experiences <span class="ar">→</span></a></div>
+  <div class="track">
+    <div class="w" style="background-image:url(https://images.unsplash.com/photo-1711397130437-346ccc930e98?auto=format&fit=crop&q=82&w=760)"><span class="chip chipx">Wellness</span><div class="lab glass"><h4>Lumen Breath</h4><p>Guided breathing inside a slow aurora.</p><div class="meta"><span>★ 4.9 · 12k</span><span>Free</span></div></div></div>
+    <div class="w hov" style="background-image:url(https://images.unsplash.com/photo-1758526213714-a0743a6c101f?auto=format&fit=crop&q=82&w=760)"><span class="chip chipx">Fitness</span><span class="play bubble" style="display:grid;place-items:center;font-size:18px">▶</span><div class="lab glass"><h4>Pulse Studio</h4><p>Boxing, dance and flow, coached in your living room.</p><div class="meta"><span>★ 4.8 · 31k</span><span>€9.99/mo</span></div></div></div>
+    <div class="w" style="background-image:url(https://images.unsplash.com/photo-1739971714008-ce6d363cb90d?auto=format&fit=crop&q=82&w=760)"><span class="chip chipx">Cinema</span><div class="lab glass"><h4>Silver Hall</h4><p>A 30-metre screen that fits in a studio flat.</p><div class="meta"><span>★ 4.9 · 48k</span><span>Included</span></div></div></div>
+    <div class="w" style="background-image:url(https://images.unsplash.com/photo-1613698808499-f772ccb4f527?auto=format&fit=crop&q=82&w=760)"><span class="chip chipx">Social</span><div class="lab glass"><h4>Gather</h4><p>Life-size friends on your sofa, across six time zones.</p><div class="meta"><span>★ 4.7 · 22k</span><span>Free</span></div></div></div>
+  </div>
+</section>
+
+<section class="voices">
+  <div class="q glass"><div><div class="stars holo-ink">★★★★★</div><p style="margin-top:18px">“The first headset I’ve worn through a whole film without counting the minutes. It just… sits there, light as a thought.”</p></div><div class="who"><i style="background-image:url(https://images.unsplash.com/photo-1758523670487-fe71f10c1080?auto=format&fit=crop&q=82&w=120&h=120)"></i><div><b>Jonas Rehm</b>Product designer, Hamburg</div></div></div>
+  <div class="q glass" style="background:linear-gradient(160deg,#14141c,#2a2540);color:#fff;border-color:#2a2540"><div><div class="stars holo">★★★★★</div><p style="margin-top:18px">“Passthrough is the tell. I poured coffee, answered the door and read a paperback with it on. Nothing else comes close.”</p></div><div class="who" style="color:#a9abbd"><i style="background-image:url(https://images.unsplash.com/photo-1758526213704-00abd491c31b?auto=format&fit=crop&q=82&w=120&h=120)"></i><div><b style="color:#fff">Amara Okafor</b>Architect, Lisbon</div></div></div>
+  <div class="q glass"><div><div class="stars holo-ink">★★★★★</div><p style="margin-top:18px">“Prescription inserts arrived in two days and clicked in magnetically. My glasses finally stay on the nightstand.”</p></div><div class="who"><i style="background-image:url(https://images.unsplash.com/photo-1787001703164-8a0f21298a71?auto=format&fit=crop&q=82&w=120&h=120)"></i><div><b>Lea Marchetti</b>Teacher, Turin</div></div></div>
+</section>
+
+<section class="demo">
+  <span class="bubble" style="width:220px;height:220px;left:90px;top:70px;animation:floaty 6s ease-in-out infinite"></span>
+  <span class="bubble" style="width:120px;height:120px;left:300px;bottom:60px;animation:floaty 5s ease-in-out infinite -2s"></span>
+  <span class="bubble" style="width:280px;height:280px;right:80px;bottom:-60px;animation:floaty 7s ease-in-out infinite -1s"></span>
+  <span class="bubble" style="width:90px;height:90px;right:330px;top:60px;animation:floaty 4s ease-in-out infinite -3s"></span>
+  <div><span class="eyebrow">Fit studios · 30-minute demo</span><h2 style="margin-top:22px">Try it on.<br><span class="chrome">Float a little.</span></h2><p>Book a free fitting. We measure your face, set your lenses, and send you home with worlds.</p>
+  <a class="btn dark" href="configure.html">Book a demo <span class="ar">→</span></a>
+  <div class="cities"><span class="chip">Copenhagen</span><span class="chip">Amsterdam</span><span class="chip">Berlin</span><span class="chip">Paris</span><span class="chip">Milan</span><span class="chip"><span class="dot"></span>+ 9 more</span></div></div>
+</section>
+
+<div data-foot></div>
+<script src="prism.js"></script>
+<script src="prism3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = P3D(THREE, { mergeVertices, RoundedBoxGeometry });
+await K.fontsReady;
+
+/* hero */
+{
+  const S = K.stage(document.getElementById('hero'), { w: 1440, h: 1000, fov: 28, pos: [0, 0.35, 6.4], target: [0, 0.05, 0] });
+  const hs = K.headset({ frame: 'silver', strap: 'lilac' });
+  hs.position.set(-0.05, 0.0, 0); hs.rotation.set(0.12, 0.9, 0.0); hs.scale.setScalar(0.88);
+  S.scene.add(hs);
+  K.shadow(S.scene, { sx: 3.6, sz: 1.6, y: -1.0, a: 0.3 });
+  const blobs = [
+    K.blob(0.42, { seed: 1, amp: 0.2 }), K.blob(0.26, { seed: 2, c: '#efe9ff' }), K.blob(0.18, { seed: 3, c: '#e6fbfd' }), K.blob(0.55, { seed: 4, amp: 0.14, c: '#fbeef6' }), K.blob(0.12, { seed: 5 })
+  ];
+  [[-2.5, -0.05, -1.6], [1.0, 1.15, -0.8], [0.2, -1.12, 1.0], [2.8, 1.45, -2.4], [2.0, -0.55, 0.6]].forEach((p, i) => { blobs[i].position.set(...p); S.scene.add(blobs[i]); });
+  const p1 = K.panel(1.25, 0.72, (g, W, H) => {
+    g.fillStyle = '#14141c'; g.font = '600 22px Inter'; g.fillText('NOW PLAYING', 36, 60);
+    g.font = '600 46px Unbounded'; g.fillText('Aurora Fields', 36, 128);
+    g.fillStyle = '#5d6072'; g.font = '500 24px Inter'; g.fillText('Lumen Breath · 12 min', 36, 170);
+    g.fillStyle = 'rgba(20,20,28,.12)'; K.rr(g, 36, 220, W - 72, 10, 5); g.fill();
+    const gr = g.createLinearGradient(36, 0, W - 36, 0); gr.addColorStop(0, '#9a84ff'); gr.addColorStop(1, '#5fd3e0'); g.fillStyle = gr; K.rr(g, 36, 220, (W - 72) * 0.62, 10, 5); g.fill();
+    g.fillStyle = '#14141c'; g.beginPath(); g.arc(W / 2, 268, 0, 0, 7); g.fill();
+  });
+  p1.position.set(1.72, 0.66, -0.3); p1.rotation.y = -0.4; p1.scale.setScalar(0.92);
+  const p2 = K.panel(0.82, 0.82, (g, W, H) => {
+    g.lineWidth = 22; g.strokeStyle = 'rgba(20,20,28,.08)'; g.beginPath(); g.arc(W / 2, H / 2 + 14, 104, 0, 7); g.stroke();
+    const gr = g.createLinearGradient(0, 0, W, H); gr.addColorStop(0, '#ff9fd0'); gr.addColorStop(1, '#9a84ff');
+    g.strokeStyle = gr; g.lineCap = 'round'; g.beginPath(); g.arc(W / 2, H / 2 + 14, 104, -1.57, 2.6); g.stroke();
+    g.fillStyle = '#14141c'; g.textAlign = 'center'; g.font = '600 50px Unbounded'; g.fillText('42', W / 2, H / 2 + 30);
+    g.font = '600 20px Inter'; g.fillStyle = '#5d6072'; g.fillText('FOCUS · MIN', W / 2, 62);
+  });
+  p2.position.set(-1.85, 0.62, -0.8); p2.rotation.y = 0.5;
+  const p3 = K.panel(1.0, 0.42, (g, W, H) => {
+    g.fillStyle = '#14141c'; g.font = '600 34px Unbounded'; g.fillText('Mira is here', 120, 82);
+    g.fillStyle = '#5d6072'; g.font = '500 22px Inter'; g.fillText('Joined your space · now', 120, 120);
+    const gr = g.createLinearGradient(30, 40, 100, 130); gr.addColorStop(0, '#c5b4ff'); gr.addColorStop(1, '#8fe8f0'); g.fillStyle = gr; g.beginPath(); g.arc(70, 88, 40, 0, 7); g.fill();
+  });
+  p3.position.set(1.95, -0.28, 0.2); p3.rotation.y = -0.38;
+  S.scene.add(p1, p2);
+  const sp = K.sparkles(140, [7, 3.6, 3], 0.06); S.scene.add(sp);
+  S.loop(t => {
+    hs.rotation.y = 0.9 + Math.sin(t * 0.3) * 0.06; hs.position.y = Math.sin(t * 0.8) * 0.03;
+    blobs.forEach((b, i) => { b.update(t * 0.8 + i); b.position.y += Math.sin(t + i) * 0.0008; });
+    [p1, p2].forEach((p, i) => p.position.y += Math.sin(t * 0.9 + i * 2) * 0.0006);
+    sp.rotation.y = t * 0.02;
+  });
+}
+
+/* controllers */
+{
+  const S = K.stage(document.getElementById('ctrl'), { w: 1392, h: 880, fov: 26, pos: [0.4, 0.2, 6], target: [0.4, 0, 0] });
+  const L = K.controller(-1), R = K.controller(1);
+  L.position.set(0.8, 0.05, 0); L.rotation.set(0.35, 0.5, 0.32);
+  R.position.set(1.72, -0.12, 0.3); R.rotation.set(0.2, -0.45, -0.28);
+  L.scale.setScalar(1.02); R.scale.setScalar(1.02);
+  S.scene.add(L, R);
+  const bl = [K.blob(0.3, { seed: 7 }), K.blob(0.16, { seed: 8, c: '#efe9ff' }), K.blob(0.22, { seed: 9, c: '#e6fbfd' })];
+  [[2.55, -0.75, -0.6], [0.15, -1.0, 0.6], [1.3, 1.2, -0.6]].forEach((p, i) => { bl[i].position.set(...p); S.scene.add(bl[i]); });
+  K.shadow(S.scene, { sx: 3.4, sz: 1.3, y: -1.15, a: 0.22 }).position.x = 1.3;
+  S.loop(t => { L.rotation.y = 0.5 + Math.sin(t * 0.5) * 0.08; R.rotation.y = -0.45 + Math.sin(t * 0.5 + 1) * 0.08; bl.forEach((b, i) => b.update(t + i * 3)); });
+}
+</script>
+</body></html>

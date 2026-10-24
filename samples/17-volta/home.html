@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VOLTA — Electric bikes, charged with intent</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,600;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="volta.css">
+<script src="volta3d.js"></script>
+<style>
+.hero{position:relative;height:1000px;overflow:hidden;background:radial-gradient(70% 60% at 55% 62%,#2c2f33 0%,#17181a 48%,#0f1011 80%)}
+.hero .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(70% 70% at 50% 60%,#000 30%,transparent 80%)}
+.hero .floor{position:absolute;left:0;right:0;top:748px;height:1px;background:linear-gradient(90deg,transparent,rgba(230,255,0,.5),transparent)}
+.hero .g1{width:900px;height:360px;left:300px;top:640px;background:radial-gradient(closest-side,rgba(230,255,0,.22),transparent)}
+.hero .back{position:absolute;left:0;right:0;top:300px;z-index:1;text-align:center;font-size:400px;white-space:nowrap;letter-spacing:-.02em;
+  background:linear-gradient(180deg,#f4f6f8 0%,#f4f6f8 45%,rgba(244,246,248,.15) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .front{position:absolute;left:0;right:0;top:300px;z-index:4;text-align:center;font-size:400px;white-space:nowrap;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1.5px rgba(230,255,0,.55);clip-path:inset(62% 0 0 0)}
+.hero .kick{position:absolute;left:64px;top:150px;z-index:5;display:flex;align-items:center;gap:18px}
+.hero .kick h1{font-size:118px}
+.hero canvas{position:absolute;left:0;top:0;z-index:3}
+.hero .intro{position:absolute;left:64px;bottom:56px;width:410px;z-index:6}
+.hero .intro p{color:rgba(244,246,248,.72);font-size:16px;margin:0 0 26px}
+.hero .intro .btns{display:flex;gap:10px}
+.hero .models{position:absolute;right:64px;bottom:56px;z-index:6;width:420px}
+.hero .models .row{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);color:var(--grey)}
+.hero .models .row b{font:italic 800 30px/1 var(--disp);text-transform:uppercase;color:rgba(244,246,248,.45)}
+.hero .models .row.on b{color:var(--white)}
+.hero .models .row.on{border-bottom:2px solid var(--volt);color:var(--white)}
+.hero .models .row span{font:500 12px/1 var(--mono)}
+.hero .side{position:absolute;right:64px;top:150px;z-index:6;text-align:right}
+.hero .side .spd{font:italic 900 150px/.8 var(--disp);letter-spacing:-.03em}
+.hero .side .spd small{font:600 18px var(--sans);font-style:normal;color:var(--volt);margin-left:6px;letter-spacing:.04em}
+.hero .side .seg{justify-content:flex-end;margin-top:14px}
+.hero .rail{position:absolute;left:28px;top:330px;z-index:6;display:flex;flex-direction:column;align-items:center;gap:14px;font:500 10px/1 var(--mono);color:var(--grey);letter-spacing:.14em}
+.hero .rail i{width:2px;height:150px;background:var(--line2);position:relative}
+.hero .rail i::after{content:"";position:absolute;left:0;top:0;width:2px;height:38%;background:var(--volt);box-shadow:0 0 10px var(--volt)}
+
+.ticker{background:var(--g1)}
+.ticker .t span{color:var(--white)}
+
+.night{position:relative;height:880px;overflow:hidden}
+.night>[data-img]{position:absolute;inset:0}
+.night>[data-img] img{filter:saturate(1.15) contrast(1.05)}
+.night::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(15,16,17,.92) 0%,rgba(15,16,17,.55) 45%,rgba(15,16,17,.1) 75%),linear-gradient(0deg,var(--ink),transparent 30%)}
+.night .txt{position:absolute;left:64px;top:120px;z-index:3}
+.night h2{font-size:190px}
+.night .txt p{max-width:440px;color:rgba(244,246,248,.75);font-size:17px;margin-top:34px}
+.night .log{position:absolute;right:64px;top:110px;width:430px;z-index:3;background:rgba(15,16,17,.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line2);padding:26px}
+.night .log .top{display:flex;justify-content:space-between;align-items:center}
+.night .log svg.route{width:100%;height:210px;margin:18px 0 14px;background:rgba(255,255,255,.02)}
+.night .log .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;border-top:1px solid var(--line);padding-top:16px}
+.night .log .nums b{display:block;font:italic 800 38px/1 var(--disp)}
+.night .log .nums span{font:500 10px/1 var(--mono);color:var(--grey);letter-spacing:.12em}
+.night .tiles{position:absolute;left:64px;bottom:70px;z-index:3;display:flex;gap:16px}
+.night .tiles>div{width:250px;height:160px;clip-path:polygon(16px 0,100% 0,calc(100% - 16px) 100%,0 100%)}
+.night .tiles .cap{position:absolute;left:22px;bottom:12px;z-index:2;font:500 10px/1 var(--mono);letter-spacing:.12em}
+.night .tiles>div::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.6),transparent 60%)}
+
+.xray{position:relative;height:1200px;overflow:hidden;background:radial-gradient(60% 55% at 50% 55%,#1e2124,#0f1011 75%)}
+.xray .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(230,255,0,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(230,255,0,.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(60% 60% at 50% 55%,#000,transparent 85%)}
+.xray canvas{position:absolute;left:0;top:240px;z-index:2}
+.xray .hd{position:absolute;left:64px;top:110px;z-index:4}
+.xray .hd h2{font-size:150px}
+.xray .modes{position:absolute;right:64px;top:126px;z-index:4;display:flex;gap:6px}
+.xray .scan{position:absolute;left:0;right:0;height:2px;top:560px;z-index:3;background:linear-gradient(90deg,transparent,var(--volt),transparent);box-shadow:0 0 30px 6px rgba(230,255,0,.25);animation:scan 4s ease-in-out infinite alternate}
+@keyframes scan{from{top:300px}to{top:900px}}
+.call{position:absolute;z-index:5;width:230px}
+.call .n{font:italic 800 18px/1 var(--disp);color:var(--volt)}
+.call b{display:block;font:italic 800 30px/1 var(--disp);text-transform:uppercase;margin:6px 0 6px}
+.call p{font-size:13px;color:var(--grey);line-height:1.45}
+.xray .foot{position:absolute;left:64px;right:64px;bottom:50px;z-index:4;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+.xray .foot div{padding:22px 24px 0 0}
+.xray .foot b{display:block;font:italic 800 64px/1 var(--disp)}
+.xray .foot b small{font:600 16px var(--sans);font-style:normal;color:var(--volt);margin-left:6px}
+.xray .foot span{font:500 10px/1 var(--mono);color:var(--grey);letter-spacing:.14em;text-transform:uppercase}
+
+.line{padding:150px 0 140px;position:relative;overflow:hidden}
+.line .sh{padding:0 64px 64px}
+.line .cards{display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:20px;padding:0 64px;align-items:end}
+.mc{position:relative;height:640px;clip-path:polygon(28px 0,100% 0,calc(100% - 28px) 100%,0 100%);overflow:hidden}
+.mc.on{height:720px}
+.mc::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,11,12,.95) 8%,rgba(10,11,12,.1) 55%,rgba(10,11,12,.4))}
+.mc .in{position:absolute;left:44px;right:44px;bottom:36px;z-index:2}
+.mc h3{font:italic 800 76px/.85 var(--disp);text-transform:uppercase}
+.mc .row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--line2)}
+.mc .row b{font:italic 800 30px/1 var(--disp)}
+.mc .top{position:absolute;left:44px;top:34px;right:44px;z-index:2;display:flex;justify-content:space-between;align-items:center}
+.mc .specs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.mc .specs div{background:rgba(255,255,255,.06);padding:12px 12px 10px}
+.mc .specs b{display:block;font:italic 800 28px/1 var(--disp)}
+.mc .specs span{font:500 9px/1 var(--mono);color:var(--grey);letter-spacing:.12em}
+.mc.on{box-shadow:none}
+.mc.on::before{content:"";position:absolute;inset:0;z-index:3;border:2px solid var(--volt);clip-path:inherit;pointer-events:none}
+.mc .big{position:absolute;right:30px;top:80px;z-index:2;font:italic 900 220px/.8 var(--disp);color:transparent;-webkit-text-stroke:1.5px rgba(230,255,0,.6)}
+
+.riders{padding:40px 64px 150px;display:grid;grid-template-columns:560px 1fr;gap:70px;align-items:center}
+.riders .ph{height:640px;clip-path:polygon(40px 0,100% 0,calc(100% - 40px) 100%,0 100%);position:relative}
+.riders .ph .hud{left:56px;bottom:40px}
+.riders q{display:block;font:italic 800 76px/.9 var(--disp);text-transform:uppercase;quotes:none;margin:26px 0 34px}
+.riders .who{display:flex;align-items:center;gap:16px;color:var(--grey);font-size:14px}
+.riders .who b{color:var(--white);display:block}
+.riders .revs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:50px}
+.riders .rev{background:var(--g1);padding:24px 26px;border-top:2px solid var(--volt)}
+.riders .rev .st{color:var(--volt);display:flex;gap:2px}
+.riders .rev .st .ic{width:14px;height:14px}
+.riders .rev p{font-size:14px;color:rgba(244,246,248,.8);margin:12px 0 14px}
+.riders .rev small{font:500 10px/1 var(--mono);letter-spacing:.12em;color:var(--grey)}
+
+.ride{position:relative;height:720px;margin:0 64px 140px;overflow:hidden;clip-path:polygon(40px 0,100% 0,calc(100% - 40px) 100%,0 100%)}
+.ride>[data-img]{position:absolute;inset:0}
+.ride::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,11,12,.94) 0%,rgba(10,11,12,.6) 50%,rgba(10,11,12,.15))}
+.ride .in{position:absolute;left:80px;top:90px;z-index:3;width:720px}
+.ride h2{font-size:150px}
+.ride p{color:rgba(244,246,248,.75);font-size:17px;max-width:470px;margin:28px 0 34px}
+.ride .studios{position:absolute;right:70px;top:90px;bottom:90px;width:380px;z-index:3;display:flex;flex-direction:column;justify-content:center;gap:0}
+.ride .studios div{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line2);font-size:14px}
+.ride .studios div b{font:italic 800 28px/1 var(--disp);text-transform:uppercase}
+.ride .studios div span{font:500 11px/1 var(--mono);color:var(--volt)}
+.ride .studios div.on{border-bottom-color:var(--volt)}
+</style></head>
+<body>
+<section class="hero">
+  <div class="grid"></div><div class="glow g1 pulse"></div><div class="floor"></div>
+  <div class="speed" data-n="26" style="z-index:2;top:240px;bottom:260px"></div>
+  <div data-nav></div>
+  <div class="kick"><h1 class="d"><span class="ol">Ride the</span></h1><span class="tag"><span>New · R1 Gravel 2027</span></span></div>
+  <div class="back d">Current</div>
+  <div id="h3d"></div>
+  <div class="front d">Current</div>
+  <div class="rail"><span>01</span><i></i><span>04</span></div>
+  <div class="side"><div class="lab">Live · assist mode Boost</div><div class="spd">32<small>KM/H</small></div><div class="seg"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+
+  <div class="hud" id="hudA" style="left:96px;top:560px"><div class="k">Range · 750 Wh</div><div class="v">160<small>KM</small></div><div class="bar" style="--p:82%"><i></i></div></div>
+  <div class="hud" id="hudB" style="left:1196px;top:400px"><div class="k">Hub motor · peak</div><div class="v">85<small>NM</small></div><div class="bar" style="--p:68%"><i></i></div></div>
+  <div class="hud" id="hudC" style="left:1080px;top:600px;display:none"></div>
+  <div class="leader" id="ldA"></div><div class="leader" id="ldB"></div>
+  <div class="cursor" style="left:640px;top:200px"><span>DRAG<br>· 360° ·</span></div>
+
+  <div class="intro"><p>Hydroformed alloy, a 750 Wh battery hidden inside the down tube and a silent 85 Nm hub motor. VOLTA bikes weigh less, ride further and switch on their own headlight at dusk.</p>
+    <div class="btns"><a class="btn">Configure yours <span data-ic="arrow"></span></a><a class="btn ghost">Book a test ride</a></div></div>
+  <div class="models">
+    <div class="row on"><b>01 · R1 Gravel</b><span>from €6,490</span></div>
+    <div class="row"><b>02 · C1 City</b><span>from €3,900</span></div>
+    <div class="row"><b>03 · S1 Speed 45</b><span>from €8,900</span></div>
+  </div>
+</section>
+
+<div class="marq ticker"><div class="t">
+  <span>160 km range</span><b></b><span>85 Nm torque</span><b></b><span>16.8 kg</span><b></b><span>0–80% in 2h 10</span><b></b><span>160 km range</span><b></b><span>85 Nm torque</span><b></b><span>16.8 kg</span><b></b><span>0–80% in 2h 10</span><b></b>
+</div></div>
+
+<section class="night">
+  <div data-img="1618066296858-2046a4a39c25|2200"></div>
+  <div class="speed" data-n="18" style="z-index:2;opacity:.6"></div>
+  <div class="txt">
+    <div class="idx">02 — Night mode</div>
+    <h2 class="d" style="margin-top:28px">The city<br>is your <span class="volt smear" data-t="track.">track.</span></h2>
+    <p>Ambient sensors fade the 1,200-lumen headlight up as the street lights flicker on. The display drops to red-shifted night colours. You just ride.</p>
+  </div>
+  <div class="log">
+    <div class="top"><span class="mono volt">● Ride log · 21:47</span><span class="mono grey">Amsterdam</span></div>
+    <svg class="route" viewBox="0 0 380 210">
+      <defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#e6ff00" stop-opacity=".2"/><stop offset="1" stop-color="#e6ff00"/></linearGradient></defs>
+      <g stroke="rgba(255,255,255,.08)" fill="none"><path d="M0 40h380M0 90h380M0 140h380M0 190h380M60 0v210M140 0v210M220 0v210M300 0v210"/><path d="M0 120 C80 100 120 160 200 130 S320 60 380 80" stroke="rgba(111,168,255,.25)" stroke-width="10"/></g>
+      <path d="M24 180 L70 160 L92 120 L150 110 L170 70 L238 64 L262 92 L318 84 L352 30" fill="none" stroke="url(#rg)" stroke-width="4" stroke-linejoin="round" stroke-dasharray="600" stroke-dashoffset="0"/>
+      <circle cx="24" cy="180" r="6" fill="#0f1011" stroke="#e6ff00" stroke-width="2"/><circle cx="352" cy="30" r="7" fill="#e6ff00"/><circle cx="352" cy="30" r="16" fill="none" stroke="#e6ff00" stroke-opacity=".4"/>
+      <text x="36" y="196" fill="#8b9198" font-family="JetBrains Mono" font-size="10">NOORD</text><text x="300" y="20" fill="#e6ff00" font-family="JetBrains Mono" font-size="10">DE PIJP</text>
+    </svg>
+    <div class="nums"><div><b>11.8</b><span>KM</span></div><div><b>24:06</b><span>MIN</span></div><div><b class="volt">82%</b><span>BATTERY</span></div></div>
+  </div>
+  <div class="tiles">
+    <div data-img="1712186557617-04d361c71fc4|700"><span class="cap">RAIN · IPX6 SEALED</span></div>
+    <div data-img="1762350987970-296d967c559b|700"><span class="cap">AVG 29 KM/H · BOOST</span></div>
+  </div>
+</section>
+
+<section class="xray">
+  <div class="grid"></div><div class="scan"></div>
+  <div class="hd"><div class="idx">03 — X-ray</div><h2 class="d" style="margin-top:24px">See through<br><span class="ol v">the frame.</span></h2></div>
+  <div class="modes"><span class="pill">Solid</span><span class="pill on">X-ray</span><span class="pill">Exploded</span><span class="pill">↻ Auto-rotate</span></div>
+  <div id="x3d"></div>
+  <div class="call" id="c1"><span class="n">01</span><b>750 Wh pack</b><p>40 × 21700 cells sealed inside the down tube. Slides out in 4 seconds.</p></div>
+  <div class="call" id="c2"><span class="n">02</span><b>85 Nm hub motor</b><p>Silent rear drive, 24 neodymium magnets, under 40 dB at 25 km/h.</p></div>
+  <div class="call" id="c3"><span class="n">03</span><b>Halo headlight</b><p>1,200 lm with auto dusk sensor and a beam cut-off for traffic.</p></div>
+  <div class="call" id="c4"><span class="n">04</span><b>Carbon belt</b><p>No grease, no chain stretch. Rated for 30,000 km.</p></div>
+  <div class="leader" id="l1"></div><div class="leader" id="l2"></div><div class="leader" id="l3"></div><div class="leader" id="l4"></div>
+  <div class="foot">
+    <div><b>1,540<small>G</small></b><span>Hydroformed 6069 frame</span></div>
+    <div><b>2h10<small>0–80%</small></b><span>Fast charge, 6A</span></div>
+    <div><b>IPX6<small>SEALED</small></b><span>Rain, wash, winter salt</span></div>
+    <div><b>5<small>YEARS</small></b><span>Frame &amp; battery warranty</span></div>
+  </div>
+</section>
+
+<section class="line">
+  <div class="sh"><div><div class="idx">04 — Line-up</div><h2 style="margin-top:24px">Pick your<br><span class="volt">current.</span></h2></div>
+    <div style="display:flex;gap:8px"><span class="pill on">All · 6</span><span class="pill">Urban</span><span class="pill">Gravel</span><span class="pill">S-Pedelec 45</span></div></div>
+  <div class="cards">
+    <div class="mc" data-img="1712186557617-04d361c71fc4|900">
+      <div class="top"><span class="tag dark"><span>Urban</span></span><span class="mono grey">120 KM</span></div>
+      <div class="in"><h3>C1 City</h3><div class="row"><span class="grey">Belt · step-over · 18.2 kg</span><b>€3,900</b></div></div></div>
+    <div class="mc on" data-img="1771616886034-ebc77c321213|1100">
+      <div class="big">R1</div>
+      <div class="top"><span class="tag"><span>Gravel · Bestseller</span></span><span class="mono volt">● In stock · 3 days</span></div>
+      <div class="in"><h3>R1 Gravel</h3>
+        <div class="specs"><div><b>160</b><span>KM RANGE</span></div><div><b>85</b><span>NM TORQUE</span></div><div><b>16.8</b><span>KG</span></div></div>
+        <div class="row"><a class="btn sm">View bike <span data-ic="arrow"></span></a><b>€6,490</b></div></div></div>
+    <div class="mc" data-img="1762350987970-296d967c559b|900">
+      <div class="top"><span class="tag dark"><span>Speed</span></span><span class="mono grey">45 KM/H</span></div>
+      <div class="in"><h3>S1 Speed 45</h3><div class="row"><span class="grey">S-Pedelec · plate-ready</span><b>€8,900</b></div></div></div>
+  </div>
+</section>
+
+<section class="riders">
+  <div class="ph" data-img="1622314873267-d44e38cdd652|1100">
+    <div class="hud"><div class="k">Commute · Utrecht → Amsterdam</div><div class="v">46<small>KM DAILY</small></div><div class="bar" style="--p:46%"><i></i></div></div>
+  </div>
+  <div>
+    <div class="idx">05 — Rider log</div>
+    <q>“I sold the car in March. The R1 does the 46 km to work faster than the A2.”</q>
+    <div class="who"><div><b>Noor Hendriks, structural engineer</b>R1 Gravel · 7,830 km since spring</div></div>
+    <div class="revs">
+      <div class="rev"><div class="st"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><p>Battery hidden so well that people ask where the motor is. Belt is silent even in the rain.</p><small>JONAS W. · BERLIN · C1 CITY</small></div>
+      <div class="rev"><div class="st"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></div><p>Range is honest. 138 km on a cold February loop in Eco with two climbs.</p><small>CHIARA M. · MILAN · R1 GRAVEL</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="ride">
+  <div data-img="1779136134245-66a65cb6ff3f|2000"></div>
+  <div class="speed" data-n="14" style="z-index:2;opacity:.5"></div>
+  <div class="in"><div class="idx">06 — Test ride</div><h2 class="d" style="margin-top:24px">45 minutes.<br><span class="volt">Any street.</span></h2>
+    <p>Book a ride from one of 14 studios, or we bring the bike to your door. No deposit, no sales script, just a charged battery and a helmet in your size.</p>
+    <a class="btn">Book a test ride <span data-ic="arrow"></span></a></div>
+  <div class="studios">
+    <div class="on"><b>Amsterdam</b><span>● 6 slots today</span></div>
+    <div><b>Berlin</b><span>4 slots today</span></div>
+    <div><b>Copenhagen</b><span>Tomorrow 09:00</span></div>
+    <div><b>Milan</b><span>3 slots today</span></div>
+    <div><b>Paris</b><span>2 slots today</span></div>
+  </div>
+</section>
+
+<div data-footer></div>
+
+<script src="volta.js"></script>
+<script>volta('Bikes');</script>
+<script type="module">
+import * as THREE from 'three'; import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+await Promise.all([document.fonts.load('italic 800 40px "Barlow Condensed"'), document.fonts.load('600 18px Inter')]);
+const K = VOLTA3D(THREE, { RoomEnvironment });
+const line = (el, ax, ay, bx, by) => { const dx = bx - ax, dy = by - ay; el.style.left = ax + 'px'; el.style.top = ay + 'px'; el.style.width = Math.hypot(dx, dy) + 'px'; el.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`; };
+
+/* hero */
+const s = K.stage(document.getElementById('h3d'), { w: 1440, h: 1000, fov: 24 });
+if (s) {
+  const b = K.bike({ color: '#2a2c30' }); s.scene.add(b.root);
+  b.root.position.set(-0.06, 0, 0);
+  s.camera.position.set(0, 0.3, 4.2); s.camera.lookAt(0.02, 0.08, 0);
+  const up = K.streaks(s.scene, { y0: -0.35, y1: 0.9 }); K.dust(s.scene);
+  const ldA = document.getElementById('ldA'), ldB = document.getElementById('ldB');
+  const pBat = new THREE.Vector3(0.18, 0.12, 0.05), pMot = new THREE.Vector3(-0.52, 0, 0.04);
+  let last = 0;
+  s.run(t => {
+    up(Math.min(t - last, 0.05)); last = t;
+    b.root.rotation.y = -0.42 + Math.sin(t * 0.25) * 0.12;
+    b.spin(t * 3);
+    const a = K.project(b.root.localToWorld(pBat.clone()), s), m = K.project(b.root.localToWorld(pMot.clone()), s);
+    line(ldA, 96 + 190, 560 + 50, a.x, a.y);
+    line(ldB, 1196, 450, m.x, m.y);
+  });
+}
+
+/* x-ray */
+const x = K.stage(document.getElementById('x3d'), { w: 1440, h: 820, fov: 24 });
+if (x) {
+  const b = K.bike({ color: '#2a2c30' }); x.scene.add(b.root);
+  b.setXray(1); b.setExplode(0.75);
+  x.camera.position.set(0, 0.42, 4.1); x.camera.lookAt(0.0, 0.14, 0);
+  const pts = [[b.parts.battery, new THREE.Vector3(0.15, 0.11, 0)], [b.parts.motor, new THREE.Vector3(0, 0.07, 0)], [b.parts.fork, new THREE.Vector3(0.53, 0.43, 0)], [b.parts.drive, new THREE.Vector3(-0.3, -0.06, 0.06)]];
+  const cs = [[650, 925], [64, 480], [1160, 300], [64, 850]];
+  cs.forEach(([l, tp], i) => { const c = document.getElementById('c' + (i + 1)); c.style.left = l + 'px'; c.style.top = tp + 'px'; });
+  const anchors = [[650, 935], [294, 490], [1160, 310], [294, 860]];
+  x.run(t => {
+    b.root.rotation.y = -0.55 + Math.sin(t * 0.3) * 0.1;
+    b.spin(t * 0.6);
+    pts.forEach(([o, v], i) => {
+      const p = K.project(o.localToWorld(v.clone()), x);
+      line(document.getElementById('l' + (i + 1)), anchors[i][0], anchors[i][1], p.x, p.y + 240);
+    });
+  });
+}
+</script>
+</body></html>

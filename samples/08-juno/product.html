@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Pink Fizz — JUNO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Caprasimo&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="juno.css">
+<style>
+.pdp{position:relative;height:1180px;background:var(--pink);overflow:hidden;border-bottom:var(--line)}
+.pdp .bigt{position:absolute;left:-20px;top:150px;font:400 300px/.8 var(--disp);color:var(--hot);opacity:.55;white-space:nowrap;letter-spacing:-.04em}
+.pdp .splash{position:absolute;left:90px;top:230px;width:640px;height:640px}
+.pdp .orbit{position:absolute;left:40px;top:520px;width:740px;height:260px;border-radius:50%;border:3px dashed var(--ink);z-index:2}
+.pdp .main{position:absolute;left:250px;top:200px;z-index:4}
+.pdp .main .can{transform:rotate(-5deg)}
+.pdp .ing{position:absolute;z-index:6;display:flex;align-items:center;gap:10px;padding:8px 18px 8px 8px;background:var(--cream);border:var(--line);border-radius:999px;box-shadow:5px 5px 0 var(--ink);font:700 15px/1.15 var(--sans)}
+.pdp .ing svg{width:44px;height:44px;flex:none}
+.pdp .ing small{display:block;font-weight:500;font-size:12px;color:var(--ink2)}
+.pdp .ing.back{z-index:3;opacity:.95;transform:scale(.88)}
+.pdp .thumbs{position:absolute;left:64px;bottom:120px;display:flex;gap:12px;z-index:6}
+.pdp .thumbs>div{width:92px;height:92px;border-radius:24px;border:var(--line);background:var(--cream);overflow:hidden;position:relative;display:grid;place-items:center}
+.pdp .thumbs>div.on{outline:3px solid var(--ink);outline-offset:4px}
+.pdp .thumbs .mini{transform:scale(.45)}
+.pdp .rot{position:absolute;left:520px;bottom:140px;z-index:6;display:flex;align-items:center;gap:10px;font:800 13px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase}
+.pdp .rot i{width:40px;height:40px;border-radius:50%;border:3px solid var(--ink);background:var(--lime);display:grid;place-items:center;font-style:normal;font-size:20px}
+
+.panel{position:absolute;right:64px;top:170px;width:600px;background:var(--cream);border:var(--line);border-radius:40px;padding:38px 40px 34px;z-index:7;box-shadow:10px 10px 0 var(--ink)}
+.panel .crumb{font:700 13px/1 var(--sans);color:var(--ink2);display:flex;gap:8px;margin-bottom:18px}
+.panel .rate{display:flex;align-items:center;gap:10px;font:700 14px/1 var(--sans)}
+.panel h1{font:400 112px/.9 var(--disp);letter-spacing:-.03em;margin:14px 0 8px}
+.panel .lede{font:500 17px/1.45 var(--sans);color:var(--ink2);margin:12px 0 18px}
+.panel .tags{display:flex;gap:8px;margin-bottom:24px}
+.panel .tags span{font:700 13px/1 var(--sans);border:2px solid var(--ink);border-radius:999px;padding:8px 12px;white-space:nowrap}
+.panel h6{font:800 13px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;margin:0 0 12px;display:flex;justify-content:space-between}
+.panel h6 span{letter-spacing:0;text-transform:none;font-weight:600;color:var(--ink2)}
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.packs div{border:var(--line);border-radius:22px;padding:14px;font:800 16px/1.15 var(--sans);position:relative}
+.packs div small{display:block;font:600 12px/1.3 var(--sans);color:var(--ink2);margin-top:4px}
+.packs div.on{background:var(--ink);color:var(--cream)}.packs div.on small{color:rgba(255,246,230,.7)}
+.packs .cans{display:flex;gap:2px;margin-bottom:8px}.packs .cans i{width:9px;height:16px;border-radius:3px;border:2px solid currentColor;background:var(--pink)}
+.packs .bd{position:absolute;right:-8px;top:-12px;background:var(--lime);color:var(--ink);border:2px solid var(--ink);border-radius:999px;padding:5px 8px;font:800 11px/1 var(--sans);transform:rotate(8deg)}
+.opt{border:var(--line);border-radius:24px;padding:16px 18px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;margin-bottom:10px;font:700 17px/1.2 var(--sans)}
+.opt .rd{width:24px;height:24px;border-radius:50%;border:3px solid var(--ink)}
+.opt.on{background:var(--lime)}.opt.on .rd{background:radial-gradient(circle,var(--ink) 0 40%,transparent 45%)}
+.opt small{display:block;font:500 13px/1.3 var(--sans);color:var(--ink2)}
+.opt .pr{text-align:right;font:800 22px/1 var(--sans)}.opt .pr s{display:block;font:600 13px var(--sans);color:var(--ink2)}
+.freq{display:flex;gap:8px;margin:0 0 20px 56px}
+.freq span{font:700 13px/1 var(--sans);padding:9px 14px;border-radius:999px;border:2px solid var(--ink)}
+.freq span.on{background:var(--ink);color:var(--cream)}
+.cta{display:flex;gap:12px}
+.qty{height:68px;border:var(--line);border-radius:999px;display:flex;align-items:center;gap:18px;padding:0 18px;font:800 20px/1 var(--sans)}
+.cta .btn{flex:1;justify-content:space-between;background:var(--blue)}
+.perks{display:flex;justify-content:space-between;margin-top:20px;font:700 13px/1.2 var(--sans)}
+.perks span{display:flex;align-items:center;gap:8px}
+
+.sticky{position:absolute;left:50%;top:1100px;transform:translateX(-50%);z-index:20;width:900px;height:84px;border:var(--line);border-radius:999px;background:var(--ink);color:var(--cream);display:flex;align-items:center;gap:18px;padding:0 10px 0 14px;box-shadow:8px 8px 0 rgba(26,18,48,.35)}
+.sticky .mc{width:58px;height:58px;border-radius:50%;background:var(--pink);display:grid;place-items:center;overflow:hidden;border:3px solid var(--cream)}
+.sticky b{font:400 26px/1 var(--disp)}
+.sticky small{display:block;font:600 13px/1.3 var(--sans);opacity:.7}
+.sticky .go{margin-left:auto;height:62px;padding:0 10px 0 26px;border-radius:999px;background:var(--lime);color:var(--ink);display:flex;align-items:center;gap:16px;font:800 18px/1 var(--sans)}
+.sticky .go i{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--lime);display:grid;place-items:center}
+
+.band{background:var(--hot);padding:70px 0 10px;overflow:hidden;border-bottom:var(--line)}
+
+.inside{display:grid;grid-template-columns:520px 1fr;gap:70px;padding:150px 64px 120px;align-items:start}
+.nl{border:4px solid var(--ink);border-radius:30px;background:#fff;padding:30px 32px;box-shadow:10px 10px 0 var(--pink);transform:rotate(-1.5deg)}
+.nl h3{font:800 54px/.9 var(--sans);letter-spacing:-.04em;padding-bottom:12px;border-bottom:12px solid var(--ink)}
+.nl .r{display:flex;justify-content:space-between;padding:10px 0;border-bottom:2px solid var(--ink);font:600 16px/1.2 var(--sans)}
+.nl .r b{font-weight:800}
+.nl .r.in{padding-left:22px;font-weight:500}
+.nl .r.th{border-bottom-width:7px}
+.nl .kcal{display:flex;justify-content:space-between;align-items:flex-end;padding:8px 0;border-bottom:7px solid var(--ink)}
+.nl .kcal b{font:800 52px/1 var(--sans);letter-spacing:-.04em}
+.nl p{font:500 13px/1.45 var(--sans);margin-top:14px;color:var(--ink2)}
+.nl .bot{display:flex;gap:8px;margin-top:16px}
+.nl .bot span{font:800 12px/1 var(--sans);border:2px solid var(--ink);border-radius:999px;padding:7px 10px;background:var(--lime)}
+.inside h2{font-size:110px;margin:22px 0 40px}
+.inside h2 em{color:var(--hot)}
+.igrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ic2{border:var(--line);border-radius:30px;padding:24px;background:var(--cream);min-height:250px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+.ic2 svg{width:70px;height:70px}
+.ic2 h4{font:800 22px/1.05 var(--sans);letter-spacing:-.02em;margin:14px 0 6px}
+.ic2 p{font:500 14px/1.4 var(--sans);color:var(--ink2)}
+.ic2 .pc{position:absolute;right:20px;top:22px;font:400 26px/1 var(--disp)}
+
+.feel{margin:0 64px;border:var(--line);border-radius:50px;background:var(--lime);padding:70px 70px 80px;position:relative;overflow:hidden;box-shadow:10px 10px 0 var(--ink)}
+.feel h2{font-size:96px}
+.feel h2 em{color:var(--blue)}
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:70px;position:relative}
+.tl::before{content:"";position:absolute;left:0;right:0;top:38px;height:6px;background:var(--ink);border-radius:6px}
+.tl>div{position:relative;padding-right:30px}
+.tl .dot{width:80px;height:80px;border-radius:50%;border:var(--line);display:grid;place-items:center;font:400 22px/1 var(--disp);position:relative;z-index:2;margin-bottom:24px}
+.tl b{font:800 26px/1.1 var(--sans);letter-spacing:-.02em}
+.tl p{font:500 15px/1.45 var(--sans);margin-top:8px;max-width:250px}
+.tl .wv{position:absolute;left:0;top:30px;width:100%;height:20px}
+
+.revs{padding:150px 64px 40px;display:grid;grid-template-columns:400px 1fr;gap:60px}
+.revs .big{font:400 170px/.8 var(--disp);color:var(--hot);-webkit-text-stroke:3px var(--ink)}
+.bars{margin-top:30px}
+.bars div{display:grid;grid-template-columns:30px 1fr 50px;gap:10px;align-items:center;font:700 14px/1 var(--sans);margin-bottom:10px}
+.bars i{height:14px;border-radius:14px;border:2px solid var(--ink);background:linear-gradient(90deg,var(--pink) var(--w),transparent var(--w))}
+.rgrid{align-items:start;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rc{border:var(--line);border-radius:30px;padding:26px;position:relative}
+.rc p{font:400 24px/1.15 var(--disp);margin:14px 0 16px}
+.rc .m{font:600 14px/1.4 var(--sans);color:var(--ink2);margin-bottom:18px}
+.rc .who{display:flex;gap:10px;align-items:center;font:700 14px/1.2 var(--sans)}
+.rc .who i{width:42px;height:42px;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;font:400 18px var(--disp);font-style:normal;background:var(--cream)}
+.rc .who small{display:block;font-weight:500;color:var(--ink2)}
+.rc .v{position:absolute;right:20px;top:24px;font:800 11px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;background:var(--lime);border:2px solid var(--ink);border-radius:999px;padding:6px 9px}
+
+.pairs{padding:120px 64px 0}
+.pairs .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px}
+.pairs h2{font-size:88px}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.pc2{height:300px;border:var(--line);border-radius:36px;background:var(--bgc);position:relative;overflow:hidden;padding:34px;box-shadow:6px 6px 0 var(--ink)}
+.pc2 h3{font:400 40px/1 var(--disp);max-width:250px;position:relative;z-index:2}
+.pc2 small{display:block;font:600 14px/1.3 var(--sans);margin:8px 0 20px;max-width:220px}
+.pc2 .add{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 18px;border-radius:999px;background:var(--cream);border:var(--line);font:800 15px/1 var(--sans)}
+.pc2 .can{position:absolute;right:30px;top:30px;transform:rotate(12deg)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="pdp">
+  <div class="bigt">Pink Fizz Pink Fizz</div>
+  <svg class="splash spin" style="animation-duration:50s" viewBox="0 0 100 100"><path d="M50 2 58 20 76 8 74 30 96 30 82 46 98 60 76 64 84 86 62 78 54 98 44 80 24 92 26 70 4 66 18 50 2 36 24 32 18 10 40 20Z" fill="#fff6e6" stroke="#1a1230" stroke-width=".7" stroke-linejoin="round"/></svg>
+  <div data-bubbles="34"></div>
+  <div class="ing back" style="left:470px;top:560px"><svg viewBox="0 0 100 100" data-f="ginger"></svg><div>Monk fruit<small>Zero-cal sweetness</small></div></div>
+  <div class="orbit"></div>
+  <div class="main float"><div data-can="pink|30"></div></div>
+  <div class="ing" style="left:64px;top:430px"><svg viewBox="0 0 100 100" data-f="grapefruit"></svg><div>Pink grapefruit 8%<small>Cold-pressed, Sicily</small></div></div>
+  <div class="ing" style="left:560px;top:380px"><svg viewBox="0 0 100 100" data-f="flower"></svg><div>Hibiscus<small>Sun-dried, Senegal</small></div></div>
+  <div class="ing" style="left:80px;top:720px"><svg viewBox="0 0 100 100" data-f="mushroom"></svg><div>Reishi 250 mg<small>Calm, not sleepy</small></div></div>
+  <div class="ing" style="left:500px;top:770px"><svg viewBox="0 0 100 100" data-f="leaf"></svg><div>Apple cider vinegar<small>A gut-friendly 1%</small></div></div>
+  <span data-fruit="grapefruit|120" class="bob" style="left:150px;top:220px;--r:-20deg"></span>
+  <span data-fruit="sparkle|52" class="bob" style="left:620px;top:250px;color:var(--sun)"></span>
+  <div class="cursor" style="left:470px;top:560px">SIP</div>
+  <div class="thumbs">
+    <div class="on" style="background:var(--pink)"><div class="mini" data-can="pink|8"></div></div>
+    <div data-img="1661942477265-c6e3fbebb714|300"></div>
+    <div data-img="1546548970-71785318a17b|300"></div>
+    <div style="background:var(--hot)"><svg viewBox="0 0 100 100" width="56" height="56" data-f="flower"></svg></div>
+  </div>
+  <div class="rot"><i>↻</i>Drag to spin the can</div>
+
+  <div class="panel">
+    <div class="crumb"><span>Shop</span>/<span>Glow</span>/<span style="color:var(--ink)">Pink Fizz</span></div>
+    <div class="rate"><span data-stars></span>4.9 · 3,402 reviews</div>
+    <h1>Pink Fizz</h1>
+    <div style="font:800 18px var(--sans)">Grapefruit · Hibiscus · Reishi</div>
+    <p class="lede">Tart Sicilian grapefruit, floral hibiscus and a calming hit of reishi. Tastes like a pink sunset, feels like your shoulders dropping two inches.</p>
+    <div class="tags"><span style="background:var(--pink)">Glow</span><span>30 kcal</span><span>4 g sugar</span><span>Vegan</span><span>Caffeine-free</span></div>
+    <h6>Pack size <span>All packs ship free on 2+</span></h6>
+    <div class="packs">
+      <div class="on"><span class="cans"></span>12-pack<small>€32 · €2.67/can</small><span class="bd">Popular</span></div>
+      <div><span class="cans"></span>24-pack<small>€60 · €2.50/can</small></div>
+      <div><span class="cans"></span>Mixed 12<small>€36 · 2 of each</small></div>
+    </div>
+    <div class="opt"><span class="rd"></span><div>One-time purchase<small>Delivered in 2–3 days</small></div><div class="pr">€32.00</div></div>
+    <div class="opt on"><span class="rd"></span><div>Subscribe &amp; save 15%<small>Free delivery · skip or cancel anytime</small></div><div class="pr"><s>€32.00</s>€27.20</div></div>
+    <div class="freq"><span>Every 2 weeks</span><span class="on">Every 4 weeks</span><span>Every 6 weeks</span></div>
+    <div class="cta"><div class="qty"><span data-ic="minus"></span>1<span data-ic="plus"></span></div><a class="btn">Add to cart · €27.20<span class="o"><span data-ic="arrow"></span></span></a></div>
+    <div class="perks"><span><span data-ic="truck"></span>Ships tomorrow</span><span><span data-ic="leaf"></span>100% recyclable can</span><span><span data-ic="repeat"></span>Skip in one tap</span></div>
+  </div>
+</section>
+<div class="sticky"><div class="mc"><svg viewBox="0 0 100 100" width="40" height="40" data-f="grapefruit"></svg></div><div><b>Pink Fizz</b><small>12-pack · Subscribe every 4 weeks</small></div><div style="margin-left:40px;font:800 22px var(--sans)">€27.20 <s style="font-size:14px;opacity:.6">€32</s></div><a class="go">Add to cart<i><span data-ic="arrow"></span></i></a></div>
+
+<div class="band" data-wave="Tart ✦ floral ✦ very pink ✦ 4 g sugar ✦ reishi calm ✦" data-opts='{"size":64,"amp":18,"h":130,"color":"#fff6e6"}'></div>
+
+<section class="inside">
+  <div class="nl">
+    <h3>Nutrition<br>facts</h3>
+    <div class="r th"><span>Serving size</span><b>1 can (330 ml)</b></div>
+    <div class="kcal"><div><b style="font-size:18px;letter-spacing:0">Calories</b></div><b>30</b></div>
+    <div class="r"><b>Total fat</b><span>0 g</span></div>
+    <div class="r"><b>Carbohydrate</b><span>7 g</span></div>
+    <div class="r in"><span>of which sugars</span><span><b>4 g</b></span></div>
+    <div class="r in"><span>Added sugars</span><span>0 g</span></div>
+    <div class="r"><b>Protein</b><span>0 g</span></div>
+    <div class="r"><b>Salt</b><span>0.02 g</span></div>
+    <div class="r th"><b>Reishi extract</b><span>250 mg</span></div>
+    <p>Ingredients: sparkling water, pink grapefruit juice from concentrate (8%), hibiscus infusion, apple cider vinegar (1%), reishi mushroom extract, natural grapefruit flavour, monk fruit extract, sea salt.</p>
+    <div class="bot"><span>Vegan</span><span style="background:var(--pink)">Gluten-free</span><span style="background:var(--sun)">No caffeine</span></div>
+  </div>
+  <div><span class="kick"><i style="background:var(--hot)"></i>What’s inside</span><h2>Six heroes.<br><em>Zero junk.</em></h2>
+    <div class="igrid">
+      <div class="ic2" style="background:var(--pink)"><span class="pc">8%</span><svg viewBox="0 0 100 100" data-f="grapefruit"></svg><div><h4>Pink grapefruit</h4><p>Cold-pressed in Sicily for that bright, bitter-sweet snap.</p></div></div>
+      <div class="ic2"><span class="pc">2%</span><svg viewBox="0 0 100 100" data-f="flower"></svg><div><h4>Hibiscus</h4><p>Sun-dried petals, steeped like tea. Floral, tart, naturally pink.</p></div></div>
+      <div class="ic2" style="background:var(--tan)"><span class="pc">250mg</span><svg viewBox="0 0 100 100" data-f="mushroom"></svg><div><h4>Reishi</h4><p>An adaptogenic mushroom long used to help the body handle stress.</p></div></div>
+      <div class="ic2"><span class="pc">1%</span><svg viewBox="0 0 100 100" data-f="leaf"></svg><div><h4>Apple cider vinegar</h4><p>Unfiltered, with the mother. A little tang for your gut.</p></div></div>
+      <div class="ic2" style="background:var(--lime)"><span class="pc">0 kcal</span><svg viewBox="0 0 100 100" data-f="ginger"></svg><div><h4>Monk fruit</h4><p>Rounds out the tartness without a single gram of added sugar.</p></div></div>
+      <div class="ic2"><span class="pc">pinch</span><svg viewBox="0 0 100 100" data-f="sparkle" style="color:var(--blue)"></svg><div><h4>Sea salt &amp; bubbles</h4><p>Fine-bubble carbonation and a pinch of Guérande salt.</p></div></div>
+    </div></div>
+</section>
+
+<section class="feel">
+  <div data-bubbles="18"></div>
+  <span class="kick"><i style="background:var(--blue)"></i>How it feels</span>
+  <h2 style="margin-top:22px">From first sip to <em>soft landing.</em></h2>
+  <div class="tl">
+    <div><div class="dot" style="background:var(--pink)">0′</div><b>Pop &amp; sip</b><p>Bright grapefruit up front, hibiscus on the finish. Cold is best.</p></div>
+    <div><div class="dot" style="background:var(--cream)">15′</div><b>Shoulders drop</b><p>Reishi starts to take the edge off. You answer that email calmly.</p></div>
+    <div><div class="dot" style="background:var(--sun)">45′</div><b>Steady glow</b><p>No sugar spike, no crash. Just a level, sunny kind of focus.</p></div>
+    <div><div class="dot" style="background:var(--blue);color:var(--cream)">2h</div><b>Still good</b><p>Pairs with sunsets, long lunches and saying no to a second meeting.</p></div>
+  </div>
+</section>
+
+<section class="revs">
+  <div><span class="kick"><i style="background:var(--sun)"></i>Reviews</span><div class="big" style="margin-top:26px">4.9</div><span data-stars></span><p style="font-weight:700;margin-top:8px">3,402 reviews · 96% would buy again</p>
+    <div class="bars"><div>5★<i style="--w:88%"></i>2,994</div><div>4★<i style="--w:9%"></i>306</div><div>3★<i style="--w:2%"></i>68</div><div>2★<i style="--w:1%"></i>24</div><div>1★<i style="--w:.5%"></i>10</div></div>
+    <a class="btn lt" style="margin-top:20px">Write a review</a></div>
+  <div class="rgrid">
+    <div class="rc" style="background:var(--pink)"><span class="v">Verified</span><span data-stars></span><p>Like a pink grapefruit spritz without the hangover.</p><div class="m">Subscribed every 4 weeks · Tastes: tart, floral</div><div class="who"><i>A</i><div>Amara O.<small>Amsterdam</small></div></div></div>
+    <div class="rc"><span class="v">Verified</span><span data-stars></span><p>My 3pm ritual. The reishi thing is real.</p><div class="m">Bought the 24-pack · Tastes: refreshing</div><div class="who"><i style="background:var(--lime)">L</i><div>Lukas B.<small>Munich</small></div></div></div>
+    <div class="rc" style="background:var(--sun)"><span class="v">Verified</span><span data-stars></span><p>Pretty enough to leave on the counter. Gone by Friday.</p><div class="m">Mixed party pack · Tastes: not too sweet</div><div class="who"><i style="background:var(--pink)">C</i><div>Clara F.<small>Lyon</small></div></div></div>
+  </div>
+</section>
+
+<section class="pairs">
+  <div class="hd"><h2>Pairs well with</h2><a class="btn lt">See all six</a></div>
+  <div class="pgrid">
+    <div class="pc2" style="--bgc:var(--lime)"><h3>Lime Wire</h3><small>Lime · Ginger · Lion’s mane. For deep-work days.</small><a class="add"><span data-ic="plus"></span>€32</a><div data-can="lime|13"></div></div>
+    <div class="pc2" style="--bgc:#6f86ff"><h3>Blue Hour</h3><small>Blueberry · Butterfly pea. Turns purple with lemon.</small><a class="add"><span data-ic="plus"></span>€34</a><div data-can="blue|13"></div></div>
+    <div class="pc2" style="--bgc:var(--peach)"><h3>Peach Party</h3><small>White peach · Rhodiola. Sunday-afternoon energy.</small><a class="add"><span data-ic="plus"></span>€29</a><div data-can="peach|13"></div></div>
+  </div>
+</section>
+
+<div data-footer></div>
+<script src="juno.js"></script>
+<script>
+document.querySelectorAll('svg[data-f]').forEach(s=>s.innerHTML=FRUIT[s.dataset.f]);
+document.querySelectorAll('.packs .cans').forEach((c,i)=>c.innerHTML='<i></i>'.repeat([6,10,6][i]));
+document.querySelectorAll('.packs .cans')[2].querySelectorAll('i').forEach((x,j)=>x.style.background=['#ff7a1a','#ff8fc7','#c6f432','#2647ff','#ffb38a','#ffe14a'][j]);
+juno('Shop',{cart:4});
+</script>
+</body></html>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Box Builder — Maison Cacao Noir</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Gilda+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cacao.css">
+<script src="cacao3d.js"></script>
+<style>
+html,body{height:1080px;overflow:hidden}
+body{background:radial-gradient(ellipse 34% 50% at 50% 55%,#4a2414 0%,#26110a 50%,var(--bg) 85%)}
+.top{height:84px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 40px;border-bottom:1px solid var(--line);position:relative;z-index:10;background:rgba(21,9,5,.6);backdrop-filter:blur(10px)}
+.top .logo{justify-self:start}
+.steps{display:flex;gap:8px;align-items:center;font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--dim2)}
+.steps span{display:flex;align-items:center;gap:10px;padding:0 6px}
+.steps span i{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-style:normal;letter-spacing:0}
+.steps span.done{color:var(--dim)}.steps span.done i{background:var(--cocoa);border-color:var(--cocoa);color:var(--cream)}
+.steps span.on{color:var(--cream)}.steps span.on i{background:var(--gold);border-color:var(--gold);color:#1d0d07;box-shadow:0 0 0 5px rgba(200,161,90,.18)}
+.steps b{width:44px;height:1px;background:var(--line)}
+.steps b.l{background:var(--gold)}
+.top .r{justify-self:end;display:flex;gap:16px;align-items:center;font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.top .x{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:18px;color:var(--cream)}
+
+.left{position:absolute;left:40px;top:116px;width:360px;bottom:36px;display:flex;flex-direction:column;z-index:5}
+.left h1{font-size:58px;line-height:.92;margin:16px 0 12px}
+.left .p{color:var(--dim);font-size:14px}
+.left .fl{display:flex;gap:6px;margin:22px 0 14px}
+.left .fl .chip{height:32px}
+.left .fl .chip.on{background:var(--cream);color:#1d0d07;border-color:var(--cream)}
+.pl{display:grid;grid-template-columns:58px 1fr auto;gap:14px;align-items:center;padding:12px 12px;border-radius:18px;border:1px solid transparent;margin-bottom:4px}
+.pl .sw{width:58px;height:58px;border-radius:50%;position:relative;box-shadow:0 10px 18px rgba(0,0,0,.5),inset -6px -8px 14px rgba(0,0,0,.45),inset 5px 5px 10px rgba(255,235,210,.25)}
+.pl .sw.sq{border-radius:10px;transform:rotate(8deg) scale(.88)}
+.pl b{display:block;font:400 19px/1.1 var(--serif)}
+.pl span{font-size:11.5px;color:var(--dim)}
+.pl span em{font-style:normal;color:var(--gold);font-weight:700;margin-left:6px}
+.pl .st{display:flex;align-items:center;gap:8px}
+.pl .st button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line2);color:var(--gold);font-size:15px;line-height:1}
+.pl .st i{font:400 18px/1 var(--serif);font-style:normal;width:16px;text-align:center}
+.pl.on{border-color:rgba(200,161,90,.55);background:linear-gradient(120deg,rgba(200,161,90,.16),rgba(200,161,90,.03))}
+.pl.on .st button:last-child{background:var(--gold);color:#1d0d07;border-color:var(--gold)}
+.left .chef{margin-top:auto;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--dim)}
+.left .chef b{color:var(--cream);display:block;font:400 18px/1.2 var(--serif)}
+
+.center{position:absolute;left:410px;top:84px;width:640px;height:996px;overflow:hidden}
+.center .sixteen{position:absolute;left:50%;top:40px;transform:translateX(-50%);font:400 520px/.8 var(--disp);color:transparent;-webkit-text-stroke:1.5px rgba(200,161,90,.22);letter-spacing:-.05em;z-index:0;background:linear-gradient(180deg,rgba(200,161,90,.1),transparent 60%);-webkit-background-clip:text;background-clip:text}
+.center canvas{position:absolute;left:0;top:0;z-index:2}
+.center .drop{position:absolute;left:330px;top:262px;z-index:4;padding:10px 14px 10px 10px;display:flex;align-items:center;gap:10px;font-size:12px;border-radius:40px}
+.center .drop i{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f2b23a,#d9781e 45%,#3a1a0c);flex:none}
+.center .drop b{font:700 10px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:3px}
+.center .prog{position:absolute;left:0;right:0;bottom:44px;z-index:4;display:flex;flex-direction:column;align-items:center;gap:14px}
+.center .dots{display:flex;gap:7px}
+.center .dots i{width:18px;height:18px;border-radius:50%;border:1px solid var(--line2)}
+.center .dots i.f{border:0;background:radial-gradient(circle at 35% 30%,#8a5a3a,#2a1209)}
+.center .dots i.n{border:1px solid var(--gold);background:rgba(200,161,90,.3);box-shadow:0 0 12px var(--gold);animation:pulse 1.6s infinite}
+.center .prog span{font:700 11px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.center .prog span b{color:var(--cream);font:400 22px/1 var(--serif);letter-spacing:0;margin-right:6px}
+.center .hint{position:absolute;left:40px;top:40px;z-index:4;font:700 10px/1.6 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--dim2)}
+.center .cursor{left:60px;top:640px}
+.center .cursor .ring{width:70px;height:70px;font-size:9px}
+
+.right{position:absolute;right:36px;top:116px;width:350px;bottom:36px;display:flex;flex-direction:column;gap:14px;z-index:5}
+.right .lb{font:700 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--dim);display:flex;justify-content:space-between}
+.sizes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sizes div{border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center}
+.sizes div b{display:block;font:400 30px/1 var(--disp)}
+.sizes div span{font-size:11px;color:var(--dim)}
+.sizes div.on{border-color:var(--gold);background:linear-gradient(160deg,rgba(200,161,90,.2),rgba(200,161,90,.03));box-shadow:0 0 0 3px rgba(200,161,90,.14)}
+.sizes div.on b{color:var(--gold)}
+.ledger{padding:20px 22px}
+.ledger .row{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);padding:8px 0;border-bottom:1px solid var(--line)}
+.ledger .row b{color:var(--cream);font-weight:600}
+.ledger .row.add{color:var(--pist)}
+.ledger .row.add b{color:var(--pist)}
+.ledger .tot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:16px}
+.ledger .tot span{font:700 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.ledger .tot b{font:400 60px/.9 var(--disp)}
+.ledger .tot em{font-style:normal;display:block;font:700 11px/1 var(--sans);color:var(--pist);text-align:right;margin-bottom:6px;animation:float 2.4s ease-in-out infinite}
+.cardp{display:grid;grid-template-columns:1fr 150px;gap:12px}
+.note{border-radius:14px;background:linear-gradient(160deg,#f6ecdc,#e4d2b4);color:#2a1610;padding:16px 18px;transform:rotate(-1.5deg);box-shadow:0 18px 30px rgba(0,0,0,.4)}
+.note small{font:700 9px/1 var(--sans);letter-spacing:.2em;color:#9a7433}
+.note p{font:italic 400 17px/1.3 var(--serif);margin-top:8px}
+.note p::after{content:"";display:inline-block;width:2px;height:17px;background:#6b3a24;vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.rib{display:flex;flex-direction:column;gap:8px}
+.rib .sw{display:flex;gap:8px}
+.rib .sw i{width:30px;height:30px;border-radius:50%;box-shadow:inset -4px -5px 8px rgba(0,0,0,.35),inset 3px 3px 6px rgba(255,255,255,.25)}
+.rib .sw i.on{outline:2px solid var(--cream);outline-offset:3px}
+.rib small{font-size:12px;color:var(--dim)}
+.date{display:flex;gap:6px}
+.date div{flex:1;border:1px solid var(--line);border-radius:12px;padding:9px 0;text-align:center;font-size:10px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+.date div b{display:block;font:400 22px/1 var(--serif);color:var(--cream);letter-spacing:0;margin:3px 0}
+.date div.on{border-color:var(--gold);background:rgba(200,161,90,.14)}
+.date div.off{opacity:.35;text-decoration:line-through}
+.right .btn{justify-content:center;height:62px;margin-top:auto}
+.info{display:grid;grid-template-columns:repeat(3,1fr);padding:14px 16px;font-size:11px;color:var(--dim);border-radius:16px}.info div+div{border-left:1px solid var(--line);padding-left:12px}.info b{display:block;font:400 18px/1.2 var(--serif);color:var(--cream)}
+.right .fine{font-size:11px;color:var(--dim2);text-align:center}
+</style></head>
+<body>
+<header class="top">
+  <a class="logo" href="home.html"><span class="seal">N</span><span><b>MAISON CACAO NOIR</b><small>BOX BUILDER</small></span></a>
+  <div class="steps"><span class="done"><i>✓</i>Size</span><b class="l"></b><span class="on"><i>2</i>Fill</span><b></b><span><i>3</i>Card</span><b></b><span><i>4</i>Bag</span></div>
+  <div class="r"><span>Saved · 2 min ago</span><a class="bagbtn" href="gifting.html">Bag <em>3</em></a><span class="x">×</span></div>
+</header>
+
+<aside class="left">
+  <div class="eyebrow">Step 2 · Fill your coffret</div>
+  <h1>Choose every <span class="foil">piece.</span></h1>
+  <p class="p">Tap to drop a praline into the next cup. Drag inside the box to rearrange.</p>
+  <div class="fl"><span class="chip on">All 6</span><span class="chip"><i style="background:#d63a63"></i>Fruity</span><span class="chip"><i style="background:#c8a15a"></i>Nutty</span><span class="chip"><i style="background:#3a1b10"></i>Dark</span></div>
+  <div class="pl"><span class="sw" style="background:radial-gradient(circle at 34% 28%,rgba(255,240,210,.55),transparent 22%),radial-gradient(circle,#c8a15a 0 1px,transparent 1.5px) 0 0/7px 7px,radial-gradient(circle at 50% 60%,#4a2414,#1f0c06)"></span><div><b>Noisette Dorée</b><span>Hazelnut gianduja · gold dust<em>€3.20</em></span></div><div class="st"><button>−</button><i>3</i><button>+</button></div></div>
+  <div class="pl"><span class="sw" style="background:radial-gradient(circle at 34% 28%,rgba(255,240,240,.6),transparent 20%),conic-gradient(from 40deg,#7d1028,#d63a63,#3b0d16,#ff7a9a,#7d1028,#3b0d16,#d63a63)"></span><div><b>Framboise Rubis</b><span>Raspberry · 66% ganache<em>€3.40</em></span></div><div class="st"><button>−</button><i>2</i><button>+</button></div></div>
+  <div class="pl"><span class="sw" style="background:radial-gradient(circle at 34% 28%,rgba(255,255,230,.55),transparent 20%),conic-gradient(from 10deg,#25140c,#a8bf5e,#25140c,#cfe08a,#5f7a2a,#25140c)"></span><div><b>Pistache Sicile</b><span>Bronte pistachio praliné<em>€3.60</em></span></div><div class="st"><button>−</button><i>2</i><button>+</button></div></div>
+  <div class="pl"><span class="sw sq" style="background:radial-gradient(circle at 30% 25%,rgba(255,240,210,.4),transparent 30%),repeating-linear-gradient(60deg,#2e150c 0 6px,#d6b26a 6px 8px)"></span><div><b>Caramel Salé</b><span>Salted butter caramel<em>€3.20</em></span></div><div class="st"><button>−</button><i>2</i><button>+</button></div></div>
+  <div class="pl"><span class="sw" style="background:radial-gradient(circle at 40% 35%,#8a5a3a,#5a3020 50%,#2a140a)"></span><div><b>Truffe Noire</b><span>85% · cocoa-dusted<em>€2.90</em></span></div><div class="st"><button>−</button><i>2</i><button>+</button></div></div>
+  <div class="pl on"><span class="sw" style="background:radial-gradient(circle at 34% 28%,rgba(255,250,220,.7),transparent 20%),linear-gradient(180deg,#f2b23a,#d9781e 40%,#5a2a12 75%,#2e140a)"></span><div><b>Yuzu Ambre</b><span>Yuzu · amber shell<em>€3.40</em></span></div><div class="st"><button>−</button><i>1</i><button>+</button></div></div>
+  <div class="chef glass"><div><b>Chef's choice</b>Fill the last 4 cups for us</div><span class="chip" style="color:var(--gold);border-color:var(--line2)">+ €13.20</span></div>
+</aside>
+
+<main class="center">
+  <div class="sixteen">16</div>
+  <canvas class="gl" id="box3d" width="640" height="996"></canvas>
+  <div class="hint">Coffret 16 · cocoa leather<br>gold-foil cups · 23 × 23 cm</div>
+  <div class="drop glass"><i></i><div><b>Dropping in · cup 12</b>Yuzu Ambre <span class="gold">+€3.40</span></div></div>
+  <div class="cursor"><span class="ring">Rotate</span></div>
+  <div class="prog"><div class="dots"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="n"></i><i></i><i></i><i></i><i></i></div><span><b>12 / 16</b>cups filled · 4 to go</span></div>
+</main>
+
+<aside class="right">
+  <div class="lb"><span>Box size</span><span class="gold">Change</span></div>
+  <div class="sizes"><div><b>9</b><span>€38</span></div><div class="on"><b>16</b><span>€64</span></div><div><b>25</b><span>€98</span></div><div><b>36</b><span>€120</span></div></div>
+  <div class="ledger glass">
+    <div class="row"><span>Coffret 16 · leather box</span><b>€14.00</b></div>
+    <div class="row"><span>11 pralines</span><b>€35.80</b></div>
+    <div class="row add"><span>+ Yuzu Ambre</span><b>€3.40</b></div>
+    <div class="row"><span>Raspberry ribbon & wax seal</span><b>Free</b></div>
+    <div class="tot"><span>Live total</span><div><em>+ €3.40</em><b class="cr">€53.20</b></div></div>
+  </div>
+  <div class="lb"><span>Card & ribbon</span><span>38 / 160</span></div>
+  <div class="cardp"><div class="note"><small>FOR MAMAN</small><p>Seventy years, and still the sweetest one in the room.</p></div>
+    <div class="rib"><div class="sw"><i class="on" style="background:#a3173a"></i><i style="background:#c8a15a"></i><i style="background:#3a1c10"></i><i style="background:#8fa24a"></i></div><small>Raspberry satin ribbon, monogram wax seal</small></div></div>
+  <div class="lb"><span>Arrives</span><span>Cold-chain</span></div>
+  <div class="date"><div class="off">Tue<b>27</b>Oct</div><div>Wed<b>28</b>Oct</div><div class="on">Thu<b>29</b>Oct</div><div>Fri<b>30</b>Oct</div><div>Sat<b>31</b>Oct</div></div>
+  <div class="info glass"><div><b>14–18 °C</b>Store cool, not cold</div><div><b>19 Nov</b>Best before</div><div><b>Nuts · milk</b>Allergens</div></div>
+  <a class="btn gold" href="gifting.html">Add coffret · €53.20 <span class="ar">→</span></a>
+  <div class="fine">Packed by hand the morning it ships · best within 3 weeks</div>
+</aside>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+await document.fonts.ready;
+const C = CACAO3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+const fill = ['noisette','framboise','pistache','caramel','truffe','noisette','caramel','framboise','pistache','truffe','noisette',null,null,null,null,null];
+C.box(document.getElementById('box3d'), fill, { drop: 'yuzu', pos: [0, 15.5, 15.5], target: [0, -.2, -.9], fov: 26 });
+</script>
+</body></html>

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Aether — Training & life aboard</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="aether.css">
+<script src="aether3d.js"></script>
+<style>
+.ihero{height:1000px;overflow:hidden;background:#05080d}
+.ihero .front{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(0deg,rgba(0,0,0,.85),transparent 38%),linear-gradient(180deg,rgba(0,0,0,.6),transparent 20%)}
+.ihero .front>*{pointer-events:auto}
+.ihero .copy{position:absolute;left:64px;bottom:70px;width:640px}
+.ihero .copy h1{font:200 96px/.92 var(--sans);letter-spacing:-.05em;margin:18px 0 20px}
+.ihero .copy h1 span{font-weight:100;color:transparent;-webkit-text-stroke:1.2px rgba(244,242,236,.7)}
+.ihero .env{position:absolute;right:56px;top:130px;padding:20px 22px;width:270px;display:grid;gap:14px;background:rgba(4,8,16,.6)}
+.ihero .env .r{display:flex;justify-content:space-between;font:400 11px var(--mono);letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+.ihero .env .r b{color:#fff;font-weight:400}
+.ihero .tabs{position:absolute;right:56px;bottom:70px;display:flex;gap:8px}
+
+.prog{padding:150px 64px 120px}
+.prog .hd{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:60px}
+.track{margin-top:70px;position:relative}
+.track .line{height:2px;background:var(--line2);position:relative;margin:0 0 40px}
+.track .line i{position:absolute;left:0;top:0;bottom:0;width:41%;background:linear-gradient(90deg,var(--blue),var(--ice));box-shadow:0 0 14px var(--blue)}
+.track .line b{position:absolute;top:50%;width:14px;height:14px;margin:-7px;border-radius:50%;background:#000;border:1px solid var(--blue)}
+.track .line b.d{background:var(--blue)}
+.track .line b.n{background:#fff;box-shadow:0 0 0 7px rgba(61,139,255,.3),0 0 26px var(--blue)}
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.ph{border:1px solid var(--line);border-radius:22px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.ph .im{height:230px;position:relative}
+.ph .im::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(9,13,20,1))}
+.ph .bd{padding:22px 24px 26px}
+.ph h3{font:300 26px/1.1 var(--sans);letter-spacing:-.02em;margin:8px 0 10px}
+.ph ul{list-style:none;font-size:13px;color:var(--dim);display:grid;gap:7px}
+.ph ul li{display:flex;gap:8px}
+.ph ul li::before{content:"—";color:var(--blue)}
+.ph.now{border-color:rgba(61,139,255,.6);box-shadow:0 30px 90px -30px rgba(61,139,255,.6)}
+.ph .gfx{height:230px;position:relative;display:grid;place-items:center;background:radial-gradient(circle at 50% 60%,rgba(61,139,255,.25),transparent 60%)}
+.meter{margin-top:16px;display:flex;justify-content:space-between;align-items:center;font:400 10.5px var(--mono);letter-spacing:.1em;color:var(--dim)}
+.meter .bar{flex:1;height:3px;background:var(--line2);margin:0 12px;position:relative}
+.meter .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--blue)}
+
+.day{padding:130px 64px;border-top:1px solid var(--line);display:grid;grid-template-columns:620px 1fr;gap:80px;align-items:center;overflow:hidden}
+.clock{width:620px;height:620px;position:relative}
+.clock svg{position:absolute;inset:0}
+.clock .mid{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.clock .mid b{display:block;font:100 120px/1 var(--sans);letter-spacing:-.05em}
+.sched .r{display:grid;grid-template-columns:90px 1fr auto;padding:18px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.sched .r .t{font:400 13px var(--mono);color:var(--ice)}
+.sched .r h4{font:300 21px/1.2 var(--sans);letter-spacing:-.01em}
+.sched .r p{font-size:13px;color:var(--dim);margin-top:3px}
+.sched .r.on{background:linear-gradient(90deg,rgba(61,139,255,.14),transparent);border-color:rgba(61,139,255,.5)}
+.sched .r.on .t{color:#fff}
+
+.life{padding:0 64px 150px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:340px 300px;gap:20px}
+.life>div{border-radius:22px;border:1px solid var(--line);background:var(--panel);position:relative;overflow:hidden;padding:28px}
+.life .wide{grid-column:span 2}
+.life .tall{grid-row:span 2}
+.life h3{font:200 36px/1.05 var(--sans);letter-spacing:-.03em;margin-top:10px}
+.life p{font-size:14px;color:var(--dim);margin-top:10px;max-width:340px}
+.life .z{position:relative;z-index:2}
+.life>div>[data-img]{position:absolute;inset:0}
+.life>div>[data-img]::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.85))}
+.life .bot{position:absolute;left:28px;right:28px;bottom:26px;z-index:2}
+.menu{display:grid;gap:10px;margin-top:22px}
+.menu div{display:flex;justify-content:space-between;font-size:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.menu div span{font:400 10.5px var(--mono);color:var(--dim);letter-spacing:.1em}
+.drop{position:absolute;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff,rgba(156,196,255,.7) 12%,rgba(61,139,255,.25) 45%,rgba(61,139,255,.05) 70%);box-shadow:inset -8px -10px 30px rgba(61,139,255,.45),0 0 40px rgba(61,139,255,.35);animation:drift 6s ease-in-out infinite}
+.big-n{font:100 150px/.9 var(--sans);letter-spacing:-.06em}
+</style></head>
+<body>
+<header data-nav="training"></header>
+
+<section class="ihero">
+  <div class="stage" id="iStage"></div>
+  <div class="front">
+    <div class="copy"><div class="tag">Training & life aboard · Halcyon module C</div>
+      <h1>Sixteen weeks<br><span>to</span> orbit.</h1>
+      <p class="lede">From the first classroom morning in Lisbon to the moment your water floats off the table — every step is taught by people who have done it, twice.</p></div>
+    <div class="glass env">
+      <div class="mono" style="color:var(--green)">● Module C · nominal</div>
+      <div class="r">Pressure<b>101.3 kPa</b></div><div class="r">Cabin<b>22.4 °C</b></div><div class="r">CO₂<b>0.31 %</b></div><div class="r">Humidity<b>48 %</b></div><div class="r">Station time<b>GMT 06:42</b></div>
+    </div>
+    <div class="tabs"><span class="chip on">Corridor</span><span class="chip">Suite</span><span class="chip">Cupola</span><span class="chip">Galley</span></div>
+  </div>
+  <div class="callout" id="cW" style="z-index:5"><i></i><em style="width:60px"></em><span><b>0.6 L of water</b><br>surface tension holds it</span></div>
+  <div class="callout rev" id="cE" style="z-index:5"><i></i><em style="width:60px"></em><span><b>Cupola · 7 windows</b><br>Pacific, 06:42 local</span></div>
+  <div class="cursor" style="left:1030px;top:610px;z-index:5"><div class="ring"></div><span>Look around</span></div>
+</section>
+
+<section class="prog">
+  <div class="hd"><div><div class="mono">( 01 ) The programme</div><h2 class="h-l" style="margin-top:18px">Desk <span class="out">to</span> crew.</h2></div>
+    <p class="lede">Four blocks, sixteen weeks, one cohort of eight. You'll leave knowing how to live in a capsule, fix a leak, and sleep strapped to a wall.</p></div>
+  <div class="track">
+    <div class="line"><i></i><b class="d" style="left:0"></b><b class="d" style="left:25%"></b><b class="n" style="left:41%"></b><b style="left:50%"></b><b style="left:75%"></b><b style="left:100%"></b></div>
+    <div class="phases">
+      <div class="ph"><div class="im" data-img="1784744847844-7990d7da0e15|700"></div><div class="bd"><span class="mono">Weeks 01 – 04 · Lisbon</span><h3>Ground school</h3><ul><li>Orbital mechanics without equations</li><li>Capsule systems & emergency drills</li><li>Suit fitting & liner moulding</li></ul><div class="meter">DONE<div class="bar"><i style="width:100%"></i></div>100%</div></div></div>
+      <div class="ph now"><div class="gfx"><svg width="210" height="210" viewBox="0 0 210 210" style="animation:spin 4s linear infinite"><circle cx="105" cy="105" r="92" fill="none" stroke="#3d8bff" stroke-opacity=".35" stroke-dasharray="3 6"/><path d="M105 105 L190 105" stroke="#9cc4ff" stroke-width="2"/><circle cx="105" cy="105" r="10" fill="#f4f2ec"/><rect x="176" y="92" width="34" height="26" rx="6" fill="#3d8bff"/><circle cx="105" cy="105" r="60" fill="none" stroke="#9cc4ff" stroke-opacity=".25"/></svg><div class="hud" style="right:22px;top:18px;text-align:right">Centrifuge<b class="ice">4.5 g · 120 s</b></div></div>
+        <div class="bd"><span class="mono" style="color:var(--ice)">Weeks 05 – 08 · Cologne · now</span><h3>Body & g-load</h3><ul><li>Centrifuge runs to 4.5 g</li><li>Hypobaric chamber · 7,600 m</li><li>Strength block with crew trainers</li></ul><div class="meter">WEEK 6<div class="bar"><i style="width:55%"></i></div>55%</div></div></div>
+      <div class="ph"><div class="im" data-img="1581822261290-991b38693d1b|700"></div><div class="bd"><span class="mono">Weeks 09 – 12 · Bordeaux</span><h3>Zero-g flights</h3><ul><li>Three parabolic flights · 36 parabolas</li><li>Eating, moving, sleeping in 0 g</li><li>Neutral-buoyancy pool</li></ul><div class="meter">NEXT<div class="bar"><i style="width:0"></i></div>0%</div></div></div>
+      <div class="ph"><div class="im" data-img="1767627651257-f7ed7a0d8146|700"></div><div class="bd"><span class="mono">Weeks 13 – 16 · Iceland</span><h3>Crew integration</h3><ul><li>Survival week on the Vatnajökull</li><li>Full-mission simulation, 72 h</li><li>Launch-week quarantine</li></ul><div class="meter">LATER<div class="bar"><i style="width:0"></i></div>0%</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="day">
+  <div class="clock">
+    <svg viewBox="0 0 620 620"><defs><linearGradient id="arc" x1="0" x2="1"><stop offset="0" stop-color="#3d8bff"/><stop offset="1" stop-color="#9cc4ff"/></linearGradient></defs>
+      <circle cx="310" cy="310" r="290" fill="none" stroke="rgba(220,232,255,.12)"/>
+      <circle cx="310" cy="310" r="250" fill="none" stroke="rgba(220,232,255,.08)" stroke-dasharray="2 8"/>
+      <g id="ticks"></g>
+      <circle cx="310" cy="310" r="210" fill="none" stroke="url(#arc)" stroke-width="3" stroke-dasharray="560 760" transform="rotate(-90 310 310)" style="filter:drop-shadow(0 0 8px #3d8bff)"/>
+      <circle cx="310" cy="310" r="170" fill="none" stroke="rgba(220,232,255,.1)"/>
+      <circle cx="510" cy="250" r="8" fill="#fff" style="filter:drop-shadow(0 0 10px #9cc4ff)"/>
+    </svg>
+    <div class="mid"><div><span class="mono">Sunrises today</span><b>16</b><span class="mono">every 92 minutes</span></div></div>
+  </div>
+  <div class="sched">
+    <div class="mono">( 02 ) A day aboard Halcyon</div><h2 class="h-m" style="margin:16px 0 30px">Sixteen sunrises, <span class="out">one routine.</span></h2>
+    <div class="r"><span class="t">06:30</span><div><h4>Wake in your ring suite</h4><p>0.38 g · a bed, a duvet, a window the size of a door.</p></div><span class="mono">Suite</span></div>
+    <div class="r on"><span class="t">07:15</span><div><h4>Breakfast in the galley</h4><p>Real coffee, poured. The ring makes it possible.</p></div><span class="mono">Galley</span></div>
+    <div class="r"><span class="t">09:00</span><div><h4>Float to the hub</h4><p>Gravity fades along the spoke. By the hub, you fly.</p></div><span class="mono">Spoke B</span></div>
+    <div class="r"><span class="t">11:40</span><div><h4>Cupola hour</h4><p>Your slot to photograph the Himalaya at dawn.</p></div><span class="mono">Cupola</span></div>
+    <div class="r"><span class="t">19:00</span><div><h4>Dinner & call home</h4><p>Video link to Earth, any time. Most guests wait for sunset.</p></div><span class="mono">Galley</span></div>
+  </div>
+</section>
+
+<section class="life">
+  <div class="tall"><div data-img="1769251971680-005dfa536f07|800"></div><div class="bot"><div class="mono">Your suite</div><h3>A window the<br>size of a door.</h3><p style="color:#c4cbd8">9 m² · bed for two · private hygiene bay · 1.4 m panoramic window.</p></div></div>
+  <div class="wide"><div class="z"><div class="mono">Galley · designed with a two-star kitchen in San Sebastián</div><h3>Forty dishes. Zero crumbs.</h3>
+    <div class="menu"><div>Txangurro crab, sealed in a sphere<span>DAY 2 · DINNER</span></div><div>Smoked-paprika lentils, thermostabilised<span>DAY 4 · LUNCH</span></div><div>Pastel de nata, re-engineered for 0.38 g<span>EVERY MORNING</span></div><div>Dark chocolate & yuzu, frozen at 418 km<span>LAST NIGHT</span></div></div></div></div>
+  <div><span class="drop" style="width:120px;height:120px;right:24px;top:24px"></span><span class="drop" style="width:34px;height:34px;right:150px;top:110px;animation-delay:-2s"></span><div class="bot"><div class="mono">Shower</div><h3>Water that<br>falls down.</h3></div></div>
+  <div><div class="z"><div class="mono">Sleep</div><div class="big-n" style="margin-top:14px">8.2<span style="font-size:30px;letter-spacing:0;color:var(--dim)"> h</span></div><p>Average guest sleep in the ring. In the capsule it's 6.1 — the view keeps people up.</p></div></div>
+  <div class="wide" style="display:flex;justify-content:space-between;align-items:flex-end;background:radial-gradient(500px 260px at 100% 100%,rgba(61,139,255,.3),transparent),var(--panel)"><div class="z"><div class="mono">Not flying yet?</div><h3>Train anyway.</h3><p>Zero-g weekends from €18,000 · centrifuge days from €9,500 · open to everyone over 18.</p></div><a class="btn pri" href="missions.html">See packages <span class="dot" data-icon="arrow"></span></a></div>
+</section>
+
+<footer data-foot></footer>
+<script src="aether.js"></script>
+<script>
+// 16 sunrise ticks round the day clock
+document.getElementById('ticks').innerHTML = Array.from({ length: 96 }, (_, i) => { const a = i / 96 * Math.PI * 2 - Math.PI / 2, big = i % 6 === 0, r1 = big ? 262 : 270, r2 = 282;
+  return `<line x1="${310 + Math.cos(a) * r1}" y1="${310 + Math.sin(a) * r1}" x2="${310 + Math.cos(a) * r2}" y2="${310 + Math.sin(a) * r2}" stroke="${big ? '#9cc4ff' : 'rgba(220,232,255,.25)'}" stroke-width="${big ? 2 : 1}"/>` + (big ? `<circle cx="${310 + Math.cos(a) * 238}" cy="${310 + Math.sin(a) * 238}" r="3" fill="${i < 42 ? '#3d8bff' : 'rgba(220,232,255,.3)'}"/>` : ''); }).join('');
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = A3D(THREE, { RoomEnvironment });
+const S = K.stage(document.getElementById('iStage'), { w: 1440, h: 1000, fov: 50, exposure: .85 });
+const { scene, camera, renderer } = S; camera.position.set(.15, -.1, 4.2); camera.lookAt(-.05, .05, -6);
+const R = 1.6, L = 9;
+// padded wall panels
+const wall = K.canvasTex(1024, 512, (c, w, h) => {
+  c.fillStyle = '#c9ced6'; c.fillRect(0, 0, w, h);
+  for (let x = 0; x < 8; x++) for (let y = 0; y < 2; y++) { const g = c.createLinearGradient(x * 128, y * 256, x * 128 + 128, y * 256 + 256); g.addColorStop(0, '#e9ecf0'); g.addColorStop(1, '#bfc5cd'); c.fillStyle = g; c.beginPath(); c.roundRect(x * 128 + 6, y * 256 + 6, 116, 244, 14); c.fill(); }
+  c.fillStyle = '#3d8bff'; [1, 5].forEach(x => c.fillRect(x * 128 + 20, 30, 6, 80));
+  c.fillStyle = '#2a2f38'; c.font = '600 18px Space Mono, monospace'; ['C-04', 'O2 · VALVE', 'STOW 12', 'C-05'].forEach((t, i) => c.fillText(t, 40 + i * 256, 470));
+  c.fillStyle = '#ffb45c'; c.fillRect(3 * 128 + 30, 300, 60, 8);
+  c.strokeStyle = 'rgba(40,46,56,.35)'; c.lineWidth = 2; for (let i = 0; i < 6; i++) { c.beginPath(); c.arc(640 + 40, 380, 8 + i * 0, 0, 7); }
+});
+wall.wrapS = wall.wrapT = THREE.RepeatWrapping; wall.repeat.set(-2, 2);
+const tube = new THREE.Mesh(new THREE.CylinderGeometry(R, R, L, 64, 1, true), new THREE.MeshStandardMaterial({ map: wall, color: '#7d8694', roughness: .65, metalness: .1, side: THREE.BackSide, envMapIntensity: .35 }));
+tube.rotation.x = Math.PI / 2; tube.position.z = -L / 2 + 4.6; scene.add(tube);
+// frames, light strips, handrails
+const frameM = new THREE.MeshPhysicalMaterial({ color: '#8b929c', metalness: .8, roughness: .3, clearcoat: .5 });
+for (let z = 3.4; z > -4.6; z -= 2.6) { const f = new THREE.Mesh(new THREE.TorusGeometry(R - .03, .07, 12, 96), frameM); f.position.z = z; scene.add(f); }
+[Math.PI * .25, Math.PI * .75, Math.PI * 1.25, Math.PI * 1.75].forEach(a => { const s = new THREE.Mesh(new THREE.BoxGeometry(.025, .025, L - 1.4), K.M.emit('#dfe9ff', 1.2)); s.position.set(Math.cos(a) * (R - .06), Math.sin(a) * (R - .06), -.2); scene.add(s); });
+const railM = new THREE.MeshPhysicalMaterial({ color: '#f2c14e', roughness: .4, metalness: .2, clearcoat: 1 });
+[Math.PI * .5 + .5, Math.PI * .5 - .5, Math.PI * 1.5 + .45, Math.PI * 1.5 - .45, Math.PI + .1, .05].forEach((a, k) => { for (let z = 2.6; z > -3.6; z -= 2.6) { const r = new THREE.Mesh(new THREE.CapsuleGeometry(.022, .6, 4, 8), railM); r.rotation.x = Math.PI / 2; r.position.set(Math.cos(a) * (R - .14), Math.sin(a) * (R - .14), z - .9 - (k % 2) * .2); scene.add(r); } });
+// lockers / suite doors (glowing number plates)
+for (let i = 0; i < 2; i++) { const z = 1.6 - i * 2.6; [-1, 1].forEach(sd => { const plate = new THREE.Mesh(new THREE.PlaneGeometry(.24, .08), new THREE.MeshBasicMaterial({ map: K.canvasTex(256, 84, (c, w, h) => { c.fillStyle = '#0b1220'; c.fillRect(0, 0, w, h); c.fillStyle = '#9cc4ff'; c.font = '28px Space Mono, monospace'; c.fillText('SUITE ' + (sd > 0 ? 2 * i + 1 : 2 * i + 2).toString().padStart(2, '0'), 24, 54); }), toneMapped: false }));
+  plate.position.set(sd * (R - .03), .35, z); plate.rotation.y = -sd * Math.PI / 2; scene.add(plate); }); }
+// end bulkhead with cupola window
+const bulk = new THREE.Mesh(new THREE.RingGeometry(1.18, R + .05, 96), new THREE.MeshStandardMaterial({ color: '#b9bfc8', roughness: .55, metalness: .2, side: THREE.DoubleSide })); bulk.position.z = -4.4; scene.add(bulk);
+const hatch = new THREE.Mesh(new THREE.TorusGeometry(1.2, .09, 16, 96), frameM); hatch.position.z = -4.38; scene.add(hatch);
+for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; const b = new THREE.Mesh(new THREE.BoxGeometry(.06, .16, .06), K.M.dark()); b.position.set(Math.cos(a) * 1.36, Math.sin(a) * 1.36, -4.34); b.rotation.z = a; scene.add(b); }
+// Earth through the cupola
+const E = K.earth({ radius: 7, sun: new THREE.Vector3(-.6, .6, .5), seg: 128 }); E.group.position.set(.6, -8.2, -14); E.group.rotation.set(.4, 0, -.2); scene.add(E.group);
+scene.add(K.stars({ count: 1200, seed: 3, radius: 80 }));
+const earthGlow = new THREE.PointLight('#5f9dff', 9, 9, 1.4); earthGlow.position.set(0, -.6, -3.6); scene.add(earthGlow);
+const lamp = new THREE.PointLight('#ffe6c4', 7, 7, 1.6); lamp.position.set(-.4, 1, 2.2); scene.add(lamp);
+scene.add(new THREE.AmbientLight('#5a6c8c', .25));
+// 3D type inside the corridor — refracted by the water
+const word = new THREE.Mesh(new THREE.PlaneGeometry(2.9, .72), new THREE.MeshBasicMaterial({ map: K.canvasTex(2048, 512, (c, w, h) => { c.clearRect(0, 0, w, h); c.fillStyle = 'rgba(255,255,255,.96)'; c.font = '200 330px Sora, sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.letterSpacing = '-12px'; c.fillText('Weightless', w / 2, h / 2 + 10); }), transparent: true, toneMapped: false, depthWrite: false }));
+word.position.set(-.08, .34, .2); scene.add(word);
+// floating water sphere + droplets (mid-drift), tablet, pen
+const water = new THREE.MeshPhysicalMaterial({ color: '#dff0ff', metalness: 0, roughness: .02, transmission: 1, thickness: .9, ior: 1.33, clearcoat: 1, attenuationColor: new THREE.Color('#9cc4ff'), attenuationDistance: 2.5, envMapIntensity: 1.4 });
+const blob = new THREE.Mesh(new THREE.SphereGeometry(.24, 64, 48), water); blob.position.set(.5, .34, 1.45); scene.add(blob);
+const drops = [[.05, .05, 1.2, .05], [.95, .62, .9, .07], [.85, .02, 1.7, .03], [.25, .62, 1.1, .025], [-.45, -.1, .6, .04], [1.4, .25, -.4, .06]].map(([x, y, z, r]) => { const d = new THREE.Mesh(new THREE.SphereGeometry(r, 32, 24), water); d.position.set(x, y, z); scene.add(d); return d; });
+const tab = new THREE.Group(); const body = new THREE.Mesh(new RoundedBoxGeometry(.5, .34, .02, 4, .02), new THREE.MeshPhysicalMaterial({ color: '#1b1f27', metalness: .6, roughness: .3, clearcoat: 1 })); tab.add(body);
+const scr = new THREE.Mesh(new THREE.PlaneGeometry(.46, .3), new THREE.MeshBasicMaterial({ map: K.canvasTex(512, 334, (c, w, h) => { const g = c.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#0b2a5c'); g.addColorStop(1, '#03070f'); c.fillStyle = g; c.fillRect(0, 0, w, h); c.fillStyle = '#9cc4ff'; c.font = '20px Space Mono, monospace'; c.fillText('DAY 4 · HALCYON', 28, 44); c.fillStyle = '#fff'; c.font = '200 64px Sora, sans-serif'; c.fillText('Cupola 11:40', 26, 130); c.strokeStyle = '#3d8bff'; c.lineWidth = 4; c.beginPath(); c.arc(410, 240, 54, -1.5, 3); c.stroke(); c.fillStyle = '#9cc4ff'; c.font = '20px Space Mono, monospace'; ['Himalaya at dawn', 'Pass 3 of 16'].forEach((t, i) => c.fillText(t, 28, 210 + i * 36)); }), toneMapped: false }));
+scr.position.z = .011; tab.add(scr); tab.position.set(1.0, -.62, 1.7); tab.rotation.set(-.55, -.6, -.25); scene.add(tab);
+const pen = new THREE.Mesh(new THREE.CapsuleGeometry(.012, .2, 4, 8), new THREE.MeshPhysicalMaterial({ color: '#3d8bff', metalness: .7, roughness: .25 })); pen.position.set(-.45, .5, -1.2); pen.rotation.set(.4, .2, 1.1); scene.add(pen);
+const cW = document.getElementById('cW'), cE = document.getElementById('cE');
+const pr = (p, el, dx, dy) => { const v = p.clone().project(camera); el.style.left = ((v.x + 1) / 2 * 1440 + dx) + 'px'; el.style.top = ((1 - v.y) / 2 * 1000 + dy) + 'px'; };
+S.run(t => {
+  blob.position.y = .34 + Math.sin(t * .6) * .02; blob.scale.set(1 + Math.sin(t * 1.3) * .04, 1 - Math.sin(t * 1.3) * .04, 1 + Math.cos(t * 1.1) * .03);
+  drops.forEach((d, i) => { d.position.y += Math.sin(t + i) * .0006; });
+  tab.rotation.z = .35 + Math.sin(t * .3) * .05; pen.rotation.z = 1.1 + t * .1;
+  E.sphere.rotation.y = 1.9 + t * .008; E.uniforms.t.value = t;
+  pr(blob.position.clone().add(new THREE.Vector3(.17, -.17, 0)), cW, -5, -5);
+  pr(new THREE.Vector3(-1.05, -.3, -4.4), cE, 0, 0);
+}, E.ready);
+</script>
+</body></html>

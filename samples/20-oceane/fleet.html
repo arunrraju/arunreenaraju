@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>The Fleet — 38 Crewed Superyachts · OCÉANE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="oceane.css">
+<style>
+html,body{background:var(--sail)}
+body{color:var(--navy)}
+.lt{--dim:rgba(11,31,51,.62);--faint:rgba(11,31,51,.4);--line:rgba(11,31,51,.12)}
+.hero{position:relative;padding:170px 0 0;overflow:hidden;background:radial-gradient(70% 50% at 70% 10%,#fff,transparent 70%),linear-gradient(180deg,#f7f4ee,#ece6da)}
+.hero .eyebrow{color:var(--teak)}
+.hero h1{font:400 230px/.8 var(--disp);letter-spacing:-.055em;position:relative;z-index:2}
+.hero h1 i{color:var(--teal)}
+.hero h1 sup{font:500 13px/1 var(--mono);letter-spacing:.24em;vertical-align:top;margin-left:10px;position:relative;top:40px;color:var(--teak)}
+.hero .intro{position:absolute;right:72px;top:210px;width:400px;font-size:17px;color:rgba(11,31,51,.7)}
+.hero .intro .flags{margin-top:24px}
+.lineup{position:relative;height:420px;margin-top:20px}
+.lineup svg{position:absolute;left:0;top:0}
+.ruler{position:absolute;left:72px;right:72px;bottom:46px;height:30px;border-top:1px solid rgba(11,31,51,.35);background:repeating-linear-gradient(90deg,rgba(11,31,51,.35) 0 1px,transparent 1px 10.4px) top/100% 8px no-repeat}
+.ruler span{position:absolute;top:14px;transform:translateX(-50%);font:500 10px/1 var(--mono);letter-spacing:.12em;color:rgba(11,31,51,.55)}
+.sel{position:absolute;z-index:3;padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.75);backdrop-filter:blur(12px);border:1px solid rgba(11,31,51,.1);box-shadow:0 20px 50px rgba(11,31,51,.15);font:500 10px/1.5 var(--mono);letter-spacing:.14em;color:rgba(11,31,51,.6)}
+.sel b{display:block;font:italic 400 26px/1 var(--disp);letter-spacing:0;color:var(--navy);margin-bottom:6px}
+.filters{position:relative;z-index:5;margin:0 72px;transform:translateY(-34px);display:grid;grid-template-columns:1.1fr 1.1fr 1.6fr 1.2fr auto;align-items:center;gap:0;padding:14px 14px 14px 30px;border-radius:24px;background:var(--navy);color:var(--sail);box-shadow:0 40px 80px rgba(11,31,51,.3)}
+.filters>div{padding:6px 24px;border-left:1px solid rgba(244,241,234,.14)}
+.filters>div:first-child{border:0;padding-left:0}
+.filters span{display:block;font:500 9.5px/1 var(--mono);letter-spacing:.22em;color:var(--brass2);margin-bottom:10px;text-transform:uppercase}
+.filters b{font:500 15px/1 var(--sans)}
+.seg{display:flex;gap:4px;background:rgba(255,255,255,.07);border-radius:999px;padding:4px}
+.seg i{font-style:normal;flex:1;text-align:center;padding:8px 10px;border-radius:999px;font:500 12px/1 var(--sans);white-space:nowrap}
+.seg i.on{background:var(--sail);color:var(--navy)}
+.range{position:relative;height:30px}
+.range .tr{position:absolute;left:0;right:0;top:13px;height:3px;border-radius:3px;background:rgba(255,255,255,.15)}
+.range .fi{position:absolute;left:22%;right:30%;top:13px;height:3px;background:linear-gradient(90deg,var(--teal),var(--brass2))}
+.range .k{position:absolute;top:5px;width:19px;height:19px;border-radius:50%;background:var(--sail);box-shadow:0 0 0 5px rgba(244,241,234,.15)}
+.range .k.a{left:calc(22% - 9px)}.range .k.b{left:calc(70% - 9px);box-shadow:0 0 0 9px rgba(232,207,148,.25);background:var(--brass2)}
+.range .v{position:absolute;top:-24px;left:70%;transform:translateX(-50%);font:500 10px/1 var(--mono);background:var(--brass2);color:var(--navy);padding:5px 7px;border-radius:6px}
+.filters .btn{height:58px}
+
+.bar{display:flex;justify-content:space-between;align-items:center;padding:30px 72px 26px}
+.bar .chips{display:flex;gap:8px}
+.bar .chip{border-color:rgba(11,31,51,.18)}
+.bar .chip.on{background:var(--navy);color:var(--sail);border-color:var(--navy)}
+.bar .res{font:500 11px/1 var(--mono);letter-spacing:.18em;color:rgba(11,31,51,.6)}
+.bar .res b{font:italic 400 30px/1 var(--disp);color:var(--navy);letter-spacing:0;margin-right:8px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:0 72px 120px}
+.card{position:relative}
+.card .ph{height:420px;border-radius:24px;overflow:hidden;position:relative;background-size:cover;background-position:center}
+.card .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,31,51,0) 55%,rgba(11,31,51,.55))}
+.card .top{position:absolute;left:18px;right:18px;top:18px;z-index:2;display:flex;justify-content:space-between}
+.card .top .chip{height:28px;font-size:11px;background:rgba(244,241,234,.85);color:var(--navy);border:0;backdrop-filter:blur(8px)}
+.card .heart{width:38px;height:38px;border-radius:50%;background:rgba(244,241,234,.85);display:grid;place-items:center;font-size:15px}
+.card .len{position:absolute;right:20px;bottom:16px;z-index:2;font:400 76px/1 var(--disp);color:rgba(244,241,234,.92);letter-spacing:-.04em}
+.card .len small{font:500 12px/1 var(--mono);letter-spacing:.1em}
+.card .info{padding:20px 6px 0;display:grid;grid-template-columns:1fr auto;gap:6px 20px}
+.card h3{font:italic 400 38px/1 var(--disp)}
+.card .pr{text-align:right;font:500 10px/1.4 var(--mono);letter-spacing:.14em;color:rgba(11,31,51,.55)}
+.card .pr b{display:block;font:500 21px/1.1 var(--sans);color:var(--navy);letter-spacing:0}
+.card .meta{grid-column:1/-1;display:flex;gap:18px;font:500 11px/1 var(--mono);letter-spacing:.12em;color:rgba(11,31,51,.6);padding-top:12px;margin-top:6px;border-top:1px solid rgba(11,31,51,.1)}
+.card .meta b{color:var(--navy);font-weight:500}
+.card .cmp{position:absolute;left:18px;bottom:18px;z-index:2;display:flex;align-items:center;gap:8px;font:600 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--sail)}
+.card .cmp i{width:20px;height:20px;border-radius:6px;border:1.5px solid rgba(244,241,234,.8);display:grid;place-items:center;font-style:normal;font-size:11px}
+.card.chk .cmp i{background:var(--brass2);border-color:var(--brass2);color:var(--navy)}
+.card.hov .ph{transform:translateY(-10px);box-shadow:0 40px 70px rgba(11,31,51,.3)}
+.card.hov .quick{position:absolute;left:18px;right:18px;bottom:18px;z-index:3;padding:20px;border-radius:18px;background:rgba(11,31,51,.72);backdrop-filter:blur(16px);color:var(--sail);border:1px solid rgba(255,255,255,.14)}
+.quick .q{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.quick .q span{display:block;font:500 9px/1 var(--mono);letter-spacing:.18em;color:var(--brass2);margin-bottom:6px}
+.quick .q b{font:500 15px/1 var(--sans)}
+.quick .row{display:flex;gap:8px}
+.quick .btn{flex:1;justify-content:center;height:42px;font-size:11.5px}
+.card.hov .cursor{left:auto;right:30px;top:110px}
+.card.feat{grid-column:span 2}
+.card.feat .ph{height:420px}
+.sale{background:var(--navy);color:var(--sail);padding:130px 0;position:relative;overflow:hidden}
+.sale .sechd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:50px}
+.sale h2{font:400 96px/.9 var(--disp);letter-spacing:-.03em;margin-top:22px}
+.sale h2 i{color:var(--brass2)}
+.row2{display:grid;grid-template-columns:90px 1.4fr 1fr 1fr 1fr 220px;align-items:center;padding:26px 0;border-top:1px solid rgba(244,241,234,.14);gap:20px}
+.row2 .n{font:500 11px/1 var(--mono);color:rgba(244,241,234,.4);letter-spacing:.16em}
+.row2 h4{font:italic 400 40px/1 var(--disp)}
+.row2 span{font:500 11px/1.6 var(--mono);letter-spacing:.14em;color:rgba(244,241,234,.6)}
+.row2 b{font:500 20px/1 var(--sans)}
+.row2 .pr{color:var(--brass2);text-align:right}
+.row2.op{background:linear-gradient(90deg,rgba(201,164,92,.1),transparent);margin:0 -30px;padding:26px 30px;position:relative}
+.row2.op .pv{position:absolute;left:46%;top:-80px;width:300px;height:200px;border-radius:18px;background-size:cover;background-position:center;box-shadow:0 30px 70px rgba(0,0,0,.5);transform:rotate(-4deg);z-index:3;border:4px solid var(--sail)}
+.compare{position:fixed;left:50%;bottom:-100px}
+</style>
+</head>
+<body class="lt">
+<header data-nav="fleet" data-glass data-light data-btn="navybtn"></header>
+
+<section class="hero">
+  <div class="w">
+    <div class="eyebrow">The Océane fleet · 2026 season</div>
+    <h1>38 <i>yachts</i><sup>24 – 92 M</sup></h1>
+  </div>
+  <div class="intro">Every yacht in the fleet is inspected by our own surveyors twice a season. Line them up by length, then narrow it down by sea, guests and budget.<div class="flags"><i class="fl fl-O"></i><i class="fl fl-C"></i><i class="fl fl-E"></i><i class="fl fl-A"></i><i class="fl fl-N"></i><i class="fl fl-E"></i></div></div>
+  <div class="lineup" id="lineup"></div>
+</section>
+
+<div class="filters">
+  <div><span>Sea</span><div class="seg"><i class="on">Mediterranean</i><i>Caribbean</i></div></div>
+  <div><span>Guests</span><b>10 guests · 5 cabins</b></div>
+  <div><span>Length · 40 – 70 m</span><div class="range"><div class="tr"></div><div class="fi"></div><div class="k a"></div><div class="k b"></div><div class="v">70 M</div></div></div>
+  <div><span>Weekly budget</span><b>up to €350,000</b></div>
+  <a class="btn brassbtn">Show 12 yachts <span class="ar">→</span></a>
+</div>
+
+<div class="bar"><div class="chips"><span class="chip on">All types</span><span class="chip">Motor</span><span class="chip">Explorer</span><span class="chip">Sailing</span><span class="chip">Catamaran</span><span class="chip">Pet friendly</span><span class="chip">Helipad</span></div><div class="res"><b>12</b>OF 38 · SORT: LENGTH ↓</div></div>
+
+<section class="grid">
+  <article class="card feat"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=82&w=1400);background-position:center 60%"><div class="top"><span class="chip" style="background:var(--brass2)">Flagship · open 12–19 Jul</span><span class="heart">♥</span></div><div class="len">62<small> M</small></div><div class="cmp"><i>✓</i>Compare</div></div>
+    <div class="info"><h3>Aurelia</h3><div class="pr">FROM / WEEK<b>€310,000</b></div><div class="meta"><span><b>12</b> guests</span><span><b>6</b> cabins</span><span><b>18</b> crew</span><span>Tri-deck · 2022</span><span>Côte d'Azur</span></div></div></article>
+  <article class="card hov"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=82&w=900)"><div class="top"><span class="chip">Explorer</span><span class="heart">♡</span></div>
+      <div class="quick"><div class="q"><div><span>Range</span><b>6,000 nm</b></div><div><span>Helipad</span><b>Yes</b></div><div><span>Sub</span><b>3-seat</b></div></div><div class="row"><a class="btn brassbtn">View</a><a class="btn ghost">Compare</a></div></div></div>
+    <div class="cursor">Quick<br>look</div>
+    <div class="info"><h3>Kythera</h3><div class="pr">FROM / WEEK<b>€420,000</b></div><div class="meta"><span><b>12</b> guests</span><span><b>24</b> crew</span><span>Caribbean</span></div></div></article>
+  <article class="card chk"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1535024966840-e7424dc2635b?auto=format&fit=crop&q=82&w=900);background-position:62% 70%"><div class="top"><span class="chip">Sport</span><span class="heart">♡</span></div><div class="len">36<small> M</small></div><div class="cmp"><i>✓</i>Compare</div></div>
+    <div class="info"><h3>Solenne</h3><div class="pr">FROM / WEEK<b>€89,000</b></div><div class="meta"><span><b>10</b> guests</span><span><b>7</b> crew</span><span>24 kn</span></div></div></article>
+  <article class="card"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1604737637145-48cc31d160eb?auto=format&fit=crop&q=82&w=900)"><div class="top"><span class="chip">Motor</span><span class="heart">♡</span></div><div class="len">48<small> M</small></div><div class="cmp"><i></i>Compare</div></div>
+    <div class="info"><h3>Maëlle</h3><div class="pr">FROM / WEEK<b>€185,000</b></div><div class="meta"><span><b>12</b> guests</span><span><b>13</b> crew</span><span>Amalfi</span></div></div></article>
+  <article class="card"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1540946485063-a40da27545f8?auto=format&fit=crop&q=82&w=900)"><div class="top"><span class="chip">Sailing</span><span class="heart">♡</span></div><div class="len">41<small> M</small></div><div class="cmp"><i></i>Compare</div></div>
+    <div class="info"><h3>Vent d'Ouest</h3><div class="pr">FROM / WEEK<b>€95,000</b></div><div class="meta"><span><b>8</b> guests</span><span><b>6</b> crew</span><span>Classic ketch</span></div></div></article>
+  <article class="card"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1528154291023-a6525fabe5b4?auto=format&fit=crop&q=82&w=900)"><div class="top"><span class="chip">Motor</span><span class="heart">♡</span></div><div class="len">55<small> M</small></div><div class="cmp"><i></i>Compare</div></div>
+    <div class="info"><h3>Isola Blu</h3><div class="pr">FROM / WEEK<b>€240,000</b></div><div class="meta"><span><b>12</b> guests</span><span><b>15</b> crew</span><span>Balearics</span></div></div></article>
+  <article class="card"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1636730740168-c94f3ab802e6?auto=format&fit=crop&q=82&w=900)"><div class="top"><span class="chip">Sailing</span><span class="heart">♡</span></div><div class="len">33<small> M</small></div><div class="cmp"><i></i>Compare</div></div>
+    <div class="info"><h3>Halcyon</h3><div class="pr">FROM / WEEK<b>€72,000</b></div><div class="meta"><span><b>8</b> guests</span><span><b>5</b> crew</span><span>Grenadines</span></div></div></article>
+  <article class="card"><div class="ph" style="background-image:url(https://images.unsplash.com/photo-1546214755-c5d22447b43b?auto=format&fit=crop&q=82&w=900)"><div class="top"><span class="chip">Sailing</span><span class="heart">♡</span></div><div class="len">28<small> M</small></div><div class="cmp"><i></i>Compare</div></div>
+    <div class="info"><h3>Brise</h3><div class="pr">FROM / WEEK<b>€65,000</b></div><div class="meta"><span><b>6</b> guests</span><span><b>4</b> crew</span><span>Cyclades</span></div></div></article>
+</section>
+
+<section class="sale" id="sales">
+  <div class="w">
+    <div class="sechd"><div><div class="eyebrow">Brokerage · 24 yachts</div><h2>Own the <i>horizon.</i></h2></div><p style="max-width:380px;color:rgba(244,241,234,.65)">Discreet sales with full survey history, charter income records and a crew that can stay with the yacht. Off-market listings on request.</p></div>
+    <div class="row2"><span class="n">01</span><h4>Nereid</h4><div><span>LENGTH</span><br><b>66 m</b></div><div><span>BUILT · REFIT</span><br><b>2016 · 2024</b></div><div><span>LYING</span><br><b>St Maarten</b></div><div class="pr"><b>Price on request</b></div></div>
+    <div class="row2 op"><span class="n">02</span><h4>Maëlle</h4><div><span>LENGTH</span><br><b>48 m</b></div><div><span>BUILT · REFIT</span><br><b>2018 · 2023</b></div><div><span>LYING</span><br><b>Antibes</b></div><div class="pr"><b>€28,500,000</b></div><div class="pv" style="background-image:url(https://images.unsplash.com/photo-1523496922380-91d5afba98a3?auto=format&fit=crop&q=82&w=700)"></div></div>
+    <div class="row2"><span class="n">03</span><h4>Isola Blu</h4><div><span>LENGTH</span><br><b>41 m</b></div><div><span>BUILT · REFIT</span><br><b>2020 · —</b></div><div><span>LYING</span><br><b>Palma</b></div><div class="pr"><b>€19,900,000</b></div></div>
+    <div class="row2" style="border-bottom:1px solid rgba(244,241,234,.14)"><span class="n">04</span><h4>Tramontane</h4><div><span>LENGTH</span><br><b>34 m</b></div><div><span>BUILT · REFIT</span><br><b>2014 · 2022</b></div><div><span>LYING</span><br><b>Porto Cervo</b></div><div class="pr"><b>€8,750,000</b></div></div>
+  </div>
+</section>
+
+<footer data-foot style="color:var(--sail)"></footer>
+<script src="oceane.js"></script>
+<script>
+// size line-up: procedurally drawn superyacht profiles at true relative scale
+(function () {
+  const W = 1440, H = 420, base = 300, x0 = 72, x1 = 1368, mMin = 0, mMax = 100, px = (x1 - x0) / (mMax - mMin);
+  const Ys = [[28, 'Brise', 0], [36, 'Solenne', 0], [41, 'Vent d\'Ouest', 1], [48, 'Maëlle', 0], [55, 'Isola Blu', 0], [62, 'Aurelia', 0], [74, 'Kythera', 0], [92, 'Oriane', 0]];
+  const prof = (L, decks, sail) => {
+    const s = L * px * .98, h = s * .066; // hull height ~
+    const p = [];
+    // hull
+    p.push(`M0 ${-h * .55} L${s * .02} ${h * .45} L${s * .82} ${h * .55} Q${s * .97} ${h * .3} ${s} ${-h * .75} L${s * .02} ${-h * .62} Z`);
+    if (sail) { p.push(`M${s * .42} ${-h * .62} L${s * .44} ${-h * 7} L${s * .46} ${-h * .62}Z`, `M${s * .47} ${-h * 6.5} L${s * .8} ${-h * .9} L${s * .47} ${-h * .9}Z`, `M${s * .4} ${-h * 6.2} L${s * .14} ${-h * .9} L${s * .4} ${-h * .9}Z`); return { d: p.join(''), win: [], s, h }; }
+    const win = []; let y = -h * .62, a = s * .12, b = s * .74;
+    for (let i = 0; i < decks; i++) { const dh = h * .62; p.push(`M${a} ${y} L${a + s * .02} ${y - dh} L${b - s * .06} ${y - dh} Q${b} ${y - dh * .3} ${b + s * .04} ${y} Z`); win.push([a + s * .06, y - dh * .72, b - a - s * .12, dh * .36]); y -= dh; a += s * (.09 + i * .02); b -= s * (.07 + i * .02); }
+    p.push(`M${(a + b) / 2} ${y} L${(a + b) / 2 + s * .015} ${y - h * 1.3} L${(a + b) / 2 + s * .025} ${y}Z`);
+    return { d: p.join(''), win, s, h };
+  };
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><defs><linearGradient id="hl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16324d"/><stop offset="1" stop-color="#0b1f33"/></linearGradient><linearGradient id="hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8cf94"/><stop offset="1" stop-color="#a0703f"/></linearGradient><linearGradient id="rf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1f33" stop-opacity=".22"/><stop offset=".6" stop-color="#0b1f33" stop-opacity="0"/></linearGradient></defs>`;
+  svg += `<rect x="0" y="${base}" width="${W}" height="${H - base}" fill="url(#rf)" opacity=".5"/><line x1="0" y1="${base}" x2="${W}" y2="${base}" stroke="rgba(11,31,51,.25)"/>`;
+  // stack overlapping profiles: each starts at x0 (stern aligned) like a size chart
+  Ys.slice().reverse().forEach(([L, n, sail], k) => {
+    const on = L === 62, decks = L < 32 ? 1 : L < 50 ? 2 : L < 70 ? 3 : 4, P = prof(L, decks, sail);
+    const op = on ? 1 : .1 + (k / Ys.length) * .1;
+    const fill = on ? 'url(#hl)' : '#0b1f33';
+    svg += `<g transform="translate(${x0},${base})"><path d="${P.d}" fill="${on ? fill : 'none'}" stroke="${on ? 'none' : 'rgba(11,31,51,.32)'}" stroke-width="1" ${on ? '' : 'stroke-dasharray="4 3"'}/>${on ? P.win.map(w => `<rect x="${w[0]}" y="${w[1]}" width="${w[2]}" height="${w[3]}" rx="${w[3] / 2}" fill="#5fc4c9" opacity=".55"/>`).join('') + `<path d="M${P.s * .02} ${-P.h * .5} L${P.s * .9} ${-P.h * .45}" stroke="url(#hs)" stroke-width="2"/>` : ''}</g>`;
+    if (on) svg += `<g transform="translate(${x0},${base}) scale(1,-1)" opacity=".12"><path d="${P.d}" fill="#0b1f33"/></g>`;
+    // end marker
+    const ex = x0 + P.s;
+    svg += `<line x1="${ex}" y1="${base + 14}" x2="${ex}" y2="${base + 50}" stroke="${on ? '#a0703f' : 'rgba(11,31,51,.3)'}" stroke-width="${on ? 2 : 1}"/><text x="${ex}" y="${base + 66 + (k % 2) * 16}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" letter-spacing="1" fill="${on ? '#a0703f' : 'rgba(11,31,51,.5)'}">${n.toUpperCase()}</text>`;
+  });
+  svg += '</svg>';
+  const el = document.getElementById('lineup'); el.innerHTML = svg + `<div class="sel" style="left:${x0 + 62 * px * .98 + 30}px;top:150px"><b>Aurelia · 62 m</b>THE FLEET'S MIDDLE SISTER<br>3 DECKS · 6 SUITES</div>`;
+})();
+</script>
+</body></html>

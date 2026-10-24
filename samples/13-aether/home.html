@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Aether — Orbital spaceflight</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="aether.css">
+<script src="aether3d.js"></script>
+<style>
+.hero{height:1000px;overflow:hidden;background:radial-gradient(900px 700px at 78% 90%,rgba(61,139,255,.22),transparent 70%),#000}
+.hero .words{position:absolute;left:56px;top:150px;z-index:1;pointer-events:none}
+.hero .words div{font:200 268px/.8 var(--sans);letter-spacing:-.06em;white-space:nowrap}
+.hero .words .l2{margin-left:150px;margin-top:10px}
+.hero .words .l2 span{font-weight:100;color:transparent;-webkit-text-stroke:1.2px rgba(244,242,236,.55)}
+.hero .front{position:absolute;inset:0;z-index:3;pointer-events:none}
+.hero .front>*{pointer-events:auto}
+.hero .intro{position:absolute;left:64px;bottom:150px;width:430px}
+.hero .intro p{font:300 17px/1.65 var(--sans);color:#c4cbd8;margin:18px 0 30px}
+.hero .intro .row{display:flex;gap:12px}
+.hero .price{position:absolute;left:64px;bottom:64px;display:flex;gap:48px}
+.hero .price div{border-left:1px solid var(--line2);padding-left:16px}
+.hero .tele{right:56px;top:150px;width:220px;display:grid;gap:18px;text-align:right}
+.hero .tele .bar{height:2px;background:var(--line2);position:relative;margin-top:8px}
+.hero .tele .bar i{position:absolute;right:0;top:0;bottom:0;background:var(--blue);box-shadow:0 0 10px var(--blue)}
+#capCall{position:absolute;z-index:4;transform:translate(-5px,-5px)}
+.hero .scroll{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px}
+.hero .scroll i{width:1px;height:46px;background:linear-gradient(var(--ice),transparent);position:relative;overflow:hidden}
+.hero .scroll i::after{content:"";position:absolute;left:0;right:0;height:16px;background:#fff;animation:scan 1.8s linear infinite}
+.hero .sunflare{position:absolute;left:520px;top:300px;width:420px;height:420px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,250,240,.35),rgba(156,196,255,.08) 50%,transparent);z-index:2;mix-blend-mode:screen;pointer-events:none}
+
+.statement{padding:170px 64px 150px;display:grid;grid-template-columns:260px 1fr;gap:40px}
+.statement h2{font:200 68px/1.12 var(--sans);letter-spacing:-.035em}
+.statement h2 .pill{display:inline-block;width:150px;height:62px;border-radius:999px;vertical-align:-8px;margin:0 6px;overflow:hidden;position:relative;box-shadow:0 0 0 1px var(--line2)}
+.statement h2 .pill img{position:absolute;inset:0}
+.statement h2 .fade{color:#3c4452}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:90px;border-top:1px solid var(--line)}
+.stats div{padding:30px 30px 0 0}
+.stats b{display:block;font:200 74px/1 var(--sans);letter-spacing:-.04em}
+.stats b small{font-size:22px;color:var(--dim);margin-left:6px;letter-spacing:0}
+
+.packs{padding:20px 64px 160px}
+.packs .head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px}
+.cards{display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:20px;align-items:end}
+.card{position:relative;border-radius:22px;overflow:hidden;height:600px;border:1px solid var(--line);transition:.5s}
+.card.lift{height:660px;box-shadow:0 40px 120px -20px rgba(61,139,255,.45),0 0 0 1px rgba(61,139,255,.6)}
+.card>[data-img]{position:absolute;inset:0}
+.card>[data-img]::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.05) 35%,rgba(0,0,0,.2) 55%,rgba(0,0,0,.95))}
+.card .tp{position:absolute;top:24px;left:24px;right:24px;display:flex;justify-content:space-between;z-index:2}
+.card .bt{position:absolute;left:28px;right:28px;bottom:28px;z-index:2}
+.card h3{font:200 58px/1 var(--sans);letter-spacing:-.04em}
+.card .sub{font-size:14px;color:#c4cbd8;margin:8px 0 20px}
+.card .spec{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line2);padding-top:16px;margin-bottom:18px}
+.card .spec b{display:block;font:300 20px/1.2 var(--sans);color:#fff;letter-spacing:-.01em}
+.card .foot2{display:flex;justify-content:space-between;align-items:center}
+.card .foot2 .p{font:300 26px/1 var(--sans)}
+.card .foot2 .p small{display:block;font:400 10px/1 var(--mono);letter-spacing:.14em;color:var(--dim);margin-bottom:8px}
+.card .quick{position:absolute;left:28px;right:28px;top:96px;z-index:2;padding:18px 20px;display:grid;gap:10px}
+.card .quick div{display:flex;justify-content:space-between;font:400 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#c4cbd8}
+.card .quick div b{color:#fff;font-weight:400}
+
+#station{height:1000px;overflow:hidden;background:#000;border-top:1px solid var(--line)}
+#station .name{position:absolute;left:0;right:0;top:120px;text-align:center;font:100 300px/1 var(--sans);letter-spacing:.02em;z-index:1;color:transparent;-webkit-text-stroke:1px rgba(156,196,255,.55);white-space:nowrap}
+#station .name b{font-weight:200;color:rgba(244,242,236,.07);-webkit-text-stroke:0}
+#station .over{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(0deg,#000 0,rgba(0,0,0,.7) 7%,transparent 26%),linear-gradient(90deg,rgba(0,0,0,.7),transparent 45%)}
+#station .copy{position:absolute;left:64px;bottom:90px;width:470px;pointer-events:auto}
+#station .copy h2{margin:18px 0 18px}
+#station .specs{position:absolute;right:64px;bottom:90px;width:420px;padding:26px 28px;pointer-events:auto}
+#station .specs .r{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;color:#c4cbd8}
+#station .specs .r:last-child{border:0}
+#station .specs .r b{font:400 13px var(--mono);color:#fff}
+
+.ascent{padding:160px 64px;display:grid;grid-template-columns:560px 1fr;gap:80px;align-items:center}
+.ascent .ph{height:760px;border-radius:22px;position:relative}
+.ascent .ph .play{position:absolute;left:50%;top:50%;width:110px;height:110px;margin:-55px;border-radius:50%;display:grid;place-items:center;z-index:2;background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.4)}
+.ascent .ph .play::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px solid rgba(255,255,255,.2);animation:ping 2.6s ease-out infinite}
+.ascent .ph .play svg{width:28px;height:28px;margin-left:4px}
+.ascent .ph .cap{position:absolute;left:24px;right:24px;bottom:24px;z-index:2;display:flex;justify-content:space-between}
+.ascent .ph .prog{position:absolute;left:24px;right:24px;bottom:62px;height:2px;background:rgba(255,255,255,.2);z-index:2}
+.ascent .ph .prog i{display:block;width:38%;height:100%;background:#fff}
+.tl{margin-top:50px;position:relative}
+.tl::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:linear-gradient(var(--blue) 62%,var(--line) 62%)}
+.tl .s{display:grid;grid-template-columns:40px 130px 1fr auto;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line)}
+.tl .s i{width:15px;height:15px;border-radius:50%;border:1px solid var(--blue);background:#000;position:relative;top:2px}
+.tl .s.done i{background:var(--blue);box-shadow:0 0 12px var(--blue)}
+.tl .s.now i{background:#fff;box-shadow:0 0 0 6px rgba(61,139,255,.3),0 0 24px var(--blue)}
+.tl .s .t{font:400 13px var(--mono);color:var(--ice)}
+.tl .s h4{font:300 22px/1.2 var(--sans);letter-spacing:-.01em}
+.tl .s p{font-size:13px;color:var(--dim);margin-top:4px}
+.tl .s .g{font:400 12px var(--mono);color:var(--dim)}
+
+.voices{padding:150px 64px;border-top:1px solid var(--line);position:relative;overflow:hidden}
+.voices blockquote{font:200 64px/1.12 var(--sans);letter-spacing:-.035em;max-width:1180px;margin:30px 0 60px}
+.voices blockquote em{font-style:normal;color:var(--ice)}
+.voices .who{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.voices .who>div{padding:24px;border:1px solid var(--line);border-radius:16px;display:flex;gap:16px;align-items:center}
+.voices .who>div.on{border-color:rgba(61,139,255,.6);background:rgba(61,139,255,.07)}
+.voices .av{width:52px;height:52px;border-radius:50%;flex:none;display:grid;place-items:center;font:400 14px var(--mono);background:radial-gradient(circle at 30% 30%,#2a4b80,#0a1222);border:1px solid var(--line2)}
+.voices .who p{font-size:13px;color:var(--dim)}
+.voices .who b{font-weight:400;display:block;color:var(--sol);font-size:15px}
+
+.bento{padding:0 64px 160px;display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:300px 300px;gap:20px}
+.bento>div{border-radius:22px;border:1px solid var(--line);position:relative;overflow:hidden;padding:30px;background:var(--panel)}
+.bento .big{grid-row:span 2}
+.bento .big>[data-img]{position:absolute;inset:0}
+.bento .big>[data-img]::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.9))}
+.bento .z{position:relative;z-index:2}
+.bento h3{font:200 40px/1.05 var(--sans);letter-spacing:-.03em;margin-top:10px}
+.bento .patch{position:absolute;right:-50px;bottom:-90px;width:230px;height:230px;animation:spin 40s linear infinite}
+.bento .gift{background:linear-gradient(140deg,#0b1a33,#050a14 60%);}
+.bento .gift .orb{position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#9cc4ff,#3d8bff 35%,#0a1a3a 70%);filter:blur(1px);box-shadow:0 0 120px rgba(61,139,255,.6)}
+.bento .lnk{position:absolute;left:30px;bottom:28px;z-index:2;display:flex;gap:10px;align-items:center;font:400 11px var(--mono);letter-spacing:.14em;text-transform:uppercase}
+</style></head>
+<body>
+<header data-nav="home"></header>
+
+<section class="hero" id="hero">
+  <div class="words"><div class="l1">Above</div><div class="l2"><span>it</span> all.</div></div>
+    <div class="stage" id="heroStage"></div>
+  <div class="front">
+    <div class="hud tele">
+      <div>Altitude<b>412.6 km</b><div class="bar"><i style="width:72%"></i></div></div>
+      <div>Velocity<b>7.66 km/s · 27,576 km/h</b><div class="bar"><i style="width:88%"></i></div></div>
+      <div>Inclination<b>51.6°</b></div>
+      <div>Next sunrise aboard<b class="ice">00:31:12</b></div>
+      <div>Orbit<b>15.5 per day</b></div>
+    </div>
+    <div class="intro">
+      <div class="tag">Seats open · Window 2027</div>
+      <p>Aether flies private crews to low Earth orbit, to the Halcyon station and around the far side of the Moon. No prior flight experience — just sixteen weeks of training and a clean medical.</p>
+      <div class="row"><a class="btn pri" href="booking.html">Reserve a seat <span class="dot">${'' }</span></a><a class="btn ghost" href="mission.html" data-icon="play">&nbsp;Flight film · 2:40</a></div>
+    </div>
+    <div class="price">
+      <div class="hud" style="position:static">Seats from<b>€450,000</b></div>
+      <div class="hud" style="position:static">Flown crew<b>186 private astronauts</b></div>
+      <div class="hud" style="position:static">Missions<b>41 · 0 aborts</b></div>
+    </div>
+  </div>
+  <div id="capCall" class="callout"><i></i><em style="width:70px"></em><span><b>AE-14 Crescent</b><br>crew 4 · orbit 3 of 46</span></div>
+    <span class="brk tl" style="left:40px;top:110px"></span><span class="brk tr" style="right:40px;top:110px"></span>
+  <span class="brk bl" style="left:40px;bottom:30px"></span><span class="brk br" style="right:40px;bottom:30px"></span>
+</section>
+
+<div class="marquee"><div class="track" id="mq"></div></div>
+
+<section class="statement">
+  <div class="mono">( 01 ) The idea</div>
+  <div>
+    <h2>We don't sell a ride. We sell the moment <span class="pill" data-img="1534996858221-380b92700493|400"></span> the horizon curves, the sky turns <span class="pill" data-img="1451187580459-43490279c0fa|400"></span> to ink, <span class="fade">and the whole of human history fits in one window.</span></h2>
+    <div class="stats">
+      <div><b>15.5<small>/day</small></b><span class="mono">Sunrises in orbit</span></div>
+      <div><b>8:42<small>min</small></b><span class="mono">Pad to orbit</span></div>
+      <div><b>3.2<small>g max</small></b><span class="mono">Gentle ascent profile</span></div>
+      <div><b>0<small>hrs</small></b><span class="mono">Flight experience needed</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="packs">
+  <div class="head"><div><div class="mono">( 02 ) Missions</div><h2 class="h-m" style="margin-top:18px">Choose your <span class="out">altitude.</span></h2></div>
+    <a class="btn ghost" href="missions.html">Compare all missions <span data-icon="arrow"></span></a></div>
+  <div class="cards">
+    <article class="card"><div data-img="1446776811953-b23d57bd21aa|900"></div>
+      <div class="tp"><span class="chip">3 days · LEO</span><span class="chip">2 seats left</span></div>
+      <div class="bt"><div class="mono">AE-M · Orbital</div><h3>Meridian</h3><p class="sub">Forty-six orbits in a four-seat capsule with the largest window ever flown.</p>
+        <div class="spec"><div><span class="mono">Alt</span><b>412 km</b></div><div><span class="mono">Train</span><b>10 wks</b></div><div><span class="mono">Next</span><b>Mar 27</b></div></div>
+        <div class="foot2"><div class="p"><small>FROM</small>€450,000</div><a class="btn ghost sm" href="mission.html">Details <span data-icon="arrow"></span></a></div></div></article>
+    <article class="card lift"><div data-img="1768283808210-41196886ebf4|1000"></div>
+      <div class="tp"><span class="chip blue">Most booked</span><span class="chip">10 nights</span></div>
+      <div class="glass quick"><div>Suite<b>Ring module · 0.38 g</b></div><div>Window<b>1.4 m panoramic</b></div><div>EVA option<b>+ €280,000</b></div></div>
+      <div class="bt"><div class="mono">AE-S · Station stay</div><h3>Halcyon</h3><p class="sub">Ten nights aboard the first rotating hotel in orbit — with gravity enough to sleep in a bed.</p>
+        <div class="spec"><div><span class="mono">Alt</span><b>418 km</b></div><div><span class="mono">Train</span><b>16 wks</b></div><div><span class="mono">Next</span><b>Jun 27</b></div></div>
+        <div class="foot2"><div class="p"><small>FROM</small>€1,250,000</div><a class="btn blue sm" href="booking.html">Reserve <span data-icon="arrow"></span></a></div></div></article>
+    <article class="card"><div data-img="1446941611757-91d2c3bd3d45|900"></div>
+      <div class="tp"><span class="chip">8 days · Cislunar</span><span class="chip">Waitlist</span></div>
+      <div class="bt"><div class="mono">AE-L · Lunar flyby</div><h3>Selene</h3><p class="sub">Around the far side at 210 km, then home on a free-return arc. Earthrise, live.</p>
+        <div class="spec"><div><span class="mono">Dist</span><b>384,400 km</b></div><div><span class="mono">Train</span><b>24 wks</b></div><div><span class="mono">Next</span><b>Q2 28</b></div></div>
+        <div class="foot2"><div class="p"><small>FROM</small>€3,900,000</div><a class="btn ghost sm" href="mission.html">Details <span data-icon="arrow"></span></a></div></div></article>
+  </div>
+</section>
+
+<section id="station">
+  <div class="name">HALC<b>Y</b>ON</div>
+  <div class="stage" id="stStage"></div>
+  <div class="over">
+    <div class="copy"><div class="tag">( 03 ) Halcyon Station · 418 km</div><h2 class="h-m">A hotel that <span class="grad">turns</span> to make gravity.</h2>
+      <p class="lede">A 34-metre ring spins twice a minute, giving each of twelve suites a gentle 0.38 g — Mars-weight — so water pours, beds work and the view never stops moving.</p></div>
+    <div class="glass specs">
+      <div class="r">Ring diameter<b>34 m</b></div><div class="r">Spin rate<b>2.1 rpm</b></div><div class="r">Gravity in suites<b>0.38 g</b></div>
+      <div class="r">Suites<b>12 · 2 guests each</b></div><div class="r">Observation cupola<b>7 windows · 2.2 m</b></div><div class="r">Power<b>240 kW solar</b></div>
+    </div>
+  </div>
+  <div class="callout" id="cRing"><i></i><em style="width:90px"></em><span><b>Habitat ring</b><br>12 suites · 0.38 g</span></div>
+  <div class="callout rev" id="cDock"><i></i><em style="width:60px"></em><span><b>Docking port A</b><br>Crescent capsule</span></div>
+  <div class="cursor" style="left:1190px;top:250px"><div class="ring"></div><span>Drag to orbit</span></div>
+</section>
+
+<section class="ascent">
+  <div class="ph" data-img="1457365050282-c53d772ef8b2|1200">
+    <button class="play" data-icon="play"></button>
+    <div class="prog"><i></i></div>
+    <div class="cap"><span class="mono"><b>AE-11 · Night ascent</b></span><span class="mono">01:02 / 02:40</span></div>
+  </div>
+  <div>
+    <div class="mono">( 04 ) The flight</div>
+    <h2 class="h-m" style="margin-top:18px">Pad to orbit in <span class="grad">eight minutes.</span></h2>
+    <p class="lede" style="margin-top:22px">Launches fly from Kourou on a fully reusable two-stage vehicle with a launch-escape system rated for every second of ascent.</p>
+    <div class="tl">
+      <div class="s done"><i></i><span class="t">T−00:10</span><div><h4>Engines ignite</h4><p>Nine engines throttle to 100% on the pad.</p></div><span class="g">1.0 g</span></div>
+      <div class="s done"><i></i><span class="t">T+01:12</span><div><h4>Max-Q</h4><p>Peak aerodynamic pressure — the loudest second.</p></div><span class="g">1.8 g</span></div>
+      <div class="s now"><i></i><span class="t">T+02:31</span><div><h4>Stage separation</h4><p>The sky goes black. The booster turns for home.</p></div><span class="g">3.2 g</span></div>
+      <div class="s"><i></i><span class="t">T+06:05</span><div><h4>Nose cone opens</h4><p>Your window sees the curve for the first time.</p></div><span class="g">2.1 g</span></div>
+      <div class="s"><i></i><span class="t">T+08:42</span><div><h4>Orbit</h4><p>Engines off. Pens float. Everybody laughs.</p></div><span class="g">0 g</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="voices">
+  <div class="mono">( 05 ) Crew voices</div>
+  <blockquote>“Nobody warns you how <em>quiet</em> the planet is. You expect a show. You get a cathedral.”</blockquote>
+  <div class="who">
+    <div class="on"><span class="av">IV</span><div><b>Inés Valcárcel</b><p>Architect · Meridian AE-09</p></div></div>
+    <div><span class="av">TO</span><div><b>Tomasz Orlicki</b><p>Cardiologist · Halcyon AE-S2</p></div></div>
+    <div><span class="av">AN</span><div><b>Amara Nwosu-Hale</b><p>Composer · Meridian AE-11</p></div></div>
+  </div>
+</section>
+
+<section class="bento">
+  <div class="big"><div data-img="1655114722721-5c75114be5ab|1000"></div><div class="z" style="position:absolute;left:30px;right:30px;bottom:80px"><div class="mono">Training & life aboard</div><h3>Sixteen weeks from<br>desk to crew.</h3></div><a class="lnk" href="training.html">Inside the programme <span data-icon="arrow"></span></a></div>
+  <div><div class="z"><div class="mono">Mission store</div><h3>Patch, flown.</h3><p class="dim" style="font-size:14px;margin-top:10px;max-width:240px">Every patch has orbited Earth 46 times. €45</p></div>
+    <svg class="patch" viewBox="0 0 200 200"><defs><path id="pc" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0"/></defs><circle cx="100" cy="100" r="96" fill="#0b1324" stroke="#9cc4ff" stroke-width="3" stroke-dasharray="2 3"/><circle cx="100" cy="100" r="60" fill="#04070d" stroke="#3d8bff" stroke-width="1.5"/><circle cx="100" cy="112" r="26" fill="#3d8bff"/><ellipse cx="100" cy="100" rx="52" ry="16" fill="none" stroke="#f4f2ec" stroke-width="2" transform="rotate(-20 100 100)"/><circle cx="146" cy="84" r="5" fill="#f4f2ec"/><text font-family="Space Mono" font-size="12" letter-spacing="5" fill="#f4f2ec"><textPath href="#pc">AETHER · MERIDIAN · AE-14 · CREW OF FOUR ·</textPath></text></svg>
+    <a class="lnk" href="checkout.html">Shop <span data-icon="arrow"></span></a></div>
+  <div class="gift"><div class="orb"></div><div class="z"><div class="mono">Gift a seat</div><h3>The furthest<br>present.</h3></div><a class="lnk" href="booking.html">Gift certificates <span data-icon="arrow"></span></a></div>
+  <div style="grid-column:span 2;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,rgba(61,139,255,.16),transparent),var(--panel)">
+    <div class="z"><div class="mono">Not ready to fly?</div><h3>Zero-g weekend · €18,000</h3><p class="dim" style="font-size:14px;margin-top:8px">Twelve parabolas, 25 seconds of weightlessness each. Bordeaux · monthly.</p></div>
+    <div class="z" style="display:flex;gap:10px"><span class="chip">Next: 14 Nov</span><span class="chip">6 places</span><a class="btn pri sm" href="training.html">Book weekend</a></div></div>
+</section>
+
+<footer data-foot></footer>
+
+<script src="aether.js"></script>
+<script>
+document.getElementById('mq').innerHTML = (s => s + s)(['<b>AE-14 Meridian</b> · 14 Mar 2027 · 2 seats left', '<b>AE-S4 Halcyon</b> · 9 Jun 2027 · 5 suites', '<b>AE-L2 Selene</b> · Q2 2028 · waitlist 31', 'Crew 186 flown · 0 aborts', 'Halcyon ring · 2.1 rpm nominal', 'Kourou weather · GO', '<b>AE-15 Meridian</b> · 2 Aug 2027 · 4 seats'].map(t => `<span><i></i>${t}</span>`).join(''));
+document.querySelector('.hero .intro .dot').innerHTML = ic('arrow');
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+const K = A3D(THREE, { RoomEnvironment });
+
+/* ---- hero: Earth + Crescent capsule on orbit ---- */
+{
+  const S = K.stage(document.getElementById('heroStage'), { w: 1440, h: 1000, fov: 32 });
+  const { scene, camera } = S; camera.position.set(0, 0, 12);
+  const sun = new THREE.Vector3(-1, .55, -.42);
+  const E = K.earth({ radius: 3.25, sun }); E.group.position.set(2.5, -2.35, 0); E.group.rotation.z = .28; scene.add(E.group);
+  scene.add(K.stars({ count: 3000 }));
+  K.sunlight(scene, [-6, 4, 2.5], 3.4);
+  const tilt = [.42, 0, -.38];
+  const path = K.ellipse(4.15, 3.9, 400, tilt).map(p => p.add(E.group.position));
+  scene.add(K.orbit(path, { opacity: .5 }));
+  const path2 = K.ellipse(4.7, 4.5, 400, [.2, 0, -.6]).map(p => p.add(E.group.position));
+  scene.add(K.orbit(path2, { opacity: .18, dashed: true }));
+  const cap = K.capsule(); cap.scale.setScalar(.36); scene.add(cap);
+  const tr = K.trail(140); scene.add(tr);
+  const C = (u) => { const a = ((u % 1) + 1) % 1 * Math.PI * 2; return new THREE.Vector3(Math.cos(a) * 4.15, 0, Math.sin(a) * 3.9).applyEuler(new THREE.Euler(...tilt)).add(E.group.position); };
+  const call = document.getElementById('capCall'); const v = new THREE.Vector3(); const up = new THREE.Vector3(0, 1, 0);
+  S.run(t => {
+    E.sphere.rotation.y = 3.65 + t * .012; E.uniforms.t.value = t;
+    const u = .555 - t * .0025;
+    const p = C(u); cap.position.copy(p);
+    const tan = C(u - .001).sub(p).normalize();
+    cap.quaternion.setFromUnitVectors(up, tan); cap.rotateY(t * .15 + .8); cap.rotateX(-.25);
+    tr.update(C, u, -.0007);
+    v.copy(p).project(camera); call.style.left = ((v.x + 1) / 2 * 1440 + 46) + 'px'; call.style.top = ((1 - v.y) / 2 * 1000 - 34) + 'px';
+  }, E.ready);
+}
+
+/* ---- Halcyon station over the limb ---- */
+{
+  const S = K.stage(document.getElementById('stStage'), { w: 1440, h: 1000, fov: 28 });
+  const { scene, camera } = S; camera.position.set(0, .4, 13); camera.lookAt(0, -.2, 0);
+  const sun = new THREE.Vector3(-.8, .4, .6);
+  const E = K.earth({ radius: 24, sun, seg: 160 }); E.group.position.set(0, -28.7, -10); E.group.rotation.set(.5, 0, .15); scene.add(E.group);
+  scene.add(K.stars({ count: 2400, seed: 11 }));
+  K.sunlight(scene, [-6, 3, 5], 2.4);
+  const st = K.station(); st.scale.setScalar(.92); st.position.set(1.05, .75, 0); st.rotation.set(.42, -.95, .18); scene.add(st);
+  const pr = (o, el, dx, dy) => { const v = new THREE.Vector3(...o).applyMatrix4(st.matrixWorld).project(camera); el.style.left = ((v.x + 1) / 2 * 1440 + dx) + 'px'; el.style.top = ((1 - v.y) / 2 * 1000 + dy) + 'px'; };
+  const cR = document.getElementById('cRing'), cD = document.getElementById('cDock');
+  S.run(t => { st.updateMatrixWorld(); pr([0, 1.72, 0].map((v, i) => v), cR, -5, -5); pr([-2.75, 0, 0], cD, 0, 0); st.userData.ring.rotation.z = t * .22; st.rotation.y = -.95 + Math.sin(t * .1) * .05; E.sphere.rotation.y = 1.1 + t * .004; E.uniforms.t.value = t; }, E.ready);
+}
+</script>
+</body></html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Checkout · ÉCLAT</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Prata&family=DM+Serif+Display:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="eclat.css">
+<script src="eclat.js"></script><script src="eclat3d.js"></script>
+<style>
+.bhero{position:relative;height:820px;overflow:hidden;background:radial-gradient(42% 60% at 70% 55%,#22408a 0%,#0b1633 50%,#040817 100%)}
+.bhero #box{position:absolute;left:0;top:0;z-index:2}
+.bhero .copy{position:absolute;left:64px;top:170px;z-index:5;width:560px}
+.bhero h1{font:400 150px/.86 var(--disp);letter-spacing:-.04em;margin:26px 0 28px}
+.bhero h1 .it{display:block;color:var(--gold2);font-size:160px}
+.bhero p{color:var(--pt2);font-size:16px;max-width:420px}
+.steps{position:absolute;left:64px;width:640px;bottom:60px;z-index:5;display:flex;align-items:center;gap:14px}
+.steps div{display:flex;align-items:center;gap:10px;font:500 11px/1 var(--ui);letter-spacing:.2em;text-transform:uppercase;color:var(--pt3);white-space:nowrap}
+.steps div b{width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--line2);font:400 13px/1 var(--disp);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:rgba(255,255,255,.04)}
+.steps div.done{color:var(--pt2)}.steps div.done b{background:var(--gold3);color:#fff;border:0}
+.steps div.on{color:var(--pt)}.steps div.on b{background:var(--pt);color:#06140f}
+.steps i{flex:1;height:1px;background:var(--line2)}.steps i.on{background:linear-gradient(90deg,var(--gold2),var(--line2))}
+.bhero .tag2{position:absolute;z-index:6;padding:12px 16px;font-size:12.5px;display:flex;gap:10px;align-items:center}
+.flyer{position:absolute;z-index:6;width:90px;height:90px;border-radius:50%;background-size:cover;background-position:center;box-shadow:0 0 0 1px var(--gold2),0 0 40px rgba(236,208,138,.5)}
+.trail{position:absolute;z-index:5;height:2px;transform-origin:left center;background:linear-gradient(90deg,transparent,rgba(236,208,138,.8));filter:blur(.5px)}
+
+.co{display:grid;grid-template-columns:1fr 480px;gap:40px;padding:80px 64px 130px;background:linear-gradient(180deg,#040817,var(--em2) 60%)}
+.blk{border:1px solid var(--line2);margin-bottom:16px;background:rgba(255,255,255,.02)}
+.blk .bh{display:flex;align-items:center;gap:18px;padding:24px 28px}
+.blk .bh b{font:400 22px/1 var(--disp);color:var(--gold2);width:30px}
+.blk .bh h3{font:400 28px/1 var(--disp)}
+.blk .bh .s{margin-left:auto;font-size:13px;color:var(--pt3);display:flex;gap:12px;align-items:center}
+.blk .bh .s a{color:var(--gold2);font:600 10.5px/1 var(--ui);letter-spacing:.2em;text-transform:uppercase}
+.blk.open{border-color:var(--line)}
+.blk .bd{padding:0 28px 28px 76px}
+.del{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.del div{padding:18px;border:1px solid var(--line2);display:grid;gap:6px;font-size:13px;color:var(--pt2)}
+.del div b{font:400 19px/1.2 var(--disp);color:var(--pt)}
+.del div .ic{color:var(--gold2);width:22px;height:22px;margin-bottom:6px}
+.del div.on{border-color:var(--gold2);background:linear-gradient(160deg,rgba(201,162,74,.16),rgba(201,162,74,.02))}
+.del div em{font-style:normal;color:var(--gold2);font-size:12px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.fl{border-bottom:1px solid var(--line2);padding:10px 0}
+.fl span{display:block;font:600 9.5px/1 var(--ui);letter-spacing:.22em;text-transform:uppercase;color:var(--pt3);margin-bottom:8px}
+.fl.w{grid-column:1/-1}
+.slot{display:flex;gap:8px;margin-top:20px;align-items:center;font-size:13px;color:var(--pt2)}
+.slot span{padding:10px 14px;border:1px solid var(--line2)}
+.slot span.on{border-color:var(--gold2);color:var(--pt)}
+.box3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.box3 div{border:1px solid var(--line2);padding:14px;font-size:13px;display:grid;gap:10px}
+.box3 div.on{border-color:var(--gold2)}
+.box3 i{display:block;height:90px;border-radius:2px}
+.engr{margin-top:18px;display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:center}
+.engr .band{height:84px;border-radius:44px;background:linear-gradient(180deg,#f6f7f8,#aab4bb 45%,#e9edf0 60%,#8e9aa2);display:grid;place-items:center;box-shadow:inset 0 6px 14px rgba(0,0,0,.35)}
+.engr .band span{font:italic 400 28px/1 var(--ital);color:#59646b;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.pay{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pay div{padding:14px;border:1px solid var(--line2);font-size:13px;display:flex;align-items:center;gap:10px}
+.pay div.on{border-color:var(--gold2);color:var(--pt);background:rgba(201,162,74,.08)}
+
+.sum{position:relative}
+.sumc{padding:28px;--cut:20px;position:sticky;top:20px}
+.sumc h3{font:400 30px/1 var(--disp);margin-bottom:20px;display:flex;justify-content:space-between;align-items:baseline}
+.it{font-family:var(--ital)}
+.itm{display:grid;grid-template-columns:96px 1fr auto;gap:16px;padding:16px 0;border-top:1px solid var(--line2);align-items:center}
+.itm .th{width:96px;height:96px;background-color:rgba(255,255,255,.04);background-size:cover;background-position:center}
+.itm b{display:block;font:400 20px/1.15 var(--disp)}
+.itm small{display:block;color:var(--pt3);font-size:12px;margin-top:4px}
+.itm .q{display:flex;gap:10px;align-items:center;margin-top:8px;font-size:12px;color:var(--pt2)}
+.itm .q span{width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line2)}
+.tot div{display:flex;justify-content:space-between;padding:8px 0;font-size:14px;color:var(--pt2)}
+.tot div b{color:var(--pt);font-weight:500}
+.tot{border-top:1px solid var(--line2);padding-top:12px;margin-top:4px}
+.grand{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);margin-top:10px;padding-top:18px}
+.grand b{font:400 50px/1 var(--disp)}
+.sumc .btn{width:100%;justify-content:center;height:64px;margin-top:20px}
+.promise{display:grid;gap:12px;margin-top:22px}
+.promise div{display:flex;gap:12px;font-size:12.5px;color:var(--pt2);align-items:center}
+.promise .ic{color:var(--gold2)}
+.gift{margin-top:18px;padding:14px 16px;border:1px dashed var(--line);font:italic 400 17px/1.4 var(--ital);color:var(--pt)}
+.gift small{display:block;font:600 9.5px/1 var(--ui);letter-spacing:.22em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;font-style:normal}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="bhero">
+  <div id="box"></div>
+  <div data-sparkles="34" style="position:absolute;inset:0;z-index:3;pointer-events:none"></div>
+  <div class="copy"><div class="eyebrow">Your bag · 2 pieces</div><h1>Almost <span class="it">yours.</span></h1>
+    <p>Each piece travels in its own Écrin box, hand-delivered by an insured courier who waits while you open it.</p></div>
+  <div class="tag2 glass" style="left:1170px;top:250px"><span data-ic="check" style="color:#5df0a8"></span>Étoile Solitaire added · EU 54</div>
+  <div class="tag2 glass" style="left:1150px;top:700px"><span class="gem dia"></span>Engraved: <i style="font:italic 400 16px var(--ital);color:var(--gold2)">toujours, A.</i></div>
+  <div class="steps"><div class="done"><b>✓</b>Bag</div><i class="on"></i><div class="done"><b>✓</b>Contact</div><i class="on"></i><div class="on"><b>3</b>Delivery & Écrin</div><i></i><div><b>4</b>Payment</div><i></i><div><b>5</b>Confirmation</div></div>
+</section>
+
+<section class="co">
+  <div>
+    <div class="blk"><div class="bh"><b>✓</b><h3>Contact</h3><div class="s">amelie.durand@example.com · +33 6 •• •• 41 07 <a>Edit</a></div></div></div>
+    <div class="blk open"><div class="bh"><b>02</b><h3>Delivery</h3><div class="s">Insured to €50,000 · Signature on arrival</div></div>
+      <div class="bd">
+        <div class="del"><div class="on"><span data-ic="shield"></span><b>White-glove courier</b>Hand-delivered by an Éclat courier, in a plain car. <em>Complimentary · 3–5 days</em></div><div><span data-ic="pin"></span><b>Collect in salon</b>With champagne and a final fitting, in Paris. <em>Complimentary</em></div><div><span data-ic="truck"></span><b>Secure express</b>Armoured courier, worldwide, duties paid. <em>€180 · 2 days</em></div></div>
+        <div class="fields"><div class="fl"><span>Full name</span>Amélie Durand</div><div class="fl"><span>Phone</span>+33 6 •• •• 41 07</div><div class="fl w"><span>Address</span>27 Avenue Montaigne, 4th floor, 75008 Paris, France</div><div class="fl"><span>Courier instructions</span>Concierge desk, ask for Ms Durand</div><div class="fl"><span>Discreet sender name</span>“A. Laurent”, no branding on the outside</div></div>
+        <div class="slot">Preferred window <span>Thu 26 Nov · AM</span><span class="on">Fri 27 Nov · 18:00–20:00</span><span>Sat 28 Nov · AM</span></div>
+      </div></div>
+    <div class="blk open"><div class="bh"><b>03</b><h3>Écrin & engraving</h3><div class="s">Included with every piece</div></div>
+      <div class="bd">
+        <div class="box3"><div class="on"><i style="background:radial-gradient(circle at 40% 30%,#1f6b52,#0a2a20 70%)"></i>Emerald velvet<span class="mono" style="color:var(--gold2)">Selected</span></div><div><i style="background:radial-gradient(circle at 40% 30%,#24448f,#0b1633 70%)"></i>Midnight velvet<span class="mono">Sapphire lining</span></div><div><i style="background:radial-gradient(circle at 40% 30%,#f3efe6,#bfb6a6 70%)"></i>Ivory lacquer<span class="mono">+ €120</span></div></div>
+        <div class="engr"><div class="band"><span>toujours, A.</span></div><div><div class="fl"><span>Inside the band · 12 / 18 characters</span><i style="font:italic 400 18px var(--ital)">toujours, A.</i></div><div class="dim" style="font-size:12px;margin-top:10px">Hand-engraved in script by our engraver in Paris. Preview is to scale.</div></div></div>
+      </div></div>
+    <div class="blk"><div class="bh"><b>04</b><h3>Payment</h3><div class="s">Encrypted · 3-D Secure</div></div>
+      <div class="bd"><div class="pay"><div class="on"><span data-ic="lock"></span>Card</div><div><span data-ic="shield"></span>Bank transfer</div><div><span data-ic="cal"></span>10 instalments</div><div><span data-ic="user"></span>Pay in salon</div></div></div></div>
+  </div>
+
+  <aside class="sum"><div class="sumc glass cut">
+    <h3>Order summary <span class="mono">N° EC-26-04417</span></h3>
+    <div class="itm"><div class="th" id="t1"></div><div><b>Étoile Solitaire</b><small>2.02 ct · D · VVS1 · Platinum · EU 54</small><div class="q"><span>−</span>1<span>+</span></div></div><span class="price">€18,400</span></div>
+    <div class="itm"><div class="th" id="t2"></div><div><b>Alliance Éternité</b><small>40 brilliants · 1.6 ct · Platinum · EU 54</small><div class="q"><span>−</span>1<span>+</span></div></div><span class="price">€6,400</span></div>
+    <div class="gift"><small>Gift note · card in the Écrin</small>“For the next sixty years of Sundays. — A.”</div>
+    <div class="tot"><div><span>Subtotal</span><b>€24,800</b></div><div><span>White-glove delivery</span><b>Complimentary</b></div><div><span>Engraving & Écrin</span><b>Included</b></div><div><span>VAT (20%, included)</span><b>€4,133</b></div></div>
+    <div class="grand"><span class="mono">Total</span><b class="plat">€24,800</b></div>
+    <a class="btn">Continue to payment <span data-ic="lock"></span></a>
+    <div class="promise"><div><span data-ic="shield"></span>Insured door to door, signature on arrival</div><div><span data-ic="rotate"></span>30-day returns, collected from your door</div><div><span data-ic="diamond"></span>Lifetime cleaning, polishing and resizing</div></div>
+  </div></aside>
+</section>
+
+<div data-footer></div>
+<script>eclat('', { bag: 2 });</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const E = Eclat(THREE);
+const st = E.stage(document.getElementById('box'), { w: 1440, h: 820, fov: 26, cam: [1.4, 3.8, 9.6], target: [2.4, 0.6, 0], theme: 'sapphire' });
+const box = new THREE.Group(); box.position.set(3.75, -0.25, -0.3); box.rotation.y = -0.42; box.scale.setScalar(0.95); st.scene.add(box);
+const outer = E.velvet(0x0b2d22, 0x3fb48a), inner = E.velvet(0x06150f, 0x1f6b52);
+const gold = E.metal(0xd6ad55, 0.2);
+const base = new THREE.Mesh(new RoundedBoxGeometry(2.4, 1.0, 2.4, 6, 0.16), outer); base.position.y = -0.5; box.add(base);
+const cushion = new THREE.Mesh(new RoundedBoxGeometry(2.12, 0.5, 2.12, 6, 0.14), inner); cushion.position.y = -0.2; box.add(cushion);
+const slot = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.02, 0.07), new THREE.MeshBasicMaterial({ color: 0x020806 })); slot.position.y = 0.052; box.add(slot);
+for (const [w, d, x, z] of [[2.42, 0.03, 0, 1.2], [2.42, 0.03, 0, -1.2], [0.03, 2.42, 1.2, 0], [0.03, 2.42, -1.2, 0]]) { const b = new THREE.Mesh(new THREE.BoxGeometry(w, 0.03, d), gold); b.position.set(x, 0.0, z); box.add(b); }
+// lid hinged at the back edge, open ~105°
+const hinge = new THREE.Group(); hinge.position.set(0, 0, -1.2); hinge.rotation.x = -1.85; box.add(hinge);
+const lid = new THREE.Mesh(new RoundedBoxGeometry(2.4, 0.8, 2.4, 6, 0.16), outer); lid.position.set(0, 0.4, 1.2); hinge.add(lid);
+// satin lining with gold-foil wordmark
+const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d');
+const g = x.createRadialGradient(256, 220, 20, 256, 256, 360); g.addColorStop(0, '#2a7a5e'); g.addColorStop(1, '#0a2a20'); x.fillStyle = g; x.fillRect(0, 0, 512, 512);
+x.strokeStyle = 'rgba(236,208,138,.8)'; x.lineWidth = 2; x.strokeRect(70, 70, 372, 372);
+x.fillStyle = '#e9cf8a'; x.textAlign = 'center'; x.font = '64px Prata, serif'; x.fillText('ÉCLAT', 256, 270); x.font = '600 15px "Hanken Grotesk", sans-serif'; x.fillText('H A U T E   J O A I L L E R I E', 256, 310);
+const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+const lining = new THREE.Mesh(new THREE.PlaneGeometry(2.1, 2.1), new THREE.MeshPhysicalMaterial({ map: tex, roughness: 0.45, sheen: 1, sheenColor: new THREE.Color(0x6fe0b4), sheenRoughness: 0.3 }));
+lining.rotation.x = Math.PI / 2; lining.position.set(0, -0.005, 1.2); hinge.add(lining);
+for (const [w, d, xx, z] of [[2.42, 0.03, 0, 2.4], [2.42, 0.03, 0, 0], [0.03, 2.42, 1.2, 1.2], [0.03, 2.42, -1.2, 1.2]]) { const b = new THREE.Mesh(new THREE.BoxGeometry(w, 0.03, d), gold); b.position.set(xx, -0.01, z); hinge.add(b); }
+// ring standing in the slot
+const ring = E.buildRing(st, { shape: 'round', carat: 2 }); ring.scale.setScalar(0.62); ring.position.set(0, 0.38, 0.0); box.add(ring);
+const sh = E.shadow(5, 4, .75); sh.position.set(3.75, -1.08, -0.3); sh.scale.setScalar(1); st.scene.add(sh);
+st.scene.add(E.sparkles(130, [9, 5, 4], { center: [2.6, 1.2, -1], size: 22, colors: [0xffffff, 0xa9c2ff, 0xffe2a0] }));
+box.updateMatrixWorld(true);
+const sp = new THREE.Vector3(0, ring.userData.stoneY, 0).applyMatrix4(ring.matrixWorld);
+const fl = E.flares(4, sp.clone().add(new THREE.Vector3(0, 0.08, 0.2)), 0.4, 1.0); st.scene.add(fl);
+st.onFrame(t => { box.rotation.y = -0.42 + Math.sin(t * 0.35) * 0.12; fl.userData.tick(t); });
+E.start();
+const shot = (o, rot, cam, tg) => E.snapshot((sc, s) => { const r = E.buildRing(s, o); r.rotation.set(...rot); sc.add(r); }, { w: 192, h: 192, cam, target: tg });
+document.getElementById('t1').style.backgroundImage = `url(${shot({ shape: 'round' }, [0.3, -0.7, 0], [0, 1.6, 5.6], [0, 0.55, 0])})`;
+document.getElementById('t2').style.backgroundImage = `url(${shot({ eternity: true }, [0.5, -0.5, 0], [0, 1.2, 5.0], [0, 0.1, 0])})`;
+</script>
+</body></html>

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Checkout — Forma Atelier</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="forma.css">
+<style>
+body{background:var(--plaster)}
+.page{display:grid;grid-template-columns:minmax(0,1fr) 600px;min-height:100%}
+.main{color:var(--ink);padding:140px 56px 90px 48px}
+.main .tag{color:var(--ox)}
+.steps{display:flex;align-items:center;gap:16px;margin-bottom:40px}
+.steps span{display:flex;align-items:center;gap:10px;font:700 12px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:#8a7f76}
+.steps span i{width:30px;height:30px;border-radius:50%;border:1px solid rgba(20,15,14,.25);display:grid;place-items:center;font-style:normal}
+.steps span.d{color:var(--ink)}
+.steps span.d i{background:var(--ink);color:var(--brass2);border-color:var(--ink)}
+.steps span.a{color:var(--ox)}
+.steps span.a i{background:var(--ox);color:var(--plaster);border-color:var(--ox);box-shadow:0 0 0 6px rgba(90,31,27,.15)}
+.steps b{flex:1;height:2px;background:rgba(20,15,14,.15);position:relative;max-width:120px}
+.steps b.fl::after{content:"";position:absolute;inset:0;background:var(--ox)}
+.steps b.h::after{content:"";position:absolute;left:0;top:0;bottom:0;width:55%;background:var(--ox);animation:grow 2s ease-in-out infinite alternate}
+@keyframes grow{from{width:20%}to{width:70%}}
+.main h1{font:800 104px/.82 var(--display);letter-spacing:-.06em;text-transform:uppercase;margin-bottom:46px}
+.main h1 .serif{color:var(--ox);font-size:100px}
+.sec{border-top:1px solid rgba(20,15,14,.16);padding:28px 0 34px}
+.sec .h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px}
+.sec .h h2{font:800 26px/1 var(--display);text-transform:uppercase;letter-spacing:-.01em}
+.sec .h h2 em{font-style:normal;color:var(--brass);margin-right:10px;font-size:15px;vertical-align:middle}
+.sec .h span{font-size:13px;color:#6d625a}
+.item{display:grid;grid-template-columns:150px 1fr auto;gap:26px;align-items:center;padding:14px 0;border-bottom:1px dashed rgba(20,15,14,.14)}
+.item:last-child{border:0}
+.item .th{height:150px;position:relative;background:radial-gradient(ellipse at 50% 30%,#fff 0%,#e3dacb 70%);box-shadow:inset 0 0 0 1px rgba(20,15,14,.08)}
+.item .th img{object-fit:contain}
+.item .th .no{position:absolute;left:8px;top:8px;font:800 10px/1 var(--display);letter-spacing:.12em;color:#8a7f76;z-index:2}
+.item h3{font:800 22px/1 var(--display);text-transform:uppercase;letter-spacing:-.01em;margin-bottom:6px}
+.item .sp{font-size:13px;color:#5e544d}
+.item .chips{display:flex;gap:6px;margin-top:12px}
+.item .chips span{font:600 11px/1 var(--sans);letter-spacing:.06em;padding:7px 9px;border:1px solid rgba(20,15,14,.16);display:flex;align-items:center;gap:6px}
+.item .chips span i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.item .chips .live{background:var(--ink);color:var(--brass2);border-color:var(--ink)}
+.item .chips .live::before{content:"";width:6px;height:6px;border-radius:50%;background:#7fd18f;box-shadow:0 0 8px #7fd18f;animation:pulse2 1.6s infinite}
+@keyframes pulse2{50%{opacity:.3}}
+.item .r{text-align:right}
+.item .r b{font:800 26px/1 var(--display);letter-spacing:-.02em;display:block;margin-bottom:12px}
+.item .r .qty{display:inline-flex;border:1px solid rgba(20,15,14,.2)}
+.item .r .qty a{width:34px;height:34px;display:grid;place-items:center}
+.item .r .qty span{width:34px;display:grid;place-items:center;font-weight:600}
+.item .r small{display:block;font-size:12px;color:#8a7f76;margin-top:10px;text-decoration:underline}
+.weeks{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.weeks a{border:1px solid rgba(20,15,14,.16);padding:14px 12px;text-align:left}
+.weeks a small{display:block;font:600 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#8a7f76;margin-bottom:8px}
+.weeks a b{display:block;font:800 22px/1 var(--display);letter-spacing:-.02em}
+.weeks a span{font-size:12px;color:#6d625a}
+.weeks a.x{opacity:.38;background:repeating-linear-gradient(135deg,transparent 0 6px,rgba(20,15,14,.06) 6px 7px)}
+.weeks a.on{background:var(--ink);color:var(--plaster);border-color:var(--ink);transform:translateY(-6px);box-shadow:0 16px 30px rgba(20,15,14,.25)}
+.weeks a.on small,.weeks a.on span{color:var(--brass2)}
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.svc>div{display:flex;gap:12px;align-items:flex-start;padding:14px;background:rgba(255,255,255,.4);border:1px solid rgba(20,15,14,.1);font-size:12px;color:#5e544d}
+.svc>div b{display:block;font:700 12px/1.2 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-bottom:3px}
+.svc .ic{color:var(--ox);margin-top:2px}
+.pay{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pay a{border:1px solid rgba(20,15,14,.16);padding:16px 14px;position:relative}
+.pay a b{display:block;font:700 13px/1.2 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:10px 0 4px}
+.pay a span{font-size:12px;color:#6d625a}
+.pay a.on{border-color:var(--ox);box-shadow:inset 0 0 0 1px var(--ox);background:#fff}
+.pay a.on::after{content:"✓";position:absolute;right:12px;top:12px;width:22px;height:22px;border-radius:50%;background:var(--ox);color:var(--plaster);display:grid;place-items:center;font-size:12px}
+.pay .ic{color:var(--ox);width:22px;height:22px}
+
+.sum{background:linear-gradient(180deg,#5a1f1b,#3a1210 70%,#2a0c0b);color:var(--plaster);position:relative;padding:110px 48px 60px}
+.sum canvas{display:block;margin:0 -48px}
+.sum .stamp{text-align:right}.sum .hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:-30px;position:relative;z-index:3}
+.sum .stamp b{display:block;font:800 30px/1 var(--display);color:var(--brass2);letter-spacing:-.02em}
+.sum .stamp span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(233,226,214,.6)}
+.sum .cap{max-width:300px}
+.sum .cap b{display:block;font:400 30px/1.05 var(--serif);font-style:italic;margin-top:10px}
+.sum .lines{list-style:none;margin-top:6px}
+.sum .lines li{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(233,226,214,.12);font-size:14px;color:rgba(233,226,214,.75)}
+.sum .lines li b{color:var(--plaster);font-weight:600}
+.sum .lines li.g b{color:#9fe0ae}
+.sum .tot{display:flex;justify-content:space-between;align-items:flex-end;padding:22px 0 8px}
+.sum .tot span{font:700 12px/1 var(--display);letter-spacing:.14em;text-transform:uppercase}
+.sum .tot b{font:800 54px/1 var(--display);letter-spacing:-.04em}
+.sum .dep{display:flex;justify-content:space-between;align-items:center;background:rgba(233,226,214,.08);border:1px solid rgba(224,192,138,.35);padding:14px 16px;margin:12px 0 18px;font-size:13px}
+.sum .dep b{font:800 24px/1 var(--display);color:var(--brass2)}
+.sum .btn{width:100%;justify-content:space-between;height:66px}
+.sum .promo{display:flex;justify-content:space-between;border-bottom:1px solid rgba(233,226,214,.3);padding:14px 0;margin-top:20px;font-size:13px;color:rgba(233,226,214,.55)}
+.sum .trust{display:flex;justify-content:space-between;margin-top:22px;font-size:11.5px;color:rgba(233,226,214,.6)}
+.sum .trust span{display:flex;gap:7px;align-items:center}
+.sum .trust .ic{width:15px;height:15px;color:var(--brass2)}
+.nav{background:var(--ink)}
+.sum .next{margin-top:40px;border-top:1px solid rgba(233,226,214,.14);padding-top:24px}
+.sum .next ol{list-style:none;margin-top:16px;position:relative}
+.sum .next ol::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1px;background:rgba(224,192,138,.4)}
+.sum .next li{position:relative;padding:0 0 16px 28px;font-size:13px;color:rgba(233,226,214,.7)}
+.sum .next li::before{content:"";position:absolute;left:0;top:5px;width:11px;height:11px;border-radius:50%;background:var(--ox);border:1.5px solid var(--brass2)}
+.sum .next li:first-child::before{background:var(--brass2);box-shadow:0 0 12px var(--brass2)}
+.sum .next li b{display:block;font:700 12px/1.3 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--plaster)}
+.sum .concierge{display:flex;align-items:center;gap:14px;background:rgba(233,226,214,.07);border:1px solid rgba(233,226,214,.14);padding:14px;margin-top:10px}
+.sum .concierge .av{width:48px;height:48px;border-radius:50%;background:var(--brass);color:var(--ink);display:grid;place-items:center;font:800 15px/1 var(--display)}
+.sum .concierge div{flex:1;font-size:12px;color:rgba(233,226,214,.6)}
+.sum .concierge b{display:block;font:700 14px/1.2 var(--display);color:var(--plaster);text-transform:uppercase;letter-spacing:.04em}
+.sum .concierge a{font:700 11px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;padding:12px 14px;border:1px solid rgba(224,192,138,.5);color:var(--brass2)}
+</style></head>
+<body>
+<div data-nav></div>
+<div class="page">
+  <section class="main">
+    <div class="steps"><span class="d"><i>✓</i>Cart</span><b class="fl"></b><span class="a"><i>2</i>Delivery</span><b class="h"></b><span><i>3</i>Payment</span><b></b><span><i>4</i>Uncrating</span></div>
+    <h1>Almost <span class="serif">yours.</span></h1>
+
+    <div class="sec">
+      <div class="h"><h2><em>01</em>Your objects</h2><span>3 pieces · each made to order</span></div>
+      <div class="item"><div class="th"><span class="no">042/120</span><img id="i1" alt=""></div><div><h3>Orbe lounge chair</h3><div class="sp">Oxblood silk velvet · brushed brass base · 92 × 84 × 74 cm</div><div class="chips"><span class="live">Edition N°042 reserved</span><span><i style="background:#6a2320"></i>Dye lot 7741</span></div></div><div class="r"><b>€6,820</b><div class="qty"><a>−</a><span>1</span><a>+</a></div><small>Edit configuration</small></div></div>
+      <div class="item"><div class="th"><span class="no">SET</span><img id="i2" alt=""></div><div><h3>Ovum ottoman</h3><div class="sp">Matched to your chair · Ø 68 × 37 cm</div><div class="chips"><span><i style="background:#6a2320"></i>Same dye lot</span><span>Set saving applied</span></div></div><div class="r"><b>€2,300</b><div class="qty"><a>−</a><span>1</span><a>+</a></div><small>Remove</small></div></div>
+      <div class="item"><div class="th"><span class="no">N°04</span><img id="i3" alt=""></div><div><h3>Monolith coffee table</h3><div class="sp">Calacatta Viola slab N°0412 · travertine drums · 156 × 92 × 38 cm</div><div class="chips"><span>Slab photographed for you</span><span>2 people to carry</span></div></div><div class="r"><b>€8,400</b><div class="qty"><a>−</a><span>1</span><a>+</a></div><small>See your slab</small></div></div>
+    </div>
+
+    <div class="sec">
+      <div class="h"><h2><em>02</em>White-glove delivery</h2><span>Lisbon → Amsterdam · 2 handlers</span></div>
+      <div class="weeks"><a class="x"><small>Week 49</small><b>Dec 6</b><span>In production</span></a><a class="x"><small>Week 50</small><b>Dec 13</b><span>In production</span></a><a class="on"><small>Week 51</small><b>Dec 20</b><span>Before the holidays</span></a><a><small>Week 2</small><b>Jan 10</b><span>Available</span></a><a><small>Week 3</small><b>Jan 17</b><span>Available</span></a><a><small>Week 4</small><b>Jan 24</b><span>Available</span></a></div>
+      <div class="svc"><div><i data-ic="truck"></i><div><b>Room of choice</b>Carried in, placed and levelled</div></div><div><i data-ic="gift"></i><div><b>Unpacked for you</b>Crate kept or collected, your call</div></div><div><i data-ic="shield"></i><div><b>Insured door to door</b>Full value, no excess</div></div></div>
+    </div>
+
+    <div class="sec">
+      <div class="h"><h2><em>03</em>How to pay</h2><span>Secure · nothing charged until you confirm</span></div>
+      <div class="pay"><a class="on"><i data-ic="lock"></i><b>30% deposit</b><span>Balance before dispatch</span></a><a><i data-ic="check"></i><b>Pay in full</b><span>Card or wallet</span></a><a><i data-ic="grid"></i><b>Pay in 3</b><span>Interest-free</span></a><a><i data-ic="arrow"></i><b>Bank transfer</b><span>IBAN on confirmation</span></a></div>
+    </div>
+  </section>
+
+  <aside class="sum">
+    <div class="hd"><div class="cap"><span class="tag brass">Packed for you</span><b>A crate built for your chair, by the same hands.</b></div><div class="stamp"><b>042</b><span>Your edition</span></div></div>
+    <canvas id="crate"></canvas>
+    <ul class="lines">
+      <li>Objects (3)<b>€17,520</b></li>
+      <li class="g">White-glove delivery<b>Included</b></li>
+      <li class="g">Oak crate &amp; collection<b>Included</b></li>
+      <li>VAT (23%, Portugal)<b>Included</b></li>
+    </ul>
+    <div class="tot"><span>Total</span><b>€17,520</b></div>
+    <div class="dep"><span>Deposit today — 30%<br><small style="color:rgba(233,226,214,.55)">Balance €12,264 due week 50</small></span><b>€5,256</b></div>
+    <a class="btn">Continue to payment <span class="sq"><i data-ic="arrow"></i></span></a>
+    <div class="promo">Gift card or trade code<span>Apply</span></div>
+    <div class="next"><span class="tag brass">What happens next</span><ol><li><b>Today</b>Edition N°042 is reserved in your name</li><li><b>Week 1</b>Inès signs off your dye lot — you get a photo</li><li><b>Week 9</b>Your crate is built and stamped</li><li><b>Dec 20</b>Two handlers carry it into your room</li></ol></div><div class="concierge"><span class="av">MS</span><div><b>Marta Sousa</b><span>Your atelier contact · replies within the hour</span></div><a>Message</a></div>
+    <div class="trust"><span><i data-ic="shield"></i>Lifetime frame</span><span><i data-ic="undo"></i>30-day return</span><span><i data-ic="lock"></i>Encrypted checkout</span></div>
+  </aside>
+</div>
+<div data-footer></div>
+
+<script src="forma.js"></script>
+<script>forma('', { cart: 3 });</script>
+<script src="forma3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const F = Forma3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+const vel = () => F.fabric('velvet', '#6a2320');
+const th = { w: 300, h: 300, fit: 1.05, cam: [1.6, 1.0, 2.6], fov: 28, drop: 0.08 };
+document.getElementById('i1').src = F.snap(() => F.chair({ fabric: vel() }), th);
+document.getElementById('i2').src = F.snap(() => F.pouf({ fabric: vel() }), { ...th, fit: 1.4 });
+document.getElementById('i3').src = F.snap(() => F.table(), th);
+
+/* exploded oak crate with the chair levitating inside */
+const S = F.stage(document.getElementById('crate'), { w: 600, h: 560, fov: 30, exposure: 1.05 });
+S.env = 0.55;
+const { scene, camera } = S;
+camera.position.set(3.7, 2.6, 5.4); camera.lookAt(0, 0.75, 0);
+const oak = F.wood('light');
+const stampC = document.createElement('canvas'); stampC.width = 512; stampC.height = 256;
+{ const x = stampC.getContext('2d'); x.fillStyle = 'rgba(0,0,0,0)'; x.fillRect(0, 0, 512, 256); x.strokeStyle = 'rgba(60,20,15,.85)'; x.lineWidth = 6; x.strokeRect(20, 20, 472, 216); x.fillStyle = 'rgba(60,20,15,.85)'; x.font = '800 66px Syne, sans-serif'; x.textAlign = 'center'; x.fillText('FORMA', 256, 108); x.font = '600 30px Inter, sans-serif'; x.fillText('N°042 · FRAGILE · THIS SIDE UP', 256, 170); x.fillText('LISBON → AMSTERDAM', 256, 212); }
+const stampT = new THREE.CanvasTexture(stampC); stampT.colorSpace = THREE.SRGBColorSpace;
+const panel = (w, h, n, stamp) => {
+  const g = new THREE.Group(), sh = h / n;
+  for (let i = 0; i < n; i++) { const s = F.mesh(new THREE.BoxGeometry(w, sh - 0.025, 0.035), oak); s.position.y = -h / 2 + sh * (i + 0.5); g.add(s); }
+  for (const x of [-w / 2 + 0.05, w / 2 - 0.05]) { const b = F.mesh(new THREE.BoxGeometry(0.08, h, 0.04), oak); b.position.set(x, 0, 0.035); g.add(b); }
+  const d = F.mesh(new THREE.BoxGeometry(0.06, Math.hypot(w, h) - 0.2, 0.03), oak); d.rotation.z = Math.atan2(h, w) - Math.PI / 2; d.position.z = 0.035; g.add(d);
+  if (stamp) { const p = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.31), new THREE.MeshBasicMaterial({ map: stampT, transparent: true, toneMapped: false })); p.position.set(0, 0.1, 0.06); g.add(p); }
+  return g;
+};
+const S2 = 1.5, H2 = 1.15;
+const base = panel(S2, S2, 6); base.rotation.x = -Math.PI / 2; base.position.y = 0.02; scene.add(base);
+const walls = [];
+[[0, 1], [Math.PI / 2, 0], [Math.PI, 0], [-Math.PI / 2, 1]].forEach(([ry, st], i) => {
+  const piv = new THREE.Group(); piv.rotation.y = ry; scene.add(piv);
+  const p = panel(S2, H2, 5, st && i === 0); p.position.set(0, H2 / 2, S2 / 2); piv.add(p);
+  walls.push({ piv, p });
+});
+const lid = panel(S2, S2, 6); lid.position.y = 1.9; lid.rotation.set(-Math.PI / 2 + 0.3, 0, 0.2); scene.add(lid);
+const chair = F.chair({ fabric: vel() }); chair.position.y = 0.32; chair.rotation.y = 0.5; scene.add(chair);
+// wood-wool curls
+const curls = new THREE.Group(); const R = F.rng(21); const wool = new THREE.MeshPhysicalMaterial({ color: '#d8b98a', roughness: 0.9 });
+for (let i = 0; i < 26; i++) { const t = F.mesh(new THREE.TorusGeometry(0.05 + R() * 0.04, 0.006, 6, 24, Math.PI * (1 + R())), wool); t.position.set((R() - 0.5) * 2.4, 0.2 + R() * 1.8, (R() - 0.5) * 2.4); t.rotation.set(R() * 6, R() * 6, R() * 6); t.userData.s = 0.3 + R(); curls.add(t); }
+
+scene.add(F.blob(1.3, 1.3, 0.5));
+F.shadowFloor(scene, 10, 0.4);
+F.spot(scene, { pos: [1.2, 5, 2.4], target: [0, 0.5, 0], intensity: 95, angle: 0.45 });
+F.rim(scene, [-3, 2.5, -2.5], '#ffb48a', 3.5);
+scene.add(new THREE.HemisphereLight('#fff0dc', '#2a0c0b', 0.55));
+S.tick.push(t => {
+  const e = 0.85 + Math.sin(t * 0.7) * 0.06;
+  walls.forEach(({ p }, i) => { p.position.z = S2 / 2 + e * 0.5; p.rotation.x = 0.28 * e; p.position.y = H2 / 2 + 0.05 + Math.sin(t * 0.9 + i) * 0.03; });
+  lid.position.y = 1.85 + Math.sin(t * 0.8) * 0.05; lid.rotation.z = 0.2 + Math.sin(t * 0.4) * 0.05;
+  chair.position.y = 0.36 + Math.sin(t * 0.9 + 0.5) * 0.04; chair.rotation.y = 0.5 + Math.sin(t * 0.25) * 0.2;
+  curls.children.forEach(c => { c.rotation.x += 0.004 * c.userData.s; c.rotation.y += 0.003 * c.userData.s; });
+});
+S.start();
+</script>
+</body></html>

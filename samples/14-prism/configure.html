@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Fit & Configure — Prism One · PRISM</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prism.css">
+<style>
+html,body{height:1080px;overflow:hidden}
+body{background:radial-gradient(60% 70% at 52% 50%,#ffffff 0%,#f0ecff 40%,#e3f5f8 75%,#eef0f6 100%)}
+#cfg{position:absolute;left:0;top:0;z-index:2}
+.giant{position:absolute;left:300px;right:240px;top:196px;text-align:center;font:700 236px/.8 var(--disp);letter-spacing:-.075em;z-index:1}
+.left{position:absolute;left:28px;top:108px;bottom:28px;width:400px;z-index:5;border-radius:36px;padding:24px 24px;display:flex;flex-direction:column;gap:12px}
+.left h1{font:600 30px/1 var(--disp);letter-spacing:-.05em}
+.prog{display:flex;gap:6px;margin:8px 0 4px}
+.prog i{flex:1;height:5px;border-radius:9px;background:rgba(20,20,28,.08)}
+.prog i.on{background:var(--holo);background-size:200%}
+.step{border-radius:24px;padding:16px 18px;background:rgba(255,255,255,.55);border:1px solid #fff}
+.step .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.step .hd b{font:600 14px/1 var(--disp);letter-spacing:-.02em;display:flex;gap:10px;align-items:center}
+.step .hd b em{font:600 10px/1 var(--sans);font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:#fff}
+.step .hd span{font-size:12px;color:var(--ink2)}
+.step.done .hd b em{background:#46d39a}
+.sizes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.sizes span{height:44px;border-radius:14px;display:grid;place-items:center;font:600 14px/1 var(--sans);background:#fff;border:1.5px solid transparent}
+.sizes span.on{border-color:var(--ink)}
+.sizes span.rec{position:relative}
+.scan{display:flex;gap:10px;align-items:center;margin-top:10px;font-size:12px;color:var(--ink2)}
+.scan i{width:34px;height:34px;border-radius:12px;background:conic-gradient(#b9a6ff,#8fe8f0,#ffb6dc,#b9a6ff);display:grid;place-items:center;font-style:normal;color:#fff;font-size:14px}
+.straps{display:flex;gap:8px}
+.straps i{width:52px;height:38px;border-radius:12px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.8);background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.25) 0 3px,transparent 3px 6px)}
+.straps i.on{outline:2px solid var(--ink);outline-offset:2px}
+.lens{display:grid;gap:6px}
+.lens div{display:flex;justify-content:space-between;align-items:center;height:42px;border-radius:14px;padding:0 14px;background:#fff;font:600 13px/1 var(--sans);border:1.5px solid transparent}
+.lens div span{font-weight:500;color:var(--ink3);font-size:12px}
+.lens div.on{border-color:var(--ink)}
+.rx{display:grid;grid-template-columns:28px repeat(3,1fr);gap:4px;margin-top:8px;font:500 11px/1 ui-monospace,monospace;text-align:center}
+.rx span{height:28px;border-radius:9px;background:#fff;display:grid;place-items:center}
+.rx b{color:var(--ink3);font-weight:500;display:grid;place-items:center}
+.frames{display:flex;gap:10px;align-items:center}
+.frames i{width:38px;height:38px;border-radius:50%;box-shadow:inset 0 0 0 2px #fff,0 4px 10px rgba(0,0,0,.12)}
+.frames i.on{outline:2px solid var(--ink);outline-offset:3px}
+.right{position:absolute;right:28px;top:108px;width:350px;z-index:5;border-radius:36px;padding:26px}
+.right .tot{font:600 54px/1 var(--disp);letter-spacing:-.06em;margin:12px 0 4px}
+.lines{margin:22px 0 18px;border-top:1px solid var(--line)}
+.lines div{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}
+.lines div span{color:var(--ink2)}
+.lines div b{font-weight:600}
+.lines div.new{background:linear-gradient(90deg,rgba(185,166,255,.18),rgba(143,232,240,.12));margin:0 -12px;padding:11px 12px;border-radius:12px;border:0}
+.right .btn{width:100%;justify-content:center}
+.right .meta{display:grid;gap:8px;margin-top:16px;font-size:12px;color:var(--ink2)}
+.care{position:absolute;right:28px;bottom:28px;width:350px;z-index:5;border-radius:30px;padding:20px 22px;display:flex;gap:14px;align-items:center}
+.care .tg{width:46px;height:28px;border-radius:99px;background:rgba(20,20,28,.12);position:relative;flex:none}
+.care .tg::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.care b{font:600 15px/1.1 var(--disp);letter-spacing:-.02em;display:block}
+.care span{font-size:12px;color:var(--ink2)}
+.toast{position:absolute;left:50%;top:116px;transform:translateX(-50%);z-index:6;border-radius:99px;padding:8px 18px 8px 8px;display:flex;gap:12px;align-items:center;font-size:13px;animation:floaty 4s ease-in-out infinite}
+.toast i{width:34px;height:34px;border-radius:50%;background:var(--holo);background-size:200%;display:grid;place-items:center;font-style:normal;font-weight:700}
+.views{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);z-index:6;display:flex;gap:6px;padding:6px;border-radius:99px}
+.views span{height:42px;padding:0 18px;border-radius:99px;display:flex;align-items:center;font:600 13px/1 var(--sans);color:var(--ink2)}
+.views span.on{background:var(--ink);color:#fff}
+.call{position:absolute;z-index:4;display:flex;align-items:center;gap:10px;transform:translate(-7px,-50%)}
+.call.l{flex-direction:row-reverse;transform:translate(calc(-100% + 7px),-50%)}
+.call .dt{width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px rgba(185,166,255,.35),0 0 18px #b9a6ff}
+.call .ln{height:1.5px;background:linear-gradient(90deg,#b9a6ff,rgba(185,166,255,.2))}
+.call .lb{border-radius:16px;padding:10px 14px;font-size:12px;color:var(--ink2);white-space:nowrap}
+.call .lb b{display:block;font:600 14px/1.1 var(--disp);letter-spacing:-.02em;color:var(--ink)}
+.ipd{position:absolute;z-index:4;height:26px;border:1.5px dashed rgba(143,120,245,.7);border-bottom:0;border-radius:14px 14px 0 0}
+.ipd span{position:absolute;left:50%;top:-16px;transform:translateX(-50%);border-radius:99px;padding:6px 12px;font:600 11px/1 var(--sans);white-space:nowrap}
+</style></head>
+<body data-page="configure" data-bag="0">
+<div data-nav></div>
+<div class="giant chrome">Yours.</div>
+<canvas id="cfg"></canvas>
+<div class="toast glass"><i>✓</i><span><b>Clearsight Rx</b> added · lenses will be cut to your prescription</span><b style="margin-left:6px">+ €149</b></div>
+<div class="ipd" id="ipd"><span class="glass">IPD 63.5 mm · auto-aligned</span></div>
+<div id="calls"></div>
+
+<aside class="left glass">
+  <span class="eyebrow">Fit & configure · Prism One</span>
+  <h1>Made to <span class="holo-ink">your face.</span></h1>
+  <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+  <div class="step done"><div class="hd"><b><em>✓</em>Light seal size</b><span>Scanned 2 min ago</span></div>
+    <div class="sizes"><span>S</span><span class="on rec">M</span><span>L</span><span>XL</span></div>
+    <div class="scan"><i>☺</i><span>Face scan match <b style="color:var(--ink)">96%</b> for M · forehead 128 mm, nose bridge low</span></div></div>
+  <div class="step done"><div class="hd"><b><em>✓</em>Strap</b><span>Aqua Knit · included</span></div>
+    <div class="straps"><i style="background-color:#eceef6"></i><i style="background-color:#c3b4ff"></i><i class="on" style="background-color:#a3ebee"></i><i style="background-color:#ffc6e1"></i><i style="background-color:#55576a"></i></div></div>
+  <div class="step"><div class="hd"><b><em>3</em>Lenses</b><span>Prescription</span></div>
+    <div class="lens"><div>No inserts<span>Included</span></div><div>Readers +1.0 to +3.0<span>€99</span></div><div class="on">Clearsight Rx<span>€149</span></div></div>
+    <div class="rx"><b></b><b>SPH</b><b>CYL</b><b>AXIS</b><b>R</b><span>−2.25</span><span>−0.50</span><span>180°</span><b>L</b><span>−1.75</span><span>−0.75</span><span>170°</span></div></div>
+  <div class="step"><div class="hd"><b><em>4</em>Frame finish</b><span>Lilac Chrome · +€90</span></div>
+    <div class="frames"><i style="background:linear-gradient(135deg,#fff,#c9ccda)"></i><i style="background:linear-gradient(135deg,#fff,#f3e4f1)"></i><i class="on" style="background:linear-gradient(135deg,#f0ebff,#b4a1ff)"></i><i style="background:linear-gradient(135deg,#8c8e9b,#3b3c46)"></i></div></div>
+</aside>
+
+<aside class="right glass">
+  <div style="display:flex;justify-content:space-between;align-items:center"><span class="eyebrow">Your Prism One</span><span class="chip" style="height:28px"><span class="dot"></span>Live price</span></div>
+  <div class="tot">€2,929</div>
+  <div class="mono">or €122.04/mo for 24 months · 0% APR</div>
+  <div class="lines">
+    <div><span>Prism One · 256 GB</span><b>€2,490</b></div>
+    <div><span>Storage → 512 GB</span><b>+ €200</b></div>
+    <div><span>Lilac Chrome frame</span><b>+ €90</b></div>
+    <div class="new"><span>Clearsight Rx inserts</span><b>+ €149</b></div>
+    <div><span>Light seal M · Aqua knit</span><b>Included</b></div>
+    <div><span>Halo controllers</span><b>Included</b></div>
+  </div>
+  <a class="btn dark" href="checkout.html">Add to bag <span class="ar">→</span></a>
+  <div class="meta"><span>◎ Lenses cut in Eindhoven · ships Thu 14 Nov</span><span>↺ 30-day trial, free fit adjustments</span><span>✦ Save as a look to share with the studio</span></div>
+</aside>
+<div class="care glass"><span class="tg"></span><div><b>Add PrismCare+ · €199</b><span>2 years accidental damage, 2 claims</span></div></div>
+<div class="views glass"><span class="on">3/4</span><span>Front</span><span>Side</span><span>On a face</span><span>⤢ Exploded</span></div>
+<div class="cursor" style="left:560px;top:860px"><div class="cring">Drag<br>to turn</div></div>
+
+<script src="prism.js"></script>
+<script src="prism3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = P3D(THREE, { mergeVertices, RoundedBoxGeometry });
+await K.fontsReady;
+const S = K.stage(document.getElementById('cfg'), { w: 1440, h: 1080, fov: 26, pos: [0, 0.75, 9], target: [0, 0.05, 0] });
+const hs = K.headset({ frame: 'lilac', strap: 'aqua' });
+hs.rotation.set(0.16, -0.62, 0); hs.position.set(-0.05, 0.4, 0); hs.scale.setScalar(0.78);
+S.scene.add(hs);
+K.shadow(S.scene, { sx: 3.0, sz: 1.3, y: -1.25, a: 0.3 }).position.x = 0.1;
+// floating Clearsight inserts, mid-click
+const insMat = new THREE.MeshPhysicalMaterial({ color: '#f2f9ff', roughness: 0.03, transparent: true, opacity: 0.5, clearcoat: 1, iridescence: 1, iridescenceIOR: 1.5, iridescenceThicknessRange: [300, 700], envMapIntensity: 2.5 });
+const lp = []; for (let i = 0; i <= 20; i++) { const t = i / 20; lp.push(new THREE.Vector2(0.22 * Math.sin(t * 1.57), 0.035 * Math.cos(t * 1.57))); } for (let i = 20; i >= 0; i--) { const t = i / 20; lp.push(new THREE.Vector2(0.22 * Math.sin(t * 1.57), -0.025 * Math.cos(t * 1.57))); }
+const ins = new THREE.Group();
+[-1, 1].forEach(s => {
+  const l = new THREE.Mesh(new THREE.LatheGeometry(lp, 64), insMat); l.rotation.x = Math.PI / 2; l.position.x = s * 0.27;
+  const r = new THREE.Mesh(new THREE.TorusGeometry(0.225, 0.02, 16, 80), K.alu('lilac')); r.position.x = s * 0.27;
+  ins.add(l, r);
+});
+const bridge = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.012, 10, 30, Math.PI), K.alu('lilac')); bridge.position.y = 0.02; ins.add(bridge);
+ins.position.set(-0.15, -0.72, 1.2); ins.rotation.set(0.1, 0.75, 0.12); ins.scale.setScalar(1.05);
+S.scene.add(ins);
+const blobs = [K.blob(0.24, { seed: 3 }), K.blob(0.14, { seed: 7, c: '#e6fbfd' }), K.blob(0.32, { seed: 9, c: '#efe9ff' })];
+[[-0.6, 1.75, -1.0], [1.45, 1.45, -0.4], [1.0, -1.3, -1.4]].forEach((p, i) => { blobs[i].position.set(...p); S.scene.add(blobs[i]); });
+const sp = K.sparkles(120, [6, 3, 3], 0.05); S.scene.add(sp);
+const V = (o, p) => { o.updateMatrixWorld(true); return S.toScreen(o.localToWorld(new THREE.Vector3(...p))); };
+const calls = [
+  { o: ins, p: [0.5, 0, 0], side: 'r', len: 46, t: 'Clearsight inserts', d: 'Magnetic · R −2.25 / L −1.75' },
+  { o: hs, p: [0.35, -0.5, -0.08], side: 'r', len: 24, t: 'Lilac Chrome', d: 'Anodised · +€90' }
+];
+function place() {
+  document.getElementById('calls').innerHTML = calls.map(c => { const [x, y] = V(c.o, c.p); return `<div class="call ${c.side}" style="left:${x}px;top:${y}px"><span class="dt"></span><span class="ln" style="width:${c.len}px"></span><div class="lb glass"><b>${c.t}</b>${c.d}</div></div>`; }).join('');
+  const [ax, ay] = V(hs, [-0.55, 0.62, 0.3]), [bx, by] = V(hs, [0.55, 0.62, 0.15]);
+  const ip = document.getElementById('ipd'); ip.style.left = Math.min(ax, bx) + 'px'; ip.style.top = (Math.min(ay, by) - 40) + 'px'; ip.style.width = Math.abs(bx - ax) + 'px';
+}
+S.loop(t => {
+  hs.position.y = 0.35 + Math.sin(t * 0.8) * 0.02;
+  ins.position.y = -0.72 + Math.sin(t * 1.1) * 0.02;
+  place();
+  blobs.forEach((b, i) => b.update(t + i * 2));
+});
+</script>
+</body></html>

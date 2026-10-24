@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Nocté — The Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nocte.css">
+<style>
+.open{position:relative;height:1080px;overflow:hidden}
+.open>.ph{position:absolute;right:0;top:0;bottom:0;width:62%}
+.open>.ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#070605 0%,rgba(7,6,5,.4) 30%,rgba(7,6,5,0) 60%),linear-gradient(0deg,#070605,transparent 30%)}
+.open .vert{position:absolute;right:40px;top:160px;writing-mode:vertical-rl;font:italic 400 200px/.8 var(--serif);color:transparent;-webkit-text-stroke:1px rgba(243,215,155,.4);z-index:2;letter-spacing:-.02em}
+.open .tx{position:absolute;left:64px;top:230px;width:720px;z-index:3}
+.open h1{font:400 150px/.84 var(--serif);letter-spacing:-.04em;margin:30px 0 40px}
+.open p{max-width:430px;color:rgba(239,230,216,.75);font-size:17px}
+.open .sign{display:flex;gap:56px;margin-top:60px}
+.open .sign b{display:block;font:italic 400 48px/1 var(--serif)}
+.open .sign span{font-size:12px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}
+.open .badge{position:absolute;left:640px;bottom:110px;z-index:4}
+.open .cap{position:absolute;right:300px;bottom:56px;z-index:3;font:500 11px/1 var(--sans);letter-spacing:.28em;color:var(--dim)}
+
+.nose{display:grid;grid-template-columns:520px 1fr;gap:100px;padding:170px 64px;align-items:center}
+.nose .ph{height:680px;border-radius:300px 300px 24px 24px;box-shadow:0 0 0 1px rgba(243,215,155,.25),0 60px 120px rgba(0,0,0,.6)}
+.nose .ph .tag{position:absolute;left:24px;bottom:24px;z-index:2;padding:12px 16px;border-radius:14px;background:rgba(20,16,11,.6);backdrop-filter:blur(14px);border:1px solid var(--faint);font-size:12px;color:var(--dim)}
+.nose .ph .tag b{display:block;font:italic 400 22px/1.1 var(--serif);color:var(--bone)}
+.nose blockquote{font:italic 400 64px/1.08 var(--serif);letter-spacing:-.02em;margin:30px 0 40px}
+.nose .cols{display:grid;grid-template-columns:1fr 1fr;gap:40px;color:var(--dim)}
+.nose .sig{font:italic 400 54px/1 var(--serif);margin-top:40px;transform:rotate(-4deg);display:inline-block}
+
+.process{padding:40px 0 170px;position:relative}
+.process .hd{padding:0 64px;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:90px}
+.process h2{font:400 120px/.86 var(--serif);letter-spacing:-.04em}
+.line{position:absolute;left:64px;right:64px;top:300px;height:1px;background:var(--faint)}
+.line i{position:absolute;left:0;top:-1px;height:3px;width:58%;background:linear-gradient(90deg,transparent,var(--gold));box-shadow:0 0 18px var(--gold)}
+.line b{position:absolute;left:58%;top:-8px;width:17px;height:17px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 8px rgba(216,178,106,.15),0 0 30px var(--gold);transform:translateX(-50%)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:0 64px}
+.st .n{font:italic 400 110px/.8 var(--serif);color:transparent;-webkit-text-stroke:1px rgba(243,215,155,.5);margin-bottom:34px;display:block}
+.st.on .n{color:var(--gold);-webkit-text-stroke:0;text-shadow:0 0 40px rgba(216,178,106,.5)}
+.st .ph{height:430px;border-radius:22px}
+.st:nth-child(even) .ph{margin-top:60px}
+.st h4{font:italic 400 34px/1 var(--serif);margin:24px 0 10px}
+.st p{color:var(--dim);font-size:14px}
+.st small{display:block;margin-top:14px;font:500 10px/1 var(--sans);letter-spacing:.24em;color:var(--gold)}
+
+.manif{position:relative;padding:190px 64px;text-align:center;overflow:hidden;border-top:1px solid var(--faint);border-bottom:1px solid var(--faint)}
+.manif p{font:400 104px/1 var(--serif);letter-spacing:-.04em;position:relative}
+.manif p span{display:block}
+.manif .floaty{position:absolute;border-radius:16px;box-shadow:0 30px 60px rgba(0,0,0,.6)}
+
+.gallery{display:grid;grid-template-columns:1fr 1.4fr 1fr;grid-template-rows:360px 360px;gap:20px;padding:170px 64px}
+.gallery>div{border-radius:22px}
+.gallery .big{grid-row:span 2}
+.gallery .txt{background:linear-gradient(160deg,#1e1710,#0e0b08);border:1px solid rgba(243,215,155,.15);padding:40px;display:flex;flex-direction:column;justify-content:space-between}
+.gallery .txt b{font:italic 400 120px/.8 var(--serif)}
+
+.visit{display:grid;grid-template-columns:1.1fr 1fr;margin:0 64px 170px;border-radius:30px;overflow:hidden;border:1px solid rgba(243,215,155,.18)}
+.visit .ph{min-height:760px}
+.visit .ph .pin{position:absolute;left:40px;top:40px;z-index:2;padding:12px 18px;border-radius:999px;background:rgba(7,6,5,.6);backdrop-filter:blur(12px);font-size:12px;display:flex;gap:10px;align-items:center}
+.visit .ph .pin i{width:8px;height:8px;border-radius:50%;background:#5bd17a;box-shadow:0 0 10px #5bd17a}
+.visit .tx{padding:90px 80px;background:linear-gradient(140deg,#1b150e,#0c0a07)}
+.visit h2{font:400 92px/.9 var(--serif);letter-spacing:-.03em;margin:22px 0 40px}
+.visit dl{display:grid;grid-template-columns:140px 1fr;gap:18px 20px;font-size:15px;margin-bottom:44px}
+.visit dt{font:500 10px/1.8 var(--sans);letter-spacing:.26em;color:var(--gold)}
+.visit dd{color:rgba(239,230,216,.82)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="open">
+  <div class="ph" data-img="1558683018-e0e6e20f2bdb|1600"></div>
+  <div class="vert">Atelier</div>
+  <div class="tx">
+    <div class="mono gold">( The Maison ) · Since 1924</div>
+    <h1>Four <span class="it gold-text">generations</span> of the night.</h1>
+    <p>From a single copper still behind a Grasse tannery to an atelier on Rue du Faubourg Saint-Honoré, the Nocté family has composed only what it would wear itself.</p>
+    <div class="sign"><div><b class="gold-text">1924</b><span>First distillation</span></div><div><b>4</b><span>Generations</span></div><div><b>212</b><span>Formulas archived</span></div></div>
+  </div>
+  <div data-badge="Est. 1924 · Grasse · Paris · Maison Nocté · " data-icon="play"></div>
+  <span class="cap">PORTRAIT — HÉLÈNE NOCTÉ, 4TH GENERATION</span>
+  <div class="progress" style="top:440px;right:280px;--p:8%"><span>01</span><div class="tr"><i></i></div><span>05</span></div>
+</section>
+
+<section class="nose">
+  <div class="ph" data-img="1614010966237-74489a16848b|1000"><div class="tag"><b>Julien Arceneaux</b>Master perfumer · 31 years at the organ</div></div>
+  <div>
+    <div class="mono gold">( 02 ) The nose</div>
+    <blockquote>“A perfume is a memory you haven’t <span class="gold-text">lived yet.</span> My work is to make it feel inevitable.”</blockquote>
+    <div class="cols"><p>Julien trained in Versailles before spending a decade sourcing oud in Assam and Cambodia. Every Nocté extrait passes through more than 400 trial accords on his organ before one is chosen.</p><p>He still smells every raw material that enters the atelier — and rejects roughly one batch in five. “Nature is generous, but not every year.”</p></div>
+    <span class="sig gold-text">J. Arceneaux</span>
+  </div>
+</section>
+
+<section class="process">
+  <div class="hd"><div><div class="mono gold" style="margin-bottom:26px">( 03 ) The making</div><h2>From petal <span class="it gold-text">to flacon</span></h2></div><span style="color:var(--dim);max-width:360px">Fourteen months, four stages, and not a single shortcut. Scroll to follow a batch of Or Liquide.</span></div>
+  <div class="line"><i></i><b></b></div>
+  <div class="steps">
+    <div class="st on"><span class="n">01</span><div class="ph" data-img="1516565349308-c76fe36a115c|800"></div><h4>The harvest</h4><p>Damask roses picked by hand before seven, when their oil is richest.</p><small>MAY · GRASSE</small></div>
+    <div class="st on"><span class="n">02</span><div class="ph" data-img="1608397727084-c116c5e4e63e|800"></div><h4>Distillation</h4><p>Slow steam in copper alembics — 3.5 tonnes of petals for one litre.</p><small>JUNE · OUR STILLS</small></div>
+    <div class="st"><span class="n">03</span><div class="ph" data-img="1670381225856-997d3eea46df|800"></div><h4>Ageing</h4><p>The finished juice rests ninety days in French oak to round its edges.</p><small>JULY–SEPT · CELLAR</small></div>
+    <div class="st"><span class="n">04</span><div class="ph" data-img="1622618991746-fe6004db3a47|800"></div><h4>The pour</h4><p>Hand-filled, numbered and sealed with wax by a single artisan.</p><small>OCTOBER · PARIS</small></div>
+  </div>
+</section>
+
+<section class="manif">
+  <div class="glow pulse" style="width:900px;height:500px;left:270px;top:180px;background:radial-gradient(circle,rgba(216,178,106,.2),transparent 70%)"></div>
+  <div class="floaty float" data-img="1733660227163-01bc46e0d7d7|400" style="width:180px;height:240px;left:90px;top:120px;transform:rotate(-8deg)"></div>
+  <div class="floaty float" data-img="1627933234009-0f5ce6eb4e3a|400" style="width:160px;height:210px;right:110px;top:110px;transform:rotate(7deg)"></div>
+  <div class="floaty float" data-img="1608721279136-cd41b752fa41|400" style="width:150px;height:200px;right:240px;bottom:90px;transform:rotate(-5deg)"></div>
+  <div class="mono gold" style="position:relative;margin-bottom:46px">( 04 ) Our promise</div>
+  <p><span>No synthetics</span><span class="it gold-text">where nature</span><span><span class="outline" style="display:inline">does it</span> better.</span></p>
+</section>
+
+<section class="gallery">
+  <div class="big" data-img="1595065666634-4725aa7e8379|900"></div>
+  <div data-img="1556388275-bb5585725aca|900"></div>
+  <div class="txt"><span class="mono gold">Archive</span><div><b class="gold-text">212</b><p style="color:var(--dim);margin-top:16px">formulas kept in our Grasse vault — some never released.</p></div></div>
+  <div data-img="1580124917341-d318cbacc34f|900"></div>
+  <div data-img="1592492152545-9695d3f473f4|900"></div>
+</section>
+
+<section class="visit">
+  <div class="ph" data-img="1627823569857-4d8581dc62b2|1200"><span class="pin"><i></i>Open now · until 20:00</span></div>
+  <div class="tx">
+    <div class="mono gold">( 05 ) Visit the atelier</div>
+    <h2>Come <span class="it gold-text">smell</span> the archive.</h2>
+    <dl><dt>ADDRESS</dt><dd>212 Rue du Faubourg Saint-Honoré<br>75008 Paris</dd><dt>HOURS</dt><dd>Tue – Sat · 11:00 – 20:00<br>Sun by appointment</dd><dt>EXPERIENCE</dt><dd>Private 90-minute blending session with a perfumer · €180, redeemable</dd></dl>
+    <div style="display:flex;gap:12px"><a class="btn gold">Book a session<span class="o"><span data-ic="arrow"></span></span></a><a class="btn ghost">Get directions</a></div>
+  </div>
+</section>
+
+<div data-footer></div>
+<script src="nocte.js"></script>
+<script>nocte('Atelier');</script>
+</body></html>

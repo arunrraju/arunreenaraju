@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VANTA Σ1 — Electric Hypercar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,500;0,600;0,700;1,600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vanta.css">
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<style>
+.hero{position:relative;height:1080px;overflow:hidden;background:radial-gradient(60% 50% at 52% 66%,rgba(0,229,255,.13),transparent 70%),radial-gradient(40% 40% at 12% 30%,rgba(255,43,214,.10),transparent 70%),var(--bg)}
+.hero canvas{display:block}
+#hero3d{position:absolute;left:0;top:0;width:1440px;height:1080px;z-index:3}
+.hero .bigv{position:absolute;left:40px;top:300px;z-index:1;font:700 300px/.8 var(--disp);letter-spacing:-.05em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1.5px rgba(0,229,255,.38);white-space:nowrap;
+  background:linear-gradient(180deg,rgba(0,229,255,.14),transparent 70%);-webkit-background-clip:text;background-clip:text}
+.hero .bigv::after{content:attr(data-t);position:absolute;left:0;top:0;color:transparent;-webkit-text-stroke:1.5px rgba(255,43,214,.5);transform:translate(9px,0);clip-path:inset(30% 0 52% 0);animation:gl1 3s steps(1) infinite}
+.hero .boot{position:absolute;left:64px;top:112px;z-index:5}
+.hero h1{position:absolute;left:58px;top:212px;z-index:5;font:600 120px/.84 var(--disp);letter-spacing:-.035em;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--cy);text-shadow:0 0 30px rgba(0,229,255,.6)}
+.hero .lede{position:absolute;left:64px;top:330px;z-index:5;width:400px;color:rgba(238,246,255,.7);font-size:16px}
+.hero .side{position:absolute;right:64px;top:112px;width:320px;z-index:5;padding:24px 24px 26px}
+.hero .side .row{display:flex;justify-content:space-between;font:500 11px/1 var(--mono);letter-spacing:.14em;color:var(--dim);padding:10px 0;border-bottom:1px solid var(--line2)}
+.hero .side .row b{color:var(--wh);font-weight:500}
+.hero .side .price{font:600 46px/1 var(--disp);margin:14px 0 4px}
+.hero .side .cta{display:flex;gap:10px;margin-top:20px}
+.hero .side .cta .btn{flex:1;justify-content:center;padding:0 12px}
+.hero .callout{position:absolute;z-index:6;font:500 10.5px/1.5 var(--mono);letter-spacing:.12em;color:var(--dim);text-transform:uppercase;white-space:nowrap;transform:translate(-5px,calc(-100% - var(--len,90px)))}
+.hero .callout b{display:block;color:var(--wh);font:600 15px/1.2 var(--disp);letter-spacing:.06em}
+.hero .callout i{position:absolute;left:4px;top:calc(100% + 6px);width:1px;height:calc(var(--len,90px) - 6px);background:linear-gradient(var(--cy),rgba(0,229,255,.2))}
+.hero .callout::after{content:"";position:absolute;left:0;top:calc(100% + var(--len,90px) - 5px);width:9px;height:9px;border:1px solid var(--cy);background:var(--bg);transform:rotate(45deg);box-shadow:0 0 12px var(--cy)}
+.hero .callout.mgc i{background:linear-gradient(var(--mg),rgba(255,43,214,.2))}.hero .callout.mgc::after{border-color:var(--mg);box-shadow:0 0 12px var(--mg)}
+.hero .callout.dn{transform:translate(-5px,var(--len,90px))}
+.hero .callout.dn i{top:auto;bottom:calc(100% + 6px)}
+.hero .callout.dn::after{top:auto;bottom:calc(100% + var(--len,90px) - 5px)}
+.hero .cursor{z-index:7}
+.hero .ttick{position:absolute;z-index:4;font:500 10px/1 var(--mono);letter-spacing:.16em;color:var(--cy);opacity:.8}
+.hero .hudl{position:absolute;left:64px;bottom:120px;z-index:5;display:flex;gap:34px}
+.hero .hudl div{border-left:2px solid var(--cy);padding-left:14px}
+.hero .hudl b{display:block;font:600 34px/1 var(--disp);margin-top:8px}.hero .hudl b small{font:500 12px var(--mono);color:var(--cy);margin-left:6px}
+.hero .bot{position:absolute;left:64px;right:64px;bottom:34px;z-index:6;display:flex;justify-content:space-between;align-items:flex-end}
+.hero .bot .sc{display:flex;gap:16px;align-items:center;font:500 11px/1 var(--mono);letter-spacing:.2em;color:var(--dim)}
+.hero .bot .sc i{width:120px;height:2px;background:var(--line);position:relative;overflow:hidden}
+.hero .bot .sc i::after{content:"";position:absolute;inset:0;width:40%;background:var(--cy);box-shadow:0 0 10px var(--cy);animation:load 1.8s ease-in-out infinite}
+@keyframes load{from{transform:translateX(-100%)}to{transform:translateX(260%)}}
+.hero .bot .ch{display:flex;gap:6px}
+.hero .bot .ch span{font:500 11px/1 var(--mono);letter-spacing:.14em;padding:10px 14px;border:1px solid var(--line2);color:var(--dim);background:rgba(5,7,13,.6)}
+.hero .bot .ch span.on{border-color:var(--cy);color:var(--cy);background:rgba(0,229,255,.08)}
+.coord.a{left:64px;top:92px;z-index:5}.coord.b{right:64px;top:92px;z-index:5}
+.hero .fade{position:absolute;left:0;right:0;bottom:0;height:160px;z-index:4;background:linear-gradient(transparent,var(--bg));pointer-events:none}
+
+/* telemetry dashboard */
+.dash-s{position:relative;padding:120px 64px 110px;display:grid;grid-template-columns:380px minmax(0,1fr) 250px;gap:36px;align-items:center;border-top:1px solid var(--line);background:linear-gradient(180deg,var(--bg2),var(--bg))}
+.dash-s .big{position:relative;width:380px;height:380px}
+.dash-s .big .rings{position:absolute;inset:-20px;border:1px dashed rgba(0,229,255,.2);border-radius:50%;animation:spin 40s linear infinite}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line)}
+.stats>div{padding:28px 24px 24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);position:relative}
+.stats>div:nth-child(3n){border-right:0}.stats>div:nth-child(n+4){border-bottom:0}
+.stats .v{font:600 54px/1 var(--disp);letter-spacing:-.03em;display:flex;align-items:baseline;gap:8px}
+.stats .v small{font:500 15px/1 var(--mono);color:var(--cy);letter-spacing:.06em}
+.stats .k{margin-top:14px;display:flex;justify-content:space-between;gap:8px;white-space:nowrap}.stats .k .lbl{letter-spacing:.14em;font-size:10px}
+.stats .bar{height:3px;background:var(--line2);margin-top:16px;position:relative}
+.stats .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--cy);box-shadow:0 0 10px var(--cy);animation:grow 1.4s cubic-bezier(.2,.8,.2,1) both}
+.stats>div.hl{background:rgba(255,43,214,.06)}.stats>div.hl .v small,.stats>div.hl .lbl{color:var(--mg)}.stats>div.hl .bar i{background:var(--mg);box-shadow:0 0 10px var(--mg)}
+@keyframes grow{from{width:0}}
+.dash-s .right{display:flex;flex-direction:column;gap:22px}
+.dash-s .right .note{padding:22px;font-size:14px;color:var(--dim)}
+.dash-s .right .note b{display:block;color:var(--wh);font:600 20px/1.2 var(--disp);margin-bottom:6px}
+.dash-s .hdr{position:absolute;left:64px;top:56px;right:64px;display:flex;justify-content:space-between}
+
+/* chapters */
+.chap{padding:140px 64px 140px;position:relative;overflow:hidden}
+.chap .row{display:grid;grid-template-columns:1fr 1fr 1.6fr 1fr;gap:16px;height:600px}
+.cc{position:relative;overflow:hidden;clip-path:var(--cut);border:1px solid var(--line)}
+.cc [data-img]{position:absolute;inset:0}
+.cc [data-img] img{filter:grayscale(.6) brightness(.55) contrast(1.1)}
+.cc::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,13,.2),rgba(5,7,13,.92) 80%)}
+.cc .in{position:absolute;left:26px;right:26px;bottom:26px;z-index:3}
+.cc .no{position:absolute;left:26px;top:24px;z-index:3;font:500 12px/1 var(--mono);color:var(--cy);letter-spacing:.2em}
+.cc h3{font:600 34px/1 var(--disp);text-transform:uppercase;letter-spacing:-.01em;margin:10px 0 0}
+.cc .rd{position:absolute;right:24px;top:22px;z-index:3;font:500 10px/1 var(--mono);color:var(--dim);letter-spacing:.14em}
+.cc.on{border-color:var(--cy);box-shadow:0 0 60px rgba(0,229,255,.25)}
+.cc.lite [data-img] img{filter:saturate(1.1) brightness(.9) contrast(1.05)}
+.cc.on [data-img] img{filter:saturate(1.3) brightness(.8);transform:scale(1.06)}
+.cc.on::after{background:linear-gradient(180deg,rgba(5,7,13,.75),rgba(5,7,13,0) 18%,rgba(5,7,13,0) 30%,rgba(5,7,13,.95) 85%)}
+.cc.on h3{font-size:52px}
+.cc.on p{color:rgba(238,246,255,.75);margin:14px 0 22px;max-width:440px}
+.cc.on .kv{display:flex;gap:30px;margin-bottom:22px}
+.cc.on .kv b{display:block;font:600 30px/1 var(--disp);color:var(--cy)}
+.cc .vline{position:absolute;left:26px;top:58px;bottom:150px;width:1px;background:linear-gradient(var(--cy),transparent);z-index:3}
+.chap .cursor{left:930px;top:360px}
+
+/* film */
+.film{position:relative;height:760px;overflow:hidden;margin:0 64px;clip-path:polygon(40px 0,100% 0,100% calc(100% - 40px),calc(100% - 40px) 100%,0 100%,0 40px)}
+.film [data-img]{position:absolute;inset:-20px}
+.film [data-img] img{filter:saturate(1.2) contrast(1.1) brightness(.75)}
+.film::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,13,.9),transparent 55%),linear-gradient(0deg,rgba(5,7,13,.8),transparent 40%)}
+.film .txt{position:absolute;left:64px;top:90px;z-index:3;width:640px}
+.film .txt h2{font:600 110px/.86 var(--disp);text-transform:uppercase;letter-spacing:-.03em;margin:22px 0 26px}
+.film .txt p{color:rgba(238,246,255,.75);font-size:17px;max-width:470px}
+.film .play{position:absolute;left:860px;top:250px;z-index:3;width:190px;height:190px;display:grid;place-items:center}
+.film .play::before{content:"";position:absolute;inset:0;border:1px solid var(--cy);border-radius:50%;animation:pulse 2s infinite}
+.film .play::after{content:"";position:absolute;inset:24px;border:1px dashed rgba(0,229,255,.5);border-radius:50%;animation:spin 14s linear infinite}
+.film .play b{width:84px;height:84px;background:var(--cy);display:grid;place-items:center;color:#02060b;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);box-shadow:0 0 40px var(--cy)}
+.film .play b .ic{width:28px;height:28px}
+.film .tl{position:absolute;left:64px;right:64px;bottom:44px;z-index:3;display:flex;align-items:center;gap:22px;font:500 11px/1 var(--mono);letter-spacing:.14em;color:var(--dim)}
+.film .tl .tr{flex:1;height:2px;background:rgba(238,246,255,.15);position:relative}
+.film .tl .tr i{position:absolute;left:0;top:0;height:2px;width:38%;background:var(--cy);box-shadow:0 0 10px var(--cy)}
+.film .tl .tr em{position:absolute;top:-5px;width:2px;height:12px;background:rgba(238,246,255,.35)}
+.film .tl .tr u{position:absolute;left:38%;top:-7px;width:16px;height:16px;margin-left:-8px;background:var(--wh);transform:rotate(45deg);box-shadow:0 0 14px var(--cy)}
+.film .chip{position:absolute;z-index:3;padding:14px 16px;font:500 10px/1.5 var(--mono);letter-spacing:.12em;color:var(--dim)}
+.film .chip b{display:block;font:600 22px/1 var(--disp);color:var(--wh);letter-spacing:0;margin-top:6px}
+
+/* allocation */
+.alloc-s{padding:150px 64px 150px;display:grid;grid-template-columns:1fr 640px;gap:90px;align-items:center}
+.alloc-s h2{font:600 104px/.86 var(--disp);letter-spacing:-.03em;text-transform:uppercase;margin:22px 0 28px}
+.alloc-s h2 span{color:var(--mg);text-shadow:0 0 30px rgba(255,43,214,.5)}
+.alloc-s p{color:var(--dim);font-size:17px;max-width:520px}
+.regions{display:grid;grid-template-columns:repeat(4,1fr);margin:40px 0 44px;border-top:1px solid var(--line)}
+.regions div{padding:18px 0 0}
+.regions b{display:block;font:600 34px/1 var(--disp);margin-top:10px}
+.cells{display:grid;grid-template-columns:repeat(11,1fr);gap:8px;padding:30px;position:relative}
+.cells i{aspect-ratio:1;border:1px solid rgba(0,229,255,.35);background:rgba(0,229,255,.05);position:relative;font:500 8px/1 var(--mono);color:var(--dim2);display:grid;place-items:center;font-style:normal}
+.cells i.x{background:rgba(238,246,255,.06);border-color:rgba(238,246,255,.08);color:transparent}
+.cells i.x::after{content:"";position:absolute;inset:30%;border-top:1px solid rgba(238,246,255,.25);transform:rotate(45deg)}
+.cells i.me{background:var(--mg);border-color:var(--mg);color:#fff;box-shadow:0 0 24px var(--mg);animation:pulse 1.4s infinite;z-index:2}
+.cells .tip{position:absolute;z-index:3;left:196px;top:226px;box-shadow:0 0 30px rgba(255,43,214,.35);padding:12px 14px;font:500 10px/1.5 var(--mono);letter-spacing:.12em;color:var(--dim);background:#0b1020;border:1px solid var(--mg)}
+.cells .tip b{display:block;color:var(--wh);font:600 18px/1.1 var(--disp);letter-spacing:0}
+.legend{display:flex;gap:26px;padding:0 30px 26px;font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--dim)}
+.legend span{display:flex;align-items:center;gap:8px}.legend span i{width:12px;height:12px;border:1px solid var(--cy)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="hero">
+  <div id="hero3d"></div>
+  <div class="fade"></div>
+  <span class="coord a">48.1371°N · 11.5754°E · STUDIO 02</span><span class="coord b">TURNTABLE 0.12 RAD/S · REC ●</span>
+  <div class="boot">
+    <div>&gt; VANTA OS 26.10 <b>// cold boot</b></div>
+    <div>&gt; cell pack 120 kWh ......... <em>[ OK ]</em></div>
+    <div>&gt; quad motor array 4 × 355 kW <em>[ OK ]</em></div>
+    <div class="caret">&gt; pilot detected · <b>launch ready</b></div>
+  </div>
+  <h1 class="glitch-in">Silent</h1>
+
+  <div class="side panel br cut">
+    <div class="lbl cy">// VANTA Σ1 · Series 001</div>
+    <div class="price">€2.1M</div>
+    <div class="lbl">Ex-works · 99 numbered units</div>
+    <div style="margin-top:14px">
+      <div class="row"><span>Power</span><b>1,900 HP</b></div>
+      <div class="row"><span>0–100 km/h</span><b>1.9 S</b></div>
+      <div class="row"><span>V-max</span><b>412 KM/H</b></div>
+      <div class="row"><span>Deposit</span><b>€250,000</b></div>
+    </div>
+    <div class="cta"><a class="btn sm">Reserve</a><a class="btn sm ghost">Configure</a></div>
+  </div>
+
+  <div class="callout" id="co1" style="--len:120px"><i></i>Light signature<b>2.4 m wraparound</b></div>
+  <div class="callout dn" id="co4" style="--len:150px"><i></i>Front axle<b>2 × 355 kW · axial flux</b></div>
+  <div class="callout dn mgc" id="co5" style="--len:120px"><i></i>Rear axle<b>2 × 355 kW · torque vectoring</b></div>
+  <div class="cursor" id="cur"><i></i><i></i><i></i><i></i><b>DRAG · ROTATE</b></div>
+
+  <div class="hudl">
+    <div><span class="lbl">0–100</span><b>1.9<small>S</small></b></div>
+    <div><span class="lbl">Output</span><b>1,417<small>KW</small></b></div>
+    <div><span class="lbl">Mass</span><b>1,640<small>KG</small></b></div>
+  </div>
+  <div class="bot">
+    <div class="sc"><span>SCROLL TO IGNITE</span><i></i></div>
+    <div class="ch"><span class="on">01 · LAUNCH</span><span>02 · POWER</span><span>03 · AERO</span><span>04 · ALLOCATION</span></div>
+  </div>
+</section>
+
+<section class="dash-s">
+  <div class="hdr"><span class="lbl cy">// 02 · Live telemetry · Nordhalle test loop, lap 14</span><span class="lbl">Ambient 14°C · Track 22°C · Grip 0.98 μ</span></div>
+  <div class="big">
+    <div class="rings"></div>
+    <div data-gauge='{"v":86,"val":"<tspan data-count=\"412\">412</tspan>","unit":"KM/H · V-MAX","label":"VELOCITY","size":380,"ticks":60}'></div>
+  </div>
+  <div class="stats">
+    <div><div class="v"><span data-count="1900">1,900</span><small>HP</small></div><div class="k"><span class="lbl">Power</span><span class="lbl cy">1,417 kW</span></div><div class="bar"><i style="width:94%"></i></div></div>
+    <div class="hl"><div class="v"><span data-count="1.9">1.9</span><small>S</small></div><div class="k"><span class="lbl">0–100 km/h</span><span class="lbl">Launch</span></div><div class="bar"><i style="width:97%"></i></div></div>
+    <div><div class="v"><span data-count="2340">2,340</span><small>NM</small></div><div class="k"><span class="lbl">Torque</span><span class="lbl cy">Instant</span></div><div class="bar"><i style="width:88%"></i></div></div>
+    <div><div class="v"><span data-count="1640">1,640</span><small>KG</small></div><div class="k"><span class="lbl">Dry mass</span><span class="lbl cy">1.16 HP/KG</span></div><div class="bar"><i style="width:62%"></i></div></div>
+    <div><div class="v"><span data-count="540">540</span><small>KM</small></div><div class="k"><span class="lbl">WLTP range</span><span class="lbl cy">800 V</span></div><div class="bar"><i style="width:72%"></i></div></div>
+    <div><div class="v"><span data-count="99">99</span><small>UNITS</small></div><div class="k"><span class="lbl">Series</span><span class="lbl cy">37 open</span></div><div class="bar"><i style="width:63%"></i></div></div>
+  </div>
+  <div class="right">
+    <div data-gauge='{"v":72,"val":"1.42","unit":"MW · OUTPUT","label":"POWER ARC","color":"#ff2bd6","size":250}'></div>
+    <div class="note panel br cut"><b>No gearbox. No wait.</b>Four motors, one per wheel, vector torque a thousand times a second.</div>
+  </div>
+</section>
+
+<div class="mq"><div class="t"><span>Zero emissions</span><i></i><span>1,900 horsepower</span><i></i><span>99 units</span><i></i><span>1.9 seconds</span><i></i><span>Zero emissions</span><i></i><span>1,900 horsepower</span><i></i><span>99 units</span><i></i><span>1.9 seconds</span><i></i></div></div>
+
+<section class="chap">
+  <div class="sh"><div><div class="idx">03 / CHAPTERS</div><h2>Four systems.<br><span class="outline">One pulse.</span></h2></div><p>Σ1 was designed from the battery outwards. Each chapter is a system you can inspect, configure and feel on track.</p></div>
+  <div class="row">
+    <div class="cc"><div data-img="1774416252804-bc4b2449bdd9|800"></div><span class="no">CH.01</span><span class="rd">RD 01/04</span><div class="vline"></div><div class="in"><span class="lbl">Monocoque</span><h3>Carbon<br>Skeleton</h3></div></div>
+    <div class="cc lite"><div data-img="1645400379459-f6fd3d963fd4|800"></div><span class="no">CH.02</span><span class="rd">RD 02/04</span><div class="vline"></div><div class="in"><span class="lbl">Aerodynamics</span><h3>Air<br>Sculpted</h3></div></div>
+    <div class="cc on br"><div data-img="1496096265110-f83ad7f96608|1200"></div><span class="no">CH.03 · ACTIVE</span><span class="rd cy">RD 03/04 ▮▮▮▯</span><div class="in"><span class="lbl cy">Quad-motor powertrain</span><h3>Four hearts.<br>No sound.</h3><p>Four axial-flux motors, 355 kW each, fed by an 800-volt cell pack cooled from inside every module.</p><div class="kv"><div><span class="lbl">Output</span><b>1,417 kW</b></div><div><span class="lbl">Response</span><b>1 ms</b></div><div><span class="lbl">Torque</span><b>2,340 Nm</b></div></div><a class="btn sm">Open engineering ${'→'}</a></div></div>
+    <div class="cc lite"><div data-img="1720556405511-a83593e516c6|800"></div><span class="no">CH.04</span><span class="rd">RD 04/04</span><div class="vline"></div><div class="in"><span class="lbl">Circuit</span><h3>Proven<br>at Night</h3></div></div>
+  </div>
+  <div class="cursor"><i></i><i></i><i></i><i></i><b>OPEN</b></div>
+</section>
+
+<section class="film">
+  <div data-img="1577283616790-c8399d29faec|2000"></div>
+  <div class="txt"><div class="lbl cy">// Film 02 · Tunnel run · 04:12</div><h2>Light<br>bends<br><span class="outline">around it.</span></h2><p>We took Σ1 into a closed alpine tunnel at 03:00 and let it run to 380 km/h. The only sound on the recording is the air.</p></div>
+  <div class="play"><b><span data-ic="play"></span></b></div>
+  <div class="chip panel br" style="left:1120px;top:120px">PEAK SPEED<b>381.4 km/h</b></div>
+  <div class="chip panel br" style="left:1120px;top:220px;--bc:var(--mg)">DECIBELS, CABIN<b class="mg">58 dB</b></div>
+  <div class="tl"><span>01:36</span><div class="tr"><i></i><em style="left:12%"></em><em style="left:30%"></em><em style="left:55%"></em><em style="left:78%"></em><u></u></div><span>04:12</span><span class="cy">● 4K HDR</span></div>
+</section>
+
+<section class="alloc-s">
+  <div>
+    <div class="sh" style="margin:0;display:block"><div class="idx">04 / ALLOCATION</div></div>
+    <h2>62 claimed.<br><span>37 remain.</span></h2>
+    <p>Every Σ1 carries a chassis number from 001 to 099, engraved into the monocoque. Reserve with a €250,000 deposit and choose your number before it goes.</p>
+    <div class="regions"><div><span class="lbl">Europe</span><b>24</b></div><div><span class="lbl">Middle East</span><b>14</b></div><div><span class="lbl">Asia-Pacific</span><b>13</b></div><div><span class="lbl">Americas</span><b>11</b></div></div>
+    <a class="btn">Claim a chassis number <span data-ic="arrow"></span></a>
+  </div>
+  <div class="panel br cut">
+    <div class="cells" id="cells"><div class="tip">CHASSIS 047 · OPEN<b>Hold for 24 h →</b></div></div>
+    <div class="legend"><span><i></i>Open</span><span><i style="background:rgba(238,246,255,.08);border-color:rgba(238,246,255,.1)"></i>Allocated</span><span><i style="background:var(--mg);border-color:var(--mg)"></i>Selected</span><span style="margin-left:auto" class="cy">LIVE · 14:02:37 CET</span></div>
+  </div>
+</section>
+
+<div data-footer></div>
+<script src="vanta.js"></script>
+<script src="vanta3d.js"></script>
+<script src="home3d.js"></script>
+<script>
+const taken = new Set([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,27,28,29,31,33,34,36,38,39,41,42,44,45,48,50,51,53,55,58,60,61,63,66,67,69,70,72,75,77,80,81,84,88,90,93,96,98,99]);
+let h = '';
+for (let i = 1; i <= 99; i++) h += `<i class="${i === 47 ? 'me' : taken.has(i) ? 'x' : ''}">${String(i).padStart(3, '0')}</i>`;
+document.getElementById('cells').insertAdjacentHTML('beforeend', h);
+document.querySelector('.cc.on .btn').innerHTML = 'Open engineering';
+vanta('home');
+</script>
+</body></html>

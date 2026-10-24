@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Nocté — Your Bag</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nocte.css">
+<style>
+html,body{height:1080px;overflow:hidden}
+.under{position:absolute;inset:0;width:1440px;height:1080px;border:0;filter:blur(7px) brightness(.55) saturate(1.1);transform:scale(1.02) translateX(-60px);transform-origin:50% 0}
+.veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,6,5,.2),rgba(7,6,5,.65))}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:560px;z-index:10;overflow:hidden;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,rgba(28,22,15,.82),rgba(14,11,8,.9));backdrop-filter:blur(30px) saturate(140%);-webkit-backdrop-filter:blur(30px) saturate(140%);
+  border-left:1px solid rgba(243,215,155,.22);box-shadow:-60px 0 140px rgba(0,0,0,.6)}
+.drawer::before{content:"";position:absolute;left:-1px;top:12%;height:30%;width:2px;background:linear-gradient(transparent,var(--gold),transparent);box-shadow:0 0 20px var(--gold)}
+.dh{padding:26px 40px 18px;display:flex;justify-content:space-between;align-items:center}
+.dh h2{font:italic 400 46px/1 var(--serif)}
+.dh h2 sup{font:500 13px/1 var(--sans);color:var(--gold);font-style:normal;margin-left:6px;vertical-align:top}
+.x{width:48px;height:48px;border-radius:50%;border:1px solid var(--faint);display:grid;place-items:center}
+.ship{margin:0 40px;padding:16px 18px;border-radius:16px;background:rgba(216,178,106,.08);border:1px solid rgba(243,215,155,.2);font-size:13px}
+.ship .tr{height:4px;border-radius:9px;background:var(--faint);margin-top:12px;position:relative}
+.ship .tr i{position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:9px;background:linear-gradient(90deg,#a8752e,#f3d79b);box-shadow:0 0 14px rgba(243,215,155,.6)}
+.items{padding:10px 40px 0;flex:1}
+.it{display:grid;grid-template-columns:100px 1fr;gap:20px;padding:18px 0;border-bottom:1px solid var(--faint)}
+.it .ph{height:120px;border-radius:60px 60px 12px 12px;box-shadow:0 0 0 1px rgba(243,215,155,.2)}
+.it .top{display:flex;justify-content:space-between;align-items:baseline}
+.it b{font:italic 400 30px/1 var(--serif);font-weight:400}
+.it .pr{font:500 16px/1 var(--sans)}
+.it small{display:block;color:var(--dim);font-size:12px;margin-top:8px}
+.it .eng{display:inline-flex;gap:8px;align-items:center;margin-top:12px;padding:6px 12px;border-radius:999px;border:1px dashed rgba(243,215,155,.4);font:italic 400 15px/1 var(--serif);color:var(--gold-2)}
+.it .ctl{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.qty{display:flex;align-items:center;gap:16px;height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--faint);font-size:14px}
+.qty .ic{width:14px;height:14px}
+.it .rm{font-size:12px;color:var(--dim);text-decoration:underline;text-underline-offset:4px}
+.samples{margin:16px 40px 0}
+.samples .h{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin-bottom:12px}
+.samples .row{display:flex;gap:10px}
+.samples .row div{flex:1;border-radius:16px;border:1px solid var(--faint);padding:10px;display:flex;gap:10px;align-items:center;font:italic 400 16px/1.1 var(--serif)}
+.samples .row div i{width:40px;height:40px;border-radius:50%;flex:none;overflow:hidden}
+.samples .row div.on{border-color:var(--gold);background:rgba(216,178,106,.08)}
+.wrap{margin:14px 40px 0;display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-radius:16px;border:1px solid var(--faint);font-size:14px}
+.wrap small{display:block;color:var(--dim);font-size:12px;margin-top:4px}
+.tog{width:46px;height:26px;border-radius:99px;background:var(--gold);position:relative}
+.tog::after{content:"";position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--black)}
+.foot{padding:18px 40px 26px;border-top:1px solid var(--faint);margin-top:16px;background:rgba(7,6,5,.35)}
+.foot .l{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);margin-bottom:6px}
+.foot .tot{display:flex;justify-content:space-between;align-items:baseline;margin:8px 0 14px}
+.foot .tot b{font:italic 400 52px/1 var(--serif)}
+.foot .btn{width:100%;justify-content:space-between;height:64px}
+.pays{display:flex;gap:8px;margin-top:14px}
+.pays span{flex:1;height:46px;border-radius:12px;border:1px solid var(--faint);display:grid;place-items:center;font:600 13px/1 var(--sans)}
+.toast{position:absolute;left:520px;top:140px;z-index:11;display:flex;gap:16px;align-items:center;padding:14px 22px 14px 14px;border-radius:999px;background:rgba(239,230,216,.95);color:var(--black);box-shadow:0 30px 60px rgba(0,0,0,.4)}
+.toast i{width:46px;height:46px;border-radius:50%;background:var(--black);color:var(--gold);display:grid;place-items:center}
+.toast b{font:italic 400 20px/1 var(--serif);display:block}
+.toast small{font-size:12px;color:#6b6257}
+.fly{position:absolute;z-index:11;width:70px;height:110px;border-radius:40px 40px 10px 10px;left:760px;top:330px;transform:rotate(18deg);box-shadow:0 0 50px rgba(243,215,155,.6);opacity:.85}
+.trail{position:absolute;z-index:10;left:620px;top:120px;width:420px;height:320px;border:2px dashed rgba(243,215,155,.4);border-left:0;border-bottom:0;border-radius:0 300px 0 0}
+</style></head>
+<body>
+<iframe class="under" src="product.html" scrolling="no"></iframe>
+<div class="veil"></div>
+<div class="trail"></div>
+<div class="fly" data-img="1733660227163-01bc46e0d7d7|300"></div>
+<div class="toast"><i><span data-ic="check"></span></i><div><b>Or Liquide added</b><small>50 ml · engraved “À toi, L.”</small></div></div>
+
+<aside class="drawer">
+  <div class="dh"><h2>Your bag<sup>(2)</sup></h2><span class="x"><span data-ic="close"></span></span></div>
+  <div class="ship">✦ You’ve unlocked <b>free express delivery</b> and a <b>gift coffret</b>.<div class="tr"><i></i></div></div>
+  <div class="items">
+    <div class="it"><div class="ph" data-img="1733660227163-01bc46e0d7d7|400"></div><div><div class="top"><b>Or Liquide</b><span class="pr">€ 295</span></div><small>Extrait de parfum · 50 ml · Nº 07</small><span class="eng"><span data-ic="sparkle"></span>À toi, L.</span><div class="ctl"><span class="qty"><span data-ic="minus"></span>1<span data-ic="plus"></span></span><span class="rm">Remove</span></div></div></div>
+    <div class="it"><div class="ph" data-img="1627933234009-0f5ce6eb4e3a|400"></div><div><div class="top"><b>Vert Absinthe</b><span class="pr">€ 85</span></div><small>Travel extrait · 10 ml · Nº 03</small><div class="ctl"><span class="qty"><span data-ic="minus"></span>1<span data-ic="plus"></span></span><span class="rm">Remove</span></div></div></div>
+  </div>
+  <div class="samples"><div class="h"><span class="mono gold" style="font-size:10px">Choose 2 complimentary samples</span><span>2 / 2</span></div>
+    <div class="row"><div class="on"><i data-img="1608721279136-cd41b752fa41|120"></i>Bleu Minuit</div><div class="on"><i data-img="1516565349308-c76fe36a115c|120"></i>Rose Velours</div><div><i data-img="1598634222670-87c5f558119c|120"></i>Lumière Noire</div></div></div>
+  <div class="wrap"><div>Black lacquer gift box & wax seal<small>Handwritten card from our atelier</small></div><span class="tog"></span></div>
+  <div class="foot">
+    <div class="l"><span>Subtotal</span><span style="color:var(--bone)">€ 380.00</span></div>
+    <div class="l"><span>Express delivery · Thu 29 Oct</span><span style="color:var(--gold)">Complimentary</span></div>
+    <div class="l"><span>Engraving & gift box</span><span style="color:var(--gold)">Complimentary</span></div>
+    <div class="tot"><span style="font-size:14px">Total <span style="color:var(--dim);font-size:12px">incl. VAT</span></span><b class="gold-text">€ 380</b></div>
+    <a class="btn gold">Secure checkout<span class="o"><span data-ic="lock"></span></span></a>
+    <div class="pays"><span>Apple Pay</span><span>Google Pay</span><span>PayPal</span></div>
+  </div>
+</aside>
+<script src="nocte.js"></script>
+<script>nocte('Fragrances', { bag: 2 });</script>
+</body></html>

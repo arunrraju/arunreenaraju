@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Nocté — Maison de Parfum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nocte.css">
+<style>
+.hero{position:relative;height:1120px;overflow:hidden;background:radial-gradient(120% 80% at 50% 60%,#2a1d0f 0%,#0d0a07 45%,#070605 70%)}
+.hero .smoke{position:absolute;inset:0;opacity:.32;mix-blend-mode:screen}
+.hero .smoke img{filter:sepia(1) saturate(2.4) hue-rotate(-12deg) brightness(.9)}
+.hero .g1{width:620px;height:620px;left:410px;top:300px;background:radial-gradient(circle,#e3a54f 0%,rgba(200,105,43,.35) 45%,transparent 70%)}
+.hero .t1,.hero .t2{position:absolute;left:0;right:0;font-family:var(--serif);font-weight:400;letter-spacing:-.035em;line-height:.8;white-space:nowrap;z-index:3}
+.hero .t1{top:170px;left:64px;font-size:250px;font-style:italic}
+.hero .t1 .ch{display:inline-block}
+.hero .t2{top:670px;text-align:right;right:64px;left:auto;font-size:250px}
+.hero .arch{position:absolute;left:540px;top:180px;width:360px;height:640px;border-radius:200px 200px 16px 16px;z-index:2;box-shadow:0 60px 140px rgba(0,0,0,.6),0 0 0 1px rgba(243,215,155,.25)}
+.hero .arch img{transform:scale(1.18);object-position:50% 60%}
+.hero .ghost{position:absolute;left:580px;top:180px;width:360px;height:640px;border-radius:200px 200px 16px 16px;z-index:1;opacity:.35;filter:blur(14px)}
+.hero .ghost.b{left:625px;opacity:.16;filter:blur(26px)}
+.hero .ring{position:absolute;left:470px;top:110px;width:500px;height:780px;border:1px solid rgba(243,215,155,.18);border-radius:260px 260px 24px 24px;z-index:1}
+.glass{background:rgba(25,20,14,.45);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(243,215,155,.18);border-radius:18px}
+.hero .note{position:absolute;z-index:4;padding:14px 18px;display:flex;align-items:center;gap:12px;font-size:13px}
+.hero .note i{width:34px;height:34px;border-radius:50%;flex:none}
+.hero .note b{display:block;font:italic 400 18px/1.1 var(--serif)}
+.hero .note small{color:var(--dim);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.hero .intro{position:absolute;left:64px;bottom:60px;width:380px;z-index:4}
+.hero .intro p{color:rgba(239,230,216,.75);font-size:16px;margin:18px 0 30px}
+.hero .meta{position:absolute;right:64px;top:150px;text-align:right;z-index:4}
+.hero .meta .n{font:italic 400 64px/1 var(--serif)}
+.hero .scroll{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--dim)}
+.hero .scroll i{width:1px;height:56px;background:linear-gradient(var(--gold),transparent)}
+.hero .badge{position:absolute;left:64px;top:450px;z-index:5}
+.hero .slides{position:absolute;right:64px;bottom:60px;z-index:4;display:flex;gap:10px;align-items:center;font:500 12px/1 var(--sans);color:var(--dim)}
+.hero .slides i{width:46px;height:2px;background:var(--faint)}.hero .slides i.on{background:var(--gold);box-shadow:0 0 10px var(--gold)}
+
+.statement{padding:200px 64px 170px;position:relative}
+.statement p{font:400 78px/1.12 var(--serif);letter-spacing:-.02em;max-width:1300px}
+.statement p .dim{color:rgba(239,230,216,.18)}
+.statement p em{color:var(--gold)}
+.statement .pic{display:inline-block;width:170px;height:84px;border-radius:999px;vertical-align:middle;margin:0 6px;position:relative;top:-8px}
+.statement .side{position:absolute;right:64px;top:110px}
+
+.coll{padding:40px 0 160px;position:relative;overflow:hidden}
+.coll .hd{display:flex;justify-content:space-between;align-items:flex-end;padding:0 64px 70px}
+.coll h2{font:400 128px/.85 var(--serif);letter-spacing:-.03em}
+.coll .tabs{display:flex;gap:8px}
+.coll .tabs span{height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--faint);display:flex;align-items:center;font-size:13px}
+.coll .tabs span.on{background:var(--bone);color:var(--black);font-weight:600}
+.track{display:flex;gap:28px;padding-left:64px;perspective:1600px}
+.card{flex:none;width:400px;position:relative;transform-style:preserve-3d}
+.card .ph{height:540px;border-radius:20px;position:relative}
+.card .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(7,6,5,.85))}
+.card .num{position:absolute;top:-62px;left:-6px;font:italic 400 120px/1 var(--serif);color:transparent;-webkit-text-stroke:1px rgba(243,215,155,.35);z-index:3}
+.card .lab{position:absolute;left:28px;right:28px;bottom:26px;z-index:3;display:flex;justify-content:space-between;align-items:flex-end}
+.card h3{font:italic 400 40px/1 var(--serif)}
+.card small{display:block;color:var(--dim);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-top:10px}
+.card .pr{font:500 16px/1 var(--sans)}
+.card.t1{transform:rotateY(14deg) translateZ(-60px)}
+.card.t2{transform:translateY(-30px) scale(1.04);box-shadow:0 50px 120px rgba(216,178,106,.25);border-radius:20px}
+.card.t2 .ph{outline:1px solid rgba(243,215,155,.5)}
+.card.t3{transform:rotateY(-10deg) translateZ(-40px)}
+.card.t4{transform:rotateY(-18deg) translateZ(-120px);opacity:.7}
+.coll .cursor{left:612px;top:420px}
+.coll .bar{margin:70px 64px 0;display:flex;align-items:center;gap:24px;font:500 12px/1 var(--sans);color:var(--dim)}
+.coll .bar .tr{flex:1;height:1px;background:var(--faint);position:relative}
+.coll .bar .tr i{position:absolute;left:0;top:-1px;height:3px;width:34%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.coll .bar .arr{width:56px;height:56px;border-radius:50%;border:1px solid var(--faint);display:grid;place-items:center;color:var(--bone)}
+.coll .bar .arr.on{background:var(--bone);color:var(--black)}
+
+.anatomy{display:grid;grid-template-columns:1fr 1fr;min-height:1000px;position:relative}
+.anatomy .vis{position:relative}
+.anatomy .vis .wipe{position:absolute;inset:0;clip-path:inset(0 0 0 58%)}
+.anatomy .vis .wipe img{filter:sepia(.6) saturate(1.6) hue-rotate(-15deg)}
+.anatomy .vis .edge{position:absolute;top:0;bottom:0;left:58%;width:2px;background:var(--gold);box-shadow:0 0 30px 6px rgba(216,178,106,.6);z-index:3}
+.anatomy .vis .lbl{position:absolute;z-index:3;bottom:40px;font:500 11px/1 var(--sans);letter-spacing:.3em}
+.anatomy .tx{padding:150px 96px 120px}
+.anatomy h2{font:400 96px/.92 var(--serif);letter-spacing:-.03em;margin:26px 0 30px}
+.pyr{margin-top:60px}
+.pyr>div{display:grid;grid-template-columns:110px 1fr auto;gap:24px;align-items:center;padding:28px 0;border-top:1px solid var(--faint)}
+.pyr>div:last-child{border-bottom:1px solid var(--faint)}
+.pyr .k{font:500 11px/1 var(--sans);letter-spacing:.3em;color:var(--gold)}
+.pyr b{font:italic 400 36px/1 var(--serif)}
+.pyr small{display:block;color:var(--dim);margin-top:8px;font-size:13px}
+.pyr .dots{display:flex;gap:-8px}
+.pyr .dots i{width:52px;height:52px;border-radius:50%;margin-left:-12px;border:2px solid var(--black)}
+.pyr .on b{color:var(--gold-2)}
+
+.film img{object-position:50% 18%}
+.film{position:relative;height:880px;margin:160px 64px;border-radius:28px;overflow:hidden}
+.film::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.65))}
+.film>*:not(img){position:relative;z-index:2}
+.film .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:200px;height:200px;border-radius:50%;display:grid;place-items:center;color:var(--bone)}
+.film .play .in{width:96px;height:96px;border-radius:50%;background:var(--bone);color:var(--black);display:grid;place-items:center}
+.film .play .in .ic{width:26px;height:26px}
+.film .play::before{content:"";position:absolute;inset:-26px;border-radius:50%;border:1px solid rgba(243,215,155,.3)}
+.film .ttl{position:absolute;left:56px;bottom:52px}
+.film .ttl h3{font:italic 400 84px/.9 var(--serif);margin-top:16px}
+.film .tc{position:absolute;right:56px;bottom:56px;display:flex;gap:18px;align-items:center;font:500 13px/1 var(--sans)}
+.film .tc .tr{width:240px;height:2px;background:rgba(255,255,255,.2);position:relative}
+.film .tc .tr i{position:absolute;inset:0;width:38%;background:var(--gold)}
+.film .top{position:absolute;left:56px;right:56px;top:46px;display:flex;justify-content:space-between}
+.film .rec{display:flex;gap:10px;align-items:center}.film .rec i{width:8px;height:8px;border-radius:50%;background:#e2483d;box-shadow:0 0 10px #e2483d}
+
+.bento{padding:0 64px 170px;display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:auto 380px 380px;gap:20px}
+.bento .h{grid-column:1/-1;margin-bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;height:auto}
+.bento>div{border-radius:22px;position:relative}
+.bento .tall{grid-row:span 2}
+.bento .cap{position:absolute;left:26px;right:26px;bottom:24px;z-index:2;display:flex;justify-content:space-between;align-items:flex-end}
+.bento .cap b{font:italic 400 38px/1 var(--serif)}
+.bento .cap small{display:block;color:rgba(239,230,216,.75);font-size:13px;margin-top:6px}
+.bento .cap .o{width:46px;height:46px;border-radius:50%;background:rgba(239,230,216,.14);backdrop-filter:blur(10px);display:grid;place-items:center}
+.bento>div[data-img]::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(7,6,5,.8))}
+.bento .stat{background:linear-gradient(150deg,#2a2015,#120e0a);border:1px solid rgba(243,215,155,.15);padding:36px;display:flex;flex-direction:column;justify-content:space-between}
+.bento .stat b{font:400 140px/.8 var(--serif)}
+
+.press{padding:150px 64px;text-align:center;border-top:1px solid var(--faint);position:relative;overflow:hidden}
+.press blockquote{font:italic 400 70px/1.08 var(--serif);max-width:1150px;margin:34px auto 44px;letter-spacing:-.02em}
+.press .logos{display:flex;justify-content:center;gap:64px;font:500 22px/1 var(--serif);color:var(--dim);letter-spacing:.1em;margin-top:70px}
+.press .dots{display:flex;justify-content:center;gap:8px}.press .dots i{width:7px;height:7px;border-radius:50%;background:var(--faint)}.press .dots i.on{background:var(--gold)}
+
+.book{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0 64px 160px;border-radius:28px;overflow:hidden;background:linear-gradient(120deg,#1d160f,#0e0b08);border:1px solid rgba(243,215,155,.14)}
+.book .tx{padding:90px 80px}
+.book h2{font:400 84px/.95 var(--serif);letter-spacing:-.03em;margin:22px 0 26px}
+.book .slots{display:flex;gap:10px;margin:34px 0 40px;flex-wrap:wrap}
+.book .slots span{height:46px;padding:0 20px;border-radius:999px;border:1px solid var(--faint);display:flex;align-items:center;font-size:13px}
+.book .slots span.on{border-color:var(--gold);color:var(--gold-2);background:rgba(216,178,106,.1)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="hero">
+  <div class="smoke" data-img="1556388275-bb5585725aca|2000"></div>
+  <div class="glow g1 pulse"></div>
+  <div class="ring"></div>
+  <div class="ghost b" data-img="1733660227163-01bc46e0d7d7|800"></div>
+  <div class="ghost" data-img="1733660227163-01bc46e0d7d7|800"></div>
+  <div class="arch float" data-img="1733660227163-01bc46e0d7d7|1000"></div>
+  <h1 class="t1"><span class="ch">T</span><span class="ch" style="transform:translateY(-14px)">h</span><span class="ch" style="transform:translateY(-26px)">e</span>&nbsp;<span class="gold-text">scent</span></h1>
+  <h1 class="t2"><span class="outline">of</span> mid<span class="it gold-text">night</span></h1>
+  <div class="meta"><div class="mono gold">Nº 07 — New</div><div class="n" style="margin-top:14px">Or Liquide</div><div style="color:var(--dim);font-size:13px;margin-top:10px">Extrait de Parfum · 50 ml</div></div>
+  <div class="note glass" style="left:930px;top:330px"><i style="background:radial-gradient(circle at 35% 35%,#ffcf7a,#b5641c)"></i><div><small>Top</small><b>Saffron & Bergamot</b></div></div>
+  <div class="note glass" style="left:300px;top:600px"><i style="background:radial-gradient(circle at 35% 35%,#e8a2a8,#7a2a3a)"></i><div><small>Heart</small><b>Damask Rose</b></div></div>
+  <div class="note glass" style="left:960px;top:640px"><i style="background:radial-gradient(circle at 35% 35%,#a07a5a,#2b1a10)"></i><div><small>Base</small><b>Oud & Ambergris</b></div></div>
+  <div class="cursor" style="left:800px;top:470px"><span>DRAG</span></div>
+  <div class="intro"><div class="mono gold">Maison de Parfum · Paris</div><p>Seven extraits, composed by hand in Grasse and aged ninety days in oak. Made for the hours after dark.</p><div style="display:flex;gap:12px"><a class="btn">Discover Or Liquide<span class="o"><span data-ic="arrow"></span></span></a></div></div>
+  <div data-badge="Discover the extrait · Nº 07 · Or Liquide · " data-icon="ne"></div>
+  <div class="slides"><span style="color:var(--bone)">01</span><i class="on"></i><i></i><i></i><i></i><span>04</span></div>
+  <div class="scroll"><span class="mono" style="font-size:10px">Scroll</span><i></i></div>
+  <div class="progress" style="top:420px;--p:16%"><span>01</span><div class="tr"><i></i></div><span>06</span></div>
+</section>
+
+<div class="marquee"><div class="t"><span>Or Liquide</span><i></i><span>Vert Absinthe</span><i></i><span>Bleu Minuit</span><i></i><span>Lumière Noire</span><i></i><span>Soleil Ambré</span><i></i><span>Or Liquide</span><i></i><span>Vert Absinthe</span><i></i><span>Bleu Minuit</span><i></i></div></div>
+
+<section class="statement">
+  <div data-badge="Est. 1924 · Grasse · Paris · Est. 1924 · " data-icon="sparkle" class="side" style="position:absolute;right:64px;top:90px"></div>
+  <div class="mono gold" style="margin-bottom:40px">( The Maison )</div>
+  <p>We compose perfume the slow way — <em>by hand,</em> <span class="pic" data-img="1622618991746-fe6004db3a47|400"></span> from rare absolutes <span class="dim">gathered at dawn, aged in French oak <span class="pic" data-img="1670381225856-997d3eea46df|400"></span> and poured into flacons blown one breath at a time.</span></p>
+  <div style="display:flex;gap:80px;margin-top:80px;color:var(--dim);font-size:14px"><span><b style="display:block;font:italic 400 54px/1 var(--serif);color:var(--bone)">102</b>years of craft</span><span><b style="display:block;font:italic 400 54px/1 var(--serif);color:var(--bone)">90</b>days aged in oak</span><span><b style="display:block;font:italic 400 54px/1 var(--serif);color:var(--bone)">4,000</b>flacons a year, numbered</span></div>
+</section>
+
+<section class="coll">
+  <div class="hd"><div><div class="mono gold" style="margin-bottom:24px">( 02 ) The Collection</div><h2>Seven <span class="it gold-text">nights</span></h2></div><div class="tabs"><span class="on">All extraits</span><span>Amber</span><span>Floral</span><span>Woody</span><span>Fresh</span></div></div>
+  <div class="track">
+    <div class="card t1"><span class="num">01</span><div class="ph" data-img="1627933234009-0f5ce6eb4e3a|900"></div><div class="lab"><div><h3>Vert Absinthe</h3><small>Green · Aromatic</small></div><span class="pr">€ 245</span></div></div>
+    <div class="card t2"><span class="num" style="-webkit-text-stroke-color:var(--gold)">02</span><div class="ph" data-img="1622618991746-fe6004db3a47|900"></div><div class="lab"><div><h3>Soleil Ambré</h3><small>Amber · Solar</small></div><span class="pr">€ 265</span></div></div>
+    <div class="card t3"><span class="num">03</span><div class="ph" data-img="1608721279136-cd41b752fa41|900"></div><div class="lab"><div><h3>Bleu Minuit</h3><small>Aquatic · Iris</small></div><span class="pr">€ 230</span></div></div>
+    <div class="card t4"><span class="num">04</span><div class="ph" data-img="1598634222670-87c5f558119c|900"></div><div class="lab"><div><h3>Lumière Noire</h3><small>Leather · Smoke</small></div><span class="pr">€ 280</span></div></div>
+  </div>
+  <div class="cursor" style="left:560px;top:440px"><span>VIEW</span></div>
+  <div class="bar"><span style="color:var(--bone)">02</span><div class="tr"><i></i></div><span>07</span><span class="arr"><span data-ic="left"></span></span><span class="arr on"><span data-ic="arrow"></span></span></div>
+</section>
+
+<section class="anatomy">
+  <div class="vis" data-img="1502736842968-bcaab72d0700|1400">
+    <div class="wipe" data-img="1502736842968-bcaab72d0700|1400"></div>
+    <div class="edge"></div>
+    <span class="lbl" style="left:40px">RAW · DAMASK ROSE</span><span class="lbl gold" style="right:40px">DISTILLED · ABSOLUTE</span>
+  </div>
+  <div class="tx">
+    <div class="mono gold">( 03 ) Anatomy of a scent</div>
+    <h2>Three acts,<br><span class="it gold-text">one night.</span></h2>
+    <p style="color:var(--dim);max-width:460px">A Nocté extrait unfolds over twelve hours. Hover each accord to hear the story behind its raw material.</p>
+    <div class="pyr">
+      <div><span class="k">ACT I</span><div><b>Saffron & Bergamot</b><small>The first ten minutes · bright, spiced, electric</small></div><div class="dots"><i style="background:radial-gradient(circle at 35% 35%,#ffcf7a,#b5641c)"></i><i style="background:radial-gradient(circle at 35% 35%,#e3f07a,#6b7d1c)"></i></div></div>
+      <div class="on"><span class="k">ACT II</span><div><b>Damask Rose & Iris</b><small>Hours one to four · velvet, powdery, alive</small></div><div class="dots"><i style="background:radial-gradient(circle at 35% 35%,#e8a2a8,#7a2a3a)"></i><i style="background:radial-gradient(circle at 35% 35%,#b9a6e6,#4b3a7d)"></i></div></div>
+      <div><span class="k">ACT III</span><div><b>Oud & Ambergris</b><small>Until morning · resinous, warm, skin-close</small></div><div class="dots"><i style="background:radial-gradient(circle at 35% 35%,#a07a5a,#2b1a10)"></i><i style="background:radial-gradient(circle at 35% 35%,#e9d8b4,#8a6f45)"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="film" data-img="1634733049839-0292be607569|2000">
+  <div class="top"><span class="rec mono"><i></i>Campaign film · 2026</span><span class="mono" style="display:flex;gap:10px;align-items:center"><span data-ic="sound"></span>Sound on</span></div>
+  <div class="play"><div class="in"><span data-ic="play"></span></div></div>
+  <div class="ttl"><div class="mono gold">Directed by Inès Marchetti</div><h3>L’heure <span class="gold-text">dorée</span></h3></div>
+  <div class="tc"><span>00:38</span><div class="tr"><i></i></div><span style="color:var(--dim)">01:42</span></div>
+</section>
+
+<section class="bento">
+  <div class="h"><div><div class="mono gold" style="margin-bottom:22px">( 04 ) Raw materials</div><h2 style="font:400 96px/.9 var(--serif);letter-spacing:-.03em">From the <span class="it gold-text">source</span></h2></div><a class="btn ghost">Explore the ingredients</a></div>
+  <div class="tall" data-img="1670381225856-997d3eea46df|900"><div class="cap"><div><b>Liquid amber</b><small>Aged resin from Oman</small></div><span class="o"><span data-ic="ne"></span></span></div></div>
+  <div data-img="1516565349308-c76fe36a115c|800"><div class="cap"><div><b>Damask rose</b><small>Hand-picked before 7 am</small></div><span class="o"><span data-ic="ne"></span></span></div></div>
+  <div class="stat"><div class="mono gold">Harvest 2026</div><div><b class="gold-text">3.5t</b><div style="color:var(--dim);margin-top:16px">of petals for a single litre of rose absolute.</div></div></div>
+  <div data-img="1536405416754-3bcd4fb38128|800"><div class="cap"><div><b>Smoked oud</b><small>Cambodian agarwood</small></div><span class="o"><span data-ic="ne"></span></span></div></div>
+  <div data-img="1608397727084-c116c5e4e63e|800"><div class="cap"><div><b>Beeswax absolute</b><small>Provence apiaries</small></div><span class="o"><span data-ic="ne"></span></span></div></div>
+</section>
+
+<section class="press">
+  <div class="glow pulse" style="width:700px;height:400px;left:370px;top:120px;background:radial-gradient(circle,rgba(216,178,106,.22),transparent 70%)"></div>
+  <div class="mono gold" style="position:relative">( 05 ) What they say</div>
+  <blockquote style="position:relative">“Or Liquide doesn’t sit on the skin — it <span class="gold-text">glows</span> beneath it. The most quietly seductive extrait of the decade.”</blockquote>
+  <div class="mono" style="color:var(--dim);position:relative">— Le Journal du Parfum, Paris</div>
+  <div class="press-dots dots" style="margin-top:34px"><i class="on"></i><i></i><i></i><i></i></div>
+  <div class="logos"><span>L’ESSENCE</span><span class="it">Maison&nbsp;Revue</span><span>NOIR MAGAZINE</span><span class="it">The Olfactorist</span><span>ATELIER</span></div>
+</section>
+
+<section class="book">
+  <div class="tx">
+    <div class="mono gold">Private consultation</div>
+    <h2>Find your <span class="it gold-text">signature</span> with a perfumer.</h2>
+    <p style="color:var(--dim);max-width:460px">A one-to-one hour in our Paris salon or by video — guided through the seven extraits and blended to your skin chemistry.</p>
+    <div class="slots"><span>Thu 29 · 11:00</span><span class="on">Thu 29 · 15:30</span><span>Fri 30 · 10:00</span><span>Sat 31 · 17:00</span><span>Video call</span></div>
+    <a class="btn gold">Reserve — complimentary<span class="o"><span data-ic="arrow"></span></span></a>
+  </div>
+  <div data-img="1595065666634-4725aa7e8379|1200" style="min-height:720px"></div>
+</section>
+
+<div data-footer></div>
+<script src="nocte.js"></script>
+<script>nocte('Fragrances');</script>
+</body></html>

@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>JUNO — Sparkling botanical tonics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Caprasimo&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="juno.css">
+<style>
+.hero{position:relative;height:1080px;background:var(--tan);overflow:hidden}
+.hero .bg{position:absolute;pointer-events:none}
+.hero h1{position:absolute;left:64px;top:190px;font-size:176px;line-height:.84;z-index:5;color:var(--ink)}
+.hero h1 .l{display:block;white-space:nowrap}
+.hero h1 em{color:var(--cream);-webkit-text-stroke:4px var(--ink);text-shadow:8px 8px 0 var(--ink);display:inline-block;transform:rotate(-4deg);margin:0 10px}
+.hero h1 .u{position:relative;display:inline-block}
+.hero h1 .u svg{position:absolute;left:-6px;right:-6px;bottom:-26px;width:calc(100% + 12px);height:40px}
+.hero .copy{position:absolute;left:64px;top:770px;width:520px;z-index:6}
+.hero .copy p{font:500 21px/1.4 var(--sans);margin-bottom:28px}
+.hero .copy .row{display:flex;gap:14px}
+.hero .proof{position:absolute;left:64px;bottom:44px;display:flex;align-items:center;gap:16px;z-index:6;font:700 16px/1.2 var(--sans)}
+.hero .proof .av{display:flex}.hero .proof .av i{width:46px;height:46px;border-radius:50%;border:3px solid var(--ink);margin-left:-12px;display:grid;place-items:center;font:400 18px var(--disp);font-style:normal}
+.hero .proof .av i:first-child{margin-left:0}
+.hero .c1{position:absolute;left:960px;top:226px;z-index:4;--r2:5deg}
+.hero .c1 .can{transform:rotate(9deg)}
+.hero .c2{position:absolute;left:790px;top:440px;z-index:3}
+.hero .c2 .can{transform:rotate(-17deg)}
+.hero .c3{position:absolute;left:1210px;top:420px;z-index:3}
+.hero .c3 .can{transform:rotate(15deg)}
+.hero .c2{animation-delay:-1.5s}.hero .c3{animation-delay:-3s}
+.hero .shadow{position:absolute;left:800px;top:1000px;width:620px;height:50px;border-radius:50%;background:rgba(26,18,48,.25);filter:blur(4px);z-index:1}
+.hero .sticker{position:absolute;left:600px;top:800px;z-index:7;background:var(--pink)}
+.hero .tag.t1{left:1210px;top:236px;transform:rotate(8deg);background:var(--lime)}
+.hero .tag.t2{left:1230px;top:900px;transform:rotate(-6deg);background:var(--cream)}
+.hero .tag.t3{left:880px;top:900px;transform:rotate(-9deg);background:var(--sun)}
+.hero .cursor{left:1080px;top:560px}
+.hero .scroll{position:absolute;right:40px;top:470px;z-index:6;writing-mode:vertical-rl;font:800 13px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;display:flex;gap:14px;align-items:center}
+.hero .scroll i{width:3px;height:70px;background:var(--ink);border-radius:3px}
+
+.band{background:var(--blue);position:relative;padding:20px 0 10px;overflow:hidden}
+
+.lineup{padding:150px 64px 130px;position:relative;overflow:hidden}
+.lineup .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:80px}
+.lineup h2{font-size:150px}
+.lineup h2 em{color:var(--hot)}
+.chips{display:flex;gap:10px}
+.chips span{white-space:nowrap;height:52px;padding:0 22px;border-radius:999px;border:var(--line);display:flex;align-items:center;gap:10px;font:700 16px/1 var(--sans);background:var(--cream)}
+.chips span.on{background:var(--ink);color:var(--cream)}
+.chips span i{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink)}
+.row6{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;align-items:end}
+.slot{position:relative;height:560px;border-radius:200px 200px 40px 40px;border:var(--line);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 0 26px;background:var(--bgc);transition:transform .4s}
+.slot .can{position:absolute;top:60px;left:50%;margin-left:-74px}
+.slot h3{font:400 30px/1 var(--disp);letter-spacing:-.01em;margin-bottom:6px}
+.slot small{font:600 13px/1.3 var(--sans);text-align:center;padding:0 14px;min-height:34px}
+.slot .pr{margin-top:12px;font:800 15px/1 var(--sans);background:var(--cream);border:2px solid var(--ink);padding:9px 14px;border-radius:999px}
+.slot.hov{transform:translateY(-40px) rotate(-3deg);box-shadow:10px 14px 0 var(--ink)}
+.slot.hov .can{transform:rotate(-10deg) scale(1.08);top:20px}
+.slot.hov .pr{background:var(--ink);color:var(--cream)}
+.slot .fly{z-index:5}
+.slot .num{position:absolute;top:20px;left:22px;font:800 14px/1 var(--sans);background:var(--cream);border:2px solid var(--ink);border-radius:999px;padding:6px 10px}
+
+.feature{position:relative;background:var(--pink);height:1000px;overflow:hidden;border-top:var(--line);border-bottom:var(--line)}
+.feature .big{position:absolute;left:0;right:0;top:110px;text-align:center;font:400 330px/.8 var(--disp);letter-spacing:-.04em;color:var(--hot);white-space:nowrap;opacity:.9}
+.feature .center{position:absolute;left:560px;top:180px;z-index:4}
+.feature .ring{position:absolute;left:420px;top:250px;width:600px;height:600px;border-radius:50%;border:3px dashed var(--ink);z-index:1;animation:spin 40s linear infinite}
+.feature .tx{position:absolute;left:64px;top:540px;width:420px;z-index:5}
+.feature .tx h3{font-size:68px;margin:20px 0 18px}
+.feature .tx p{font-size:18px;font-weight:500}
+.feature .ing{position:absolute;z-index:5;display:flex;align-items:center;gap:12px;padding:10px 20px 10px 10px;background:var(--cream);border:var(--line);border-radius:999px;box-shadow:var(--pop);font:700 16px/1.15 var(--sans)}
+.feature .ing svg{width:46px;height:46px}
+.feature .ing small{display:block;font-weight:500;font-size:13px;color:var(--ink2)}
+.feature .switch{position:absolute;right:64px;top:540px;width:330px;z-index:5;background:var(--cream);border:var(--line);border-radius:30px;padding:26px;box-shadow:var(--pop)}
+.feature .switch .sw{display:flex;gap:10px;margin:16px 0 20px}
+.feature .switch .sw i{width:40px;height:40px;border-radius:50%;border:3px solid var(--ink)}
+.feature .switch .sw i.on{outline:3px solid var(--ink);outline-offset:3px}
+.feature .switch .bar{height:12px;border-radius:12px;border:2px solid var(--ink);background:linear-gradient(90deg,#ff7a1a,#ff8fc7,#c6f432,#2647ff,#ffb38a,#ffe14a);position:relative}
+.feature .switch .bar b{position:absolute;left:24%;top:-9px;width:26px;height:26px;border-radius:50%;background:var(--pink);border:3px solid var(--ink)}
+
+.benefits{padding:160px 64px 140px;position:relative}
+.benefits .hd{text-align:center;margin-bottom:90px}
+.benefits h2{font-size:132px;margin-top:26px}
+.benefits h2 em{color:var(--blue)}
+.bgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.ben{border:var(--line);border-radius:36px;padding:34px 30px 30px;min-height:430px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:8px 8px 0 var(--ink);position:relative}
+.ben:nth-child(1){background:var(--lime);transform:rotate(-2deg)}
+.ben:nth-child(2){background:var(--pink);transform:rotate(1.5deg) translateY(30px)}
+.ben:nth-child(3){background:var(--sun);transform:rotate(-1deg)}
+.ben:nth-child(4){background:var(--blue);color:var(--cream);transform:rotate(2deg) translateY(24px)}
+.ben b{font:400 120px/.85 var(--disp);letter-spacing:-.04em}
+.ben b small{font:800 34px var(--sans)}
+.ben h4{font:800 26px/1.05 var(--sans);letter-spacing:-.02em;margin:14px 0 8px}
+.ben p{font-size:15px;font-weight:500}
+.ben .fly{right:24px;top:24px}
+
+.golden{padding:40px 64px 150px;display:grid;grid-template-columns:1.1fr .9fr 1fr;gap:28px;align-items:center;position:relative}
+.golden .ph{border:var(--line);box-shadow:8px 8px 0 var(--ink);position:relative}
+.golden .p1{height:640px;border-radius:300px 300px 40px 40px}
+.golden .p2{height:460px;border-radius:50%}
+.golden .p3{height:560px;border-radius:40px 200px 40px 200px}
+.golden .cap{position:absolute;left:20px;bottom:20px;z-index:2}
+.golden h2{grid-column:1/-1;font-size:120px;margin-bottom:40px}
+.golden h2 em{color:var(--tan)}
+
+.wall{background:var(--ink);color:var(--cream);padding:150px 64px 160px;position:relative;overflow:hidden;border-radius:80px 80px 0 0}
+.wall .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:70px}
+.wall h2{font-size:120px}
+.wall h2 em{color:var(--lime)}
+.wall .score{text-align:right}.wall .score b{font:400 120px/.9 var(--disp);color:var(--pink)}
+.mason{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:start}.mason>.col{display:flex;flex-direction:column;gap:22px}.mason>.col:nth-child(even){margin-top:50px}
+.rv{border:3px solid var(--cream);border-radius:28px;padding:26px;color:var(--ink);position:relative}
+.rv p{font:600 19px/1.35 var(--sans);margin:14px 0 20px}
+.rv p.lg{font:400 30px/1.12 var(--disp)}
+.rv .who{display:flex;align-items:center;gap:12px;font:700 15px/1.2 var(--sans)}
+.rv .who i{width:44px;height:44px;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;font:400 18px var(--disp);font-style:normal;background:var(--cream)}
+.rv .who small{display:block;font-weight:500;font-size:13px;opacity:.75}
+.rv .fl{color:var(--ink);position:absolute;right:18px;top:18px;font:800 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:7px 10px;border-radius:999px;border:2px solid var(--ink);background:var(--cream)}
+.rv.ph{padding:0;height:300px;overflow:hidden}
+.rv .stars .ic{stroke:var(--ink)}
+
+.stock{padding:150px 64px 40px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.stock h2{font-size:120px;margin:24px 0 26px}
+.stock h2 em{color:var(--blue)}
+.map{position:relative;height:640px;border-radius:50px;border:var(--line);background:var(--lime);overflow:hidden;box-shadow:10px 10px 0 var(--ink)}
+.map svg.m{position:absolute;inset:0;width:100%;height:100%}
+.map .pin{position:absolute;z-index:3;display:flex;align-items:center;gap:8px;font:800 14px/1 var(--sans);background:var(--cream);border:3px solid var(--ink);border-radius:999px;padding:8px 14px 8px 8px}
+.map .pin i{width:22px;height:22px;border-radius:50%;background:var(--tan);border:3px solid var(--ink)}
+.map .pin.on{background:var(--ink);color:var(--cream);transform:scale(1.15)}
+.stores{margin-top:34px;border-top:var(--line)}
+.stores>div{display:grid;grid-template-columns:1fr auto auto;gap:20px;align-items:center;padding:20px 0;border-bottom:3px solid var(--ink)}
+.stores b{font:800 22px/1.1 var(--sans);letter-spacing:-.02em}
+.stores small{display:block;font-size:14px;color:var(--ink2);font-weight:500}
+.stores .d{font:700 14px/1 var(--sans);padding:8px 12px;border:2px solid var(--ink);border-radius:999px}
+.stores .ok{font:700 13px/1 var(--sans);background:var(--lime);border:2px solid var(--ink);border-radius:999px;padding:8px 12px}
+.logos{display:flex;justify-content:space-between;align-items:center;padding:90px 64px 0;font:800 26px/1 var(--sans);letter-spacing:-.02em;color:var(--ink2)}
+.logos span:nth-child(even){font:400 28px var(--disp)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="hero">
+  <svg class="bg" style="left:720px;top:130px;width:800px;height:900px" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M52 2C76 0 98 18 96 46 94 74 82 98 54 98 26 98 4 84 4 54 4 26 24 4 52 2Z" fill="#ff8fc7" stroke="#1a1230" stroke-width=".5"/></svg>
+  <svg class="bg spin" style="left:800px;top:200px;width:620px;height:640px;animation-duration:60s" viewBox="0 0 100 100"><path d="M50 2 58 20 76 8 74 30 96 30 82 46 98 60 76 64 84 86 62 78 54 98 44 80 24 92 26 70 4 66 18 50 2 36 24 32 18 10 40 20Z" fill="#2647ff" stroke="#1a1230" stroke-width=".8" stroke-linejoin="round"/></svg>
+  <svg class="bg" style="left:-170px;top:880px;width:520px;height:420px" viewBox="0 0 100 80"><path d="M10 40C8 16 30 4 52 8s44 10 42 36-30 34-50 32S12 64 10 40Z" fill="#c6f432" stroke="#1a1230" stroke-width=".7"/></svg>
+  <div data-bubbles="34"></div>
+  <h1><span class="l">Fizz that</span><span class="l"><em>does</em></span><span class="l"><span class="u">stuff.<svg viewBox="0 0 300 40" preserveAspectRatio="none"><path d="M4 26C60 6 120 36 170 18S260 8 296 22" fill="none" stroke="#1a1230" stroke-width="9" stroke-linecap="round"/></svg></span></span></h1>
+  <div class="copy"><p>Sparkling botanical tonics with real fruit, adaptogens and just 5 g of sugar. Six flavours that taste like a holiday and feel like a deep breath.</p>
+    <div class="row"><a class="btn">Shop the 12-pack<span class="o"><span data-ic="arrow"></span></span></a><a class="btn lt">Build your box</a></div></div>
+  <div class="proof"><div class="av"><i style="background:var(--lime)">M</i><i style="background:var(--pink)">A</i><i style="background:var(--sun)">K</i><i style="background:var(--cream)">T</i></div><div><span data-stars></span><br>4.9 from 18,204 very fizzy reviews</div></div>
+  <div class="shadow"></div>
+  <span data-fruit="orange|150" class="trail" style="left:740px;top:170px;transform:rotate(-20deg)"></span>
+  <span data-fruit="orange|150" class="bob" style="left:790px;top:150px;--r:-20deg"></span>
+  <div class="c2 float"><div data-can="pink|20"></div></div>
+  <div class="c3 float"><div data-can="lime|19"></div></div>
+  <div class="c1 float"><div data-can="sun|29"></div></div>
+  <span data-fruit="grapefruit|120" class="trail" style="left:1300px;top:300px"></span>
+  <span data-fruit="grapefruit|120" class="bob" style="left:1270px;top:316px;--r:24deg;animation-delay:-1s"></span>
+  <span data-fruit="lime|96" class="bob" style="left:1080px;top:830px;--r:-30deg;animation-delay:-2s;z-index:5"></span>
+  <span data-fruit="leaf|80" class="bob" style="left:840px;top:780px;--r:40deg;z-index:5"></span>
+  <span data-fruit="leaf|60" class="bob" style="left:1340px;top:620px;--r:-60deg"></span>
+  <span data-fruit="sparkle|60" style="left:820px;top:200px;color:var(--sun)" class="bob"></span>
+  <span data-fruit="sparkle|44" style="left:1370px;top:200px;color:var(--cream)" class="bob"></span>
+  <span data-fruit="sparkle|38" style="left:620px;top:720px;color:var(--lime)" class="bob"></span>
+  <div data-sticker="Low sugar ✦ Real fruit ✦ Adaptogens ✦ " data-center="5g"></div>
+  <div class="tag t1"><b>35</b>kcal per can</div>
+  <div class="tag t2">✦ New flavour<b>Blue Hour</b></div>
+  <div class="tag t3"><b>300 mg</b>adaptogens</div>
+  <div class="cursor">SIP</div>
+  <div class="scroll"><i></i>Scroll for flavours</div>
+</section>
+
+<div class="band" data-wave="Six flavours ✦ zero boring ✦ real botanicals ✦ low sugar ✦" data-opts='{"size":78,"amp":22,"h":150}'></div>
+
+<section class="lineup">
+  <div class="hd"><div><span class="kick"><i></i>The lineup</span><h2 style="margin-top:24px">Meet the <em>gang.</em></h2></div>
+    <div class="chips"><span class="on">All six</span><span><i style="background:var(--lime)"></i>Focus</span><span><i style="background:var(--blue)"></i>Unwind</span><span><i style="background:var(--pink)"></i>Glow</span><span><i style="background:var(--sun)"></i>Energy</span></div></div>
+  <div class="row6">
+    <div class="slot" style="--bgc:var(--tan)"><span class="num">01</span><div data-can="sun|14.8"></div><h3>Sun Riot</h3><small>Blood orange · Ashwagandha</small><span class="pr">12 × 330ml · €32</span></div>
+    <div class="slot hov jelly" style="--bgc:var(--pink)"><span class="num">02</span><div data-can="pink|14.8"></div><span data-fruit="grapefruit|70" style="left:-24px;top:150px;transform:rotate(-20deg)"></span><span data-fruit="flower|56" style="right:-18px;top:250px;transform:rotate(20deg)"></span><h3>Pink Fizz</h3><small>Grapefruit · Hibiscus · Reishi</small><span class="pr">+ Add 12-pack · €32</span></div>
+    <div class="slot" style="--bgc:var(--lime)"><span class="num">03</span><div data-can="lime|14.8"></div><h3>Lime Wire</h3><small>Lime · Ginger · Lion’s mane</small><span class="pr">12 × 330ml · €32</span></div>
+    <div class="slot" style="--bgc:#6f86ff"><span class="num">04</span><div data-can="blue|14.8"></div><h3>Blue Hour</h3><small>Blueberry · Butterfly pea</small><span class="pr">12 × 330ml · €34</span></div>
+    <div class="slot" style="--bgc:var(--peach)"><span class="num">05</span><div data-can="peach|14.8"></div><h3>Peach Party</h3><small>White peach · Rhodiola</small><span class="pr">12 × 330ml · €29</span></div>
+    <div class="slot" style="--bgc:var(--sun)"><span class="num">06</span><div data-can="yuzu|14.8"></div><h3>Yuzu Yes</h3><small>Yuzu · Ginseng · Mint</small><span class="pr">12 × 330ml · €34</span></div>
+  </div>
+  <div class="cursor" style="left:400px;top:560px">SIP</div>
+</section>
+
+<section class="feature">
+  <div class="big">Pink Fizz</div>
+  <div data-bubbles="30"></div>
+  <div class="ring"></div>
+  <div class="center float"><div data-can="pink|34" style="transform:rotate(-6deg)"></div></div>
+  <span data-fruit="grapefruit|170" class="bob" style="left:880px;top:170px;--r:30deg;z-index:5"></span>
+  <span data-fruit="flower|110" class="bob" style="left:420px;top:240px;--r:-10deg;z-index:5;animation-delay:-2s"></span>
+  <span data-fruit="sparkle|60" class="bob" style="left:1000px;top:760px;color:var(--cream);z-index:5"></span>
+  <div class="ing" style="left:300px;top:420px"><svg viewBox="0 0 100 100"></svg><div>Pink grapefruit<small>Sicily · cold-pressed</small></div></div>
+  <div class="ing" style="left:930px;top:400px"><svg viewBox="0 0 100 100"></svg><div>Hibiscus<small>Hand-dried in Senegal</small></div></div>
+  <div class="ing" style="left:880px;top:840px"><svg viewBox="0 0 100 100"></svg><div>Reishi 250 mg<small>The calm mushroom</small></div></div>
+  <div class="tx"><span class="kick"><i style="background:var(--hot)"></i>Flavour 02 of 06</span><h3>Tart, floral,<br><em>very pink.</em></h3><p>Sicilian grapefruit meets hibiscus and a calm hit of reishi. The section changes colour with every can — scroll on and Lime Wire takes over.</p><a class="btn" style="margin-top:28px">Shop Pink Fizz<span class="o"><span data-ic="arrow"></span></span></a></div>
+  <div class="switch"><b style="font:800 15px var(--sans);text-transform:uppercase;letter-spacing:.08em">Now pouring</b><div class="sw"><i style="background:var(--tan)"></i><i class="on" style="background:var(--pink)"></i><i style="background:var(--lime)"></i><i style="background:var(--blue)"></i><i style="background:var(--peach)"></i><i style="background:var(--sun)"></i></div><div class="bar"><b></b></div><p style="margin-top:18px;font-weight:600;font-size:15px">Next up: <span style="background:var(--lime);padding:2px 8px;border-radius:8px;border:2px solid var(--ink)">Lime Wire</span></p></div>
+</section>
+
+<section class="benefits">
+  <div class="hd"><span class="kick"><i style="background:var(--lime)"></i>What’s in the can</span><h2>Good stuff, <em>loud</em> taste.</h2></div>
+  <div class="bgrid">
+    <div class="ben"><span data-fruit="lime|70"></span><b>5<small>g</small></b><div><h4>Sugar, max.</h4><p>From real fruit juice and a whisper of monk fruit. Never sweeteners you can’t pronounce.</p></div></div>
+    <div class="ben"><span data-fruit="mushroom|70"></span><b>300<small>mg</small></b><div><h4>Adaptogens in every can</h4><p>Ashwagandha, reishi, rhodiola and lion’s mane at doses that actually show up.</p></div></div>
+    <div class="ben"><span data-fruit="ginger|70"></span><b>35</b><div><h4>Calories. That’s it.</h4><p>Less than a peach. All the fizz of a party, none of the 3 pm crash.</p></div></div>
+    <div class="ben"><span data-fruit="leaf|70"></span><b>0</b><div><h4>Fake anything</h4><p>No artificial colours, flavours or preservatives. Vegan, gluten-free, B-Corp pending.</p></div></div>
+  </div>
+</section>
+
+<section class="golden">
+  <h2>Made for <em>golden</em> hours.</h2>
+  <div class="ph p1" data-img="1716339140080-be256d3270ce|900"><span class="tag cap" style="position:absolute;transform:rotate(-4deg);background:var(--sun)">Sun Riot<b>× sunsets</b></span></div>
+  <div class="ph p2" data-img="1593558628703-535b2556320b|800"><span class="tag cap" style="position:absolute;left:110px;bottom:60px;transform:rotate(6deg);background:var(--pink)">poolside<b>Pink Fizz</b></span></div>
+  <div class="ph p3" data-img="1515876879333-013aa5ea1472|800"><span class="tag cap" style="position:absolute;left:auto;right:24px;transform:rotate(3deg);background:var(--lime)">#junoseason<b>@lena.dips</b></span></div>
+  <div data-sticker="Tag #junoseason ✦ win a year of fizz ✦ " data-center="#" style="position:absolute;right:420px;top:220px;background:var(--sun)"></div>
+</section>
+
+<section class="wall">
+  <div data-bubbles="20" style="opacity:.4"></div>
+  <div class="hd"><div><span class="kick" style="color:var(--ink)"><i style="background:var(--pink)"></i>Reviews wall</span><h2 style="margin-top:26px">18,204 people<br>can’t be <em>wrong.</em></h2></div><div class="score"><b>4.9</b><br><span data-stars></span><p style="margin-top:10px;font-weight:600">Average across six flavours</p></div></div>
+  <div class="mason"><div class="col"><div class="rv" style="background:var(--lime)"><span class="fl">Lime Wire</span><span data-stars></span><p class="lg">Replaced my 4pm espresso. My desk neighbour now steals them.</p><div class="who"><i>M</i><div>Maya R.<small>Berlin · Subscriber since 2024</small></div></div></div>
+<div class="rv" style="background:var(--cream)"><span class="fl">Blue Hour</span><span data-stars></span><p>It actually turns more purple when you add lemon?? Science drink. Calmest Sunday scaries of my life.</p><div class="who"><i style="background:var(--blue);color:#fff">J</i><div>Jonas K.<small>Hamburg</small></div></div></div>
+<div class="rv" style="background:var(--blue);color:var(--cream)"><span class="fl">Write one</span><p class="lg" style="color:var(--cream)">Tried JUNO? Tell us your flavour + earn 200 Fizz Points.</p><a class="btn lt" style="height:54px;font-size:16px">Leave a review</a></div></div><div class="col"><div class="rv ph" data-img="1586878018240-912c86269bf9|700"></div>
+<div class="rv" style="background:var(--pink)"><span class="fl">Pink Fizz</span><span data-stars></span><p>Tastes like a grapefruit went on holiday to Marrakech. 10/10 would drink at a wedding.</p><div class="who"><i>A</i><div>Amara O.<small>Amsterdam</small></div></div></div>
+<div class="rv" style="background:var(--cream)"><span class="fl">Party pack</span><span data-stars></span><p>Brought the mixed box to a barbecue. Came home with zero cans and three people asking where I got them.</p><div class="who"><i style="background:var(--lime)">H</i><div>Hana S.<small>Zürich</small></div></div></div></div><div class="col"><div class="rv" style="background:var(--sun)"><span class="fl">Yuzu Yes</span><span data-stars></span><p class="lg">Ginseng hits in like 20 minutes. Productive and smug.</p><div class="who"><i>T</i><div>Tomás V.<small>Lisbon · Verified buyer</small></div></div></div>
+<div class="rv" style="background:var(--cream)"><span class="fl">Mixed box</span><span data-stars></span><p>Built a box of 6 Sun Riot, 6 Peach. The fridge has never looked this good. The packaging is basically art.</p><div class="who"><i style="background:var(--tan)">S</i><div>Sofie L.<small>Copenhagen</small></div></div></div>
+<div class="rv" style="background:var(--tan)"><span class="fl">Sun Riot</span><span data-stars></span><p>Low sugar but doesn’t taste “healthy”. That’s the whole trick and they nailed it.</p><div class="who"><i>R</i><div>Rafael D.<small>Milan</small></div></div></div></div><div class="col"><div class="rv ph" data-img="1566739732978-7aade5d19832|700"></div>
+<div class="rv" style="background:var(--peach)"><span class="fl">Peach Party</span><span data-stars></span><p class="lg">Cancelled my wine order. Kept the vibe.</p><div class="who"><i>E</i><div>Elodie M.<small>Paris</small></div></div></div>
+<div class="rv" style="background:#8fa1ff"><span class="fl">Subscription</span><span data-stars></span><p>Skipping a month takes one tap. Customer care replied with a pun. I am a customer for life.</p><div class="who"><i>N</i><div>Nikhil P.<small>Vienna</small></div></div></div></div></div>
+</section>
+
+<section class="stock">
+  <div><span class="kick"><i style="background:var(--blue)"></i>Stockists</span><h2>Find us<br>in the <em>wild.</em></h2><p style="font-size:19px;font-weight:500;max-width:520px">Chilled in 2,400+ shops, cafés and rooftop bars across Europe. Six flavours of happy within walking distance.</p>
+    <div class="stores">
+      <div><div><b>Fresko Markthalle</b><small>Oranienstraße 41, Berlin</small></div><span class="d">0.4 km</span><span class="ok">All 6 in stock</span></div>
+      <div><div><b>Bloom &amp; Co. Grocers</b><small>Torstraße 112, Berlin</small></div><span class="d">1.2 km</span><span class="ok">5 flavours</span></div>
+      <div><div><b>Café Kiosko</b><small>Weserstraße 9, Berlin</small></div><span class="d">2.1 km</span><span class="ok" style="background:var(--pink)">Pink Fizz on tap</span></div>
+    </div></div>
+  <div class="map">
+    <svg class="m" viewBox="0 0 600 640" preserveAspectRatio="none"><g fill="none" stroke="#1a1230" stroke-width="3" opacity=".9"><path d="M-10 180C120 160 200 260 320 230S520 120 620 160"/><path d="M80 -10C100 140 60 300 140 420S180 600 160 660"/><path d="M-10 470C150 450 300 520 420 480S560 400 620 430"/><path d="M380 -10C360 120 440 260 420 380S460 560 500 660"/></g><path d="M200 300C240 260 330 270 350 320S320 410 260 400 160 340 200 300Z" fill="#2647ff" stroke="#1a1230" stroke-width="3"/><path d="M450 520C480 500 540 510 560 540S540 600 500 596 420 560 450 520Z" fill="#ff8fc7" stroke="#1a1230" stroke-width="3"/><g fill="#fff6e6" stroke="#1a1230" stroke-width="3"><rect x="40" y="40" width="70" height="50" rx="12"/><rect x="460" y="230" width="90" height="60" rx="14"/><rect x="250" y="520" width="80" height="60" rx="14"/></g></svg>
+    <div class="pin on" style="left:220px;top:180px"><i style="background:var(--lime)"></i>Fresko Markthalle</div>
+    <div class="pin" style="left:380px;top:360px"><i></i>Bloom &amp; Co.</div>
+    <div class="pin" style="left:60px;top:470px"><i style="background:var(--pink)"></i>Café Kiosko</div>
+    <div class="pin" style="left:420px;top:110px"><i style="background:var(--sun)"></i>Dachgarten Bar</div>
+    <div class="cursor" style="left:300px;top:240px;width:96px;height:96px;font-size:24px">GO</div>
+  </div>
+</section>
+<div class="logos"><span>FRESKO</span><span>Bloom &amp; Co.</span><span>KIOSKO</span><span>Dachgarten</span><span>MERCATO VERDE</span><span>Søndag</span><span>LA PRAÇA</span></div>
+
+<div data-footer></div>
+<script src="juno.js"></script>
+<script>
+document.querySelectorAll('.feature .ing svg').forEach((s,i)=>{s.innerHTML=FRUIT[['grapefruit','flower','mushroom'][i]]});
+juno('Shop');
+</script>
+</body></html>

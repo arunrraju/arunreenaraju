@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VANTA Σ1 — Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vanta.css">
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<style>
+.ehero{position:relative;height:1240px;overflow:hidden;background:radial-gradient(60% 50% at 62% 55%,rgba(0,229,255,.12),transparent 70%),var(--bg)}
+.ehero .gridbg{position:absolute;inset:0;background:linear-gradient(rgba(0,229,255,.06) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,rgba(0,229,255,.06) 1px,transparent 1px) 0 0/40px 40px;-webkit-mask:radial-gradient(70% 60% at 60% 55%,#000,transparent);mask:radial-gradient(70% 60% at 60% 55%,#000,transparent)}
+.ehero .ttl{position:absolute;left:64px;top:140px;z-index:4;width:520px}
+.ehero h1{font:600 136px/.84 var(--disp);letter-spacing:-.035em;text-transform:uppercase;margin:22px 0 28px}
+.ehero h1 span{display:block;color:transparent;-webkit-text-stroke:1.5px var(--cy)}
+.ehero .ttl p{color:var(--dim);font-size:17px;max-width:430px}
+.ehero .tabs{display:flex;gap:0;margin-top:36px;border:1px solid var(--line);width:max-content}
+.ehero .tabs span{padding:14px 18px;font:500 11px/1 var(--mono);letter-spacing:.14em;color:var(--dim);border-right:1px solid var(--line)}
+.ehero .tabs span:last-child{border-right:0}
+.ehero .tabs span.on{background:var(--cy);color:#02060b}
+#ex3d{position:absolute;left:400px;top:120px;width:1040px;height:1100px;z-index:2;-webkit-mask:radial-gradient(70% 62% at 52% 50%,#000 62%,transparent 100%);mask:radial-gradient(70% 62% at 52% 50%,#000 62%,transparent 100%)}
+#ex3d canvas,#aero3d canvas{display:block}
+#exlinks{position:absolute;left:0;top:0;width:1440px;height:1240px;z-index:3;pointer-events:none;overflow:visible}
+.vlink{position:absolute;width:1px;background:repeating-linear-gradient(var(--cy) 0 6px,transparent 6px 12px);opacity:.6}
+.tag{position:absolute;z-index:5;display:flex;gap:14px;align-items:flex-start;width:200px;padding:12px 14px;background:rgba(5,7,13,.72);border:1px solid var(--line);backdrop-filter:blur(8px)}
+.tag .n{font:600 34px/1 var(--disp);color:var(--cy);text-shadow:0 0 20px rgba(0,229,255,.6)}
+.tag b{display:block;font:600 18px/1.2 var(--disp);text-transform:uppercase;letter-spacing:.04em}
+.tag small{display:block;font:400 11px/1.6 var(--mono);color:var(--dim);letter-spacing:.06em;margin-top:6px}
+.tag.mgt .n{color:var(--mg);text-shadow:0 0 20px rgba(255,43,214,.6)}
+.ehero .meter{position:absolute;left:64px;bottom:80px;width:430px;z-index:4;padding:22px 24px}
+.meter .r{display:flex;justify-content:space-between;align-items:center;margin:12px 0 6px;font:500 11px/1 var(--mono);letter-spacing:.12em;color:var(--dim)}
+.meter .r b{color:var(--wh)}
+.meter .bar{height:6px;background:var(--line2);position:relative}
+.meter .bar i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--cy),#9ff6ff);box-shadow:0 0 10px var(--cy);animation:grow 1.4s both}
+@keyframes grow{from{width:0}}
+.ehero .cursor{left:900px;top:620px}
+.coord.a{left:580px;top:120px}.coord.b{right:40px;top:1180px}
+
+/* battery */
+.bat{padding:130px 64px;align-items:center;display:grid;grid-template-columns:480px 1fr;gap:72px;border-top:1px solid var(--line);position:relative;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+.bat .kwh{font:600 220px/.8 var(--disp);letter-spacing:-.05em;margin:30px 0 10px}
+.bat .kwh small{font:500 40px/1 var(--disp);color:var(--cy);letter-spacing:0}
+.bat .spec{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);margin-top:36px}
+.bat .spec div{padding:20px 0;border-bottom:1px solid var(--line)}
+.bat .spec b{display:block;font:600 30px/1 var(--disp);margin-top:10px}
+.bat .port{position:relative;margin-top:30px;height:220px;clip-path:var(--cut);border:1px solid var(--line)}
+.bat .port .ph{position:absolute;inset:0}.bat .port .ph img{filter:saturate(.8) contrast(1.1) brightness(.75) hue-rotate(-10deg)}
+.bat .port::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,13,.85),transparent 70%)}
+.bat .port .cap{position:absolute;left:22px;bottom:20px;z-index:2}.bat .port .cap b{display:block;font:600 24px/1.1 var(--disp);margin-top:8px}
+.pack{padding:36px;position:relative}
+.pack .hd{display:flex;justify-content:space-between;margin-bottom:24px}
+.pcells{display:grid;grid-template-columns:repeat(24,1fr);gap:5px}
+.pcells i{height:19px;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.3);position:relative}
+.pcells i.f{background:linear-gradient(180deg,rgba(0,229,255,.75),rgba(0,229,255,.35));border-color:rgba(127,244,255,.7)}
+.pcells i.h{background:var(--mg);border-color:var(--mg);box-shadow:0 0 14px var(--mg)}
+.pcells i.w{animation:chg 1.6s steps(2) infinite}
+@keyframes chg{50%{background:rgba(0,229,255,.6)}}
+.pack .chg{margin-top:30px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.pack .chg div{padding:18px;border:1px solid var(--line)}
+.pack .chg b{display:block;font:600 30px/1 var(--disp);margin-top:10px}
+.curve{margin-top:26px;border:1px solid var(--line);padding:18px 18px 8px}
+.curve svg{width:100%;height:180px;display:block}
+
+/* aero */
+.aero{padding:110px 0 150px;position:relative;overflow:hidden}
+.aero .sh{padding:0 64px}
+.aero .stage{position:relative;height:560px;margin:0 64px}
+.aero .flow{position:absolute;inset:0;width:100%;height:100%}
+#aero3d{position:absolute;inset:0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),linear-gradient(transparent,#000 20%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),linear-gradient(transparent,#000 20%);mask-composite:intersect}
+.flab{position:absolute;z-index:3;font:500 11px/1 var(--mono);letter-spacing:.16em;color:var(--dim)}.flab.mg{color:var(--mg)}
+.aero .readouts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:10px 64px 0}
+.aero .readouts>div{padding:24px}
+.aero .readouts b{display:block;font:600 46px/1 var(--disp);margin-top:12px}
+.aero .readouts b small{font:500 14px var(--mono);color:var(--cy);margin-left:6px}
+.aero .readouts .on{border-color:var(--mg)}
+.aero .readouts .on b{color:var(--mg)}
+.wingind{position:absolute;right:20px;top:20px;width:230px;padding:18px}
+.wingind svg{width:100%;height:110px;margin-top:10px}
+
+/* chassis */
+.chas{display:grid;grid-template-columns:1fr 1fr;min-height:820px;border-top:1px solid var(--line)}
+.chas .ph{position:relative;clip-path:polygon(0 0,100% 0,88% 100%,0 100%)}
+.chas .ph img{filter:grayscale(.3) contrast(1.15) brightness(.8)}
+.chas .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(5,7,13,.5)),repeating-linear-gradient(0deg,rgba(0,229,255,.06) 0 1px,transparent 1px 4px)}
+.chas .ph .ret{position:absolute;left:44%;top:40%;width:180px;height:180px;border:1px solid var(--cy);z-index:2;box-shadow:0 0 30px rgba(0,229,255,.3)}
+.chas .ph .ret span{position:absolute;left:0;top:-26px;font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--cy);white-space:nowrap}
+.chas .ph .ret::after{content:"";position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px;border:1px solid var(--mg);transform:rotate(45deg)}
+.chas .tx{padding:120px 64px 100px 40px}
+.chas h2{font:600 84px/.88 var(--disp);letter-spacing:-.03em;text-transform:uppercase;margin:22px 0 26px}
+.chas .tx>p{color:var(--dim);font-size:16px;max-width:520px}
+.mass{margin-top:44px}
+.mass .row{display:grid;grid-template-columns:150px 1fr 70px;gap:16px;align-items:center;margin-bottom:14px;font:500 11px/1 var(--mono);letter-spacing:.1em;color:var(--dim)}
+.mass .row .b{height:14px;background:var(--line2);position:relative}
+.mass .row .b i{position:absolute;inset:0 auto 0 0;background:repeating-linear-gradient(90deg,var(--cy) 0 6px,transparent 6px 8px);animation:grow 1.4s both}
+.mass .row.m .b i{background:repeating-linear-gradient(90deg,var(--mg) 0 6px,transparent 6px 8px)}
+.mass .row b{color:var(--wh);text-align:right}
+.stiff{display:flex;gap:16px;margin-top:40px}
+.stiff div{flex:1;padding:20px}
+.stiff b{display:block;font:600 34px/1 var(--disp);margin-top:10px}
+
+/* spec sheet */
+.sheet{padding:140px 64px 150px}
+.sheet .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sheet .col{padding:30px}
+.sheet h4{font:600 22px/1 var(--disp);text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between;margin-bottom:18px}
+.sheet h4 span{font:500 11px/1 var(--mono);color:var(--cy)}
+.sheet dl{display:grid;grid-template-columns:1fr auto;font:400 13px/1 var(--mono)}
+.sheet dt,.sheet dd{padding:13px 0;border-bottom:1px solid var(--line2)}
+.sheet dt{color:var(--dim)}.sheet dd{text-align:right}
+.sheet .dl{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding:26px 30px}
+.sheet .dl p{font:600 26px/1.2 var(--disp)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="ehero">
+  <div class="gridbg"></div>
+  <span class="coord a">VIEW · ISO 46° / −8° · EXPLODED ×3.2</span><span class="coord b">DWG VX-Σ1-0001 REV F</span>
+  <div class="ttl">
+    <div class="lbl cy">// Engineering · System view</div>
+    <h1>Built<span class="glitch" data-t="inside">inside</span>out.</h1>
+    <p>Σ1 is three objects stacked into one: a carbon skin, a carbon cell, and a structural battery that is the floor. Pull them apart and every gram has a job.</p>
+    <div class="tabs"><span class="on">Exploded</span><span>X-ray</span><span>Thermal</span><span>Airflow</span></div>
+  </div>
+
+  <div id="ex3d"></div>
+  <svg id="exlinks" viewBox="0 0 1440 1240"></svg>
+  <div class="tag" id="t1" style="left:1220px;top:170px"><span class="n">01</span><div><b>Carbon skin</b><small>38 panels · 41 kg<br>Cd 0.28 closed, 0.41 attack</small></div></div>
+  <div class="tag mgt" id="t2" data-side="l" style="left:250px;top:790px"><span class="n">02</span><div><b>Monocell</b><small>Pre-preg T1100 · 78 kg<br>62,000 Nm/° torsion</small></div></div>
+  <div class="tag" id="t3" style="left:1220px;top:930px"><span class="n">03</span><div><b>Skateboard</b><small>120 kWh structural pack<br>2,816 visible of 7,680 cells<br>4 × axial-flux motors</small></div></div>
+
+  <div class="meter panel br cut">
+    <div class="lbl cy">// Mass distribution · F / R</div>
+    <div class="r"><span>Front axle</span><b>43.5%</b></div><div class="bar"><i style="width:43.5%"></i></div>
+    <div class="r"><span>Rear axle</span><b>56.5%</b></div><div class="bar"><i style="width:56.5%;background:var(--mg);box-shadow:0 0 10px var(--mg)"></i></div>
+    <div class="r"><span>Centre of gravity</span><b>342 mm</b></div><div class="bar"><i style="width:28%"></i></div>
+  </div>
+  <div class="cursor"><i></i><i></i><i></i><i></i><b>ROTATE</b></div>
+</section>
+
+<section class="bat">
+  <div>
+    <div class="sh" style="margin:0;display:block"><div class="idx">01 / ENERGY</div></div>
+    <div class="kwh"><span data-count="120">120</span><small> kWh</small></div>
+    <p class="dim" style="font-size:17px;max-width:420px">A structural pack that is also the floor of the car. 7,680 cylindrical cells, each one cooled by a dielectric fluid bath.</p>
+    <div class="spec">
+      <div><span class="lbl">Architecture</span><b>800 V</b></div>
+      <div><span class="lbl">Cells</span><b data-count="7680">7,680</b></div>
+      <div><span class="lbl">Peak discharge</span><b>1.6 MW</b></div>
+      <div><span class="lbl">Pack mass</span><b>598 kg</b></div>
+    </div>
+    <div class="port"><div class="ph" data-img="1593941707882-a5bba14938c7|900"></div><div class="cap"><span class="lbl cy">// Charge port · CCS2 · 800 V</span><b>10 → 80% in 18 min</b></div></div>
+  </div>
+  <div>
+    <div class="pack panel br cut">
+      <div class="hd"><span class="lbl cy">// Module map · 16 × 24 · live</span><span class="lbl">SoC <b class="cy">78%</b> · T 31.4°C · <span class="mg">1 hot cell flagged</span></span></div>
+      <div class="pcells" id="pcells"></div>
+      <div class="chg">
+        <div><span class="lbl">10 → 80%</span><b>18 min</b></div>
+        <div><span class="lbl">Peak charge</span><b class="cy">480 kW</b></div>
+        <div><span class="lbl">Track sessions</span><b>3 × 20 min</b></div>
+      </div>
+      <div class="curve"><div style="display:flex;justify-content:space-between"><span class="lbl">Charge curve · kW vs minutes</span><span class="lbl cy">● Σ1 · <span class="dim">○ typical 400 V</span></span></div>
+        <svg viewBox="0 0 800 180" preserveAspectRatio="none">
+          <g stroke="rgba(238,246,255,.07)"><line x1="0" y1="45" x2="800" y2="45"/><line x1="0" y1="90" x2="800" y2="90"/><line x1="0" y1="135" x2="800" y2="135"/></g>
+          <path d="M0,170 C60,60 80,22 160,20 C300,22 360,30 440,60 C540,100 640,140 800,158" fill="none" stroke="#00e5ff" stroke-width="2.5" style="filter:drop-shadow(0 0 6px #00e5ff)"/>
+          <path d="M0,170 C60,60 80,22 160,20 C300,22 360,30 440,60 C540,100 640,140 800,158 L800,180 L0,180 Z" fill="rgba(0,229,255,.08)"/>
+          <path d="M0,172 C80,120 140,104 240,104 C360,108 480,120 620,150 C700,162 760,166 800,168" fill="none" stroke="#4a5670" stroke-width="1.5" stroke-dasharray="5 6"/>
+          <circle cx="300" cy="24" r="5" fill="#ff2bd6"/><line x1="300" y1="24" x2="300" y2="180" stroke="#ff2bd6" stroke-dasharray="3 4"/>
+          <text x="312" y="40" fill="#ff2bd6" font-family="JetBrains Mono" font-size="12">MIN 09 · 476 kW</text>
+        </svg></div>
+    </div>
+  </div>
+</section>
+
+<section class="aero">
+  <div class="sh"><div><div class="idx">02 / AERODYNAMICS</div><h2>The air is<br><span class="outline">a component.</span></h2></div><p>Active front flaps, a ground-effect floor and a hydraulic wing reshape Σ1 in 80 ms, from slipstream to 1.2 tonnes of downforce.</p></div>
+  <div class="stage">
+    <div id="aero3d"></div>
+    <span class="flab" style="right:270px;top:30px">← V∞ 320 KM/H · YAW 0°</span><span class="flab mg" style="left:250px;top:70px">WING −380 KG · 14° ATTACK</span><span class="flab" style="left:860px;bottom:24px">GROUND EFFECT −640 KG</span>
+    <div class="wingind panel br"><div class="lbl cy">// Wing state</div><svg viewBox="0 0 200 110"><path d="M20,90 A80,80 0 0 1 180,90" fill="none" stroke="#1a2336" stroke-width="2"/><path d="M20,90 A80,80 0 0 1 120,14" fill="none" stroke="#ff2bd6" stroke-width="3" style="filter:drop-shadow(0 0 6px #ff2bd6)"/><line x1="100" y1="90" x2="128" y2="20" stroke="#fff" stroke-width="2"/><text x="100" y="80" text-anchor="middle" fill="#eef6ff" font-family="Chakra Petch" font-size="22" font-weight="600">14°</text></svg><div class="lbl" style="display:flex;justify-content:space-between"><span>Mode</span><span class="mg">Attack</span></div></div>
+  </div>
+  <div class="readouts">
+    <div class="panel br"><span class="lbl">Downforce @ 200</span><b>410<small>KG</small></b></div>
+    <div class="panel br"><span class="lbl">Downforce @ 300</span><b>890<small>KG</small></b></div>
+    <div class="panel br on" style="--bc:var(--mg)"><span class="lbl mg">Peak @ 320 · attack</span><b>1,200<small>KG</small></b></div>
+    <div class="panel br"><span class="lbl">Drag, slipstream mode</span><b>0.28<small>CD</small></b></div>
+  </div>
+</section>
+
+<section class="chas">
+  <div class="ph" data-img="1758563920442-280b4e7afe7a|1400"><div class="ret"><span>SCAN · LAYUP 11 OF 14 · 0.18 MM</span></div></div>
+  <div class="tx">
+    <div class="sh" style="margin:0;display:block"><div class="idx">03 / CHASSIS</div></div>
+    <h2>Woven,<br>cured, <span class="outline">signed.</span></h2>
+    <p>Each monocell takes 340 hours to lay up by hand in our Munich clean room. The technician who seals the final ply signs the inside of the tub.</p>
+    <div class="mass">
+      <div class="row"><span>Battery pack</span><div class="b"><i style="width:100%"></i></div><b>598 kg</b></div>
+      <div class="row"><span>Motors · inverters</span><div class="b"><i style="width:36%"></i></div><b>214 kg</b></div>
+      <div class="row m"><span>Monocell · skin</span><div class="b"><i style="width:20%"></i></div><b>119 kg</b></div>
+      <div class="row"><span>Suspension · wheels</span><div class="b"><i style="width:44%"></i></div><b>262 kg</b></div>
+      <div class="row"><span>Interior · systems</span><div class="b"><i style="width:75%"></i></div><b>447 kg</b></div>
+    </div>
+    <div class="stiff"><div class="panel br"><span class="lbl">Torsional stiffness</span><b>62,000 <span class="cy" style="font-size:16px">Nm/°</span></b></div><div class="panel br"><span class="lbl">Dry mass, total</span><b>1,640 <span class="cy" style="font-size:16px">KG</span></b></div></div>
+  </div>
+</section>
+
+<section class="sheet">
+  <div class="sh"><div><div class="idx">04 / FULL SPECIFICATION</div><h2>Spec sheet</h2></div><p>Homologation figures, Series 001. Measured at the Nordhalle proving ground, October 2026.</p></div>
+  <div class="cols">
+    <div class="col panel br cut"><h4>Powertrain <span>PT</span></h4><dl><dt>Motors</dt><dd>4 × axial flux</dd><dt>Combined output</dt><dd>1,417 kW / 1,900 hp</dd><dt>Torque</dt><dd>2,340 Nm</dd><dt>Torque vectoring</dt><dd>1,000 Hz</dd><dt>Regen, max</dt><dd>0.6 g · 600 kW</dd><dt>Drive</dt><dd>AWD, no gearbox</dd></dl></div>
+    <div class="col panel br cut"><h4>Performance <span>PF</span></h4><dl><dt>0–100 km/h</dt><dd>1.9 s</dd><dt>0–200 km/h</dt><dd>4.6 s</dd><dt>0–300 km/h</dt><dd>9.8 s</dd><dt>Top speed</dt><dd>412 km/h</dd><dt>100–0 km/h</dt><dd>28.9 m</dd><dt>Lateral, peak</dt><dd>2.1 g</dd></dl></div>
+    <div class="col panel br cut"><h4>Dimensions <span>DM</span></h4><dl><dt>Length</dt><dd>4,612 mm</dd><dt>Width</dt><dd>2,058 mm</dd><dt>Height</dt><dd>1,098 mm</dd><dt>Wheelbase</dt><dd>2,740 mm</dd><dt>Wheels F / R</dt><dd>20″ / 21″</dd><dt>Dry mass</dt><dd>1,640 kg</dd></dl></div>
+  </div>
+  <div class="dl panel br"><p>Download the full technical dossier · 48 pages</p><a class="btn">Request dossier <span data-ic="arrow"></span></a></div>
+</section>
+
+<div data-footer></div>
+<script src="vanta.js"></script>
+<script src="vanta3d.js"></script>
+<script src="model3d.js"></script>
+<script>
+// battery module map
+let pc = '';
+for (let i = 0; i < 16 * 24; i++) { const col = i % 24, row = Math.floor(i / 24); const lvl = col < 19 ? 'f' : col === 19 ? 'w' : ''; pc += `<i class="${row === 6 && col === 11 ? 'h' : lvl}"></i>`; }
+document.getElementById('pcells').innerHTML = pc;
+vanta('model');
+</script>
+</body></html>

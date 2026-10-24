@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>VANTA Σ1 — Reserve</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vanta.css">
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<style>
+.rv{padding:120px 64px 90px;position:relative;background:radial-gradient(40% 40% at 20% 30%,rgba(255,43,214,.1),transparent 70%),radial-gradient(40% 40% at 80% 40%,rgba(0,229,255,.08),transparent 70%),var(--bg)}
+.steps{display:flex;margin-bottom:46px}
+.steps span{flex:1;font:500 11px/1 var(--mono);letter-spacing:.14em;color:var(--dim2);padding-top:14px;border-top:2px solid rgba(238,246,255,.1);display:flex;gap:10px}
+.steps span.d{color:var(--dim);border-color:var(--cy)}.steps span.d b{color:var(--cy)}
+.steps span.on{color:var(--wh);border-color:var(--mg);box-shadow:0 -6px 18px -8px var(--mg)}.steps span.on b{color:var(--mg)}
+.steps b{font-weight:500}
+.cols{display:grid;grid-template-columns:1fr 470px;gap:28px;align-items:start}
+.plate{position:relative;height:330px;overflow:hidden;padding:34px 40px;background:linear-gradient(120deg,rgba(255,43,214,.1),rgba(0,229,255,.06) 60%,rgba(5,7,13,.9)),#070b15}
+.plate::before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.12) 45%,transparent 55%);animation:holo 4s ease-in-out infinite;background-size:200% 100%}
+@keyframes holo{from{background-position:120% 0}to{background-position:-80% 0}}
+.plate .num{position:absolute;right:40px;bottom:-40px;font:700 250px/1 var(--disp);letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1.5px rgba(255,43,214,.85);text-shadow:0 0 50px rgba(255,43,214,.35)}
+.plate .num small{font-size:80px;-webkit-text-stroke:1px rgba(0,229,255,.6);letter-spacing:0}
+.plate h1{font:600 64px/.9 var(--disp);letter-spacing:-.02em;text-transform:uppercase;margin:16px 0 18px;position:relative}
+.plate .meta{display:flex;gap:28px;position:relative;font:500 11px/1.6 var(--mono);color:var(--dim);letter-spacing:.1em}
+.plate .meta b{display:block;color:var(--wh);font:600 18px/1.2 var(--disp);letter-spacing:.02em}
+.plate .timer{position:absolute;left:40px;bottom:28px;display:grid;grid-template-columns:auto auto;align-items:center;gap:10px 16px;width:300px}.plate .timer .bar{grid-column:span 2;width:100% !important}
+.plate .timer .t{font:500 34px/1 var(--mono);color:var(--mg);text-shadow:0 0 18px rgba(255,43,214,.6)}
+.plate .timer .bar{width:220px;height:4px;background:rgba(238,246,255,.1);position:relative}
+.plate .timer .bar i{position:absolute;inset:0 auto 0 0;width:98.7%;background:var(--mg);box-shadow:0 0 10px var(--mg)}
+.blk{margin-top:24px;padding:30px 34px}
+.blk .bh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px}
+.blk h3{font:600 22px/1 var(--disp);text-transform:uppercase;letter-spacing:.06em;display:flex;gap:12px;align-items:baseline}
+.blk h3 em{font:500 11px/1 var(--mono);color:var(--cy);font-style:normal}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f{border:1px solid var(--line2);padding:12px 16px 13px;position:relative;background:rgba(238,246,255,.02)}
+.f label{display:block;font:500 10px/1 var(--mono);letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:9px}
+.f span{font:500 16px/1 var(--disp)}
+.f.focus{border-color:var(--cy);box-shadow:0 0 0 3px rgba(0,229,255,.12),0 0 24px rgba(0,229,255,.2)}
+.f.focus span::after{content:"";display:inline-block;width:2px;height:16px;background:var(--cy);margin-left:3px;vertical-align:-2px;animation:blink 1s steps(2) infinite}
+.f.ok::after{content:"✓";position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#3dff9a;font:600 14px var(--mono)}
+.f .sel{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--cy);font:500 12px var(--mono)}
+.pay{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pay div{border:1px solid var(--line2);padding:18px;position:relative}
+.pay div b{display:block;font:600 17px/1.2 var(--disp);margin:12px 0 6px}
+.pay div small{font:400 12px/1.5 var(--disp);color:var(--dim)}
+.pay div .rd{width:16px;height:16px;border:1px solid var(--dim2);display:block;transform:rotate(45deg)}
+.pay div.on{border-color:var(--cy);background:rgba(0,229,255,.06);box-shadow:0 0 30px rgba(0,229,255,.18)}
+.pay div.on .rd{border-color:var(--cy);background:radial-gradient(var(--cy) 40%,transparent 45%);box-shadow:0 0 10px var(--cy)}
+.wire{margin-top:16px;display:grid;grid-template-columns:repeat(4,1fr);border:1px dashed rgba(0,229,255,.3);padding:16px 18px;gap:16px}
+.wire b{display:block;font:500 13px/1.3 var(--mono);color:var(--wh);margin-top:6px}
+.agree{display:flex;gap:14px;align-items:flex-start;margin-top:20px;font-size:14px;color:var(--dim)}
+.agree i{width:18px;height:18px;flex:none;border:1px solid var(--cy);background:var(--cy);display:grid;place-items:center;color:#02060b;font:700 12px/1 var(--mono);font-style:normal;margin-top:2px}
+.agree b{color:var(--wh);font-weight:500}
+
+/* summary */
+.sum{padding:28px 30px 30px;position:relative}
+.sum .carthumb{margin:6px -30px 0;position:relative;height:250px}
+.sum .carthumb canvas{display:block;position:relative;-webkit-mask:radial-gradient(60% 62% at 50% 52%,#000 55%,transparent 100%);mask:radial-gradient(60% 62% at 50% 52%,#000 55%,transparent 100%)}
+.sum .carthumb::before{content:"";position:absolute;left:5%;right:5%;bottom:14%;height:30px;background:radial-gradient(rgba(255,43,214,.5),transparent 70%);filter:blur(10px)}
+.sum h4{font:600 26px/1 var(--disp);text-transform:uppercase;letter-spacing:.02em}
+.sum .li{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line2);font:400 13px/1.2 var(--mono);color:var(--dim)}
+.sum .li b{color:var(--wh);font-weight:500}
+.sum .li i{display:inline-block;width:10px;height:10px;margin-right:8px;vertical-align:-1px}
+.sum .tot{display:flex;justify-content:space-between;align-items:flex-end;margin:22px 0 6px}
+.sum .tot b{font:600 40px/1 var(--disp)}
+.dep{margin:18px 0 18px;padding:18px;border:1px solid var(--mg);background:rgba(255,43,214,.08);display:flex;justify-content:space-between;align-items:center;box-shadow:0 0 30px rgba(255,43,214,.15)}
+.dep b{font:600 36px/1 var(--disp);color:var(--wh)}
+.sched{font:400 12px/1 var(--mono);color:var(--dim)}
+.sched div{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:center;padding:8px 0}
+.sched div i{width:8px;height:8px;border:1px solid var(--cy);transform:rotate(45deg)}
+.sched div.on i{background:var(--mg);border-color:var(--mg);box-shadow:0 0 8px var(--mg)}
+.sched div.on{color:var(--wh)}
+.sum .btn{width:100%;justify-content:space-between;margin-top:20px}
+.secure{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px;font:500 10.5px/1 var(--mono);letter-spacing:.12em;color:var(--dim)}
+.rv .cursor{left:1190px;top:930px}
+
+
+/* timeline */
+.tl{padding:120px 64px 130px;border-top:1px solid var(--line);position:relative;overflow:hidden}
+.track{position:relative;margin-top:20px}
+.track .line{position:absolute;left:0;right:0;top:34px;height:2px;background:rgba(238,246,255,.1)}
+.track .line i{position:absolute;inset:0 auto 0 0;width:9%;background:linear-gradient(90deg,var(--cy),var(--mg));box-shadow:0 0 14px var(--mg)}
+.track .line u{position:absolute;left:9%;top:-3px;width:60px;height:8px;background:linear-gradient(90deg,var(--mg),transparent);filter:blur(3px);animation:pulse 1.4s infinite}
+.nodes{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;position:relative}
+.node .dot{width:22px;height:22px;margin:23px 0 32px;border:1px solid var(--cy);background:var(--bg);transform:rotate(45deg);position:relative}
+.node.on .dot{background:var(--mg);border-color:var(--mg);box-shadow:0 0 0 8px rgba(255,43,214,.15),0 0 30px var(--mg)}
+.node .c{padding:20px 20px 22px;min-height:230px}
+.node .when{font:500 11px/1 var(--mono);letter-spacing:.16em;color:var(--cy)}
+.node.on .when{color:var(--mg)}
+.node h4{font:600 22px/1.05 var(--disp);text-transform:uppercase;margin:14px 0 10px}
+.node p{font-size:13.5px;color:var(--dim);line-height:1.5}
+.node.on .c{border-color:var(--mg);box-shadow:0 0 40px rgba(255,43,214,.15)}
+.node.fut{opacity:.8}
+.node .tag{display:inline-block;margin-top:14px;font:500 10px/1 var(--mono);letter-spacing:.14em;padding:6px 8px;border:1px solid var(--line);color:var(--dim)}
+.node.on .tag{border-color:var(--mg);color:var(--mg)}
+.assure{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:60px}
+.assure>div{display:flex;gap:18px;padding:26px}
+.assure .ic{width:30px;height:30px;color:var(--cy);flex:none}
+.assure b{display:block;font:600 19px/1.2 var(--disp);margin-bottom:6px}
+.assure p{font-size:14px;color:var(--dim)}
+</style></head>
+<body>
+<div data-nav></div>
+<section class="rv">
+  <div class="steps"><span class="d"><b>01</b>CONFIGURATION ✓</span><span class="d"><b>02</b>CHASSIS NUMBER ✓</span><span class="on"><b>03</b>PILOT &amp; DEPOSIT</span><span><b>04</b>CONFIRMATION</span></div>
+  <div class="cols">
+    <div>
+      <div class="plate br cut" style="--bc:var(--mg)">
+        <div class="lbl mg">// Allocation held for you</div>
+        <h1>Chassis<br><span class="glitch" data-t="No. 047">No. 047</span></h1>
+        <div class="meta"><div>Series<b>001 of 099</b></div><div>Region<b>Europe · DE</b></div><div>Build slot<b>Q3 2027</b></div></div>
+        <div class="timer"><span class="lbl">Hold expires</span><span class="t">23:41:08</span><div class="bar"><i></i></div></div>
+        <div class="num">047</div>
+      </div>
+
+      <div class="blk panel br">
+        <div class="bh"><h3><em>A</em>Pilot details</h3><span class="lbl">All fields encrypted · AES-256</span></div>
+        <div class="fields">
+          <div class="f ok"><label>Full name</label><span>Aria Navarro-Lind</span></div>
+          <div class="f ok"><label>Email</label><span>aria@navarro-lind.studio</span></div>
+          <div class="f"><label>Country of registration</label><span>Germany</span><span class="sel">▾</span></div>
+          <div class="f focus"><label>Delivery hangar</label><span>VANTA Hangar · Munich</span></div>
+          <div class="f" style="grid-column:span 2"><label>Pilot callsign · engraved on sill plate</label><span>NAVARRO // 047</span></div>
+        </div>
+      </div>
+
+      <div class="blk panel br">
+        <div class="bh"><h3><em>B</em>Deposit method</h3><span class="lbl cy">€250,000 · refundable</span></div>
+        <div class="pay">
+          <div class="on"><span class="rd"></span><b>Bank wire</b><small>SEPA or SWIFT · funds held in escrow until spec sign-off</small></div>
+          <div><span class="rd"></span><b>Private bank guarantee</b><small>Letter from your bank · 5 working days</small></div>
+          <div><span class="rd"></span><b>Card + wire</b><small>€50,000 by card today, balance by wire in 72 h</small></div>
+        </div>
+        <div class="wire">
+          <div><span class="lbl">Beneficiary</span><b>VANTA Escrow GmbH</b></div>
+          <div><span class="lbl">Reference</span><b class="cy">VX-047-NAV</b></div>
+          <div><span class="lbl">IBAN</span><b>DE•• •••• •••• 4471</b></div>
+          <div><span class="lbl">Deadline</span><b>27 Oct 2026</b></div>
+        </div>
+        <div class="agree"><i>✓</i><span>I understand the deposit is <b>fully refundable until build-slot lock on 15 March 2027</b>, after which it secures chassis 047 and the monocell layup begins.</span></div>
+      </div>
+    </div>
+
+    <aside class="sum panel br cut">
+      <div class="lbl cy">// Your Σ1 · order VX-047</div>
+      <div class="carthumb" id="rv3d"></div>
+      <h4>Σ1 · Magenta Flux</h4>
+      <div style="margin-top:12px">
+        <div class="li"><span>Σ1 base, ex-works</span><b>€2,100,000</b></div>
+        <div class="li"><span><i style="background:#d01bb3"></i>Magenta Flux</span><b>€64,000</b></div>
+        <div class="li"><span>Forged Y wheels</span><b>€38,500</b></div>
+        <div class="li"><span>Bone hide interior</span><b>€14,000</b></div>
+        <div class="li"><span>Cyan calipers</span><b>€8,400</b></div>
+        <div class="li"><span>Track Pack</span><b>€180,000</b></div>
+      </div>
+      <div class="tot"><span class="lbl">Total · excl. VAT</span><b>€2,404,900</b></div>
+      <div class="dep"><div><span class="lbl mg">Due today</span><br><b>€250,000</b></div><span class="lbl" style="text-align:right;line-height:1.6">10.4% of total<br>Refundable</span></div>
+      <div class="sched">
+        <div class="on"><i></i><span>Deposit · today</span><span>€250,000</span></div>
+        <div><i></i><span>Spec sign-off · Jan 2027</span><span>€471,470</span></div>
+        <div><i></i><span>Handover · Sep 2027</span><span>€1,683,430</span></div>
+      </div>
+      <a class="btn mgb">Secure chassis 047 <span data-ic="lock"></span></a>
+      <div class="secure"><span data-ic="shield"></span>ESCROW-PROTECTED · NO CHARGE UNTIL FUNDS CLEAR</div>
+    </aside>
+  </div>
+  <div class="cursor"><i></i><i></i><i></i><i></i><b>CONFIRM</b></div>
+</section>
+
+<section class="tl">
+  <div class="sh"><div><div class="idx">DELIVERY TIMELINE</div><h2>From deposit<br><span class="outline">to driveway.</span></h2></div><p>Eleven months, six milestones. You will see your car at each one: on video, in the clean room, and on track.</p></div>
+  <div class="track">
+    <div class="line"><i></i><u></u></div>
+    <div class="nodes">
+      <div class="node on"><div class="dot"></div><div class="c panel br" style="--bc:var(--mg)"><span class="when">24 OCT 2026 · NOW</span><h4>Reservation</h4><p>Chassis 047 is yours. Concierge Jonas Albrecht calls within 24 hours.</p><span class="tag">● IN PROGRESS</span></div></div>
+      <div class="node fut"><div class="dot"></div><div class="c panel br"><span class="when">JAN 2027</span><h4>Spec sign-off</h4><p>Final paint panel, hide samples and seat moulding at the Munich lab.</p><span class="tag">30% DUE</span></div></div>
+      <div class="node fut"><div class="dot"></div><div class="c panel br"><span class="when">15 MAR 2027</span><h4>Slot lock</h4><p>Build slot fixed. Deposit becomes non-refundable.</p><span class="tag">FINAL</span></div></div>
+      <div class="node fut"><div class="dot"></div><div class="c panel br"><span class="when">MAY 2027</span><h4>Monocell layup</h4><p>340 hours by hand. Watch the final ply sealed, live.</p><span class="tag">LIVE STREAM</span></div></div>
+      <div class="node fut"><div class="dot"></div><div class="c panel br"><span class="when">AUG 2027</span><h4>Shakedown</h4><p>Your car runs 200 km at Nordhalle Ring. You can be in the passenger seat.</p><span class="tag">INVITE</span></div></div>
+      <div class="node fut"><div class="dot"></div><div class="c panel br"><span class="when">SEP 2027</span><h4>Handover</h4><p>Hangar delivery with a private track day and your first over-air update.</p><span class="tag">BALANCE DUE</span></div></div>
+    </div>
+  </div>
+  <div class="assure">
+    <div class="panel br"><span data-ic="shield"></span><div><b>Escrow-held deposit</b><p>Funds sit with an independent escrow agent until the build slot locks.</p></div></div>
+    <div class="panel br"><span data-ic="user"></span><div><b>One concierge, start to finish</b><p>A named engineer, reachable 24/7, from today until the 8-year warranty ends.</p></div></div>
+    <div class="panel br"><span data-ic="globe"></span><div><b>Delivered anywhere</b><p>Enclosed air freight to any of 31 countries, customs and registration handled.</p></div></div>
+  </div>
+</section>
+<div data-footer></div>
+<script src="vanta.js"></script>
+<script src="vanta3d.js"></script>
+<script src="reserve3d.js"></script>
+<script>vanta('');</script>
+</body></html>

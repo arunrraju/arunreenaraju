@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Nocté — The Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nocte.css">
+<style>
+.head{position:relative;padding:190px 64px 70px;overflow:hidden}
+.head .bgword{position:absolute;right:-40px;top:90px;font:italic 400 420px/.8 var(--serif);color:transparent;-webkit-text-stroke:1px rgba(243,215,155,.1);white-space:nowrap}
+.head .crumb{font-size:12px;color:var(--dim);letter-spacing:.1em}
+.head h1{font:400 190px/.82 var(--serif);letter-spacing:-.04em;margin:30px 0 0;position:relative}
+.head h1 sup{font:500 18px/1 var(--sans);letter-spacing:.1em;color:var(--gold);vertical-align:top;margin-left:12px;position:relative;top:30px}
+.head .sub{display:flex;justify-content:space-between;align-items:flex-end;margin-top:40px;position:relative}
+.head .sub p{max-width:480px;color:rgba(239,230,216,.7);font-size:16px}
+.fam{display:flex;gap:10px}
+.fam span{height:48px;padding:0 20px 0 8px;border-radius:999px;border:1px solid var(--faint);display:flex;align-items:center;gap:10px;font-size:13px;background:rgba(255,255,255,.02)}
+.fam span i{width:32px;height:32px;border-radius:50%}
+.fam span.on{border-color:rgba(243,215,155,.6);background:rgba(216,178,106,.1);color:var(--gold-2)}
+.tool{display:flex;justify-content:space-between;align-items:center;margin:0 64px;padding:22px 0;border-top:1px solid var(--faint);border-bottom:1px solid var(--faint);font-size:13px;color:var(--dim)}
+.tool .r{display:flex;gap:28px;align-items:center}
+.tool b{color:var(--bone);font-weight:500}
+.tool .sw{display:flex;align-items:center;gap:10px}
+.tool .sw i{width:40px;height:22px;border-radius:99px;background:var(--gold);position:relative}
+.tool .sw i::after{content:"";position:absolute;right:3px;top:3px;width:16px;height:16px;border-radius:50%;background:var(--black)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:56px 64px 0;position:relative}
+.p{position:relative;border-radius:26px;overflow:hidden;height:720px;background:var(--coal);border:1px solid rgba(239,230,216,.07)}
+.p .ph{position:absolute;inset:0}
+.p .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,6,5,.15) 0%,transparent 30%,transparent 55%,rgba(7,6,5,.92) 100%)}
+.p .top{position:absolute;top:22px;left:22px;right:22px;display:flex;justify-content:space-between;z-index:3}
+.p .tag{height:32px;padding:0 14px;border-radius:999px;background:rgba(7,6,5,.5);backdrop-filter:blur(10px);border:1px solid rgba(239,230,216,.15);display:flex;align-items:center;font:500 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.p .fav{width:40px;height:40px;border-radius:50%;background:rgba(7,6,5,.5);backdrop-filter:blur(10px);border:1px solid rgba(239,230,216,.15);display:grid;place-items:center}
+.p .bot{position:absolute;left:28px;right:28px;bottom:28px;z-index:3}
+.p .no{font:500 11px/1 var(--sans);letter-spacing:.3em;color:var(--gold)}
+.p h3{font:italic 400 52px/1 var(--serif);margin:12px 0 10px;letter-spacing:-.01em}
+.p .row{display:flex;justify-content:space-between;align-items:center;color:var(--dim);font-size:13px}
+.p .row b{color:var(--bone);font:500 17px/1 var(--sans)}
+.p .int{display:flex;gap:4px;margin-top:16px}
+.p .int i{flex:1;height:3px;border-radius:9px;background:var(--faint)}
+.p .int i.on{background:var(--c,var(--gold))}
+.p .halo{position:absolute;left:50%;top:44%;width:420px;height:420px;transform:translate(-50%,-50%);border-radius:50%;filter:blur(70px);opacity:.55;z-index:1;mix-blend-mode:screen}
+/* hover state */
+.p.hover{transform:translateY(-12px);box-shadow:0 60px 120px rgba(0,0,0,.6),0 0 0 1px rgba(243,215,155,.45),0 0 80px rgba(216,178,106,.18)}
+.p.hover .ph img{transform:scale(1.08)}
+.p.hover .qv{position:absolute;left:18px;right:18px;bottom:18px;z-index:4;padding:24px;border-radius:20px;background:rgba(17,14,10,.72);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(243,215,155,.22)}
+.qv .chips{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 18px}
+.qv .chips span{font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid var(--faint);color:rgba(239,230,216,.8)}
+.qv .sizes{display:flex;gap:6px;margin-bottom:16px}
+.qv .sizes span{flex:1;height:44px;border-radius:12px;border:1px solid var(--faint);display:grid;place-items:center;font-size:13px}
+.qv .sizes span.on{border-color:var(--gold);color:var(--gold-2);background:rgba(216,178,106,.08)}
+.qv .btn{width:100%;justify-content:space-between;height:56px}
+.wide{grid-column:span 2;height:720px;border-radius:26px;position:relative;overflow:hidden;background:linear-gradient(130deg,#2b1f12 0%,#120d08 60%);border:1px solid rgba(243,215,155,.2)}
+.wide .kit{position:absolute;right:-40px;top:60px;width:640px;height:600px;display:flex;gap:16px;align-items:flex-end;transform:rotate(-8deg)}
+.wide .kit div{flex:1;border-radius:120px 120px 14px 14px;box-shadow:0 30px 60px rgba(0,0,0,.6)}
+.wide .tx{position:absolute;left:56px;top:56px;bottom:56px;width:480px;display:flex;flex-direction:column;justify-content:space-between;z-index:3}
+.wide h2{font:400 96px/.9 var(--serif);letter-spacing:-.03em;margin-top:20px}
+.wide ul{list-style:none;color:rgba(239,230,216,.75);font-size:14px;margin:26px 0 34px}
+.wide li{padding:10px 0;border-bottom:1px solid var(--faint);display:flex;gap:12px;align-items:center}
+.wide li .ic{color:var(--gold)}
+.wide .price{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+.wide .price b{font:italic 400 64px/1 var(--serif)}
+.wide .price s{color:var(--dim)}
+.more{display:flex;flex-direction:column;align-items:center;gap:20px;padding:110px 0 150px;color:var(--dim);font-size:13px}
+.more .c{width:150px;height:150px;border-radius:50%;border:1px solid rgba(243,215,155,.35);display:grid;place-items:center;font:italic 400 22px/1.2 var(--serif);color:var(--bone);text-align:center;position:relative}
+.more .c::before{content:"";position:absolute;inset:-1px;border-radius:50%;border:2px solid transparent;border-top-color:var(--gold);transform:rotate(40deg)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="head">
+  <div class="bgword">Extraits</div>
+  <div class="crumb">Maison Nocté &nbsp;—&nbsp; Fragrances &nbsp;—&nbsp; All extraits</div>
+  <h1>The <span class="it gold-text">collection</span><sup>(07)</sup></h1>
+  <div class="sub">
+    <p>Seven extraits de parfum at 28% concentration — each one built around a single rare material, and made to last from dusk until morning.</p>
+    <div class="fam"><span class="on"><i style="background:conic-gradient(#d8b26a,#6b7d1c,#2d5d9a,#7a2a3a,#d8b26a)"></i>All</span><span><i style="background:radial-gradient(circle at 35% 35%,#ffcf7a,#8a4612)"></i>Amber</span><span><i style="background:radial-gradient(circle at 35% 35%,#f0a8b3,#7a2a3a)"></i>Floral</span><span><i style="background:radial-gradient(circle at 35% 35%,#a07a5a,#2b1a10)"></i>Woody</span><span><i style="background:radial-gradient(circle at 35% 35%,#e3f07a,#4a5d10)"></i>Green</span><span><i style="background:radial-gradient(circle at 35% 35%,#8fc0ff,#1d3d78)"></i>Aquatic</span></div>
+  </div>
+</section>
+
+<div class="tool"><span>Showing <b>7 extraits</b> · 1 discovery set</span><div class="r"><span class="sw"><i></i><b>Engraving available</b></span><span>Intensity <b>All</b></span><span>Sort by <b>Most coveted ↓</b></span><span style="display:flex;gap:8px;align-items:center"><b>Grid</b> / Editorial</span></div></div>
+
+<section class="grid">
+  <div class="p"><div class="halo" style="background:#b8ff3d"></div><div class="ph" data-img="1627933234009-0f5ce6eb4e3a|900"></div><div class="top"><span class="tag">Nº 03 · Green</span><span class="fav"><span data-ic="heart"></span></span></div><div class="bot"><span class="no">EXTRAIT · 50 ML</span><h3>Vert Absinthe</h3><div class="row"><span>Wormwood · Fig leaf · Vetiver</span><b>€ 245</b></div><div class="int" style="--c:#b8e05a"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div></div>
+
+  <div class="p hover"><div class="halo" style="background:#ffb44a;opacity:.7"></div><div class="ph" data-img="1733660227163-01bc46e0d7d7|900"></div><div class="top"><span class="tag" style="background:var(--gold);color:var(--black);border:0">New · Nº 07</span><span class="fav" style="color:var(--gold)"><span data-ic="heart"></span></span></div>
+    <div class="qv"><div style="display:flex;justify-content:space-between;align-items:baseline"><h3 style="font:italic 400 44px/1 var(--serif)">Or Liquide</h3><b style="font:500 18px/1 var(--sans)">€ 295</b></div><div class="chips"><span>Saffron</span><span>Damask rose</span><span>Oud</span><span>Ambergris</span></div><div class="sizes"><span>10 ml</span><span class="on">50 ml</span><span>100 ml</span></div><a class="btn gold">Add to bag<span class="o"><span data-ic="plus"></span></span></a></div>
+  </div>
+
+  <div class="p"><div class="halo" style="background:#3d7dff"></div><div class="ph" data-img="1608721279136-cd41b752fa41|900"></div><div class="top"><span class="tag">Nº 05 · Aquatic</span><span class="fav"><span data-ic="heart"></span></span></div><div class="bot"><span class="no">EXTRAIT · 50 ML</span><h3>Bleu Minuit</h3><div class="row"><span>Sea salt · Orris · Blue amber</span><b>€ 230</b></div><div class="int" style="--c:#6aa5ff"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div></div>
+
+  <div class="wide">
+    <div class="glow pulse" style="width:600px;height:600px;right:60px;top:40px;background:radial-gradient(circle,rgba(243,190,100,.35),transparent 70%)"></div>
+    <div class="kit"><div data-img="1627933234009-0f5ce6eb4e3a|400" style="height:62%"></div><div data-img="1733660227163-01bc46e0d7d7|400" style="height:84%"></div><div data-img="1622618991746-fe6004db3a47|400" style="height:100%"></div><div data-img="1608721279136-cd41b752fa41|400" style="height:76%"></div></div>
+    <div class="tx">
+      <div><div class="mono gold">Le Coffret · Limited to 900</div><h2>The discovery <span class="it gold-text">coffret</span></h2>
+      <ul><li><span data-ic="check"></span>All seven extraits in 2 ml vials</li><li><span data-ic="check"></span>Lacquered black case with numbered plaque</li><li><span data-ic="check"></span>€45 credited to your first full flacon</li></ul></div>
+      <div><div class="price"><b class="gold-text">€ 65</b><s>€ 95</s><span style="color:var(--dim);font-size:13px">· 312 left</span></div><a class="btn">Reserve a coffret<span class="o"><span data-ic="arrow"></span></span></a></div>
+    </div>
+  </div>
+
+  <div class="p"><div class="halo" style="background:#ff7a2a"></div><div class="ph" data-img="1622618991746-fe6004db3a47|900"></div><div class="top"><span class="tag">Nº 01 · Amber</span><span class="fav"><span data-ic="heart"></span></span></div><div class="bot"><span class="no">EXTRAIT · 50 ML</span><h3>Soleil Ambré</h3><div class="row"><span>Benzoin · Tonka · Neroli</span><b>€ 265</b></div><div class="int" style="--c:#ffa24a"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div></div>
+
+  <div class="p"><div class="halo" style="background:#c9c3b8;opacity:.3"></div><div class="ph" data-img="1598634222670-87c5f558119c|900"></div><div class="top"><span class="tag">Nº 06 · Woody</span><span class="fav"><span data-ic="heart"></span></span></div><div class="bot"><span class="no">EXTRAIT · 50 ML</span><h3>Lumière Noire</h3><div class="row"><span>Leather · Birch tar · Incense</span><b>€ 280</b></div><div class="int"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div></div>
+  <div class="p"><div class="halo" style="background:#ff8fb0;opacity:.4"></div><div class="ph" data-img="1516565349308-c76fe36a115c|900"></div><div class="top"><span class="tag">Nº 02 · Floral</span><span class="fav"><span data-ic="heart"></span></span></div><div class="bot"><span class="no">EXTRAIT · 50 ML</span><h3>Rose Velours</h3><div class="row"><span>Damask rose · Plum · Patchouli</span><b>€ 255</b></div><div class="int" style="--c:#f08aa6"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div></div>
+  <div class="p"><div class="halo" style="background:#e9e2d0;opacity:.25"></div><div class="ph" data-img="1594125311687-3b1b3eafa9f4|900"></div><div class="top"><span class="tag">Nº 04 · Musk</span><span class="fav"><span data-ic="heart"></span></span></div><div class="bot"><span class="no">EXTRAIT · 50 ML</span><h3>Peau de Soie</h3><div class="row"><span>White musk · Iris · Cashmeran</span><b>€ 240</b></div><div class="int" style="--c:#e9e2d0"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div></div>
+
+  <div class="cursor" style="left:690px;top:300px;z-index:70"><span>QUICK VIEW</span></div>
+</section>
+
+<div class="more"><div class="c">Load<br>the night</div><span>7 of 7 extraits shown · explore the Archive editions</span></div>
+
+<div data-footer></div>
+<script src="nocte.js"></script>
+<script>nocte('Collections');</script>
+</body></html>

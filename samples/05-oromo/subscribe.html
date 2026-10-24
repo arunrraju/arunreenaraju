@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Oromo — Build Your Subscription</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="oromo.css">
+<style>
+html,body{height:1080px;overflow:hidden}
+.wrap{position:relative;height:944px}
+.left{position:absolute;left:56px;top:40px;width:850px}
+.top{display:flex;justify-content:space-between;align-items:flex-end}
+.top h1{font-size:76px;line-height:.9;letter-spacing:-.045em;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144}
+.top h1 em{color:var(--terra)}
+.steps{display:flex;gap:8px;align-items:center;font:600 12px/1 var(--sans)}
+.steps span{white-space:nowrap;display:flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 6px;border-radius:999px;border:1.5px solid var(--esp)}
+.steps span i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:italic 400 13px/1 var(--serif);border:1.5px solid var(--esp)}
+.steps span.d{background:var(--sage-2)}
+.steps span.d i{background:var(--esp);color:var(--paper)}
+.steps span.c{background:var(--esp);color:var(--paper)}
+.steps span.c i{background:var(--terra);border-color:var(--terra)}
+.steps b{width:18px;height:1.5px;background:var(--esp)}
+.blk{margin-top:30px}
+.blk h6{display:flex;align-items:baseline;gap:12px;font:400 26px/1 var(--serif);margin-bottom:14px}
+.blk h6 i{font:italic 400 18px/1 var(--serif);color:var(--terra)}
+.blk h6 small{margin-left:auto;font:500 13px var(--sans);color:var(--soft)}
+.tastes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tc{position:relative;height:180px;border-radius:22px;border:1.5px solid var(--esp);padding:18px;overflow:hidden;background:var(--paper)}
+.tc .bl{position:absolute;right:-44px;top:-44px;width:130px;height:130px;border-radius:47% 53% 41% 59%/55% 45% 55% 45%;mix-blend-mode:multiply;opacity:.85}
+.tc .bl2{position:absolute;right:52px;top:16px;width:44px;height:44px;border-radius:50%;mix-blend-mode:multiply;opacity:.8}
+.tc b{position:absolute;left:18px;bottom:48px;font:italic 400 30px/.95 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.02em}
+.tc small{position:absolute;left:18px;bottom:18px;font-size:12px;color:var(--soft)}
+.tc .ck{position:absolute;left:16px;top:16px;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--esp);display:grid;place-items:center;background:var(--paper)}
+.tc.on{background:var(--terra);color:var(--paper);transform:rotate(-2deg) translateY(-4px);box-shadow:6px 6px 0 var(--esp)}
+.tc.on small{color:rgba(246,238,223,.85)}
+.tc.on .ck{background:var(--esp);border-color:var(--esp);color:var(--paper)}
+.tc .cur{left:100px;top:6px;transform:scale(.85);background:var(--esp)}
+.freq{display:grid;grid-template-columns:1fr 250px;gap:18px}
+.track{border:1.5px solid var(--esp);border-radius:22px;padding:24px 30px 14px;background:var(--paper);position:relative}
+.track .ln{position:relative;height:40px;margin:0 20px}
+.track .ln::before{content:"";position:absolute;left:0;right:0;top:19px;height:3px;background:repeating-linear-gradient(90deg,var(--esp) 0 8px,transparent 8px 14px)}
+.track .ln .fill{position:absolute;left:0;width:33.3%;top:18px;height:5px;border-radius:5px;background:var(--terra)}
+.track .ln i{position:absolute;top:8px;width:24px;height:24px;margin-left:-12px;border-radius:50%;background:var(--paper);border:2px solid var(--esp)}
+.track .ln i.on{width:44px;height:44px;top:-2px;margin-left:-22px;background:var(--terra);border:3px solid var(--esp);box-shadow:0 0 0 8px rgba(198,93,59,.18)}
+.track .lb{display:flex;justify-content:space-between;margin-top:12px;font:500 13px var(--sans);color:var(--soft)}
+.track .lb span.on{color:var(--esp);font-weight:700}
+.track .hint{position:absolute;left:236px;top:-13px;background:var(--mustard);padding:6px 12px;border-radius:10px;font:700 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;transform:rotate(-3deg)}
+.qtyb{border:1.5px solid var(--esp);border-radius:22px;padding:18px 20px;background:var(--cream)}
+.qtyb small{font:700 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+.qtyb .r{display:flex;align-items:center;justify-content:space-between;margin:12px 0 8px}
+.qtyb .r span{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--esp);display:grid;place-items:center}
+.qtyb .r b{font:400 44px/1 var(--serif)}
+.qtyb p{font-size:12px;color:var(--soft)}
+.grind{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.gt{border:1.5px solid var(--esp);border-radius:18px;padding:14px 10px 12px;text-align:center;background:var(--paper)}
+.gt svg{width:46px;height:46px;stroke:var(--esp);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin:0 auto 8px;display:block}
+.gt b{display:block;font:500 13px/1.1 var(--sans)}
+.gt small{font-size:11px;color:var(--soft)}
+.gt.on{background:var(--esp);color:var(--paper)}
+.gt.on svg{stroke:var(--mustard)}
+.gt.on small{color:rgba(246,238,223,.7)}
+.navb{display:flex;justify-content:space-between;align-items:center;margin-top:26px}
+.navb .btn.g{height:50px}
+
+.sum{position:absolute;left:950px;top:20px;width:434px;height:900px;background:var(--kraft);background-image:var(--noise);background-size:260px;border-radius:6px 6px 26px 26px;padding:34px 34px 30px;box-shadow:0 30px 60px rgba(43,26,18,.2)}
+.sum::before{content:"";position:absolute;left:0;right:0;top:-25px;height:26px;background:inherit;-webkit-mask:var(--tear) 0 0/600px 26px repeat-x;mask:var(--tear) 0 0/600px 26px repeat-x}
+.sum .hd{display:flex;justify-content:space-between;align-items:flex-start}
+.sum h2{font-size:46px;line-height:.9;letter-spacing:-.03em}
+.sum .live{display:flex;align-items:center;gap:6px;font:700 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;padding:7px 10px;border-radius:999px;background:var(--paper)}
+.sum .live i{width:8px;height:8px;border-radius:50%;background:var(--terra);animation:pl 1.4s infinite}
+@keyframes pl{50%{opacity:.25}}
+.box{position:relative;height:250px;margin:16px 0 8px}
+.box .blob{position:absolute;left:60px;top:20px;width:260px;height:220px;border-radius:50% 50% 46% 54%/55% 45% 55% 45%;background:var(--sage);mix-blend-mode:multiply}
+.box .bag{position:absolute}
+.box .q1{left:70px;top:16px;transform:rotate(-8deg)}
+.box .q2{left:190px;top:30px;transform:rotate(7deg)}
+.box .stamp{position:absolute;right:-6px;top:120px;width:120px;height:120px;color:var(--esp);background:var(--paper);border-radius:50%;z-index:3}
+.box .stamp text{font-size:14px}
+.box .stamp .core{background:var(--esp);color:var(--paper);font-size:14px}
+.queue{border-top:1.5px solid var(--esp);padding-top:12px}
+.queue div{display:flex;align-items:center;gap:12px;padding:7px 0;font-size:14px}
+.queue div i{width:26px;height:26px;border-radius:7px;flex:none}
+.queue div em{margin-left:auto;font:500 12px var(--sans);font-style:normal;color:var(--esp-2);opacity:.75}
+.queue div.first b{font:italic 400 19px var(--serif)}
+.cal{display:flex;gap:8px;margin:14px 0;border-top:1.5px dashed rgba(43,26,18,.4);padding-top:14px}
+.cal div{flex:1;background:var(--paper);border-radius:12px;padding:8px 6px;text-align:center;font:700 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase}
+.cal div b{display:block;font:400 26px/1.1 var(--serif);letter-spacing:0}
+.cal div.on{background:var(--esp);color:var(--paper)}
+.lines{font-size:14px;display:grid;gap:6px}
+.lines div{display:flex;justify-content:space-between}
+.lines .sv{color:#7b3b22;font-weight:600}
+.tot{display:flex;justify-content:space-between;align-items:flex-end;border-top:2px solid var(--esp);margin-top:12px;padding-top:12px}
+.tot b{font:400 52px/1 var(--serif);letter-spacing:-.03em}
+.tot small{font-size:13px}
+.sum .btn{width:100%;justify-content:center;margin-top:14px;height:58px}
+.sum .fine{font-size:12px;text-align:center;margin-top:10px;color:var(--esp-2)}
+.deco{position:absolute;left:880px;top:810px;width:110px;height:110px}
+</style></head>
+<body>
+<div data-nav></div>
+<div class="wrap">
+  <div class="left">
+    <div class="top"><h1>Build your <em class="it">box.</em></h1>
+      <div class="steps"><span class="d"><i>✓</i>Taste</span><b></b><span class="c"><i>2</i>Rhythm</span><b></b><span><i>3</i>Grind</span><b></b><span><i>4</i>Check out</span></div></div>
+
+    <div class="blk"><h6><i>01</i>What do you love in a cup? <small>Pick one · change anytime</small></h6>
+      <div class="tastes">
+        <div class="tc on"><span class="bl" style="background:var(--mustard)"></span><span class="bl2" style="background:var(--blush)"></span><span class="ck" data-ic="check"></span><b>Fruity &amp;<br>floral</b><small>Guji · Gesha · Pink Bourbon</small></div>
+        <div class="tc"><span class="bl" style="background:#9a6a43"></span><span class="bl2" style="background:var(--mustard)"></span><span class="ck"></span><b>Sweet &amp;<br>chocolatey</b><small>Huila · Nariño · Mercado</small></div>
+        <div class="tc"><span class="bl" style="background:var(--terra)"></span><span class="bl2" style="background:var(--sage)"></span><span class="ck"></span><b>Bright &amp;<br>juicy</b><small>Nyeri · Kirinyaga · Embu</small><div class="cur"><span>SNIFF</span></div></div>
+        <div class="tc" style="background:var(--cream)"><span class="bl" style="background:var(--sage)"></span><span class="bl2" style="background:var(--terra)"></span><span class="ck"></span><b>Surprise<br><span style="color:var(--terra)">me!</span></b><small>Roaster’s pick, every time</small></div>
+      </div></div>
+
+    <div class="blk"><h6><i>02</i>How often should it arrive? <small>Skip or pause from your phone</small></h6>
+      <div class="freq">
+        <div class="track"><span class="hint">Most popular</span>
+          <div class="ln"><span class="fill"></span><i style="left:0"></i><i class="on" style="left:33.3%"></i><i style="left:66.6%"></i><i style="left:100%"></i></div>
+          <div class="lb"><span>Every week</span><span class="on">Every 2 weeks</span><span>Every 3 weeks</span><span>Monthly</span></div><div style="margin-top:16px;padding-top:12px;border-top:1.5px dashed var(--line);font-size:13px;color:var(--soft);display:flex;gap:8px;align-items:center"><span data-ic="cal"></span>First bag roasts Mon 2 Nov · move any delivery ±3 days</div></div>
+        <div class="qtyb"><small>Bags per delivery</small><div class="r"><span data-ic="minus"></span><b>2</b><span data-ic="plus"></span></div><p>2 × 250 g ≈ 33 cups · lasts ~14 days for two</p></div>
+      </div></div>
+
+    <div class="blk"><h6><i>03</i>How do you brew? <small>We grind on the morning it ships</small></h6>
+      <div class="grind" id="grind"></div></div>
+
+    <div class="navb"><a class="btn g">${''}← Back to taste</a><span style="font-size:14px;color:var(--soft)">Step 2 of 4 · about 40 seconds left</span><a class="btn t">Continue <span data-ic="arrow"></span></a></div>
+  </div>
+
+  
+
+  <aside class="sum">
+    <div class="hd"><h2>Your <span class="it">box</span></h2><span class="live"><i></i>Live summary</span></div>
+    <div class="box"><i class="blob"></i>
+      <div class="q1" data-bag="Guji|Ethiopia · Natural|#8fa58a|#d4b78b|Blueberry · rose|2|250 G|#2b1a12|#e0a93b|#efb9a0" data-w="140"></div>
+      <div class="q2" data-bag="Pink Bourbon|Colombia|#efb9a0|#c9a877|Watermelon|2|250 G|#2b1a12|#c65d3b|#e0a93b" data-w="140"></div>
+      <div class="stamp" data-stamp="Pause anytime ✺ Pause anytime ✺ ">−15%</div>
+    </div>
+    <div class="queue">
+      <div class="first"><i style="background:var(--sage)"></i><span><b>Guji Hambela</b> + Pink Bourbon</span><em>Delivery 1</em></div>
+      <div><i style="background:var(--mustard)"></i><span>Bench Maji Gesha + Nariño</span><em>Delivery 2</em></div>
+      <div><i style="background:var(--terra)"></i><span>Nyeri AA + Kirinyaga PB</span><em>Delivery 3</em></div>
+    </div>
+    <div class="cal"><div class="on">Thu<b>5</b>Nov</div><div>Thu<b>19</b>Nov</div><div>Thu<b>3</b>Dec</div><div>Thu<b>17</b>Dec</div></div>
+    <div class="lines"><div><span>2 × 250 g fruity single origins</span><span>€38.00</span></div><div><span>Ground for Aeropress</span><span>Free</span></div><div class="sv"><span>Subscriber saving 15%</span><span>−€5.70</span></div><div><span>Shipping, EU</span><span>Free</span></div></div>
+    <div class="tot"><span><small>Per delivery</small></span><span style="text-align:right"><b>€32.30</b><br><small>≈ €0.98 per cup</small></span></div>
+    <a class="btn">Continue to grind <span data-ic="arrow"></span></a>
+    <div class="fine">Skip, swap, pause or cancel anytime. No contract.</div>
+  </aside>
+</div>
+<script src="oromo.js"></script>
+<script>
+document.querySelector('.navb .btn.g').textContent = '← Back to taste';
+const I = {
+  'Whole bean': '<ellipse cx="23" cy="23" rx="10" ry="15" transform="rotate(25 23 23)"/><path d="M19 10c6 6 0 20 8 26"/>',
+  'Espresso': '<path d="M10 18h22v8a9 9 0 0 1-9 9h-4a9 9 0 0 1-9-9v-8Z"/><path d="M32 21h3a4 4 0 0 1 0 8h-3M8 40h30"/>',
+  'Moka pot': '<path d="M16 6h14l-2 12H18L16 6ZM18 18l-4 20h18l-4-20M30 10l6 4"/>',
+  'Aeropress': '<rect x="15" y="6" width="16" height="26" rx="2"/><path d="M12 32h22M18 32v6h10v-6M19 12h8"/>',
+  'V60 / Chemex': '<path d="M8 12h30l-11 18h-8L8 12ZM19 30v4h8v-4M12 40h22"/>',
+  'Cafetière': '<rect x="12" y="12" width="20" height="26" rx="2"/><path d="M22 4v20M16 4h12M32 18h4v12h-4"/>'
+};
+const sub = { 'Whole bean': 'grind at home', 'Espresso': 'very fine', 'Moka pot': 'fine', 'Aeropress': 'medium-fine', 'V60 / Chemex': 'medium', 'Cafetière': 'coarse' };
+document.getElementById('grind').innerHTML = Object.keys(I).map(k => `<div class="gt ${k === 'Aeropress' ? 'on' : ''}"><svg viewBox="0 0 46 46">${I[k]}</svg><b>${k}</b><small>${sub[k]}</small></div>`).join('');
+oromo('Subscribe', { cart: 0 });
+document.querySelector('.tc .cur span').innerHTML = ic('nose') + 'SNIFF';
+</script>
+</body></html>

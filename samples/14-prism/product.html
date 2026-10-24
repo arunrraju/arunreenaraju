@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Prism One — Tech specs & 3D viewer · PRISM</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prism.css">
+<style>
+.pd{position:relative;height:1060px;overflow:hidden}
+.pd .viewer{position:absolute;left:470px;top:110px;width:946px;height:900px;border-radius:48px;overflow:hidden;background:radial-gradient(60% 60% at 50% 46%,#fff 0%,#efeaff 45%,#dff3f7 80%,#f6eaf4 100%);border:1px solid #fff;box-shadow:0 40px 90px rgba(70,60,130,.14),inset 0 0 0 1px rgba(255,255,255,.9)}
+.pd .viewer canvas{position:absolute;left:0;top:0;z-index:2}
+.pd .viewer .bgw{position:absolute;left:0;right:0;top:300px;text-align:center;font:700 250px/.8 var(--disp);letter-spacing:-.07em;color:#fff;z-index:1;text-shadow:0 2px 0 rgba(160,140,255,.15)}
+.hot{position:absolute;z-index:4;transform:translate(-50%,-50%)}
+.hot i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.75);backdrop-filter:blur(8px);border:1.5px solid #fff;font:600 11px/1 var(--sans);box-shadow:0 0 0 6px rgba(185,166,255,.25),0 6px 16px rgba(70,60,130,.2);animation:pulse 2.4s infinite}
+.hot.open .card{position:absolute;left:46px;top:-24px;width:250px;border-radius:22px;padding:16px 18px}
+.hot .card b{font:600 16px/1.1 var(--disp);letter-spacing:-.03em;display:block;margin-bottom:6px}
+.hot .card span{font-size:13px;color:var(--ink2)}
+.vbar{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:5;display:flex;gap:6px;padding:6px;border-radius:99px}
+.vbar span{height:42px;padding:0 18px;border-radius:99px;display:flex;align-items:center;gap:8px;font:600 13px/1 var(--sans);color:var(--ink2)}
+.vbar span.on{background:var(--ink);color:#fff}
+.angles{position:absolute;left:30px;top:30px;z-index:5;display:grid;gap:10px}
+.angles i{width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.65);border:1.5px solid #fff;display:grid;place-items:center;font:600 10px/1 var(--sans);color:var(--ink3);letter-spacing:.1em}
+.angles i.on{border-color:var(--ink);color:var(--ink)}
+.deg{position:absolute;right:30px;top:30px;z-index:5;font:500 12px/1 ui-monospace,monospace;color:var(--ink2);display:flex;gap:10px;align-items:center}
+.deg .dial{width:60px;height:60px;border-radius:50%;border:1.5px dashed rgba(20,20,28,.25);display:grid;place-items:center;animation:spin 20s linear infinite}
+.deg .dial::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--lil2);transform:translateY(-29px)}
+.buy{position:absolute;left:64px;top:132px;width:380px;z-index:3}
+.crumbs{font-size:12px;color:var(--ink3);margin-bottom:26px}
+.buy h1{font:700 104px/.86 var(--disp);letter-spacing:-.07em}
+.buy .sub{font-size:16px;color:var(--ink2);margin:20px 0 22px}
+.rate{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--ink2)}
+.price{display:flex;align-items:baseline;gap:14px;margin:24px 0 26px}
+.price b{font:600 46px/1 var(--disp);letter-spacing:-.05em}
+.opt{margin-bottom:22px}
+.opt .l{display:flex;justify-content:space-between;font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px}
+.opt .l b{color:var(--ink);letter-spacing:0;text-transform:none;font-size:13px}
+.sws{display:flex;gap:10px}
+.sws i{width:42px;height:42px;border-radius:50%;box-shadow:inset 0 0 0 2px #fff,0 4px 12px rgba(0,0,0,.12)}
+.sws i.on{outline:2px solid var(--ink);outline-offset:3px}
+.segs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.segs span{height:58px;border-radius:18px;background:rgba(255,255,255,.6);border:1.5px solid #fff;display:flex;flex-direction:column;justify-content:center;padding:0 14px;font:600 14px/1.2 var(--sans)}
+.segs span small{font-weight:500;color:var(--ink3);font-size:11px}
+.segs span.on{border-color:var(--ink);background:#fff}
+.buy .ctas{display:flex;gap:10px;margin-top:6px}
+.buy .ship{display:flex;gap:16px;margin-top:20px;font-size:12px;color:var(--ink2)}
+.buy .ship span{display:flex;gap:6px;align-items:center}
+.box{padding:130px 64px 80px}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px}
+.sh h2{font:600 76px/.94 var(--disp);letter-spacing:-.06em;margin-top:18px}
+.sh p{max-width:380px;color:var(--ink2)}
+.inbox{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.inbox div{border-radius:30px;padding:22px;height:250px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.inbox b{font:600 18px/1.1 var(--disp);letter-spacing:-.03em}
+.inbox span{font-size:12px;color:var(--ink2)}
+.inbox .art{position:absolute;right:-20px;bottom:44px;width:150px;height:150px}
+.inbox b,.inbox span{position:relative;z-index:2}
+.inbox div{justify-content:flex-start;gap:6px}
+.specs{padding:60px 64px 100px}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sp{border-radius:32px;padding:30px;background:#fff;border:1px solid #fff;box-shadow:0 20px 50px rgba(70,60,130,.07)}
+.sp .t{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.sp .t h3{font:600 22px/1 var(--disp);letter-spacing:-.04em}
+.sp .t i{width:44px;height:44px}
+.sp .k{font:600 46px/1 var(--disp);letter-spacing:-.05em;margin-bottom:16px}
+.sp dl{display:grid;grid-template-columns:auto 1fr;gap:9px 20px;font-size:13px;border-top:1px solid var(--line);padding-top:16px}
+.sp dt{color:var(--ink3)}
+.sp dd{text-align:right;font-weight:500}
+.sp.feat{background:linear-gradient(150deg,#14141c,#2b2547);color:#fff;border-color:#2b2547}
+.sp.feat dt{color:#9496aa}.sp.feat dl{border-color:rgba(255,255,255,.12)}
+.pt{margin:0 24px;height:640px;border-radius:48px;overflow:hidden;position:relative;display:grid;grid-template-columns:1fr 1fr}
+.pt>div{background-size:cover;background-position:center;position:relative}
+.pt .full{position:absolute;inset:0;background-size:cover;background-position:center 18%}
+.pt .fog{position:absolute;left:0;top:0;bottom:0;width:50%;backdrop-filter:blur(7px) saturate(.5) brightness(1.08);-webkit-backdrop-filter:blur(7px) saturate(.5) brightness(1.08);background:rgba(200,190,255,.12);z-index:1}
+.pt .lab{position:absolute;top:28px;border-radius:99px;padding:10px 18px;font:600 13px/1 var(--sans);z-index:3}
+.pt .split{position:absolute;left:50%;top:0;bottom:0;width:4px;background:#fff;z-index:3;transform:translateX(-50%);box-shadow:0 0 30px #b9a6ff}
+.pt .split i{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;border-radius:50%;display:grid;place-items:center;font:600 18px/1 var(--sans)}
+.pt h2{position:absolute;left:56px;bottom:50px;z-index:3;font:600 84px/.9 var(--disp);letter-spacing:-.06em;color:#fff;text-shadow:0 10px 40px rgba(40,20,90,.4)}
+.pt .stat{position:absolute;right:40px;bottom:50px;z-index:3;border-radius:28px;padding:20px 24px;width:300px}
+.rv{padding:120px 64px;display:grid;grid-template-columns:420px 1fr;gap:60px}
+.score{font:700 150px/.8 var(--disp);letter-spacing:-.08em}
+.bars{margin-top:30px;display:grid;gap:10px}
+.bars div{display:grid;grid-template-columns:40px 1fr 40px;gap:12px;align-items:center;font-size:12px;color:var(--ink2)}
+.bars i{height:10px;border-radius:9px;background:rgba(20,20,28,.08);position:relative;overflow:hidden}
+.bars i::after{content:"";position:absolute;inset:0;width:var(--w);border-radius:9px;background:var(--holo)}
+.faq{display:grid;gap:10px}
+.faq div{border-radius:26px;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;font:600 19px/1.2 var(--disp);letter-spacing:-.03em}
+.faq div.open{flex-direction:column;align-items:flex-start;gap:12px;background:#fff}
+.faq div p{font:400 15px/1.55 var(--sans);color:var(--ink2);letter-spacing:0;max-width:720px}
+.faq div em{font-style:normal;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.8);border:1px solid #fff;font-family:var(--sans)}
+.sticky{margin:0 24px 30px;height:92px;border-radius:99px;display:flex;align-items:center;justify-content:space-between;padding:0 14px 0 30px}
+.sticky .mini{display:flex;gap:16px;align-items:center}
+.sticky .mini i{width:60px;height:60px;border-radius:50%}
+.sticky .mini b{font:600 20px/1 var(--disp);letter-spacing:-.04em;display:block}
+.sticky .mini span{font-size:13px;color:var(--ink2)}
+</style></head>
+<body data-page="product">
+<div data-nav></div>
+<section class="pd">
+  <div class="haze"><i></i><i></i><i></i></div>
+  <div class="buy">
+    <div class="crumbs">Shop / Headsets / <b style="color:var(--ink)">Prism One</b></div>
+    <span class="eyebrow">Mixed-reality headset · Gen 1</span>
+    <h1 style="margin-top:18px"><span class="chrome">Prism</span><br><span class="holo-ink">One</span></h1>
+    <p class="sub">Laminated iridescent glass, dual 4K micro-OLED, 12 ms passthrough and a strap you’ll forget about.</p>
+    <div class="rate"><span class="holo-ink" style="letter-spacing:3px">★★★★★</span><b style="color:var(--ink)">4.8</b> · 2,184 reviews</div>
+    <div class="price"><b>€2,490</b><span class="mono">or €103.75/mo · 0% APR</span></div>
+    <div class="opt"><div class="l">Frame<b>Liquid Silver</b></div><div class="sws"><i class="on" style="background:linear-gradient(135deg,#fff,#c9ccda)"></i><i style="background:linear-gradient(135deg,#fff,#f3e4f1)"></i><i style="background:linear-gradient(135deg,#f0ebff,#b4a1ff)"></i><i style="background:linear-gradient(135deg,#8c8e9b,#3b3c46)"></i></div></div>
+    <div class="opt"><div class="l">Storage<b>512 GB</b></div><div class="segs"><span>256 GB<small>Included</small></span><span class="on">512 GB<small>+ €200</small></span><span>1 TB<small>+ €400</small></span></div></div>
+    <div class="ctas"><a class="btn dark" href="checkout.html">Add to bag · €2,690 <span class="ar">→</span></a><span class="btn light" style="padding:0 18px">♡</span></div>
+    <div class="ship"><span>◎ Free express, 2–3 days</span><span>↺ 30-day trial</span></div>
+  </div>
+  <div class="viewer">
+    <div class="bgw">ONE</div>
+    <canvas id="v"></canvas>
+    <div id="hots"></div>
+    <div class="angles"><i class="on">3/4</i><i>FRONT</i><i>SIDE</i><i>BACK</i></div>
+    <div class="deg"><span>ORBIT 214°</span><span class="dial"></span></div>
+    <div class="vbar glass"><span class="on">◐ 360° view</span><span>⧉ Exploded</span><span>☺ Try on (AR)</span><span>⊕ Zoom</span></div>
+  </div>
+  <div class="cursor" style="left:1160px;top:820px;z-index:6"><div class="cring">Drag<br>360°</div></div>
+</section>
+
+<section class="box">
+  <div class="sh"><div><span class="eyebrow">( 01 ) In the box</span><h2>Unbox a <span class="holo-ink">little universe.</span></h2></div><p>Everything you need on day one, packed in a recycled-fibre case shaped like a pebble.</p></div>
+  <div class="inbox">
+    <div class="glass"><span class="bubble art"></span><b>Prism One headset</b><span>Cloud seal M fitted</span></div>
+    <div class="glass"><span class="art" style="border-radius:50%;border:16px solid #f3f1f8;box-shadow:0 10px 30px rgba(70,60,130,.2),inset 0 0 0 2px #fff;width:120px;height:120px;right:-10px"></span><b>Halo controllers</b><span>Pair, with wrist loops</span></div>
+    <div class="glass"><span class="art" style="width:150px;height:60px;border-radius:30px;background:repeating-linear-gradient(90deg,#c3b4ff 0 5px,#d7ccff 5px 8px)"></span><b>Lilac knit strap</b><span>Plus a Cloud top strap</span></div>
+    <div class="glass"><span class="art" style="width:100px;height:140px;border-radius:30px;background:linear-gradient(160deg,#fff,#d8dae6);box-shadow:inset 0 0 0 2px #fff,0 10px 30px rgba(70,60,130,.18);right:20px"></span><b>2 × battery packs</b><span>3.5 h each, hot-swap</span></div>
+    <div class="glass"><span class="art" style="width:110px;height:110px;border-radius:50%;background:conic-gradient(#c5b4ff,#9fe9f2,#ffc6e4,#c5b4ff);opacity:.8"></span><b>Polishing cloth</b><span>Iridescent microfibre</span></div>
+    <div class="glass"><span class="art" style="width:120px;height:80px;border-radius:24px;background:#14141c;box-shadow:0 10px 30px rgba(20,20,28,.3)"></span><b>65 W charger</b><span>USB-C, 2 m braided</span></div>
+  </div>
+</section>
+
+<section class="specs">
+  <div class="sh"><div><span class="eyebrow">( 02 ) Specifications</span><h2>The numbers,<br><span class="holo-ink">unfiltered.</span></h2></div><p>Measured in our Eindhoven lab. Battery figures with passthrough on, brightness at 60%.</p></div>
+  <div class="sgrid">
+    <div class="sp feat"><div class="t"><h3>Display</h3><i class="bubble"></i></div><div class="k holo">23M px</div><dl><dt>Type</dt><dd>Micro-OLED, 2 panels</dd><dt>Per eye</dt><dd>3,840 × 3,072</dd><dt>Density</dt><dd>3,660 ppi</dd><dt>Refresh</dt><dd>90 / 96 / 120 Hz</dd><dt>Colour</dt><dd>DCI-P3 98%, HDR</dd></dl></div>
+    <div class="sp"><div class="t"><h3>Optics</h3><i class="bubble"></i></div><div class="k">108° FOV</div><dl><dt>Lenses</dt><dd>3-element pancake</dd><dt>IPD</dt><dd>54–74 mm, automatic</dd><dt>Inserts</dt><dd>Clearsight, −10 to +6</dd><dt>Coating</dt><dd>Anti-glare, oleophobic</dd></dl></div>
+    <div class="sp"><div class="t"><h3>Silicon</h3><i class="bubble"></i></div><div class="k">P1 + R2</div><dl><dt>Compute</dt><dd>P1, 3 nm, 12-core</dd><dt>Sensors</dt><dd>R2 fusion chip</dd><dt>Memory</dt><dd>16 GB unified</dd><dt>Storage</dt><dd>256 GB – 1 TB</dd></dl></div>
+    <div class="sp"><div class="t"><h3>Tracking</h3><i class="bubble"></i></div><div class="k">12 ms</div><dl><dt>Cameras</dt><dd>10, incl. 2 colour 4K</dd><dt>Eye tracking</dt><dd>4 IR cams + LEDs</dd><dt>Depth</dt><dd>LiDAR, 5 m</dd><dt>Hands</dt><dd>26 joints, 90 Hz</dd></dl></div>
+    <div class="sp"><div class="t"><h3>Comfort</h3><i class="bubble"></i></div><div class="k">498 g</div><dl><dt>Balance</dt><dd>54 : 46 front/back</dd><dt>Seal sizes</dt><dd>S, M, L, XL</dd><dt>Strap</dt><dd>3D knit, washable</dd><dt>Venting</dt><dd>Passive, 4 channels</dd></dl></div>
+    <div class="sp"><div class="t"><h3>Power & audio</h3><i class="bubble"></i></div><div class="k">3.5 h</div><dl><dt>Battery</dt><dd>Hot-swap packs, 4,200 mAh</dd><dt>Charge</dt><dd>0–80% in 45 min</dd><dt>Audio</dt><dd>Dual-driver spatial pods</dd><dt>Wireless</dt><dd>Wi-Fi 7, BT 5.4, UWB</dd></dl></div>
+  </div>
+</section>
+
+<section class="pt">
+  <div class="full" style="background-image:url(https://images.unsplash.com/photo-1598062547942-17806c4df368?auto=format&fit=crop&q=82&w=1600)"></div><div class="fog"></div>
+  <span class="lab glass" style="left:28px">Typical passthrough · 38 ms</span>
+  <span class="lab glass" style="right:28px">Prism One · 12 ms</span>
+  <div class="split"><i class="glass">⇆</i></div>
+  <h2>Passthrough,<br>clear as glass.</h2>
+  <div class="stat glass"><span class="eyebrow">Latency</span><div style="font:600 54px/1 var(--disp);letter-spacing:-.05em;margin-top:12px">−68%</div><p style="font-size:13px;color:var(--ink2);margin-top:8px">Photon-to-photon vs. the 2025 category average. Pour coffee, read a book, hug someone.</p></div>
+</section>
+
+<section class="rv">
+  <div><span class="eyebrow">( 03 ) Reviews</span><div class="score holo-ink" style="margin-top:28px">4.8</div><p style="color:var(--ink2);margin-top:14px">From 2,184 verified owners</p>
+    <div class="bars"><div>5 ★<i style="--w:86%"></i>86%</div><div>4 ★<i style="--w:10%"></i>10%</div><div>3 ★<i style="--w:3%"></i>3%</div><div>2 ★<i style="--w:1%"></i>1%</div><div>1 ★<i style="--w:0%"></i>0%</div></div></div>
+  <div><div class="sh" style="margin-bottom:26px"><div><h2 style="font-size:48px;margin:0">Questions, answered.</h2></div></div>
+    <div class="faq">
+      <div class="open glass">Can I wear it with glasses?<p>Swap them for Clearsight magnetic inserts, made to your prescription in 48 hours (−10.00 to +6.00, cylinder up to −4.00). Upload your prescription at checkout or at a fit studio.</p></div>
+      <div class="glass">How long does the battery last?<em>+</em></div>
+      <div class="glass">Does it work with my laptop?<em>+</em></div>
+      <div class="glass">What if it doesn’t fit my face?<em>+</em></div>
+      <div class="glass">Is it suitable for kids?<em>+</em></div>
+    </div></div>
+</section>
+
+<div class="sticky glass"><div class="mini"><i class="bubble"></i><div><b>Prism One · Liquid Silver · 512 GB</b><span>Lilac knit · Seal M · Ships in 2–3 days</span></div></div><div style="display:flex;gap:14px;align-items:center"><span style="font:600 26px/1 var(--disp);letter-spacing:-.04em">€2,690</span><a class="btn dark" href="checkout.html">Add to bag <span class="ar">→</span></a></div></div>
+<div data-foot></div>
+<script src="prism.js"></script>
+<script src="prism3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = P3D(THREE, { mergeVertices, RoundedBoxGeometry });
+await K.fontsReady;
+const W = 946, H = 900;
+const S = K.stage(document.getElementById('v'), { w: W, h: H, fov: 28, pos: [0, 0.6, 6.0], target: [0, -0.05, 0] });
+const hs = K.headset({ frame: 'silver', strap: 'lilac' });
+hs.rotation.set(0.16, -0.85, 0); hs.position.set(-0.2, 0, 0); hs.scale.setScalar(0.8);
+S.scene.add(hs);
+K.shadow(S.scene, { sx: 3.4, sz: 1.6, y: -0.95, a: 0.32 });
+const b1 = K.blob(0.3, { seed: 3 }), b2 = K.blob(0.18, { seed: 6, c: '#efe9ff' });
+b1.position.set(1.45, 1.05, -0.8); b2.position.set(-1.45, -0.75, 0.6); S.scene.add(b1, b2);
+// orbit ring
+const ring = new THREE.Mesh(new THREE.TorusGeometry(1.95, 0.006, 8, 200), new THREE.MeshBasicMaterial({ color: '#b9a6ff', transparent: true, opacity: 0.6 }));
+ring.rotation.x = Math.PI / 2; ring.position.y = -0.95; S.scene.add(ring);
+const knob = K.blob(0.07, { seed: 1, amp: 0.02 }); knob.position.set(1.95 * Math.cos(0.6), -0.95, 1.95 * Math.sin(0.6)); S.scene.add(knob);
+const hots = [
+  { n: '01', p: [0.0, 0.25, 0.36], t: 'Laminated glass', d: 'Seven nano-layers, iridescent outside, neutral inside.', open: true },
+  { n: '02', p: [0.72, 0.6, -0.22], t: 'Digital crown', d: 'Turn to blend real and virtual.' },
+  { n: '03', p: [0.0, 0.0, -2.12], t: 'Knit strap', d: 'Recycled 3D-knit, 41% lighter.' },
+  { n: '04', p: [0.99, -0.05, -0.45], t: 'Spatial pods', d: 'Off-ear dual drivers.' }
+];
+const box = document.getElementById('hots');
+S.loop(t => {
+  hs.position.y = Math.sin(t * 0.8) * 0.025;
+  b1.update(t); b2.update(t + 2);
+  hs.updateMatrixWorld(true);
+  box.innerHTML = hots.map(h => { const [x, y] = S.toScreen(hs.localToWorld(new THREE.Vector3(...h.p))); return `<div class="hot ${h.open ? 'open' : ''}" style="left:${x}px;top:${y}px"><i>${h.n}</i>${h.open ? `<div class="card glass"><b>${h.t}</b><span>${h.d}</span></div>` : ''}</div>`; }).join('');
+});
+</script>
+</body></html>

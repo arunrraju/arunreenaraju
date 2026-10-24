@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Checkout — Mochi Monsters</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mochi.css">
+<script src="mochi.js"></script>
+<script src="mochi3d.js"></script>
+<style>
+body{background:radial-gradient(700px 500px at 90% 10%,rgba(199,182,255,.35),transparent 70%),radial-gradient(600px 500px at 0% 40%,rgba(255,181,154,.3),transparent 70%),var(--cream)}
+.hd{padding:150px 64px 40px;display:flex;justify-content:space-between;align-items:flex-end}
+.hd h1{font:700 128px/.84 var(--disp);letter-spacing:-.05em}
+.steps{display:flex;align-items:center;gap:6px;padding:8px;border-radius:999px;background:#fff;box-shadow:var(--clay-sm)}
+.steps span{display:flex;align-items:center;gap:8px;height:48px;padding:0 18px 0 8px;border-radius:999px;font:600 16px/1 var(--disp);color:var(--ink2)}
+.steps span i{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font:700 14px/1 var(--disp);font-style:normal;background:var(--cream2)}
+.steps span.d i{background:var(--mint);color:var(--ink)}
+.steps span.on{background:var(--ink);color:#fff}.steps span.on i{background:var(--butter);color:var(--ink)}
+.steps b{width:26px;height:3px;border-radius:3px;background:var(--line)}
+.wrap{display:grid;grid-template-columns:1fr 540px;gap:36px;padding:0 64px 130px;align-items:start}
+.box{border-radius:44px;background:#fff;box-shadow:var(--clay);padding:34px 36px;margin-bottom:26px;position:relative}
+.box h2{display:flex;align-items:center;gap:14px;font:700 36px/1 var(--disp);letter-spacing:-.02em;margin-bottom:24px}
+.box h2 .n{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:700 18px/1 var(--disp);box-shadow:var(--clay-sm)}
+.box h2 .ed{margin-left:auto;font:800 13px/1 var(--sans);color:var(--ink2);text-decoration:underline}
+.f{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.in{position:relative;height:68px;border-radius:24px;background:var(--cream);padding:14px 20px 0;box-shadow:inset 3px 3px 7px rgba(43,34,64,.07),inset -3px -3px 7px rgba(255,255,255,.95)}
+.in label{display:block;font:800 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.in div{font:700 18px/1 var(--sans);margin-top:9px}
+.in.w{grid-column:span 2}
+.in.fo{background:#fff;box-shadow:inset 0 0 0 3px var(--lav-d),0 0 0 6px rgba(199,182,255,.35)}
+.in.fo div::after{content:"";display:inline-block;width:2px;height:20px;background:var(--ink);vertical-align:-4px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.in .ok{position:absolute;right:18px;top:22px;width:24px;height:24px;border-radius:50%;background:var(--mint);display:grid;place-items:center;font-size:12px;font-weight:900}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.opt{border-radius:28px;background:var(--cream);padding:20px;box-shadow:var(--clay-sm);position:relative}
+.opt b{display:block;font:600 20px/1.1 var(--disp);margin:12px 0 4px}
+.opt span{font-weight:700;color:var(--ink2);font-size:14px}
+.opt em{position:absolute;right:18px;top:18px;font:700 18px/1 var(--disp);font-style:normal}
+.opt .rd{width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 3px rgba(43,34,64,.18);background:#fff}
+.opt.on{background:#fff;box-shadow:inset 0 0 0 3px var(--ink),var(--clay-sm)}
+.opt.on .rd{box-shadow:inset 0 0 0 8px var(--ink)}
+.pt{display:flex;gap:10px;margin-bottom:20px}
+.pt span{flex:1;height:58px;border-radius:20px;background:var(--cream);display:flex;align-items:center;justify-content:center;gap:10px;font:600 17px/1 var(--disp);box-shadow:var(--clay-sm)}
+.pt span.on{background:var(--ink);color:#fff}
+.ccard{display:grid;grid-template-columns:330px 1fr;gap:24px;align-items:center}
+.cc{height:200px;border-radius:28px;padding:22px 24px;color:var(--ink);position:relative;overflow:hidden;background:linear-gradient(135deg,#ffb59a,#ffe58a 45%,#9fe3c6 75%,#9cd2ff);box-shadow:0 30px 50px -20px rgba(240,143,111,.6),inset 4px 6px 12px rgba(255,255,255,.6);transform:perspective(800px) rotateY(-12deg) rotateX(6deg)}
+.cc::before{content:"";position:absolute;right:-50px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.35)}
+.cc .chipx{width:46px;height:34px;border-radius:9px;background:linear-gradient(135deg,#fff3c4,#e8c24a);margin-top:22px}
+.cc .num{font:600 22px/1 var(--disp);letter-spacing:.12em;margin-top:22px}
+.cc .nm{display:flex;justify-content:space-between;font:800 12px/1 var(--sans);letter-spacing:.12em;margin-top:16px;text-transform:uppercase}
+.cc .lg{position:absolute;right:22px;top:20px;font:700 18px/1 var(--disp)}
+.tg{display:flex;align-items:center;gap:16px;padding:18px 22px;border-radius:26px;background:var(--cream);margin-top:14px;font-weight:700}
+.tg .sw{width:58px;height:34px;border-radius:999px;background:var(--mint-d);position:relative;flex:none;box-shadow:inset 2px 2px 4px rgba(0,0,0,.15)}
+.tg .sw::after{content:"";position:absolute;right:4px;top:4px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+.tg .sw.off{background:#e0d6ca}.tg .sw.off::after{right:auto;left:4px}
+.tg b{display:block;font:600 18px/1.1 var(--disp)}
+.tg span{color:var(--ink2);font-size:14px}
+.tg em{margin-left:auto;font:700 18px/1 var(--disp);font-style:normal}
+
+.sum{border-radius:48px;background:var(--ink);color:#fff8ef;box-shadow:var(--clay);overflow:hidden;position:relative}
+.sum .haul{position:relative;height:380px;background:radial-gradient(360px 260px at 50% 70%,rgba(255,229,138,.35),transparent 70%),linear-gradient(180deg,#3a2d63,#2b2240)}
+.sum .haul canvas{position:absolute;inset:0;width:540px;height:380px}
+.sum .haul .tag{position:absolute;left:26px;top:26px;z-index:2}
+.sum .haul .say{position:absolute;right:28px;top:40px;z-index:2;background:#fff;color:var(--ink);border-radius:22px 22px 6px 22px;padding:10px 16px;font:600 16px/1.2 var(--disp);box-shadow:var(--clay-sm)}
+.sum .in2{padding:28px 32px 32px}
+.it{display:grid;grid-template-columns:84px 1fr auto;gap:16px;align-items:center;padding:12px 0;border-bottom:1px dashed rgba(255,255,255,.14)}
+.it canvas{width:84px;height:84px;border-radius:24px}
+.it b{display:block;font:600 19px/1.1 var(--disp)}
+.it span{font-weight:700;font-size:13px;color:rgba(255,248,239,.6)}
+.it em{font:700 20px/1 var(--disp);font-style:normal}
+.it .q{display:inline-flex;align-items:center;gap:10px;margin-top:8px;padding:4px;border-radius:999px;background:rgba(255,255,255,.08);font:700 13px/1 var(--sans)}
+.it .q i{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center;font-style:normal}
+.ship{margin:20px 0;padding:16px 18px;border-radius:22px;background:rgba(159,227,198,.14);font-weight:800;font-size:14px}
+.ship .pb{height:10px;border-radius:999px;background:rgba(255,255,255,.1);margin-top:10px;overflow:hidden}
+.ship .pb i{display:block;height:100%;width:100%;border-radius:999px;background:linear-gradient(90deg,#9fe3c6,#ffe58a)}
+.promo{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 12px 18px;border-radius:999px;background:rgba(255,255,255,.08);font-weight:800;font-size:14px}
+.promo b{background:var(--butter);color:var(--ink);border-radius:999px;padding:9px 14px;font:600 14px/1 var(--disp)}
+.ln{display:flex;justify-content:space-between;padding:7px 0;font-weight:700;color:rgba(255,248,239,.7)}
+.ln b{color:#fff8ef}
+.tot{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.14)}
+.tot span{font:600 22px/1 var(--disp)}
+.tot b{font:700 56px/1 var(--disp);letter-spacing:-.03em}
+.tot small{display:block;font:800 11px/1 var(--sans);color:rgba(255,248,239,.5);text-align:right;margin-top:4px}
+.pay{width:100%;justify-content:center;height:76px;font-size:22px}
+.trust{display:flex;justify-content:space-between;margin-top:18px;font-weight:800;font-size:12px;color:rgba(255,248,239,.55)}
+.foot2{margin:0 24px 24px;border-radius:40px;background:#fff;box-shadow:var(--clay-sm);padding:26px 40px;display:flex;justify-content:space-between;align-items:center;font-weight:700;color:var(--ink2);font-size:14px}
+</style></head>
+<body>
+<nav class="nav" data-on=""></nav>
+<div class="hd"><div><div class="eyebrow" style="margin-bottom:20px"><i></i>Secure checkout · 3 monsters waiting</div><h1>Almost <span class="puff">yours.</span></h1></div>
+  <div class="steps"><span class="d"><i>✓</i>Bag</span><b></b><span class="d"><i>✓</i>Delivery</span><b></b><span class="on"><i>3</i>Payment</span><b></b><span><i>4</i>Squeal!</span></div></div>
+
+<div class="wrap">
+  <div>
+    <div class="box"><h2><span class="n" style="background:var(--mint)">✓</span>Delivery details<span class="ed">Edit</span></h2>
+      <div class="f">
+        <div class="in"><label>First name</label><div>Marta</div><span class="ok">✓</span></div>
+        <div class="in"><label>Last name</label><div>Silva</div><span class="ok">✓</span></div>
+        <div class="in w"><label>Street & number</label><div>Rua das Flores 28, 3º Esq.</div><span class="ok">✓</span></div>
+        <div class="in"><label>Postcode · City</label><div>1200-195 Lisboa</div><span class="ok">✓</span></div>
+        <div class="in"><label>Country</label><div>🇵🇹 Portugal</div></div>
+        <div class="in w fo"><label>Note for the courier</label><div>Ring twice, the cat is shy</div></div>
+      </div></div>
+
+    <div class="box"><h2><span class="n" style="background:var(--butter)">2</span>How should it travel?</h2>
+      <div class="opts">
+        <div class="opt on"><span class="rd"></span><em style="color:var(--mint-d)">Free</em><b>Tracked</b><span>2–4 days · padded double box</span></div>
+        <div class="opt"><span class="rd"></span><em>€9.90</em><b>Express</b><span>Tomorrow by 13:00</span></div>
+        <div class="opt"><span class="rd"></span><em>€0</em><b>Pick up</b><span>At Mochi Fest, 5–7 Dec</span></div>
+      </div></div>
+
+    <div class="box"><h2><span class="n" style="background:var(--peach)">3</span>Payment</h2>
+      <div class="pt"><span class="on">▭ Card</span><span>◎ Wallet</span><span>◔ Pay in 3</span><span>⇄ Bank</span></div>
+      <div class="ccard"><div class="cc"><span class="lg">mochi ♥</span><div class="chipx"></div><div class="num">•••• •••• •••• 0426</div><div class="nm"><span>Marta Silva</span><span>09 / 29</span></div></div>
+        <div class="f" style="grid-template-columns:1fr 1fr"><div class="in w"><label>Card number</label><div>•••• •••• •••• 0426</div><span class="ok">✓</span></div><div class="in"><label>Expiry</label><div>09 / 29</div></div><div class="in"><label>CVC</label><div>•••</div></div></div></div>
+      <div class="tg"><span class="sw"></span><div><b>Protect my pulls · Bubble insurance</b><span>Arrives squished? We replace it — even secrets.</span></div><em>€4</em></div>
+      <div class="tg"><span class="sw off"></span><div><b>Make it a gift</b><span>Hide prices, add a hand-written card & ribbon.</span></div><em>€3</em></div>
+    </div>
+  </div>
+
+  <aside class="sum">
+    <div class="haul"><span class="tag">Your haul · 5 items</span><div class="say floaty">Packed with<br>extra tissue ♥</div><canvas id="haul"></canvas></div>
+    <div class="in2">
+      <div class="it"><canvas data-k="peachy" width="84" height="84" style="background:#ffe3d6"></canvas><div><b>Peachy Bun · 18 cm</b><span>Glossy vinyl · No. 214/500</span><div class="q"><i>−</i>1<i>+</i></div></div><em>€89</em></div>
+      <div class="it"><canvas data-k="box" width="84" height="84" style="background:#ebe4ff"></canvas><div><b>Sugar Rush blind box</b><span>Random monster · 1/144 secret</span><div class="q"><i>−</i>3<i>+</i></div></div><em>€42</em></div>
+      <div class="it"><canvas data-k="custom" width="84" height="84" style="background:#d8f5e8"></canvas><div><b>Mint Chip Bun · custom</b><span>Flocked · gold crown · “BAO”</span><div class="q"><i>−</i>1<i>+</i></div></div><em>€110</em></div>
+      <div class="ship">🎉 You unlocked free tracked shipping<div class="pb"><i></i></div></div>
+      <div class="promo"><span>Code <b>SQUISH10</b> applied</span><span style="color:var(--mint)">−€24.10</span></div>
+      <div style="margin-top:14px"><div class="ln"><span>Subtotal</span><b>€241.00</b></div><div class="ln"><span>Shipping</span><b>Free</b></div><div class="ln"><span>Bubble insurance</span><b>€4.00</b></div><div class="ln"><span>Mochi Club points</span><b style="color:var(--butter)">+221 ✦</b></div></div>
+      <div class="tot"><span>Total</span><div><b>€220.90</b><small>VAT included</small></div></div>
+      <a class="btn peach pay" href="home.html">Pay €220.90 <span class="ar">→</span></a>
+      <div class="trust"><span>🔒 Encrypted</span><span>↺ 30-day returns</span><span>✦ Doubles swap free</span></div>
+    </div>
+  </aside>
+</div>
+
+<div class="foot2"><span class="logo" style="color:var(--ink)"><span class="mk"></span>mochi monsters</span><span>Need a hand? Chat with the crew · 9:00–21:00 CET</span><span>© 2026 Mochi Monsters Studio</span></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+await Promise.all([document.fonts.load('700 80px Fredoka'), document.fonts.load('700 20px Nunito')]);
+const K = Mochi3D(THREE, { RoomEnvironment, RoundedBoxGeometry });
+
+const M = K.mini(84, 84);
+document.querySelectorAll('canvas[data-k]').forEach(cv => {
+  const k = cv.dataset.k;
+  if (k === 'box') { const b = K.blindBox({ color: K.C.lav, color2: K.C.peach, w: 2, h: 2.2 }); b.rotation.y = .55; M.draw(b, cv, { cam: [0, 3, 8.6], look: [0, 1.3, 0], fov: 30 }); return; }
+  const c = k === 'custom' ? K.make('peachy', { q: 'lo', color: K.C.mint, kind: 'flock', accent: '#ffffff', acc: ['crown'], shadow: false }) : K.make(k, { q: 'lo', shadow: false });
+  c.rotation.y = -.3; M.draw(c, cv, { cam: [0, 2.6, 9.5], look: [0, 2.3, 0], fov: 30 });
+});
+
+/* the haul: an open shipping box spilling monsters */
+const st = K.stage(document.getElementById('haul'), 540, 380, { fov: 28, exposure: 1.05 });
+const S = st.scene; st.camera.position.set(0, 5.6, 12.2); st.camera.lookAt(0, 1.5, 0);
+const shell = new THREE.Group(); S.add(shell);
+const kraft = K.mat('#f6cfae', 'matte'), kraft2 = K.mat('#efbf98', 'matte');
+const W = 4.6, D = 3.2, H = 1.9, T = .12;
+[[0, H / 2, D / 2, W, H, T, kraft], [0, H / 2, -D / 2, W, H, T, kraft2], [W / 2, H / 2, 0, T, H, D, kraft2], [-W / 2, H / 2, 0, T, H, D, kraft], [0, T / 2, 0, W, T, D, kraft2]].forEach(([x, y, z, w, h, d, m]) => { const b = K.roundBox(w, h, d, .05, m); b.position.set(x, y, z); shell.add(b); });
+// flaps open
+[[0, H, D / 2, 0, 1, W, 1.1, -.45], [0, H, -D / 2, 0, -1, W, 1.3, .95]].forEach(([x, y, z, , s, w, d, r]) => { const f = K.roundBox(w, .08, d, .03, kraft); const p = new THREE.Group(); p.position.set(x, y, z); f.position.z = s * d / 2; p.add(f); p.rotation.x = r; shell.add(p); });
+[[W / 2, 1], [-W / 2, -1]].forEach(([x, s]) => { const f = K.roundBox(1.2, .08, D, .03, kraft2); const p = new THREE.Group(); p.position.set(x, H, 0); f.position.x = s * .6; p.add(f); p.rotation.z = s * .93; shell.add(p); });
+// stripe tape label
+const lab = new THREE.Mesh(new THREE.PlaneGeometry(1.6, .7), new THREE.MeshStandardMaterial({ map: K.canvasTex(320, 140, (x, w, h) => { x.fillStyle = '#fff8ef'; x.fillRect(0, 0, w, h); x.fillStyle = '#2b2240'; x.font = '700 44px Fredoka'; x.fillText('mochi ♥', 22, 62); x.font = '800 20px Nunito'; x.fillText('HANDLE WITH SQUISH', 22, 106); }), roughness: .7 }));
+lab.position.set(-.9, 1.0, D / 2 + .07); shell.add(lab);
+// tissue
+for (let i = 0; i < 9; i++) { const p = new THREE.Mesh(new THREE.SphereGeometry(.7, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2), K.mat(['#ffffff', '#ffe3ec', '#e9fbf3'][i % 3], 'matte')); p.material.side = THREE.DoubleSide; p.scale.set(1, .45, .8); p.position.set(-1.8 + (i % 5) * .9, 1.75, -.8 + Math.floor(i / 5) * 1.3); p.rotation.set((i % 2 - .5) * .6, i, (i % 3 - 1) * .5); shell.add(p); }
+const pb = K.make('peachy', { shadow: false }); pb.scale.setScalar(.62); pb.position.set(-1.1, 1.3, -.2); pb.rotation.y = .3; shell.add(pb);
+const mc = K.make('peachy', { color: K.C.mint, kind: 'flock', accent: '#ffffff', acc: ['crown'], shadow: false }); mc.scale.setScalar(.6); mc.position.set(1.15, 1.3, -.3); mc.rotation.y = -.35; shell.add(mc);
+const bxs = [[K.C.lav, -2.9, 0, 1.6, .4], [K.C.peach, 3.0, 0, 1.5, -.5], [K.C.butter, 2.5, 1.18, 1.8, -.2]].map(([c, x, y, z, r]) => { const b = K.blindBox({ color: c, color2: c === K.C.lav ? K.C.mint : K.C.sky, lidColor: K.C.butter, w: 1.05, h: 1.1 }); b.position.set(x, y, z); b.rotation.y = r; S.add(b); const s = K.shadow(1.1, .3, '#120c22'); s.position.set(x, .01, z); if (y === 0) S.add(s); return b; });
+shell.rotation.y = -.18;
+const ground = K.shadow(4.6, .55, '#120c22'); ground.scale.set(1.2, 1, .8); S.add(ground);
+const stars = [[K.C.butter, -2.6, 4.4], [K.C.mint, 2.9, 4.1], [K.C.pink, .2, 5.2]].map(([c, x, y], i) => { const s = K.star(c, .32, i ? 'vinyl' : 'pearl'); s.position.set(x, y, 0); S.add(s); return s; });
+const conf = K.confetti(60, [9, 6, 4]); conf.position.y = 0; S.add(conf);
+
+const clock = new THREE.Clock(); let first = true;
+function tick() {
+  const t = clock.getElapsedTime() + 1;
+  K.float(pb, t, { amp: .12 }); K.float(mc, t, { amp: .12, ph: 2 });
+  stars.forEach((s, i) => { s.rotation.set(.3 * Math.sin(t + i), .6 * Math.sin(t * .8 + i), .2 * i); s.position.y += Math.sin(t * 1.5 + i) * .003; });
+  conf.userData.update(t, { fall: .35 });
+  st.renderer.render(S, st.camera);
+  if (first) { first = false; window.__ready3d = true; }
+  requestAnimationFrame(tick);
+}
+tick();
+</script>
+</body></html>

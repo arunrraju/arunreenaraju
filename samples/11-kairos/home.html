@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Kairos — Haute Horlogerie, Genève</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kairos.css">
+<script src="kairos3d.js"></script>
+<style>
+.hero{position:relative;height:1000px;overflow:hidden;background:radial-gradient(ellipse 50% 55% at 64% 48%,#173062 0%,#0b1834 38%,var(--night) 72%)}
+.hero .secs{position:absolute;right:-30px;top:150px;font:200 640px/.8 var(--disp);letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1.5px rgba(157,185,255,.4);background:linear-gradient(180deg,rgba(91,140,255,.16),rgba(91,140,255,0));-webkit-background-clip:text;background-clip:text;z-index:0}
+.hero .secs-l{position:absolute;right:64px;top:126px;z-index:3;text-align:right}
+.hero canvas{position:absolute;inset:0;z-index:2}
+.hero .ring{left:936px;top:480px;width:900px;height:900px;margin:-450px 0 0 -450px;z-index:1}
+.hero .copy{position:absolute;left:64px;top:196px;z-index:5;width:600px}
+.hero h1{font:400 98px/.92 var(--disp);letter-spacing:-.045em;color:var(--silver);margin:30px 0 34px}
+.hero h1 em{font-style:normal;font-weight:200}
+.hero .copy p{max-width:420px}
+.hero .cta{display:flex;gap:12px;margin-top:40px}
+.hero .strip{position:absolute;left:0;right:0;bottom:0;height:118px;z-index:5;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(5,10,22,0),rgba(5,10,22,.85) 40%)}
+.hero .strip div{padding:26px 0 0 44px;white-space:nowrap;border-right:1px solid var(--line)}
+.hero .strip div:last-child{border:0}
+.hero .strip b{display:block;font:300 30px/1 var(--disp);color:var(--silver);letter-spacing:-.02em;margin-top:12px}
+.hero .strip b small{font:400 12px var(--mono);color:var(--dim);letter-spacing:.1em;margin-left:6px}
+.hero .prog{position:absolute;left:64px;top:700px;z-index:5;display:flex;gap:18px;align-items:center}
+.hero .prog .bar{width:160px;height:1px;background:var(--line-2);position:relative}
+.hero .prog .bar i{position:absolute;left:0;top:-1px;height:3px;width:38%;background:var(--blue);box-shadow:0 0 12px var(--blue)}
+.mq-item{display:flex;align-items:center;gap:44px;padding:30px 22px;font:300 64px/1 var(--disp);letter-spacing:-.02em;white-space:nowrap}
+.mq-item .o{color:transparent;-webkit-text-stroke:1px rgba(201,209,220,.4)}
+.mq-item .dotx{width:18px;height:18px;border:1px solid var(--blue);border-radius:50%;position:relative}
+.mq-item .dotx::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--blue)}
+.coll{padding:150px 0 140px;position:relative;overflow:hidden}
+.track{display:flex;gap:24px;padding:0 64px}
+.card{flex:none;width:420px;height:620px;position:relative;border:1px solid var(--line);background:linear-gradient(180deg,#0d1a36,#060c1b);overflow:hidden;transition:.5s}
+.card .img{position:absolute;left:0;right:0;top:56px;height:440px}
+.card .img img{object-fit:contain;-webkit-mask-image:linear-gradient(transparent,#000 9%,#000 86%,transparent);mask-image:linear-gradient(transparent,#000 9%,#000 86%,transparent)}
+.card .top{position:absolute;top:22px;left:24px;right:24px;display:flex;justify-content:space-between}
+.card .bot{position:absolute;left:24px;right:24px;bottom:24px}
+.card h3{font:400 26px/1 var(--disp);letter-spacing:-.02em;color:var(--silver);margin-bottom:10px}
+.card .meta{display:flex;justify-content:space-between;font:400 12.5px/1.4 var(--sans);color:var(--dim)}
+.card .meta b{font:500 15px var(--mono);color:var(--silver);letter-spacing:.04em}
+.card .ed{height:1px;background:var(--line-2);margin-top:16px;position:relative}
+.card .ed i{position:absolute;left:0;top:-1px;height:3px;background:var(--steel)}
+.card.hov{transform:translateY(-18px);border-color:rgba(91,140,255,.55);box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px rgba(91,140,255,.25),0 0 80px rgba(91,140,255,.18)}
+.card.hov::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(91,140,255,.28),transparent 60%)}
+.card .qv{position:absolute;left:16px;right:16px;bottom:16px;padding:20px;z-index:3}
+.card .qv .row{display:flex;justify-content:space-between;font:400 11px/1 var(--mono);letter-spacing:.14em;color:var(--dim);padding:9px 0;border-bottom:1px solid var(--line)}
+.card .qv .row b{color:var(--silver);font-weight:500}
+.mv{position:relative;height:980px;overflow:hidden;background:radial-gradient(ellipse 45% 55% at 70% 50%,#13285a,var(--ink) 75%)}
+.mv canvas{position:absolute;right:0;top:0;z-index:1;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%);mask-image:linear-gradient(90deg,transparent,#000 14%)}
+.mv .nums{position:absolute;left:64px;top:150px;z-index:3;width:600px}
+.mv .n{display:grid;grid-template-columns:330px 1fr;align-items:end;border-bottom:1px solid var(--line);padding:22px 0}
+.mv .n b{font:200 128px/.82 var(--disp);letter-spacing:-.06em;color:var(--silver)}
+.mv .n b sup{font:400 22px var(--mono);color:var(--blue);vertical-align:top;margin-left:6px;letter-spacing:0}
+.mv .n span{font-size:14px;color:var(--dim);padding-bottom:6px}
+.mv .n span em{display:block;font:500 10px/1 var(--mono);letter-spacing:.22em;color:var(--silver);font-style:normal;text-transform:uppercase;margin-bottom:10px}
+.craft{padding:150px 64px;display:grid;grid-template-columns:1.25fr 1fr;gap:64px;position:relative}
+.wipe{position:relative;height:760px}
+.wipe .a,.wipe .b{position:absolute;inset:0}
+.wipe .a img{filter:grayscale(1) contrast(1.1) brightness(.65)}
+.wipe .b{clip-path:inset(0 0 0 46%)}
+.wipe .line{position:absolute;top:0;bottom:0;left:46%;width:1px;background:var(--blue);box-shadow:0 0 20px var(--blue);z-index:2}
+.wipe .line::after{content:"⟷";position:absolute;top:50%;left:-24px;width:48px;height:48px;margin-top:-24px;border-radius:50%;background:rgba(10,20,40,.6);backdrop-filter:blur(8px);border:1px solid rgba(157,185,255,.6);display:grid;place-items:center;color:#fff;font-size:16px}
+.wipe .lab{position:absolute;bottom:24px;z-index:3;font:500 10px/1 var(--mono);letter-spacing:.22em;color:var(--silver);padding:10px 14px;border:1px solid var(--line-2);background:rgba(5,10,22,.5);backdrop-filter:blur(8px)}
+.quote{font:300 40px/1.18 var(--disp);letter-spacing:-.03em;color:var(--silver)}
+.press{padding:0 64px 150px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}
+.press > div{padding:56px 40px 0 0;border-right:1px solid var(--line);margin-right:40px}
+.press > div:last-child{border:0}
+.press p{font:300 22px/1.4 var(--sans);color:var(--silver);margin:24px 0 30px}
+.book{position:relative;height:620px;overflow:hidden;border-top:1px solid var(--line)}
+.book .ph{position:absolute;inset:0}
+.book .ph img{filter:brightness(.42) saturate(.7)}
+.book .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--night) 10%,rgba(5,10,22,.3) 60%,rgba(5,10,22,.85))}
+.book .in{position:relative;z-index:2;padding:130px 64px;display:grid;grid-template-columns:1fr 480px;gap:60px}
+.slot{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line);font:400 13px var(--mono);letter-spacing:.06em}
+.slot.on{background:rgba(91,140,255,.16);border:1px solid rgba(91,140,255,.5)}
+</style></head>
+<body>
+<div data-nav="" data-p=".18"></div>
+
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="secs" data-sec>41</div>
+  <div class="secs-l"><div class="tag">Live · <b>seconds</b></div><div class="tag" style="margin-top:10px">Ticking in Genève time</div></div>
+  <div class="ring"><svg viewBox="0 0 900 900"><g fill="none" stroke="rgba(201,209,220,.22)">
+    <circle cx="450" cy="450" r="440" stroke-dasharray="1 22.03"/><circle cx="450" cy="450" r="430" stroke="rgba(201,209,220,.08)"/></g>
+    <g id="ticks"></g><circle cx="450" cy="10" r="4" fill="#5b8cff"/></svg></div>
+  <canvas id="hero"></canvas>
+  <div class="dof" style="--fx:65%;--fy:47%"></div>
+  <div class="callouts"><svg id="co"></svg></div>
+  <div class="note" style="left:1166px;top:204px"><div class="k"><i>A</i>Sapphire crystal</div>Double-domed, 2.1 mm, seven-layer anti-reflective coating on both faces.</div>
+  <div class="note" style="left:1182px;top:452px"><div class="k"><i>B</i>Crown · signed K</div>Knurled 904L steel, screw-in. Winds 72 hours in 38 turns.</div>
+  <div class="note" style="left:1166px;top:700px"><div class="k"><i>C</i>Flying tourbillon</div>One revolution every 60 seconds. Cage of 68 parts, 0.42 g.</div>
+  <div class="note r" style="left:420px;top:744px;width:220px"><div class="k">Hand guilloché<i>D</i></div>210 passes on a 1924 rose engine. Two days per dial.</div>
+  <div class="cursor" style="left:450px;top:560px"><div class="c">DRAG</div><span>360° · Inspect</span></div>
+
+  <div class="copy rise">
+    <div class="tag">Ref. KT-01.42 &nbsp;·&nbsp; <b>Meridian Tourbillon</b></div>
+    <h1>Every<br>second,<br><em class="steel-text">exactly kept.</em></h1>
+    <p class="lead">Kairos is the Greek word for the right moment. We build forty-two of them a year — tourbillons cut, turned and finished by hand on the Quai des Horlogers.</p>
+    <div class="cta"><a class="btn steel" href="product.html">Discover Meridian <span data-ic="arrow"></span></a><a class="btn ghost" href="appointment.html">Private viewing</a></div>
+  </div>
+  
+  <div class="strip">
+    <div><span class="tag">Calibre</span><b>KC-1 <small>manual</small></b></div>
+    <div><span class="tag">Frequency</span><b>21,600 <small>vph · 3 Hz</small></b></div>
+    <div><span class="tag">Power reserve</span><b>72 <small>hours</small></b></div>
+    <div><span class="tag">Precision</span><b>+0.8 <small>s / day</small></b></div>
+    <div><span class="tag">From</span><b>€ 86,000 <small>ltd. 42</small></b></div>
+  </div>
+</section>
+
+<section class="marq"><div class="tr">
+  <div class="mq-item"><span>Tourbillon volant</span><i class="dotx"></i><span class="o">Squelette</span><i class="dotx"></i><span>Guilloché main</span><i class="dotx"></i><span class="o">Poinçon de Genève</span><i class="dotx"></i><span>312 composants</span><i class="dotx"></i></div>
+  <div class="mq-item"><span>Tourbillon volant</span><i class="dotx"></i><span class="o">Squelette</span><i class="dotx"></i><span>Guilloché main</span><i class="dotx"></i><span class="o">Poinçon de Genève</span><i class="dotx"></i><span>312 composants</span><i class="dotx"></i></div>
+</div></section>
+
+<section class="coll">
+  <div class="sh"><div class="no">02</div><h2>Six references.<br><span class="outline">Never more than 42.</span></h2>
+    <div style="display:flex;gap:10px;align-items:center"><span class="tag" style="margin-right:16px">€18,000 — €240,000</span><a class="btn ghost" href="collection.html" style="height:48px">Full collection <span data-ic="arrow"></span></a></div></div>
+  <div class="track">
+    <div class="card"><div class="top"><span class="tag">KT-01.42</span><span class="tag"><b>17</b> / 42 left</span></div><div class="img"><img data-snap="0" alt=""></div>
+      <div class="bot"><h3>Meridian</h3><div class="meta"><span>Steel · blue guilloché</span><b>€ 86,000</b></div><div class="ed"><i style="width:60%"></i></div></div></div>
+    <div class="card hov"><div class="top"><span class="tag">KS-02.18</span><span class="tag"><b>4</b> / 18 left</span></div><div class="img"><img data-snap="1" alt=""></div>
+      <div class="qv glass"><div class="tag" style="color:var(--silver);margin-bottom:8px">Nocturne Squelette</div>
+        <div class="row"><span>Case</span><b>Titanium · 41 mm</b></div><div class="row"><span>Movement</span><b>KC-1S openworked</b></div><div class="row"><span>Price</span><b>€ 128,000</b></div>
+        <div style="display:flex;gap:8px;margin-top:16px"><a class="btn blue" style="height:44px;flex:1;justify-content:center">Reserve</a><a class="btn ghost" style="height:44px">3D</a></div></div></div>
+    <div class="card"><div class="top"><span class="tag">KA-03.25</span><span class="tag"><b>9</b> / 25 left</span></div><div class="img"><img data-snap="2" alt=""></div>
+      <div class="bot"><h3>Aurora Rose</h3><div class="meta"><span>18k rose gold · argenté</span><b>€ 112,000</b></div><div class="ed"><i style="width:64%"></i></div></div></div>
+    <div class="card"><div class="top"><span class="tag">KE-04.12</span><span class="tag"><b>2</b> / 12 left</span></div><div class="img"><img data-snap="3" alt=""></div>
+      <div class="bot"><h3>Equinox</h3><div class="meta"><span>Platinum 950 · onyx</span><b>€ 164,000</b></div><div class="ed"><i style="width:83%"></i></div></div></div>
+  </div>
+</section>
+
+<section class="mv">
+  <div class="grid-bg" style="mask-image:none;opacity:.6"></div>
+  <div class="dim" style="left:880px;right:120px;top:930px;z-index:3">Ø 36.6 mm · height 6.9 mm</div>
+  <div class="tag" style="position:absolute;left:64px;top:70px;z-index:3">KC-1S · openworked · <b>live</b><br><br>Cage at <span data-sec>41</span> s</div>
+  <canvas id="mvc"></canvas>
+  <div class="dof" style="--fx:62%;--fy:50%;backdrop-filter:blur(5px)"></div>
+  <div class="nums">
+    <div class="sh" style="padding:0;grid-template-columns:1fr;margin-bottom:30px"><div class="no" style="width:120px">03</div></div>
+    <h2 class="disp" style="font-size:60px;margin-bottom:40px">Calibre KC-1.<br><span class="outline-b">Seen through.</span></h2>
+    <div class="n"><b>312</b><span><em>Components</em>Every one decorated, including the ones you will never see.</span></div>
+    <div class="n"><b>60<sup>s</sup></b><span><em>Cage rotation</em>The tourbillon averages out gravity once a minute.</span></div>
+    <div class="n"><b>31</b><span><em>Rubies</em>Set in gold chatons, polished by hand.</span></div>
+    <a class="btn ghost" href="manufacture.html" style="margin-top:40px">Explode the movement <span data-ic="layers"></span></a>
+  </div>
+</section>
+
+<section class="craft">
+  <div class="wipe"><div class="a" data-img="1788125856699-aee0e94d9150"></div><div class="b" data-img="1788125856699-aee0e94d9150"></div><div class="line"></div>
+    <span class="lab" style="left:24px">Raw · 0 h</span><span class="lab" style="right:24px">Finished · 1,400 h</span><div class="scan"></div></div>
+  <div style="padding-top:20px">
+    <div class="sh" style="padding:0;grid-template-columns:120px;margin-bottom:40px"><div class="no">04</div></div>
+    <p class="quote">“A tourbillon is not built in hours. It is built in <span class="blue">patience</span>, then signed twice — once in steel, once in the ledger.”</p>
+    <div style="display:flex;gap:18px;align-items:center;margin:40px 0 60px"><div data-img="1725960103635-0a6709f97126" data-w="200" style="width:56px;height:56px;border-radius:50%"></div><div><div style="color:var(--silver)">Élise Varnier</div><div class="tag" style="margin-top:6px">Chef d'atelier · 26 years</div></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div data-img="1649803091689-0e65c4e9581f" data-w="700" style="height:250px"></div>
+      <div data-img="1633451238042-85d93d267866" data-w="700" style="height:250px"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:22px"><span class="tag">12 watchmakers</span><span class="tag">1 rose engine, 1924</span><span class="tag"><b>140</b> watches / year</span></div>
+  </div>
+</section>
+
+<section class="press">
+  <div><span class="tag">Le Cadran · Spring 2026</span><p>“The quietest tourbillon of the year — and the one collectors kept coming back to.”</p><span class="tag" style="color:var(--blue)">★★★★★</span></div>
+  <div><span class="tag">Mainspring Quarterly</span><p>“Finishing that rewards a loupe. The lyre bridge alone is worth the wait list.”</p><span class="tag" style="color:var(--blue)">Watch of the issue</span></div>
+  <div><span class="tag">Collector · Lisbon, KT-01 #07</span><p>“I visited three times before I chose the dial. Nobody once asked me to hurry.”</p><span class="tag" style="color:var(--blue)">Verified owner</span></div>
+</section>
+
+<section class="book">
+  <div class="ph" data-img="1788125856710-1ae984195874"></div>
+  <div class="in">
+    <div><div class="sh" style="padding:0;grid-template-columns:120px;margin-bottom:40px"><div class="no">05</div></div>
+      <h2 class="disp" style="font-size:84px">Hold it<br><span class="outline">before</span> you<br>own it.</h2></div>
+    <div class="glass" style="padding:30px;align-self:end">
+      <div style="display:flex;justify-content:space-between;margin-bottom:18px"><span class="tag" style="color:var(--silver)">Genève · Quai des Horlogers</span><span class="tag">Thu 29 Oct</span></div>
+      <div class="slot"><span>10:30</span><span style="color:var(--dim)">Taken</span></div>
+      <div class="slot on"><span>14:00 · 90 min</span><span style="color:var(--blue-2)">Selected ✓</span></div>
+      <div class="slot"><span>16:30</span><span style="color:var(--dim)">Available</span></div>
+      <a class="btn steel" href="appointment.html" style="width:100%;justify-content:center;margin-top:22px">Book private viewing</a>
+    </div>
+  </div>
+</section>
+
+<div data-foot></div>
+<script src="kairos.js"></script>
+<script>
+  // tick ring marks
+  document.getElementById('ticks').innerHTML = Array.from({ length: 60 }, (_, i) => `<line x1="450" y1="${i % 5 ? 22 : 16}" x2="450" y2="34" stroke="${i % 15 ? 'rgba(201,209,220,.3)' : '#9db9ff'}" transform="rotate(${i * 6} 450 450)"/>`).join('');
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = KAIROS3D(THREE, { RoundedBoxGeometry });
+const co = document.getElementById('co');
+K.stage(document.getElementById('hero'), {
+  w: 1440, h: 1000, opts: { metal: 'steel', dial: 'blue', strap: 'alligator' }, rot: [-.22, -.5, .1],
+  cam: { pos: [0, 0, 200], fov: 24, shift: [.27, .02] },
+  animate: (t, a) => { a.watch.rotation.y = -.5 + Math.sin(t * .35) * .06; a.watch.rotation.x = -.22 + Math.sin(t * .5) * .025; },
+  onAnchors: p => callouts(co, p, [
+    { k: 'crystal', to: [1150, 214] }, { k: 'crown', to: [1166, 462] }, { k: 'tourbillon', to: [1150, 710] }, { k: 'dial', to: [652, 754], bend: 30 }])
+});
+K.stage(document.getElementById('mvc'), {
+  w: 860, h: 980, opts: { metal: 'titanium', dial: 'skeleton', strap: 'none' }, rot: [-.5, .3, -.2], shadow: false,
+  cam: { pos: [0, -2, 112], target: [0, -2, 0], fov: 30, shift: [.04, -.02] },
+  animate: (t, a) => { a.watch.rotation.z = -.2 + Math.sin(t * .2) * .05; }
+});
+K.snapshots([
+  { metal: 'steel', dial: 'blue', strap: 'alligator' },
+  { metal: 'titanium', dial: 'skeleton', strap: 'rubber' },
+  { metal: 'rose', dial: 'silver', strap: 'alligator' },
+  { metal: 'platinum', dial: 'onyx', strap: 'calf' }
+].map(o => ({ ...o, rot: [-.32, -.42, .12] })), { w: 600, h: 640, cam: { pos: [0, 0, 175], fov: 26 }, shadow: { pos: [0, -34, -10], size: [70, 40] } }).then(urls => {
+  document.querySelectorAll('[data-snap]').forEach(img => img.src = urls[+img.dataset.snap]);
+});
+</script>
+</body></html>

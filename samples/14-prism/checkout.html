@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Checkout · PRISM</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prism.css">
+<style>
+.co{position:relative;padding:130px 64px 90px;display:grid;grid-template-columns:1fr 540px;gap:28px;align-items:start}
+.head{grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;position:relative;z-index:2}
+.head h1{font:600 108px/.86 var(--disp);letter-spacing:-.07em;margin-top:18px}
+.steps{display:flex;gap:6px;padding:6px;border-radius:99px}
+.steps span{height:44px;padding:0 18px;border-radius:99px;display:flex;align-items:center;gap:8px;font:600 13px/1 var(--sans);color:var(--ink3)}
+.steps span i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;background:rgba(20,20,28,.08);color:var(--ink2)}
+.steps span.done{color:var(--ink)}.steps span.done i{background:#46d39a;color:#fff}
+.steps span.on{background:var(--ink);color:#fff}.steps span.on i{background:var(--holo);color:var(--ink)}
+.l{display:grid;gap:16px;position:relative;z-index:2}
+.blk{border-radius:34px;padding:30px}
+.blk .bh{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.blk .bh h3{font:600 24px/1 var(--disp);letter-spacing:-.04em;display:flex;gap:12px;align-items:center}
+.blk .bh h3 em{font:600 11px/1 var(--sans);font-style:normal;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#46d39a;color:#fff}
+.blk .bh a{font:600 13px/1 var(--sans);color:var(--lil2)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fld{height:62px;border-radius:18px;background:#fff;border:1.5px solid rgba(20,20,28,.06);padding:11px 16px;display:flex;flex-direction:column;justify-content:center}
+.fld small{font:600 10px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.fld span{font-size:15px;font-weight:500}
+.fld.focus{border-color:#b9a6ff;box-shadow:0 0 0 5px rgba(185,166,255,.2)}
+.fld.focus span::after{content:"";display:inline-block;width:1.5px;height:17px;background:var(--ink);vertical-align:middle;margin-left:2px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.express{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+.express span{height:54px;border-radius:16px;display:grid;place-items:center;font:600 14px/1 var(--sans);background:var(--ink);color:#fff}
+.express span:nth-child(2){background:var(--holo);background-size:200%;color:var(--ink)}
+.express span:nth-child(3){background:#fff;color:var(--ink);border:1.5px solid rgba(20,20,28,.08)}
+.or{display:flex;align-items:center;gap:14px;font-size:12px;color:var(--ink3);margin-bottom:18px}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.opts{display:grid;gap:10px}
+.opt{display:grid;grid-template-columns:28px 1fr auto;gap:14px;align-items:center;padding:18px 20px;border-radius:22px;background:#fff;border:1.5px solid rgba(20,20,28,.06)}
+.opt .rd{width:22px;height:22px;border-radius:50%;border:2px solid rgba(20,20,28,.2)}
+.opt.on{border-color:var(--ink);box-shadow:0 10px 30px rgba(70,60,130,.1)}
+.opt.on .rd{border:7px solid var(--ink)}
+.opt b{font:600 15px/1.2 var(--disp);letter-spacing:-.02em;display:block}
+.opt span{font-size:13px;color:var(--ink2)}
+.opt .pr{font:600 15px/1 var(--sans)}
+.pay{display:grid;grid-template-columns:330px 1fr;gap:20px;align-items:start}
+.card3{height:208px;border-radius:24px;padding:22px;position:relative;overflow:hidden;color:var(--ink);background:linear-gradient(125deg,#e9e3ff 0%,#c7b6ff 22%,#a6eef3 45%,#ffd1e8 68%,#f1f2f8 100%);box-shadow:0 30px 60px rgba(120,90,230,.3),inset 0 0 0 1px rgba(255,255,255,.8);transform:perspective(800px) rotateY(-12deg) rotateX(6deg)}
+.card3::before{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.7) 50%,transparent 60%);animation:sweep 4s ease-in-out infinite}
+@keyframes sweep{from{transform:translateX(-30%)}to{transform:translateX(30%)}}
+.card3 .chipc{width:44px;height:34px;border-radius:8px;background:linear-gradient(135deg,#fff,#c9ccda);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);position:relative}
+.card3 .num{font:500 19px/1 ui-monospace,monospace;letter-spacing:.12em;margin-top:44px;position:relative}
+.card3 .row{display:flex;justify-content:space-between;margin-top:16px;font:600 11px/1 var(--sans);letter-spacing:.12em;position:relative}
+.card3 .lg{position:absolute;right:20px;top:20px;font:700 16px/1 var(--disp);letter-spacing:.14em}
+.split{display:flex;gap:10px;align-items:center;margin-top:12px;padding:14px 16px;border-radius:18px;background:linear-gradient(90deg,rgba(185,166,255,.18),rgba(143,232,240,.14));font-size:13px}
+.tg{width:44px;height:26px;border-radius:99px;background:var(--ink);position:relative;flex:none}
+.tg::after{content:"";position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--holo);background-size:200%}
+.sum{position:relative;z-index:2;border-radius:40px;padding:0 0 28px;overflow:hidden}
+.sum .stage{position:relative;height:400px;background:radial-gradient(70% 80% at 50% 45%,#fff,#efeaff 50%,#e2f5f8 90%)}
+.sum .stage canvas{position:absolute;left:0;top:0}
+.sum .stage .tag{position:absolute;left:22px;top:22px}
+.sum .stage .tag2{position:absolute;right:22px;bottom:22px}
+.items{padding:22px 28px 0}
+.it{display:grid;grid-template-columns:62px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.it i{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;font-style:normal;font:700 13px/1 var(--disp);color:#fff}
+.it b{font:600 15px/1.2 var(--disp);letter-spacing:-.02em;display:block}
+.it span{font-size:12px;color:var(--ink2)}
+.it .p{font:600 14px/1 var(--sans)}
+.promo{margin:18px 28px 0;display:flex;height:54px;border-radius:99px;background:#fff;padding:5px;border:1.5px solid rgba(20,20,28,.06)}
+.promo span{flex:1;display:flex;align-items:center;padding:0 16px;font:600 13px/1 ui-monospace,monospace;letter-spacing:.1em}
+.promo b{display:flex;align-items:center;gap:6px;padding:0 16px;border-radius:99px;background:rgba(70,211,154,.15);color:#1d8a5c;font:600 12px/1 var(--sans)}
+.tot{padding:18px 28px 0;display:grid;gap:10px;font-size:14px}
+.tot div{display:flex;justify-content:space-between;color:var(--ink2)}
+.tot div b{color:var(--ink);font-weight:600}
+.tot .grand{border-top:1px solid var(--line);padding-top:16px;margin-top:6px;align-items:baseline;color:var(--ink)}
+.tot .grand b{font:600 44px/1 var(--disp);letter-spacing:-.05em}
+.sum .btn{margin:20px 28px 0;width:calc(100% - 56px);justify-content:center;height:64px;font-size:16px}
+.trust{display:flex;justify-content:space-between;padding:16px 28px 0;font-size:11px;color:var(--ink3)}
+.reassure{padding:0 64px 90px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.reassure>div{border-radius:32px;padding:28px;display:flex;gap:18px;align-items:center}
+.reassure i{width:64px;height:64px;flex:none}
+.reassure b{font:600 19px/1.15 var(--disp);letter-spacing:-.03em;display:block}
+.reassure span{font-size:13px;color:var(--ink2)}
+.toast{position:absolute;right:64px;top:104px;z-index:6;border-radius:24px;padding:14px 18px 14px 14px;display:flex;gap:14px;align-items:center;width:390px;animation:floaty 4s ease-in-out infinite}
+.toast i{width:46px;height:46px;flex:none}
+.toast b{font:600 14px/1.2 var(--disp);letter-spacing:-.02em;display:block}
+.toast span{font-size:12px;color:var(--ink2)}
+</style></head>
+<body data-page="" data-bag="4">
+<div data-nav></div>
+<section class="co">
+  <div class="haze"><i></i><i></i><i></i></div>
+  <div class="head"><div><span class="eyebrow">Secure checkout · 256-bit · Order PR-48211</span><h1>Almost <span class="holo-ink">yours.</span></h1></div>
+    <div class="steps glass"><span class="done"><i>✓</i>Bag</span><span class="done"><i>✓</i>Details</span><span class="done"><i>✓</i>Delivery</span><span class="on"><i>4</i>Payment</span></div></div>
+  <div class="l">
+    <div class="blk glass"><div class="bh"><h3><em>✓</em>Contact</h3><a>Edit</a></div>
+      <div class="f2"><div class="fld"><small>Email</small><span>mira.lund@posteo.example</span></div><div class="fld"><small>Phone</small><span>+45 21 48 •• ••</span></div></div></div>
+    <div class="blk glass"><div class="bh"><h3><em>✓</em>Delivery</h3><a>Edit</a></div>
+      <div class="f2" style="margin-bottom:14px"><div class="fld"><small>Ship to</small><span>Mira Lund, Vesterbrogade 112, 3. tv</span></div><div class="fld"><small>City</small><span>1620 København V, Denmark</span></div></div>
+      <div class="opts">
+        <div class="opt on"><span class="rd"></span><div><b>Express courier · Thu 14 Nov</b><span>Lenses cut in Eindhoven first. Signature on delivery.</span></div><span class="pr">Free</span></div>
+        <div class="opt"><span class="rd"></span><div><b>Collect at Fit Studio Copenhagen</b><span>Includes a 30-min fitting with a Prism guide · Fri 15 Nov</span></div><span class="pr">Free</span></div>
+        <div class="opt"><span class="rd"></span><div><b>Same-day bike courier</b><span>Lens inserts follow separately in 48 h</span></div><span class="pr">€19</span></div>
+      </div></div>
+    <div class="blk glass" style="box-shadow:inset 0 1px 0 #fff,0 0 0 2px #c9bbff,0 30px 60px rgba(120,90,230,.16)"><div class="bh"><h3><em style="background:var(--ink)">4</em>Payment</h3><span class="chip"><span class="dot"></span>Encrypted</span></div>
+      <div class="express"><span>◆ Prism Pay</span><span>Pay in 3 · 0%</span><span>Bank transfer</span></div>
+      <div class="or">or pay by card</div>
+      <div class="pay">
+        <div class="card3"><span class="lg">PRISM</span><div class="chipc"></div><div class="num">•••• •••• •••• 4219</div><div class="row"><span>MIRA LUND</span><span>08 / 29</span></div></div>
+        <div style="display:grid;gap:10px"><div class="fld"><small>Card number</small><span>4917 •••• •••• 4219</span></div><div class="f2"><div class="fld"><small>Expiry</small><span>08 / 29</span></div><div class="fld focus"><small>CVC</small><span>••</span></div></div>
+          <div class="split"><span class="tg"></span><span><b>Split into 24 payments</b> · €122.04/mo, 0% APR, no fees</span></div></div>
+      </div></div>
+  </div>
+  <aside class="sum glass">
+    <div class="stage"><canvas id="sum"></canvas><span class="chip tag">Your configuration</span><span class="chip tag2">Lilac Chrome · Aqua knit · Seal M</span></div>
+    <div class="items">
+      <div class="it"><i style="background:linear-gradient(135deg,#c5b4ff,#8fe8f0)">ONE</i><div><b>Prism One · 512 GB</b><span>Lilac Chrome · Aqua knit · Seal M</span></div><span class="p">€2,780</span></div>
+      <div class="it"><i style="background:linear-gradient(135deg,#f3f1f8,#cfd2de);color:var(--ink)">◯◯</i><div><b>Clearsight Rx inserts</b><span>R −2.25 / −0.50 · L −1.75 / −0.75</span></div><span class="p">€149</span></div>
+      <div class="it"><i style="background:linear-gradient(135deg,#14141c,#4a3d8a)">×2</i><div><b>Halo controllers</b><span>Pair, pearl glaze</span></div><span class="p">Included</span></div>
+      <div class="it"><i style="background:var(--holo);background-size:200%;color:var(--ink)">✦</i><div><b>Launch gift: Polish kit</b><span>Iridescent cloth + lens pen</span></div><span class="p">€0</span></div>
+    </div>
+    <div class="promo"><span>FIRSTLIGHT</span><b>✓ Applied</b></div>
+    <div class="tot"><div>Subtotal<b>€2,929.00</b></div><div>Delivery<b>Free</b></div><div>VAT (25%, included)<b>€585.80</b></div><div class="grand">Total<b>€2,929</b></div></div>
+    <a class="btn dark" href="#">Place order · €2,929 <span class="ar">→</span></a>
+    <div class="trust"><span>↺ 30-day trial</span><span>◎ 2-year warranty</span><span>✦ Free fit adjustments</span></div>
+  </aside>
+
+</section>
+<section class="reassure">
+  <div class="glass"><i class="bubble"></i><div><b>Try it for 30 days</b><span>Not your reality? Return it free, lenses included.</span></div></div>
+  <div class="glass"><i class="bubble"></i><div><b>Fit, guaranteed</b><span>Swap seal sizes for free, as often as you need.</span></div></div>
+  <div class="glass"><i class="bubble"></i><div><b>Humans on call</b><span>Prism guides, 8–22 CET, in 9 languages.</span></div></div>
+</section>
+<div data-foot></div>
+<script src="prism.js"></script>
+<script src="prism3d.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = P3D(THREE, { mergeVertices, RoundedBoxGeometry });
+await K.fontsReady;
+const S = K.stage(document.getElementById('sum'), { w: 540, h: 400, fov: 26, pos: [0, 0.55, 5.6], target: [0.15, 0.0, 0] });
+const hs = K.headset({ frame: 'lilac', strap: 'aqua' });
+hs.rotation.set(0.14, -0.62, 0); hs.position.set(-0.3, 0.05, 0); hs.scale.setScalar(0.9);
+S.scene.add(hs);
+const c = K.controller(1); c.position.set(1.3, -0.1, 0.6); c.rotation.set(0.25, -0.5, -0.3); c.scale.setScalar(0.75); S.scene.add(c);
+const b1 = K.blob(0.2, { seed: 4 }), b2 = K.blob(0.12, { seed: 6, c: '#e6fbfd' });
+b1.position.set(-1.35, 0.85, -0.5); b2.position.set(0.6, 0.85, -0.3); S.scene.add(b1, b2);
+K.shadow(S.scene, { sx: 3.8, sz: 1.2, y: -0.9, a: 0.28 });
+S.loop(t => { hs.position.y = 0.05 + Math.sin(t * 0.8) * 0.02; b1.update(t); b2.update(t + 3); });
+</script>
+</body></html>

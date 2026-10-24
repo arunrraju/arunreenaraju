@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Étoile Solitaire · ÉCLAT</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Prata&family=DM+Serif+Display:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="eclat.css">
+<script src="eclat.js"></script><script src="eclat3d.js"></script>
+<style>
+.pdp{position:relative;display:grid;grid-template-columns:880px 1fr;min-height:1380px;background:linear-gradient(90deg,transparent 880px,var(--em2) 880px)}
+.view{position:relative;height:1380px;overflow:hidden;background:radial-gradient(60% 50% at 50% 46%,#1f5a48 0%,#0d2a22 50%,#05130e 100%)}
+.view #viewer{position:absolute;left:0;top:0;z-index:2}
+.view .ghost{position:absolute;left:-20px;top:170px;z-index:1;font:400 230px/.85 var(--disp);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px rgba(238,241,243,.16);white-space:nowrap}
+.view .ghost b{display:block;font-weight:400;font-family:var(--ital);font-style:italic;color:rgba(238,241,243,.06);-webkit-text-stroke:0;margin-left:200px}
+.loupe{position:absolute;right:56px;top:150px;z-index:6;width:270px}
+.loupe .lens{position:relative;width:270px;height:270px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 6px rgba(238,241,243,.92),0 0 0 7px rgba(0,0,0,.3),0 0 0 16px rgba(201,162,74,.35),0 30px 80px rgba(0,0,0,.6);background:#06130f}
+.loupe canvas{width:270px;height:270px}
+.loupe .lens::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.28),transparent 35%),radial-gradient(circle,transparent 62%,rgba(0,0,0,.55))}
+.loupe .ret{position:absolute;inset:0;z-index:2;pointer-events:none}
+.loupe .ret::before,.loupe .ret::after{content:"";position:absolute;background:rgba(255,255,255,.35)}
+.loupe .ret::before{left:50%;top:20%;bottom:20%;width:1px}.loupe .ret::after{top:50%;left:20%;right:20%;height:1px}
+.loupe .cap{margin-top:30px;text-align:center}
+.loupe .cap b{display:block;font:400 22px/1.2 var(--disp);margin-top:8px}
+.loupe .link{position:absolute;left:-150px;top:240px;width:170px;height:120px;border-left:1px dashed rgba(255,255,255,.4);border-bottom:1px dashed rgba(255,255,255,.4);border-bottom-left-radius:40px}
+.view .hs{z-index:6}
+.vtools{position:absolute;left:40px;bottom:150px;right:40px;z-index:6;display:flex;justify-content:space-between;align-items:flex-end}
+.thumbs{display:flex;gap:10px}
+.thumbs div{width:92px;height:92px;border:1px solid var(--line2);background-color:rgba(255,255,255,.04);background-size:cover;background-position:center;position:relative}
+.thumbs div.on{border-color:var(--gold2);box-shadow:0 0 0 1px var(--gold2)}
+.thumbs .ph img{height:100%}
+.thumbs div span{position:absolute;left:6px;bottom:6px;font:600 9px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase;background:rgba(0,0,0,.5);padding:4px 5px}
+.ctrls{display:flex;gap:10px;align-items:center}
+.ctrls span{height:44px;padding:0 16px;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line2);font:500 11px/1 var(--ui);letter-spacing:.18em;text-transform:uppercase;background:rgba(6,19,15,.6);backdrop-filter:blur(8px)}
+.ctrls span.on{border-color:var(--gold2);color:var(--gold2)}
+.deg{position:absolute;left:50%;bottom:270px;transform:translateX(-50%);z-index:5;width:520px;height:60px}
+.deg svg{width:100%;height:100%}
+
+.buy{padding:140px 64px 60px 56px;position:relative}
+.crumb{font:500 11px/1 var(--ui);letter-spacing:.22em;text-transform:uppercase;color:var(--pt3);margin-bottom:34px}
+.buy h1{font:400 76px/.95 var(--disp);letter-spacing:-.025em;margin:18px 0 18px}
+.buy h1 .it{color:var(--gold2)}
+.rate{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--pt2)}
+.rate .st{display:flex;color:var(--gold2)}.rate .st .ic{width:14px;height:14px}
+.pr{display:flex;align-items:baseline;gap:16px;margin:28px 0 6px}
+.pr b{font:400 46px/1 var(--disp)}
+.pr s{color:var(--pt3)}
+.opt{margin-top:30px}
+.opt .h{display:flex;justify-content:space-between;font:600 10.5px/1 var(--ui);letter-spacing:.24em;text-transform:uppercase;color:var(--pt3);margin-bottom:12px}
+.opt .h em{font-style:normal;color:var(--pt);letter-spacing:.1em;text-transform:none;font:500 13px/1 var(--ui)}
+.carats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.carats div{border:1px solid var(--line2);padding:14px 12px;text-align:center}
+.carats div b{display:block;font:400 21px/1 var(--disp);margin-bottom:6px}
+.carats div span{font-size:12px;color:var(--pt3)}
+.carats div.on{border-color:var(--gold2);background:linear-gradient(160deg,rgba(201,162,74,.18),rgba(201,162,74,.03))}
+.carats div.on span{color:var(--gold2)}
+.shapes{display:flex;gap:8px}
+.shapes div{flex:1;height:68px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--pt2)}
+.shapes div.on{border-color:var(--gold2);color:var(--pt);background:rgba(201,162,74,.1)}
+.shapes .shp{width:30px;height:30px}
+.metals{display:flex;gap:10px}
+.metals div{flex:1;display:flex;align-items:center;gap:10px;border:1px solid var(--line2);padding:10px 12px;font-size:13px}
+.metals div.on{border-color:var(--gold2)}
+.size{display:flex;gap:8px}
+.size span{flex:1;height:42px;display:grid;place-items:center;border:1px solid var(--line2);font-size:13px}
+.size span.on{background:var(--pt);color:#06140f}
+.size span.x{color:var(--pt3);text-decoration:line-through}
+.cert{margin-top:30px;display:grid;grid-template-columns:86px 1fr auto;gap:18px;align-items:center;padding:18px;border:1px solid var(--line);background:linear-gradient(120deg,rgba(201,162,74,.1),transparent)}
+.cert .facet{position:relative;width:86px;height:86px}
+.cert b{display:block;margin-top:6px;font:400 19px/1.2 var(--disp)}
+.cert small{display:block;color:var(--pt3);font-size:12px;margin-top:4px}
+.cta{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:26px}
+.cta .btn{justify-content:center;height:62px}
+.cta .sq{width:62px;height:62px;display:grid;place-items:center;border:1px solid var(--line2)}
+.assure{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.assure div{font-size:12.5px;color:var(--pt2);display:flex;gap:10px;align-items:flex-start;line-height:1.4}
+.assure .ic{color:var(--gold2)}
+
+.sticky{position:absolute;left:40px;right:40px;bottom:36px;z-index:20;height:84px;display:flex;align-items:center;gap:24px;padding:0 14px 0 14px}
+.sticky .th{width:60px;height:60px;background-size:cover;background-position:center;background-color:rgba(0,0,0,.25)}
+.sticky .n{font:400 21px/1.2 var(--disp)}
+.sticky small{color:var(--pt3);font-size:12.5px}
+.sticky .sp{flex:1}
+.sticky .btn{height:56px}
+
+/* four Cs */
+.cs{background:radial-gradient(60% 70% at 25% 50%,#1b3375,var(--sa) 55%,var(--sa2));display:grid;grid-template-columns:560px 1fr;gap:70px;align-items:center;padding-top:170px}
+.cs h2{font:400 84px/.94 var(--disp);margin:22px 0 24px}
+.diag{position:relative;height:500px}
+.diag svg{width:100%;height:100%;overflow:visible}
+.diag .ray{stroke-dasharray:6 8;animation:dash 3s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-56}}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cc{padding:28px;border:1px solid var(--line2);background:rgba(255,255,255,.03)}
+.cc .k{display:flex;justify-content:space-between;font:600 10.5px/1 var(--ui);letter-spacing:.24em;text-transform:uppercase;color:var(--pt3)}
+.cc b{display:block;font:400 44px/1 var(--disp);margin:16px 0 8px}
+.cc p{font-size:13.5px;color:var(--pt2);min-height:42px}
+.scale{display:flex;gap:3px;margin-top:20px}
+.scale i{flex:1;height:8px;background:rgba(255,255,255,.1);position:relative}
+.scale i.on{background:linear-gradient(90deg,var(--gold2),#fff);box-shadow:0 0 14px var(--gold2)}
+.scale+div{display:flex;justify-content:space-between;font-size:11px;color:var(--pt3);margin-top:8px;letter-spacing:.08em}
+
+/* craft */
+.craft{background:var(--em2);display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+.craft .big{grid-row:span 2;height:760px;--cut:24px}
+.craft .big .ph{height:100%}
+.craft .tx{padding:10px 0 0;grid-row:span 2}
+.craft h2{font:400 76px/.95 var(--disp);margin:22px 0 20px}
+.craft ol{list-style:none;counter-reset:s}
+.craft li{counter-increment:s;display:grid;grid-template-columns:54px 1fr;padding:18px 0;border-top:1px solid var(--line2)}
+.craft li::before{content:"0" counter(s);font:400 26px/1 var(--disp);color:var(--gold2)}
+.craft li b{display:block;font-weight:500;margin-bottom:4px}
+.craft li span{color:var(--pt2);font-size:13.5px}
+.craft .sm{height:368px;--cut:20px}.craft .sm .ph{height:100%}
+
+/* reviews */
+.revs{background:linear-gradient(180deg,var(--em2),var(--em));display:grid;grid-template-columns:380px 1fr 1fr;gap:24px;align-items:start}
+.score b{display:block;font:400 150px/.9 var(--disp)}
+.score .bars{margin-top:26px;display:grid;gap:10px}
+.score .bars div{display:grid;grid-template-columns:24px 1fr 40px;gap:12px;align-items:center;font-size:12px;color:var(--pt3)}
+.score .bars i{height:4px;background:rgba(255,255,255,.08);position:relative}
+.score .bars i::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--gold2)}
+.rv{padding:30px;border:1px solid var(--line2);background:rgba(255,255,255,.025)}
+.rv .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.rv p{font:400 21px/1.4 var(--disp);margin-bottom:22px}
+.rv .ph{height:220px;margin-bottom:20px;--cut:14px}
+.rv .who{font-size:12.5px;color:var(--pt3)}
+.rv .who b{color:var(--pt);font-weight:500}
+
+/* pairs */
+.pairs{background:var(--em);padding-top:40px}
+.prow{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.pc .im{height:340px;background-size:86%;background-position:center;background-repeat:no-repeat;--cut:16px}
+.pc h4{font:400 22px/1.2 var(--disp);margin-top:16px}
+.pc div.r{display:flex;justify-content:space-between;color:var(--pt3);font-size:13px;margin-top:4px}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="pdp">
+  <div class="view">
+    <div class="ghost">Étoile<b>solitaire</b></div>
+    <div id="viewer"></div>
+    <div data-sparkles="22" style="position:absolute;inset:0;z-index:3;pointer-events:none"></div>
+    <div class="loupe"><div class="link"></div><div class="lens"><canvas id="lcan" width="270" height="270"></canvas><div class="ret"></div></div>
+      <div class="cap"><div class="eyebrow plain" style="justify-content:center;width:100%">10× loupe · live</div><b>Eye-clean at VVS1</b><span class="dim" style="font-size:13px">No inclusions visible at 10×</span></div></div>
+        <div class="hs" id="hs1" style="right:562px;top:400px;flex-direction:row-reverse;text-align:right"><span class="dot"></span><span class="ln" style="background:linear-gradient(270deg,#fff,var(--gold))"></span><span>Six-claw crown<small>Hand-shaped platinum</small></span></div>
+    <div class="hs" id="hs2" style="left:640px;top:548px;white-space:nowrap"><span class="dot"></span><span class="ln" style="width:36px"></span><span>Micro-pavé shoulders<small>34 × 1.3 mm · 0.31 ct</small></span></div>
+    <div class="cursor" style="left:380px;top:720px"><div class="o"></div><span>Drag to rotate</span></div>
+    <div class="deg"><svg viewBox="0 0 520 60"><path d="M10 40 Q260 -10 510 40" fill="none" stroke="rgba(238,241,243,.35)" stroke-dasharray="2 6"/><path d="M10 40 Q140 12 210 16" fill="none" stroke="#ecd08a" stroke-width="2"/><circle cx="210" cy="16" r="5" fill="#fff"/><text x="260" y="56" fill="#b9c3ca" font-size="11" letter-spacing="3" text-anchor="middle" font-family="Hanken Grotesk">128° · 360° VIEW</text></svg></div>
+    <div class="sticky glass cut"><div class="th" id="sth"></div><div><div class="n">Étoile Solitaire</div><small>2.02 ct · D · VVS1 · Platinum 950 · EU 54</small></div><div class="sp"></div><span class="price" style="font-size:28px">€18,400</span><a class="btn">Add to bag <span data-ic="arrow"></span></a></div>
+    <div class="vtools">
+      <div class="thumbs"><div class="on" id="th1"><span>360°</span></div><div id="th2"><span>Top</span></div><div id="th3"><span>Profile</span></div><div data-img="1762505464779-17f78cbfa8b4|300|60% 50%"><span>On hand</span></div></div>
+      <div class="ctrls"><span class="on"><span data-ic="rotate"></span>Rotate</span><span><span data-ic="loupe"></span>Loupe</span><span><span data-ic="ruler"></span>True size</span></div>
+    </div>
+  </div>
+
+  <div class="buy">
+    <div class="crumb">Engagement / Solitaires / <span style="color:var(--pt)">Étoile</span></div>
+    <span class="tag">N° 001 of 120 · Collection Étoile</span>
+    <h1>Étoile <span class="it">Solitaire</span></h1>
+    <div class="rate"><span class="st"><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span><span data-ic="star"></span></span>4.9 · 212 reviews · <span style="color:var(--gold2)">Engraving included</span></div>
+    <div class="pr"><b class="plat">€18,400</b><s>€54,000 mined equivalent</s></div>
+    <div class="dim" style="font-size:13px">Or 10 interest-free payments of €1,840 · Taxes and insured delivery included</div>
+
+    <div class="opt"><div class="h">Carat <em>2.02 ct · 8.1 mm</em></div>
+      <div class="carats"><div><b>1.0</b><span>€7,900</span></div><div><b>1.5</b><span>€12,600</span></div><div class="on"><b>2.0</b><span>€18,400</span></div><div><b>3.0</b><span>€34,900</span></div></div></div>
+    <div class="opt"><div class="h">Shape <em>Round brilliant</em></div>
+      <div class="shapes"><div class="on"><i data-shape="round"></i></div><div><i data-shape="oval"></i></div><div><i data-shape="emerald"></i></div><div><i data-shape="cushion"></i></div><div><i data-shape="pear"></i></div></div></div>
+    <div class="opt"><div class="h">Metal <em>Platinum 950</em></div>
+      <div class="metals"><div class="on"><span class="metal pt"></span>Platinum</div><div><span class="metal yg"></span>18k yellow</div><div><span class="metal rg"></span>18k rose</div></div></div>
+    <div class="opt"><div class="h">Ring size · EU <em style="color:var(--gold2)">Find your size</em></div>
+      <div class="size"><span>48</span><span>50</span><span>52</span><span class="on">54</span><span>56</span><span class="x">58</span><span>60</span></div></div>
+
+    <div class="cert"><div data-facet></div><div><span class="mono" style="color:var(--gold2)">IGI · LG 614 289 307</span><b>2.02 ct · D · VVS1 · Excellent</b><small>Laser-inscribed on the girdle · lab-grown CVD, Type IIa</small></div><span data-ic="ne"></span></div>
+
+    <div class="cta"><a class="btn">Add to bag <span data-ic="bag"></span></a><span class="sq"><span data-ic="heart"></span></span></div>
+    <a class="btn ghost" style="width:100%;justify-content:center;margin-top:10px;height:56px"><span data-ic="cal"></span> Book a private viewing in Paris</a>
+    <div class="assure"><div><span data-ic="truck"></span>Hand-delivered, insured, in 4 weeks</div><div><span data-ic="shield"></span>Lifetime care, cleaning & resizing</div><div><span data-ic="gift"></span>Écrin box & engraving included</div></div>
+  </div>
+</section>
+
+<section class="sec cs">
+  <div><div class="eyebrow">The four Cs, measured</div><h2>Graded by a lab. <span class="it gild">Checked by us.</span></h2><p class="dim" style="font-size:16px;margin-bottom:30px">Only 1 in 40 grown diamonds reaches the Étoile standard. We grade every stone again in Paris, under daylight and under candlelight.</p>
+    <div class="diag"><svg viewBox="0 0 560 500">
+      <defs><linearGradient id="dg" x1="0" x2="1"><stop offset="0" stop-color="#cfe9ff" stop-opacity=".12"/><stop offset=".5" stop-color="#fff" stop-opacity=".3"/><stop offset="1" stop-color="#cfe9ff" stop-opacity=".12"/></linearGradient></defs>
+      <polygon points="150,170 410,170 500,230 280,460 60,230" fill="url(#dg)" stroke="#ecd08a" stroke-width="1.2"/>
+      <path d="M60 230H500M150 170 200 230 280 170 360 230 410 170M200 230 280 460 360 230M120 230 280 460 440 230" stroke="#ecd08a" stroke-width=".7" fill="none" opacity=".7"/>
+      <path class="ray" d="M250 20 L250 170 L190 330 L370 330 L310 170 L310 20" stroke="#fff" stroke-width="1.6" fill="none"/>
+      <path class="ray" d="M330 20 L330 170 L390 290 L170 290 L230 170 L200 20" stroke="#ecd08a" stroke-width="1.2" fill="none"/>
+      <g font-family="Hanken Grotesk" font-size="11" letter-spacing="2.5" fill="#b9c3ca"><text x="410" y="160">TABLE 57%</text><text x="510" y="235">GIRDLE</text><text x="430" y="360">PAVILION 43.1%</text><text x="200" y="490">CULET · NONE</text><text x="256" y="14" fill="#fff">LIGHT IN · 98.6% RETURNED</text></g>
+      <g fill="#fff"><circle cx="190" cy="330" r="4"/><circle cx="370" cy="330" r="4"/><circle cx="390" cy="290" r="3"/><circle cx="170" cy="290" r="3"/></g>
+    </svg></div></div>
+  <div class="cgrid">
+    <div class="cc"><div class="k"><span>Cut</span><span>1 / 5</span></div><b class="plat">Excellent</b><p>Hearts & arrows symmetry, polished by one cutter over 22 hours.</p><div class="scale"><i class="on"></i><i></i><i></i><i></i><i></i></div><div><span>Excellent</span><span>Poor</span></div></div>
+    <div class="cc"><div class="k"><span>Colour</span><span>D</span></div><b class="plat">D · colourless</b><p>The top of the scale. No body colour, even face-down on white.</p><div class="scale"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div><span>D</span><span>M</span></div></div>
+    <div class="cc"><div class="k"><span>Clarity</span><span>VVS1</span></div><b class="plat">VVS1</b><p>Pinpoints visible only to a grader at 10× magnification.</p><div class="scale"><i></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div><span>FL</span><span>I3</span></div></div>
+    <div class="cc"><div class="k"><span>Carat</span><span>2.02</span></div><b class="plat">2.02 ct</b><p>8.1 mm across: about a third wider than a 1-carat stone.</p><div class="scale"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div><span>0.5 ct</span><span>5 ct</span></div></div>
+  </div>
+</section>
+
+<section class="sec craft">
+  <div class="big cutframe"><div data-img="1772442125267-7640b4b5f2fe|1200|50% 40%"></div></div>
+  <div class="tx"><div class="eyebrow">At the bench</div><h2>140 hours, <span class="it gild">one pair of hands.</span></h2>
+    <ol><li><div><b>Grown in eight weeks</b><span>A carbon seed becomes a rough crystal in our solar-powered reactor in Grenoble.</span></div></li><li><div><b>Cut for light, not weight</b><span>We give up carat to reach Excellent proportions. Every time.</span></div></li><li><div><b>Set under the microscope</b><span>Thirty-four melee, each held by four beads you can only see at 20×.</span></div></li></ol></div>
+  <div class="sm cutframe"><div data-img="1605100804567-1ffe942b5cd6|900|50% 50%"></div></div>
+  <div class="glass cut" style="padding:28px;display:flex;flex-direction:column;justify-content:space-between;height:368px"><div class="eyebrow">Signed</div><p style="font:italic 400 30px/1.25 var(--ital)">“A solitaire hides nothing. The claws must disappear and the stone must float.”</p><div style="display:flex;justify-content:space-between;align-items:center"><span class="dim" style="font-size:13px">Margaux Lenoir · Head setter</span><span class="gild" style="font:italic 400 30px/1 var(--ital)">M.L.</span></div></div>
+</section>
+
+<section class="sec revs">
+  <div class="score"><div class="eyebrow">Client voices</div><b class="plat">4.9</b><span class="dim">from 212 verified owners</span>
+    <div class="bars"><div>5★<i style="--w:92%"></i>196</div><div>4★<i style="--w:6%"></i>12</div><div>3★<i style="--w:2%"></i>4</div><div>2★<i style="--w:0%"></i>0</div><div>1★<i style="--w:0%"></i>0</div></div></div>
+  <div class="rv"><div class="top"><span class="tag">Verified · 2.0 ct</span><span class="mono">Sep 2026</span></div><div class="cutframe ph" data-img="1762505464779-17f78cbfa8b4|800|50% 50%"></div><p>“The loupe on the site was not a gimmick. What I saw at 10× is exactly what arrived.”</p><div class="who"><b>Sophie L.</b> · Brussels · Platinum, EU 52</div></div>
+  <div class="rv"><div class="top"><span class="tag">Verified · 1.5 ct</span><span class="mono">Aug 2026</span></div><div class="cutframe ph" data-img="1768423685978-42fe24ec39a0|800|50% 50%"></div><p>“Proposed in Kyoto. It threw rainbows across the whole tea house. She said yes before I finished.”</p><div class="who"><b>Marcus T.</b> · Zürich · Platinum, EU 50</div></div>
+</section>
+
+<section class="sec pairs">
+  <div class="hd2"><div><div class="eyebrow">Wear it with</div><h2 style="margin-top:20px;font-size:72px">The rest of <span class="it gild">the set.</span></h2></div><a class="btn ghost">See the Étoile collection</a></div>
+  <div class="prow">
+    <div class="pc"><div class="im cut" id="pc1" style="background-color:#0a2019"></div><h4>Alliance Éternité</h4><div class="r"><span>40 brilliants · 1.6 ct · Platinum</span><span class="price" style="font-size:18px;color:var(--pt)">€6,400</span></div></div>
+    <div class="pc"><div class="im cut" id="pc2" style="background-color:#0b1633"></div><h4>Étoile Ovale</h4><div class="r"><span>Oval 1.5 ct · 18k yellow</span><span class="price" style="font-size:18px;color:var(--pt)">€11,900</span></div></div>
+    <div class="pc"><div class="im cut" id="pc3" style="background-color:#0a2019"></div><h4>Goutte Diamant</h4><div class="r"><span>Pear pendant · 2.2 ct</span><span class="price" style="font-size:18px;color:var(--pt)">€16,800</span></div></div>
+    <div class="pc"><div class="im cut" id="pc4" style="background-color:#0b1633"></div><h4>Émeraude Blanche</h4><div class="r"><span>Emerald cut 2.5 ct · Platinum</span><span class="price" style="font-size:18px;color:var(--pt)">€21,300</span></div></div>
+  </div>
+</section>
+
+<div data-footer></div>
+<script>eclat('Engagement');</script>
+<script type="module">
+import * as THREE from 'three';
+const E = Eclat(THREE);
+const st = E.stage(document.getElementById('viewer'), { w: 880, h: 1380, fov: 26, cam: [0.3, 2.3, 10.4], target: [0, 0.32, 0], exposure: 1.1 });
+const ring = E.buildRing(st, { shape: 'round', carat: 2 }); ring.position.y = 0.0; ring.rotation.x = 0.12; st.scene.add(ring);
+const sh = E.shadow(2.8, 1.1, .7); sh.position.y = -1.0; st.scene.add(sh);
+st.scene.add(E.sparkles(120, [6, 6, 3], { center: [0, 1, -1], size: 22 }));
+const fl = E.flares(3, new THREE.Vector3(0, ring.userData.stoneY + 0.12, 0.3), 0.5, 0.8); st.scene.add(fl);
+st.onFrame(t => { ring.rotation.y = -1.1 + t * 0.14; fl.userData.tick(t); });
+// live loupe: magnify the area around the stone straight from the WebGL buffer
+const lc = document.getElementById('lcan').getContext('2d');
+const sp = new THREE.Vector3();
+st.after.push(s => {
+  ring.userData.stone.getWorldPosition(sp); sp.project(s.camera);
+  const x = (sp.x + 1) / 2 * s.w, y = (1 - sp.y) / 2 * s.h + 14, r = 78;
+  lc.fillStyle = '#06130f'; lc.fillRect(0, 0, 270, 270);
+  lc.drawImage(s.renderer.domElement, x - r, y - r - 6, r * 2, r * 2, 0, 0, 270, 270);
+});
+E.start();
+const set = (id, url) => document.getElementById(id).style.backgroundImage = `url(${url})`;
+const shot = (o, rot, cam, tg, w = 200, theme = 'emerald') => E.snapshot((sc, s) => { const r = E.buildRing(s, o); r.rotation.set(...rot); sc.add(r); }, { w, h: w, cam, target: tg, theme });
+set('th1', shot({ shape: 'round' }, [0.3, -0.7, 0], [0, 1.6, 5.6], [0, 0.55, 0]));
+set('th2', shot({ shape: 'round' }, [0, 0, 0], [0, 7, 0.01], [0, 0, 0]));
+set('th3', shot({ shape: 'round' }, [0, Math.PI / 2, 0], [0, 0.6, 5.2], [0, 0.55, 0]));
+set('sth', shot({ shape: 'round' }, [0.3, -0.7, 0], [0, 1.6, 5.6], [0, 0.55, 0], 120));
+set('pc1', E.snapshot((sc, s) => { const r = E.buildRing(s, { eternity: true }); r.rotation.set(0.5, -0.5, 0); sc.add(r); }, { w: 420, h: 420, cam: [0, 1.2, 5.2], target: [0, 0.1, 0] }));
+set('pc2', shot({ shape: 'oval', metalKey: 'yellow', carat: 1.5 }, [0.3, -0.5, 0], [0, 1.6, 5.6], [0, 0.55, 0], 420, 'sapphire'));
+set('pc3', E.snapshot((sc, s) => { const p = E.buildPendant(s, { gem: 'diamond', carat: 2.2 }); p.position.y = -0.4; sc.add(p); }, { w: 420, h: 420, cam: [0, 0, 6], target: [0, 0.25, 0] }));
+set('pc4', shot({ shape: 'emerald', carat: 2.5 }, [0.3, -0.8, 0], [0, 1.6, 5.6], [0, 0.55, 0], 420, 'sapphire'));
+</script>
+</body></html>

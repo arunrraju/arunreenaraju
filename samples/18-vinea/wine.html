@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Clos des Ombres 2019 — Domaine Vinea</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vinea.css">
+<script src="v3d.js"></script>
+<style>
+.pd{position:relative;height:1040px;overflow:hidden}
+.pd canvas{position:absolute;left:0;top:0;z-index:1}
+.pd .l{position:absolute;left:72px;top:70px;z-index:3;width:470px}
+.crumb{font:600 12px/1 var(--sans);letter-spacing:.14em;color:var(--pf)}
+.crumb b{color:var(--goldl);font-weight:600}
+.pd h1{font-size:128px;line-height:.84;margin:40px 0 22px;letter-spacing:-.025em}
+.pd h1 em{color:var(--goldl);display:block}
+.pd .sub{font:italic 400 20px/1.4 var(--it);color:var(--pd)}
+.pd .score{display:flex;gap:26px;margin-top:34px}
+.pd .score div{border-left:1px solid var(--gold);padding-left:14px}
+.pd .score b{display:block;font:400 44px/1 var(--disp)}
+.pd .score span{font:600 11px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--pd)}
+.pd .notes{position:absolute;left:72px;bottom:80px;z-index:3;width:380px}
+.pd .notes .mono{margin-bottom:16px}
+.nchip{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line2)}
+.nchip i{width:30px;height:30px;border-radius:50%;flex:none;box-shadow:inset -4px -6px 10px rgba(0,0,0,.45),inset 3px 3px 6px rgba(255,255,255,.2)}
+.nchip b{font:400 22px/1 var(--disp);flex:1}
+.nchip span{font-size:12px;color:var(--pd);letter-spacing:.06em}
+.nchip .m{width:80px;height:3px;background:var(--line2);position:relative}.nchip .m::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--gold)}
+.pd .buy{position:absolute;right:72px;top:70px;z-index:3;width:400px;padding:30px;background:rgba(30,14,19,.6);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.buy .pr{display:flex;align-items:baseline;justify-content:space-between;margin:14px 0 6px}
+.buy .pr b{font:400 66px/1 var(--disp)}
+.buy .pr span{font-size:13px;color:var(--pd)}
+.buy .opt{display:grid;gap:8px;margin:22px 0 18px}
+.buy .opt div{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--line2)}
+.buy .opt div.on{border-color:var(--gold);background:rgba(184,149,90,.1)}
+.buy .opt i{width:16px;height:16px;border-radius:50%;border:1px solid var(--gold);flex:none;position:relative}
+.buy .opt .on i::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--goldl)}
+.buy .opt b{font:400 19px/1 var(--disp);flex:1}.buy .opt small{display:block;font:400 12px/1.4 var(--sans);color:var(--pd);margin-top:4px}
+.buy .opt span{font:400 19px/1 var(--disp)}
+.buy .qty{display:flex;gap:10px;margin-bottom:12px}
+.buy .qty .st{display:flex;align-items:center;justify-content:space-between;width:130px;height:56px;border:1px solid var(--line);padding:0 16px;font:400 22px/1 var(--disp)}
+.buy .qty .st em{font-family:var(--sans);font-style:normal;color:var(--gold)}
+.buy .qty .btn{flex:1;justify-content:center}
+.buy .gift{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--pd);padding:14px 0;border-bottom:1px solid var(--line2)}
+.buy .gift .box{width:18px;height:18px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--goldl);font-size:12px;background:rgba(184,149,90,.2)}
+.buy .alloc{margin-top:16px;font-size:12px;color:var(--pd)}
+.buy .alloc .bar{height:4px;background:var(--line2);margin:10px 0 8px;position:relative}.buy .alloc .bar::after{content:"";position:absolute;left:0;top:0;bottom:0;width:96.7%;background:linear-gradient(90deg,var(--bur3),var(--gold))}
+.buy .ship{display:flex;gap:12px;align-items:center;margin-top:16px;font-size:12px;color:var(--pd)}
+.buy .ship svg{width:22px;height:22px;stroke:var(--gold);fill:none;flex:none}
+.pd .cursor{left:640px;top:520px}
+.pd .tagl{position:absolute;z-index:3;font:600 10px/1.3 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--pd);display:flex;align-items:center;gap:10px}
+.pd .tagl::after{content:"";width:70px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.pd .tagl b{display:block;font:400 18px/1 var(--disp);letter-spacing:0;text-transform:none;color:var(--par)}
+.pd .views{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);z-index:3;display:flex;gap:10px;align-items:center;font:700 10px/1 var(--sans);letter-spacing:.24em;color:var(--pd)}
+.pd .views span{padding:10px 14px;border:1px solid var(--line2);border-radius:999px}
+.pd .views span.on{border-color:var(--gold);color:var(--goldl)}
+
+.taste{padding:150px 72px 120px;display:grid;grid-template-columns:380px 1fr;gap:80px}
+.taste h2{font-size:96px;margin-top:20px}
+.taste h2 em{color:var(--goldl)}
+.taste .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.taste .col{padding:30px 28px;border-top:2px solid var(--gold);background:linear-gradient(180deg,rgba(184,149,90,.07),transparent 70%)}
+.taste .col .n{font:400 64px/1 var(--disp);color:var(--gold)}
+.taste .col h3{font-size:32px;margin:16px 0 12px}
+.taste .col p{font:italic 400 17px/1.55 var(--it);color:var(--pd)}
+.struct{grid-column:2;display:grid;grid-template-columns:repeat(5,1fr);gap:24px;margin-top:10px}
+.struct div span{display:flex;justify-content:space-between;font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--pd);margin-bottom:12px}
+.struct div span b{color:var(--par);font:400 15px/1 var(--disp);letter-spacing:0}
+.struct .dots{display:flex;gap:5px}
+.struct .dots i{flex:1;height:22px;border:1px solid var(--line);transform:skewX(-14deg)}
+.struct .dots i.on{background:linear-gradient(180deg,var(--goldl),var(--gold));border-color:var(--gold)}
+
+.vint{margin:0 72px;padding:70px 64px 60px;border:1px solid var(--line);position:relative;background:radial-gradient(70% 90% at 70% 0%,rgba(107,26,43,.35),transparent),var(--ink2)}
+.vint .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px}
+.vint h2{font-size:80px}
+.vint h2 em{color:var(--goldl)}
+.vint .lg{display:flex;gap:22px;font-size:12px;color:var(--pd)}
+.vint .lg i{display:inline-block;width:22px;height:8px;margin-right:8px;vertical-align:middle}
+.gantt{display:grid;grid-template-columns:110px 1fr 70px;row-gap:12px;align-items:center;position:relative}
+.gantt .y{font:400 24px/1 var(--disp)}
+.gantt .y.on{color:var(--goldl)}
+.gantt .tr{position:relative;height:26px;background:repeating-linear-gradient(90deg,rgba(239,228,208,.05) 0 1px,transparent 1px calc(100%/26))}
+.gantt .tr i{position:absolute;top:4px;bottom:4px;border-radius:2px}
+.gantt .s{text-align:right;font:400 22px/1 var(--disp)}
+.gantt .ax{grid-column:2;display:flex;justify-content:space-between;font:600 11px/1 var(--sans);letter-spacing:.1em;color:var(--pf);padding-top:10px;border-top:1px solid var(--line2)}
+.gantt .now{position:absolute;top:-16px;bottom:24px;width:1px;background:var(--goldl);box-shadow:0 0 12px var(--gold)}
+.gantt .now::before{content:"TODAY";position:absolute;top:-18px;left:-20px;font:700 9px/1 var(--sans);letter-spacing:.2em;color:var(--goldl)}
+.gantt .row-on{position:absolute;left:-24px;right:-24px;height:46px;border:1px solid rgba(220,192,138,.35);background:rgba(184,149,90,.06)}
+
+.pair{padding:150px 72px 140px}
+.pair .sh{margin-bottom:56px}
+.pair .sh h2{font-size:96px}
+.pair .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.dish{padding:36px 30px 30px;border:1px solid var(--line2);position:relative;min-height:400px;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(239,228,208,.03),transparent)}
+.dish.on{border-color:var(--gold);background:linear-gradient(180deg,rgba(140,42,61,.35),rgba(18,10,12,0));box-shadow:0 40px 70px -40px rgba(140,42,61,.9)}
+.dish svg{width:110px;height:110px;stroke:var(--goldl);fill:none;stroke-width:1.1}
+.dish h3{font-size:34px;margin:30px 0 10px}
+.dish p{font-size:14px;color:var(--pd)}
+.dish .m{margin-top:auto;padding-top:18px;border-top:1px solid var(--line2);display:flex;justify-content:space-between;font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--pd)}
+.dish .m b{color:var(--goldl)}
+.dish .match{position:absolute;right:24px;top:24px;font:400 46px/1 var(--disp);color:var(--gold)}
+.dish .match small{font-size:18px}
+
+.made{display:grid;grid-template-columns:1.1fr 1fr;margin:0 72px 150px;border:1px solid var(--line)}
+.made .ph{position:relative;min-height:640px}
+.made .ph img{position:absolute;inset:0}
+.made .ph .seal{position:absolute;right:-60px;bottom:60px;width:130px;height:130px;z-index:2}
+.made .tx{padding:70px 70px 60px;background:var(--ink2)}
+.made h2{font-size:72px;margin:20px 0 24px}
+.made h2 em{color:var(--goldl)}
+.made dl{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:30px;border-top:1px solid var(--line2)}
+.made dl div{padding:18px 0;border-bottom:1px solid var(--line2)}
+.made dl div:nth-child(odd){padding-right:20px;border-right:1px solid var(--line2)}
+.made dl div:nth-child(even){padding-left:24px}
+.made dt{font:700 10px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.made dd{font:400 22px/1.2 var(--disp)}
+
+.sticky{position:relative;margin:0 72px 80px;z-index:40;display:flex;align-items:center;gap:22px;padding:14px 14px 14px 26px;background:rgba(36,19,26,.86);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);box-shadow:0 30px 60px rgba(0,0,0,.5)}
+.sticky b{font:400 24px/1 var(--disp)}
+.sticky .sp{flex:1}
+.sticky .btn{height:50px}
+</style></head>
+<body>
+<div class="ann"><span><i class="dot"></i>Harvest 2026 is resting in barrel — <b>pre-release allocations open 3 November</b></span><span>Cellar-temperature delivery across the EU · Free over €250</span></div>
+<nav class="nav"><div class="l"><a href="wines.html">The Wines</a><a class="on" href="wine.html">Grand Cru</a><a href="club.html">Cellar Society</a></div>
+<a class="logo" href="home.html"><span class="cr" data-crest></span><b>DOMAINE VINEA</b></a>
+<div class="r"><a href="estate.html">Estate &amp; Tours</a><a href="#"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a><a class="case-btn" href="checkout.html">Case <i>4</i></a></div></nav>
+
+<section class="pd">
+  <canvas id="pd3d"></canvas>
+  <div class="l">
+    <div class="crumb">The wines / Rouge / <b>Clos des Ombres 2019</b></div>
+    <h1>Clos des <em>Ombres</em></h1>
+    <div class="sub">Grand Cru · 100% Pinot Noir · vintage 2019</div>
+    <div class="score"><div><b>98</b><span>Revue des<br>Caves</span></div><div><b>97</b><span>Cave &amp;<br>Terroir</span></div><div><b>4.9</b><span>412 member<br>reviews</span></div></div>
+  </div>
+  <div class="notes">
+    <div class="mono">On the nose</div>
+    <div class="nchip"><i style="background:radial-gradient(circle at 35% 30%,#c23a50,#4a0614)"></i><b>Black cherry</b><span class="m" style="--w:90%"></span></div>
+    <div class="nchip"><i style="background:radial-gradient(circle at 35% 30%,#9a74c8,#3a1a5a)"></i><b>Violet</b><span class="m" style="--w:70%"></span></div>
+    <div class="nchip"><i style="background:radial-gradient(circle at 35% 30%,#b88a5a,#4a2a14)"></i><b>Cedar &amp; clove</b><span class="m" style="--w:55%"></span></div>
+    <div class="nchip"><i style="background:radial-gradient(circle at 35% 30%,#7a6a4a,#2a2014)"></i><b>Forest floor</b><span class="m" style="--w:40%"></span></div>
+  </div>
+    <div class="cursor"><i>Drag<br>360°</i></div>
+  <div class="buy frm"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+    <div class="mono">Allocation · Members first</div>
+    <div class="pr"><b>€420</b><span>incl. VAT · 75 cl</span></div>
+    <div class="opt">
+      <div class="on"><i></i><b>Bottle<small>75 cl · limit 6 per order</small></b><span>€420</span></div>
+      <div><i></i><b>Magnum<small>150 cl · numbered, 240 made</small></b><span>€880</span></div>
+      <div><i></i><b>Wooden case of six<small>Engraved oak · save 5%</small></b><span>€2,394</span></div>
+    </div>
+    <div class="qty"><div class="st"><em>−</em>2<em>+</em></div><a class="btn p" href="checkout.html">Add to case · €840</a></div>
+    <div class="gift"><span class="box">✓</span>Wax-sealed gift box with a handwritten card · +€18</div>
+    <div class="alloc"><div style="display:flex;justify-content:space-between"><span>Allocation remaining</span><span style="color:var(--goldl)">312 of 9,600</span></div><div class="bar"></div></div>
+    <div class="ship"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM15 6h3M15 10h3"/></svg>Ships at 14 °C in an insulated crate · arrives Thu 29 Oct</div>
+  </div>
+  <div class="views"><span class="on">3D bottle</span><span>Label</span><span>Back label</span><span>In the glass</span></div>
+</section>
+
+<section class="taste">
+  <div><div class="mono">Tasting notes · by Hélène Vauquelin</div><h2>Velvet, <em>then</em> smoke.</h2><p class="dim" style="margin-top:26px">A warm, dry summer gave small berries with thick skins. We picked over four mornings in mid-September and let the wine rest eighteen months in our own oak.</p></div>
+  <div class="cols">
+    <div class="col"><span class="n">I.</span><h3>The eye</h3><p>Deep garnet with a violet rim; slow, glossy legs that cling to the glass.</p></div>
+    <div class="col"><span class="n">II.</span><h3>The nose</h3><p>Black cherry and crushed violet first, then cedar, clove and a cool hint of forest floor after rain.</p></div>
+    <div class="col"><span class="n">III.</span><h3>The palate</h3><p>Silky and long. Ripe, fine-grained tannins, bright acidity and a finish of dark chocolate and smoke.</p></div>
+  </div>
+  <div class="struct">
+    <div><span>Body <b>Full</b></span><div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+    <div><span>Tannin <b>Silky</b></span><div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+    <div><span>Acidity <b>Bright</b></span><div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+    <div><span>Fruit <b>Dark</b></span><div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+    <div><span>Oak <b>Subtle</b></span><div class="dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+  </div>
+</section>
+
+<div class="sticky"><span class="mono">Clos des Ombres 2019</span><b>€420</b><span class="dim" style="font-size:13px">312 left · ships at 14 °C</span><span class="sp"></span><span class="chip">75 cl</span><span class="chip">× 2</span><a class="btn p" href="checkout.html">Add to case <span class="ar"></span></a></div>
+<section class="vint">
+  <div class="hd"><div><div class="mono">Vintage chart · Clos des Ombres</div><h2 style="margin-top:18px">When to <em>open</em> each year.</h2></div>
+    <div class="lg"><span><i style="background:rgba(184,149,90,.35)"></i>Ready</span><span><i style="background:linear-gradient(90deg,#8c2a3d,#c2384e)"></i>At its peak</span><span><i style="background:repeating-linear-gradient(45deg,rgba(239,228,208,.25) 0 3px,transparent 3px 6px)"></i>Still too young</span></div></div>
+  <div class="gantt" id="gantt"></div>
+</section>
+
+<section class="pair">
+  <div class="sh"><div><div class="mono">At the table</div><h2 style="margin-top:20px">Four dishes it <em class="gold">loves.</em></h2></div><p class="dim" style="max-width:360px">Suggested by our cook, Bastien, who has served this wine at the harvest supper for nine years.</p></div>
+  <div class="grid">
+    <div class="dish on"><span class="match">96<small>%</small></span><svg viewBox="0 0 100 100"><path d="M18 62c6-16 22-26 40-24 10 1 18 6 22 14l6-2-2 8c-6 12-22 20-40 18C26 74 16 70 18 62z"/><path d="M66 40c2-8 8-12 14-12"/><circle cx="74" cy="46" r="1.6"/><path d="M28 74l-4 10M44 76l-2 10"/><path d="M10 88h80"/></svg><h3>Duck breast, cherry jus</h3><p>Rosy duck with a sauce of morello cherries and a splash of the wine itself.</p><div class="m">Best match <b>Serve 16 °C</b></div></div>
+    <div class="dish"><span class="match">92<small>%</small></span><svg viewBox="0 0 100 100"><path d="M20 50c0-16 14-28 30-28s30 12 30 28H20z"/><path d="M42 50v26c0 4 4 6 8 6s8-2 8-6V50"/><circle cx="38" cy="36" r="3"/><circle cx="56" cy="32" r="2.4"/><circle cx="66" cy="42" r="2"/><path d="M10 88h80"/></svg><h3>Wild mushrooms</h3><p>Cèpes and girolles in brown butter, thyme and toasted hazelnuts.</p><div class="m">Earthy <b>Forest floor</b></div></div>
+    <div class="dish"><span class="match">90<small>%</small></span><svg viewBox="0 0 100 100"><path d="M14 66l40-34 34 22v14L14 80z"/><path d="M14 66v14M54 32v10M88 54L54 42 14 66"/><circle cx="40" cy="64" r="3"/><circle cx="62" cy="62" r="2"/><circle cx="74" cy="68" r="2.6"/><path d="M10 88h80"/></svg><h3>Aged Comté</h3><p>Twenty-four-month Comté, walnuts and a little fig chutney.</p><div class="m">Savoury <b>Cheese course</b></div></div>
+    <div class="dish"><span class="match">88<small>%</small></span><svg viewBox="0 0 100 100"><path d="M24 30c10-6 30-6 40 4l14 14c6 6 2 16-8 16H34c-10 0-16-8-14-18z"/><path d="M78 48l10-6M80 54l10 0"/><path d="M38 40c4 6 4 12 0 18M52 38c4 8 4 14 0 22"/><path d="M10 88h80"/></svg><h3>Lamb, rosemary</h3><p>Slow-roasted shoulder with garlic, rosemary and white beans.</p><div class="m">Rich <b>Decant 1 hr</b></div></div>
+  </div>
+</section>
+
+<section class="made">
+  <div class="ph"><img src="https://images.unsplash.com/photo-1602170284347-f9c28856f149?auto=format&fit=crop&q=82&w=1000" alt="Hand-picking Pinot Noir grapes"><span class="seal" data-seal="RÉCOLTE MANUELLE · MMXIX · " data-mono="V"></span></div>
+  <div class="tx"><div class="mono">How it was made</div><h2>Four mornings, <em>by hand.</em></h2><p class="dim">The Clos is a walled 2.1-hectare parcel on pure limestone, facing south-east at 290 metres. Its vines were planted by Hélène’s grandfather in 1961.</p>
+    <dl><div><dt>Harvest</dt><dd>14–17 Sept 2019</dd></div><div><dt>Yield</dt><dd>28 hl / ha</dd></div><div><dt>Élevage</dt><dd>18 months, 40% new oak</dd></div><div><dt>Bottled</dt><dd>April 2021, unfiltered</dd></div><div><dt>Alcohol</dt><dd>13.5% vol.</dd></div><div><dt>Production</dt><dd>9,600 bottles</dd></div></dl>
+  </div>
+</section>
+
+
+<footer class="foot"><div class="glow"></div>
+  <div class="top">
+    <div class="news"><h4>The Cellar Letter</h4><p>Harvest notes, release dates and the occasional <em>library bottle</em> — four letters a year.</p><form><span>Your email address</span><b>SUBSCRIBE</b></form></div>
+    <div><h4>Wines</h4><ul><li>Grand Cru</li><li>Premier Cru</li><li>Rosé</li><li>Sparkling</li><li>Library releases</li></ul></div>
+    <div><h4>Estate</h4><ul><li>Our story</li><li>The nine parcels</li><li>Cellar tours</li><li>Harvest supper</li><li>Press</li></ul></div>
+    <div><h4>Service</h4><ul><li>Delivery &amp; temperature</li><li>Cellar Society</li><li>Gift cases</li><li>Contact the cellar</li><li>Drink responsibly</li></ul></div>
+  </div>
+  <div class="big"><span class="seal" data-seal="DOMAINE VINEA · CÔTE DE VINEA · " data-mono="V"></span><h2>VINEA</h2></div>
+  <div class="legal"><span>© 2026 Domaine Vinea · Concept project</span><span>L’abus d’alcool est dangereux pour la santé — enjoy with moderation.</span><span>Privacy · Terms · Accessibility</span></div>
+</footer>
+
+<script>
+(function(){
+  const S=2024,E=2050,span=E-S;
+  const rows=[[2010,97,2016,2022,2034],[2012,93,2019,2024,2032],[2015,98,2022,2028,2045],[2017,96,2023,2026,2038],[2018,95,2024,2027,2040],[2019,98,2026,2032,2048],[2020,96,2027,2033,2046],[2022,93,2028,2031,2042],[2023,94,2030,2034,2046]];
+  const p=y=>Math.max(0,Math.min(100,(y-S)/span*100));
+  let h='';
+  rows.forEach(([y,s,a,b,c],i)=>{
+    h+=`<span class="y ${y===2019?'on':''}">${y}</span><div class="tr">`+
+    (a>S?`<i style="left:0;width:${p(a)}%;background:repeating-linear-gradient(45deg,rgba(239,228,208,.22) 0 3px,transparent 3px 6px)"></i>`:'')+
+    `<i style="left:${p(a)}%;width:${p(b)-p(a)}%;background:rgba(184,149,90,.35)"></i><i style="left:${p(b)}%;width:${p(c)-p(b)}%;background:linear-gradient(90deg,#8c2a3d,#c2384e);box-shadow:0 0 16px rgba(194,56,78,.45)"></i></div><span class="s" style="${y===2019?'color:var(--goldl)':''}">${s}</span>`;
+  });
+  h+=`<div class="ax">${[2024,2028,2032,2036,2040,2044,2048].map(y=>`<span>${y}</span>`).join('')}</div>`;
+  const g=document.getElementById('gantt'); g.innerHTML=h;
+  const now=document.createElement('div'); now.className='now'; now.style.left=`calc(110px + (100% - 180px) * ${(2026.8-S)/span})`; g.appendChild(now);
+  const ro=document.createElement('div'); ro.className='row-on'; ro.style.top=`${5*38-10}px`; g.appendChild(ro);
+})();
+</script>
+<script src="vinea.js"></script>
+<script type="module">
+import * as THREE from 'three';
+const V = window.V3D(THREE);
+await V.fonts();
+const W = 1440, H = 1040;
+const renderer = V.renderer(document.getElementById('pd3d'), W, H);
+const scene = new THREE.Scene();
+scene.environment = V.studioEnv(renderer);
+const camera = new THREE.PerspectiveCamera(24, W / H, 0.1, 100);
+camera.position.set(0, 1.75, 9.4); camera.lookAt(0, 1.5, 0);
+const back = V.backdrop({ w: 10, h: 7.4, cx: .5, cy: .48, r: .38, text: 'MMXIX', textSize: 330, textY: .57, stops: [[0, '#5a1426'], [0.35, '#2b0a13'], [0.75, '#160a0d'], [1, '#120a0c']] });
+back.position.set(0, 1.5, -3); scene.add(back);
+const bottle = V.bottle({ labelOpts: { name: 'Clos des Ombres', year: '2019' } });
+bottle.scale.setScalar(1.12); bottle.position.set(-0.05, -0.05, 0); scene.add(bottle);
+const sh = V.shadow(2.2, 1.4, .95); sh.position.set(-0.05, -0.04, 0); scene.add(sh);
+// plinth
+const pl = new THREE.Mesh(new THREE.CylinderGeometry(1.15, 1.2, 0.18, 96), new THREE.MeshPhysicalMaterial({ color: 0x0e0608, roughness: 0.5, clearcoat: .5, clearcoatRoughness: .4, envMapIntensity: .08 }));
+pl.position.set(-0.05, -0.14, 0); scene.add(pl);
+const gr = new THREE.Mesh(new THREE.TorusGeometry(1.2, 0.01, 8, 128), new THREE.MeshStandardMaterial({ color: 0xc9a36a, metalness: 1, roughness: .25 })); gr.rotation.x = Math.PI / 2; gr.position.set(-0.05, -0.05, 0); scene.add(gr);
+// orbiting tasting notes: cherries & violet petals, caught mid-air
+const cherryMat = new THREE.MeshPhysicalMaterial({ color: 0x5a0614, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.05, sheen: .5, sheenColor: new THREE.Color(0xff4a6a), envMapIntensity: 1.6 });
+const stemMat = new THREE.MeshStandardMaterial({ color: 0x4a5a2a, roughness: .6 });
+const notes = new THREE.Group(); scene.add(notes);
+function cherry(x, y, z, s, rz) {
+  const g = new THREE.Group(); const geo = new THREE.SphereGeometry(0.16, 40, 28); const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) { const py = pos.getY(i); const r = Math.hypot(pos.getX(i), pos.getZ(i)); if (py > 0.1) pos.setY(i, py - (0.16 - r) * 0.35); }
+  geo.computeVertexNormals(); const m = new THREE.Mesh(geo, cherryMat); m.scale.set(1, .92, 1); g.add(m);
+  const curve = new THREE.CatmullRomCurve3([new THREE.Vector3(0, .12, 0), new THREE.Vector3(.03, .3, 0), new THREE.Vector3(.12, .5, .02)]);
+  g.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 12, 0.008, 6), stemMat));
+  g.position.set(x, y, z); g.scale.setScalar(s); g.rotation.z = rz; notes.add(g); return g;
+}
+const cs = [cherry(0.72, 2.9, 0.6, 1.0, 0.3), cherry(0.68, 2.5, 0.9, 0.8, -0.4), cherry(-0.75, 0.85, 0.8, 1.0, 0.6), cherry(-0.62, 3.2, -0.5, .7, -0.2)];
+const petalMat = new THREE.MeshPhysicalMaterial({ color: 0x6a3a9a, roughness: .5, sheen: 1, sheenColor: new THREE.Color(0xc8a0ff), side: THREE.DoubleSide, envMapIntensity: .8 });
+const petals = [];
+for (let i = 0; i < 7; i++) {
+  const sh2 = new THREE.Shape(); sh2.moveTo(0, 0); sh2.bezierCurveTo(0.12, 0.05, 0.14, 0.22, 0, 0.3); sh2.bezierCurveTo(-0.14, 0.22, -0.12, 0.05, 0, 0);
+  const geo = new THREE.ShapeGeometry(sh2, 16); const pos = geo.attributes.position; for (let k = 0; k < pos.count; k++) pos.setZ(k, Math.pow(pos.getX(k) * 4, 2) * .05 - pos.getY(k) * .1);
+  geo.computeVertexNormals(); const p = new THREE.Mesh(geo, petalMat);
+  const P = [[0.8, 1.9, .4], [0.75, 1.1, .2], [0.6, 3.3, -.2], [-0.7, 1.4, .5], [0.9, 2.3, -.3], [0.7, 0.5, .9], [-0.45, 3.4, .2]][i]; p.position.set(P[0], P[1], P[2]);
+  p.rotation.set(i, i * 1.7, i * .5); notes.add(p); petals.push(p);
+}
+const key = new THREE.SpotLight(0xffe2bd, 100, 0, 0.5, 0.8, 2); key.position.set(-4, 6, 5); key.target.position.set(0, 1.3, 0); scene.add(key, key.target);
+const rim = new THREE.DirectionalLight(0xffb070, 2.6); rim.position.set(3, 3, -5); scene.add(rim);
+const rim2 = new THREE.DirectionalLight(0xff6a7a, 1.4); rim2.position.set(-4, 2, -4); scene.add(rim2);
+scene.add(new THREE.AmbientLight(0x3a1a20, 0.6));
+let t = 0, first = true;
+function frame() {
+  t += 0.016;
+  bottle.rotation.y = -0.15 + Math.sin(t * .3) * .3;
+  notes.rotation.y = Math.sin(t * .15) * .15;
+  cs.forEach((c, i) => { c.position.y += Math.sin(t * 1.2 + i) * 0.0012; c.rotation.y += 0.004; });
+  petals.forEach((p, i) => { p.rotation.x += 0.003; p.rotation.y += 0.002 * (i % 2 ? 1 : -1); });
+  renderer.render(scene, camera);
+  if (first) { first = false; window.__ready3d = true; }
+  requestAnimationFrame(frame);
+}
+frame();
+</script>
+</body></html>

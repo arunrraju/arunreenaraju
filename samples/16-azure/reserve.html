@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Reserve Villa Halcyon — deposit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="azure.css">
+<style>
+.cnav{height:84px;display:flex;align-items:center;gap:40px;padding:0 48px;border-bottom:1px solid var(--line);background:#fff}
+.steps{display:flex;align-items:center;gap:10px;margin-left:auto;font-size:13px}
+.steps span{display:flex;align-items:center;gap:8px;color:var(--mute)}
+.steps span i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:500 11px/1 var(--mono);font-style:normal;border:1px solid var(--line-2)}
+.steps span.d{color:var(--ink)}
+.steps span.d i{background:var(--pool);border-color:var(--pool);color:#fff}
+.steps span.on{color:var(--ink);font-weight:600}
+.steps span.on i{background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:0 0 0 4px rgba(16,18,20,.1)}
+.steps b{width:40px;height:1px;background:var(--line-2)}
+.secure{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mute);margin-left:30px}
+
+.banner{height:400px;position:relative;overflow:hidden}
+.banner .in{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,36,50,.72),rgba(4,36,50,.15) 60%,rgba(4,36,50,0));display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 48px;color:#fff}
+.banner h1{font:200 108px/.86 var(--display);letter-spacing:-.065em}
+.banner h1 em{font-style:normal;color:var(--sun-2)}
+.banner .count{position:absolute;right:48px;bottom:48px;text-align:right;color:#fff}
+.banner .count b{display:block;font:200 64px/1 var(--display);letter-spacing:-.04em}
+.banner .count span{font:500 11px/1 var(--mono);letter-spacing:.14em;opacity:.85}
+.banner .hold{position:absolute;right:48px;top:40px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.18);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:8px 18px 8px 8px;color:#fff;font-size:13px}
+.ring{width:38px;height:38px;border-radius:50%;background:conic-gradient(var(--sun-2) 0 72%,rgba(255,255,255,.25) 72%);display:grid;place-items:center}
+.ring::after{content:"";width:28px;height:28px;border-radius:50%;background:rgba(10,50,66,.9)}
+
+.main{display:grid;grid-template-columns:1fr 520px;gap:56px;padding:60px 48px 110px}
+.sec{background:#fff;border:1px solid var(--line);border-radius:26px;padding:30px;margin-bottom:16px}
+.sec .h{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.sec h2{font:300 32px/1 var(--display);letter-spacing:-.03em}
+.sec h2 i{font:500 11px/1 var(--mono);font-style:normal;color:var(--pool);margin-right:12px;letter-spacing:.1em;vertical-align:5px}
+.done-row{display:flex;gap:30px;font-size:14px;color:var(--ink-2)}
+.done-row b{display:block;font:500 10px/1 var(--mono);letter-spacing:.12em;color:var(--mute);margin-bottom:6px}
+.pay{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pay a{height:74px;border-radius:16px;border:1px solid var(--line-2);display:flex;flex-direction:column;justify-content:center;padding:0 18px;font-size:14px;font-weight:500;position:relative}
+.pay a small{font:500 10px/1.3 var(--mono);color:var(--mute);letter-spacing:.04em;font-weight:500}
+.pay a.on{border-color:var(--pool);box-shadow:0 0 0 3px rgba(15,94,122,.12)}
+.pay a.on::after{content:"✓";position:absolute;right:14px;top:14px;width:22px;height:22px;border-radius:50%;background:var(--pool);color:#fff;font-size:11px;display:grid;place-items:center}
+.cardrow{display:grid;grid-template-columns:330px 1fr;gap:28px;margin-top:24px;align-items:center}
+.ccard{height:206px;border-radius:20px;position:relative;overflow:hidden;color:#fff;padding:22px;background:linear-gradient(135deg,#0f5e7a 0%,#0a3e52 60%,#08303f 100%);box-shadow:0 30px 50px rgba(15,94,122,.35);transform:perspective(900px) rotateY(-12deg) rotateX(6deg)}
+.ccard::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 2px,transparent 2px 9px)}
+.ccard::after{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.28) 50%,transparent 60%);animation:sheen 5s ease-in-out infinite}
+@keyframes sheen{0%,30%{transform:translateX(-40%)}70%,100%{transform:translateX(40%)}}
+.ccard .chipi{width:42px;height:32px;border-radius:7px;background:linear-gradient(135deg,#f6dcae,#c9a46a);margin-top:34px}
+.ccard .num{font:500 18px/1 var(--mono);letter-spacing:.16em;margin-top:22px}
+.ccard .bot{display:flex;justify-content:space-between;margin-top:16px;font:500 10px/1.3 var(--mono);letter-spacing:.1em;opacity:.85}
+.ccard .sun{position:absolute;right:20px;top:20px;width:40px;height:40px;border-radius:50%;background:linear-gradient(180deg,var(--sun-2) 50%,#fff 50%);opacity:.9}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.f{border:1px solid var(--line-2);border-radius:14px;padding:10px 16px;height:62px;display:flex;flex-direction:column;justify-content:center}
+.f.full{grid-column:1/-1}
+.f label{font:500 9px/1 var(--mono);letter-spacing:.12em;color:var(--mute);text-transform:uppercase}
+.f span{font-size:15px;margin-top:6px;font-family:var(--mono);letter-spacing:.06em}
+.f.focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(16,18,20,.08)}
+.f.focus span::after{content:"";display:inline-block;width:1.5px;height:16px;background:var(--pool);vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.timeline{position:relative;margin-top:8px;padding-top:30px}
+.timeline .ln{position:absolute;left:0;right:0;top:44px;height:3px;background:var(--stone);border-radius:2px}
+.timeline .ln b{position:absolute;left:0;top:0;bottom:0;width:6%;background:var(--pool);border-radius:2px}
+.timeline .pts{display:grid;grid-template-columns:repeat(4,1fr);position:relative}
+.timeline .pts div{padding-top:30px;position:relative;font-size:13px;color:var(--mute)}
+.timeline .pts div::before{content:"";position:absolute;left:0;top:7px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--stone)}
+.timeline .pts div.on::before{border-color:var(--pool);box-shadow:0 0 0 6px rgba(15,94,122,.15)}
+.timeline .pts div b{display:block;font:300 26px/1 var(--display);color:var(--ink);letter-spacing:-.03em;margin:6px 0 4px}
+.timeline .pts div em{font:500 10px/1 var(--mono);font-style:normal;letter-spacing:.12em;color:var(--pool)}
+.refund{display:flex;height:40px;border-radius:12px;overflow:hidden;margin-top:24px;font:500 11px/40px var(--mono);color:#fff;text-align:center}
+.refund div:nth-child(1){flex:5;background:var(--pool)}
+.refund div:nth-child(2){flex:3;background:var(--pool-2)}
+.refund div:nth-child(3){flex:2;background:var(--trav-d)}
+.agree{display:flex;gap:14px;align-items:flex-start;margin-top:22px;font-size:14px;color:var(--ink-2)}
+.agree i{width:22px;height:22px;border-radius:6px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:12px;font-style:normal;flex:none}
+.paybtn{display:flex;justify-content:space-between;align-items:center;height:76px;border-radius:999px;background:var(--ink);color:#fff;padding:0 10px 0 34px;margin-top:24px;font:500 16px/1 var(--sans);position:relative;overflow:hidden}
+.paybtn b{font:300 28px/1 var(--display);letter-spacing:-.03em;margin-left:auto;margin-right:18px}
+.paybtn .o{width:56px;height:56px;border-radius:50%;background:var(--sun-2);color:var(--ink);display:grid;place-items:center}
+.paybtn::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);animation:sh 3.5s ease-in-out infinite;transform:translateX(-100%)}
+
+.summ{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:0 40px 80px rgba(16,18,20,.08)}
+.summ .strip{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:110px 110px;gap:4px;height:224px}
+.summ .strip>div:first-child{grid-row:span 2}
+.summ .bd{padding:26px}
+.summ h3{font:300 36px/1 var(--display);letter-spacing:-.04em}
+.summ .facts{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:16px;margin-top:18px}
+.summ .facts div{padding:14px;font:500 9px/1.2 var(--mono);letter-spacing:.1em;color:var(--mute)}
+.summ .facts div+div{border-left:1px solid var(--line)}
+.summ .facts b{display:block;font:400 17px/1.1 var(--display);color:var(--ink);letter-spacing:-.01em;margin-top:6px}
+.summ table{width:100%;border-collapse:collapse;margin-top:16px}
+.summ td{padding:10px 0;font-size:14px;border-bottom:1px solid var(--line)}
+.summ td:last-child{text-align:right;font:500 13px/1 var(--mono)}
+.summ .due{margin-top:18px;padding:18px;border-radius:18px;background:var(--paper);display:flex;justify-content:space-between;align-items:center}
+.summ .due b{font:200 48px/1 var(--display);letter-spacing:-.05em}
+.summ .hold2{margin-top:10px;padding:14px 18px;border-radius:16px;border:1px dashed var(--line-2);display:flex;justify-content:space-between;font-size:13px;color:var(--ink-2)}
+.summ .next{margin-top:18px;list-style:none;font-size:13px;color:var(--ink-2)}
+.summ .next li{display:flex;gap:12px;padding:8px 0}
+.summ .next li i{font:500 10px/1 var(--mono);font-style:normal;color:var(--pool);width:24px;padding-top:3px}
+.mf{padding:30px 48px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--mute)}
+</style></head>
+<body>
+<header class="cnav"><div class="logo"><i></i>AZURE<small>ESTATES</small></div>
+  <div class="steps"><span class="d"><i>✓</i>Dates</span><b></b><span class="d"><i>✓</i>Guests &amp; extras</span><b></b><span class="d"><i>✓</i>Details</span><b></b><span class="on"><i>4</i>Deposit</span></div>
+  <div class="secure"><svg class="ic" viewBox="0 0 24 24" style="width:16px"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Escrow-protected · 3-D Secure</div></header>
+
+<section class="banner" data-img="1543489822-c49534f3271f" data-w="1600" data-pos="50% 60%">
+  <div class="in"><div class="lab" style="color:rgba(255,255,255,.8)">Step 4 of 4 · Reserve with deposit</div><h1 style="margin-top:18px">Almost yours,<br><em>for a week.</em></h1></div>
+  <div class="hold"><span class="ring"></span><span><b>Dates held for you</b> · 14:52 left</span></div>
+  <div class="count"><b>286 days</b><span>UNTIL SAT 7 AUG 2027 · SUNSET 20:41</span></div>
+</section>
+
+<section class="main">
+  <div>
+    <div class="sec"><div class="h"><h2><i>01</i>Stay &amp; guests</h2><a class="tag">Edit</a></div>
+      <div class="done-row"><div><b>DATES</b>Sat 7 – Sat 14 Aug 2027</div><div><b>GUESTS</b>8 adults · 3 children</div><div><b>EXTRAS</b>Chef · Boat 2 days</div><div><b>LEAD GUEST</b>Elena Moreau-Lind</div></div></div>
+
+    <div class="sec"><div class="h"><h2><i>02</i>Pay the deposit</h2><span class="mono" style="color:var(--mute);font-size:10px">30% NOW · 70% ON 8 JUL 2027</span></div>
+      <div class="pay"><a class="on">Card<small>Credit or debit · instant</small></a><a>Bank transfer<small>SEPA / SWIFT · 1–2 days</small></a><a>Wallet<small>Phone wallet · instant</small></a></div>
+      <div class="cardrow">
+        <div class="ccard"><span class="sun"></span><div class="mono" style="font-size:10px;opacity:.85">AZURE · PRIVATE STAY</div><div class="chipi"></div><div class="num">•••• •••• •••• 4417</div><div class="bot"><span>E. MOREAU-LIND</span><span>09 / 29</span></div></div>
+        <div class="fields">
+          <div class="f full focus"><label>Card number</label><span>•••• •••• •••• 4417</span></div>
+          <div class="f"><label>Expiry</label><span>09 / 29</span></div>
+          <div class="f"><label>Security code</label><span>•••</span></div>
+          <div class="f full"><label>Name on card</label><span style="font-family:var(--sans);letter-spacing:0">Elena Moreau-Lind</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec"><div class="h"><h2><i>03</i>Payment schedule</h2><span class="tag"><i></i>Escrow until arrival</span></div>
+      <div class="timeline"><div class="ln"><b></b></div><div class="pts">
+        <div class="on"><em>TODAY</em><b>€24,836</b>30% deposit</div>
+        <div><em>8 JUL 2027</em><b>€57,952</b>Balance, auto-charged</div>
+        <div><em>6 AUG 2027</em><b>€15,000</b>Security hold, not charged</div>
+        <div><em>17 AUG 2027</em><b>Released</b>Hold returned after checkout</div></div></div>
+      <div class="lab" style="margin-top:30px">Cancellation · refund of what you’ve paid</div>
+      <div class="refund"><div>100% UNTIL 8 MAY</div><div>50% UNTIL 8 JUL</div><div>CREDIT FOR 2028</div></div>
+      <div class="agree"><i>✓</i><span>I agree to the <u>stay agreement</u>, house rules (no events above 14 guests) and the Balearic tourist registration of all guests.</span></div>
+      <a class="paybtn">Pay deposit &amp; confirm<b>€24,836.40</b><span class="o"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    </div>
+  </div>
+
+  <aside class="summ">
+    <div class="strip"><div data-img="1600596542815-ffad4c1539a9" data-w="700"></div><div data-img="1613553474179-e1eda3ea5734" data-w="300"></div><div data-img="1602774895672-b553538bceb9" data-w="300"></div></div>
+    <div class="bd">
+      <span class="lab">Es Cubells · Ibiza</span>
+      <h3 style="margin-top:8px">Villa Halcyon</h3>
+      <div class="facts"><div>CHECK-IN<b>Sat 7 Aug</b></div><div>CHECK-OUT<b>Sat 14 Aug</b></div><div>GUESTS<b>11</b></div></div>
+      <table>
+        <tr><td>7 nights · avg €10,600</td><td>€74,200.00</td></tr>
+        <tr><td>Private chef · 7 days</td><td>€4,480.00</td></tr>
+        <tr><td>Day boat + skipper · 2 days</td><td>€3,800.00</td></tr>
+        <tr><td>Balearic tourist tax · 11 × 7</td><td>€308.00</td></tr>
+        <tr><td style="font-weight:600">Total stay</td><td style="font-weight:600;color:var(--ink)">€82,788.00</td></tr>
+      </table>
+      <div class="due"><div><span class="lab">Due today · 30%</span><div style="font-size:12px;color:var(--mute);margin-top:6px">Held in escrow until you arrive</div></div><b>€24,836</b></div>
+      <div class="hold2"><span>Refundable security hold, 6 Aug</span><span style="font-family:var(--mono)">€15,000</span></div>
+      <ul class="next"><li><i>01</i>Lucía confirms within 2 hours and sends the stay agreement.</li><li><i>02</i>Tomeu, your house manager, plans arrival by boat.</li><li><i>03</i>A sun study for the week lands 7 days before you arrive.</li></ul>
+    </div>
+  </aside>
+</section>
+<div class="mf"><span>© 2026 Azure Estates S.L. · Concept project, fictional brand</span><span>Payments held by a regulated escrow partner · Prices include VAT</span><span>Need help? +34 971 000 418</span></div>
+<script src="azure.js"></script>
+</body></html>

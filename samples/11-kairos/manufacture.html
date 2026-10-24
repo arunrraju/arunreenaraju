@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>The Manufacture — Kairos</title>
+<script>window.__needs3d = true;</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kairos.css">
+<script src="kairos3d.js"></script>
+<style>
+.ex{position:relative;height:1140px;overflow:hidden;background:radial-gradient(ellipse 45% 50% at 58% 52%,#162d63 0%,#0a1530 45%,var(--ink) 80%)}
+.ex .num{position:absolute;left:260px;top:250px;font:200 600px/.8 var(--disp);letter-spacing:-.07em;color:transparent;-webkit-text-stroke:1.4px rgba(157,185,255,.22);background:linear-gradient(180deg,rgba(91,140,255,.12),transparent 70%);-webkit-background-clip:text;background-clip:text}
+.ex canvas{position:absolute;left:0;top:0;z-index:2}
+.ex .hd{position:absolute;left:64px;top:140px;z-index:5;width:520px}
+.ex h1{font:400 92px/.9 var(--disp);letter-spacing:-.05em;color:var(--silver);margin:26px 0 30px}
+.lay{position:absolute;z-index:5;display:flex;gap:14px;align-items:flex-start;width:250px}
+.lay b{font:300 30px/1 var(--disp);color:var(--blue);letter-spacing:-.02em;min-width:46px}
+.lay h4{font:500 10.5px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--silver);margin:4px 0 8px}
+.lay p{font-size:12.5px;line-height:1.45;color:var(--dim)}
+.lay.r{flex-direction:row-reverse;text-align:right}
+.slider{position:absolute;left:64px;bottom:64px;z-index:5;width:420px}
+.slider .rail{height:1px;background:var(--line-2);position:relative;margin:18px 0 12px}
+.slider .rail i{position:absolute;left:0;top:-1px;width:82%;height:3px;background:var(--blue);box-shadow:0 0 12px var(--blue)}
+.slider .rail b{position:absolute;left:82%;top:-9px;width:19px;height:19px;margin-left:-9px;border-radius:50%;background:var(--silver);box-shadow:0 0 0 6px rgba(91,140,255,.25)}
+.stages{position:relative;padding:150px 0 140px;overflow:hidden}
+.st-track{position:relative;margin:0 64px;display:grid;grid-template-columns:repeat(6,1fr);gap:20px}
+.st-line{position:absolute;left:64px;right:64px;top:0;height:1px;background:var(--line-2)}
+.st-line i{position:absolute;left:0;top:-1px;height:3px;width:58%;background:linear-gradient(90deg,var(--blue-d),var(--blue));box-shadow:0 0 16px var(--blue)}
+.st{padding-top:36px;position:relative}
+.st::before{content:"";position:absolute;top:-6px;left:0;width:11px;height:11px;border-radius:50%;border:1px solid var(--line-2);background:var(--night)}
+.st.on::before{background:var(--blue);border-color:var(--blue);box-shadow:0 0 14px var(--blue)}
+.st.now::before{background:var(--silver);box-shadow:0 0 0 6px rgba(238,242,247,.12)}
+.st .ph{height:300px;margin:24px 0 20px;border:1px solid var(--line)}
+.st .ph img{filter:saturate(.7) brightness(.85)}
+.st.now .ph{border-color:rgba(91,140,255,.6);box-shadow:0 0 50px rgba(91,140,255,.2)}
+.st h3{font:400 18px/1.15 var(--disp);color:var(--silver);letter-spacing:-.02em;margin-bottom:10px}
+.st p{font-size:13.5px;color:var(--dim)}
+.st .h{font:200 48px/1 var(--disp);color:var(--silver);letter-spacing:-.04em}
+.st .h small{font:400 11px var(--mono);color:var(--dim);letter-spacing:.14em;margin-left:6px}
+.engine{position:relative;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.engine .l{height:820px;position:relative}
+.engine .l::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 60%,var(--night))}
+.engine .r{padding:120px 64px;position:relative}
+.gl{width:100%;height:260px;margin-top:40px;border:1px solid var(--line);position:relative;overflow:hidden;background:#071027}
+.gl svg{position:absolute;inset:0;width:100%;height:100%}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);margin-top:34px;border-top:1px solid var(--line)}
+.facts div{padding:22px 0}
+.facts b{display:block;font:200 52px/1 var(--disp);color:var(--silver);letter-spacing:-.04em;margin-top:10px}
+.team{padding:120px 64px 140px;display:grid;grid-template-columns:420px repeat(3,1fr);gap:24px}
+.mk{position:relative;height:540px;border:1px solid var(--line);overflow:hidden}
+.mk .cap{position:absolute;left:0;right:0;bottom:0;padding:22px;background:linear-gradient(0deg,rgba(2,4,10,.95),transparent);z-index:2}
+.mk h4{font:400 20px/1 var(--disp);color:var(--silver);margin:10px 0 6px}
+.mk .sig{position:absolute;top:18px;right:18px;z-index:2;padding:8px 12px;font:500 9.5px/1 var(--mono);letter-spacing:.2em;color:var(--silver)}
+</style></head>
+<body>
+<div data-nav="manufacture.html" data-p=".85"></div>
+
+<section class="ex">
+  <div class="grid-bg" style="mask-image:radial-gradient(ellipse 65% 65% at 58% 50%,#000 25%,transparent 80%)"></div>
+  <div class="num">312</div>
+  <canvas id="x"></canvas>
+  <div class="dof" style="--fx:60%;--fy:52%;backdrop-filter:blur(4px)"></div>
+  <div class="callouts"><svg id="co"></svg></div>
+  <div class="hd">
+    <span class="tag">The Manufacture · <b>Calibre KC-1</b></span>
+    <h1>312 parts.<br><span class="steel-text">One pair</span><br>of hands.</h1>
+    <p class="lead" style="max-width:440px">Every component of the KC-1 is cut, finished and assembled under one roof on the Quai des Horlogers. Pull it apart and you will find no surface left undecorated.</p>
+  </div>
+  <div class="lay r" style="left:520px;top:176px"><b>06</b><div><h4>Faceted hands</h4><p>Dauphine, four facets, polished on tin.</p></div></div>
+  <div class="lay" style="left:1170px;top:250px"><b>05</b><div><h4>Guilloché dial</h4><p>210 passes, sub-dials snailed by hand.</p></div></div>
+  <div class="lay" style="left:1170px;top:470px"><b>04</b><div><h4>Flying tourbillon</h4><p>68 parts, 0.42 g, turns every 60 s.</p></div></div>
+  <div class="lay" style="left:1170px;top:690px"><b>03</b><div><h4>Bridges</h4><p>Côtes de Genève, black-polished bevels.</p></div></div>
+  <div class="lay r" style="left:410px;top:690px"><b>02</b><div><h4>Going train</h4><p>Five wheels, 64 teeth, curved spokes.</p></div></div>
+  <div class="lay" style="left:1170px;top:930px"><b>01</b><div><h4>Mainplate</h4><p>Perlage on both faces · 4,200 circles.</p></div></div>
+  <div class="slider"><div style="display:flex;justify-content:space-between"><span class="tag" style="color:var(--silver)">Explode</span><span class="tag"><b>82%</b> · layer spacing 4.2 mm</span></div><div class="rail"><i></i><b></b></div><div style="display:flex;justify-content:space-between"><span class="tag">Assembled</span><span class="tag">Exploded</span></div></div>
+  <div class="cursor" style="left:420px;top:880px"><div class="c">PULL</div><span>Scroll to separate</span></div>
+</section>
+
+<section class="stages">
+  <div class="sh"><div class="no">01</div><h2>Six stages,<br><span class="outline">1,400 hours.</span></h2><span class="tag" style="padding-bottom:10px">Watch No. 26 / 42 · <b>currently at stage 04</b></span></div>
+  <div style="position:relative">
+    <div class="st-line"><i></i></div>
+    <div class="st-track">
+      <div class="st on"><span class="tag">01 · Drawing</span><div class="ph" data-img="1712890933285-7a4371686947" data-w="600"></div><div class="h">120<small>h</small></div><h3>Tolerances of 2 µm</h3><p>Each part drawn, then cut in brass first to prove it.</p></div>
+      <div class="st on"><span class="tag">02 · Cutting</span><div class="ph" data-img="1582043568773-a7a2b57239f5" data-w="600"></div><div class="h">210<small>h</small></div><h3>Wheels & bridges</h3><p>Wire-cut and stamped, then every edge chamfered.</p></div>
+      <div class="st on"><span class="tag">03 · Finishing</span><div class="ph" data-img="1545697729-0ab8f5b1954c" data-w="600"></div><div class="h">480<small>h</small></div><h3>Côtes, perlage, anglage</h3><p>The slowest stage. Anglage alone takes three weeks.</p></div>
+      <div class="st now"><span class="tag" style="color:var(--silver)">04 · Guilloché · now</span><div class="ph" data-img="1788125856697-04067c752525" data-w="600"></div><div class="h">32<small>h</small></div><h3>The rose engine</h3><p>Dial No. 26 is on the 1924 engine today.</p></div>
+      <div class="st"><span class="tag">05 · Assembly</span><div class="ph" data-img="1679134015859-6281e4382065" data-w="600"></div><div class="h">380<small>h</small></div><h3>Assembled twice</h3><p>Built, regulated, taken apart, cleaned and built again.</p></div>
+      <div class="st"><span class="tag">06 · Testing</span><div class="ph" data-img="1664437235473-65aaf8912d20" data-w="600"></div><div class="h">45<small>days</small></div><h3>Six positions</h3><p>Three temperatures, then the Poinçon de Genève.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="engine">
+  <div class="l" data-img="1788125856699-aee0e94d9150" data-w="1200"></div>
+  <div class="r"><div class="grid-bg" style="opacity:.6"></div>
+    <div style="position:relative">
+      <div class="sh" style="padding:0;grid-template-columns:120px;margin-bottom:36px"><div class="no">02</div></div>
+      <h2 class="disp" style="font-size:62px">A rose engine<br><span class="outline-b">from 1924.</span></h2>
+      <p class="lead" style="margin-top:26px">No CNC touches a Kairos dial. A brass rosette guides the cutter; the hand turns the crank. One slip and the dial goes back to the drawer.</p>
+      <div class="gl"><svg viewBox="0 0 640 260" id="gl"></svg><div class="tag" style="position:absolute;left:18px;top:16px;color:var(--silver)">Pattern · Rosace 36</div><div class="tag" style="position:absolute;right:18px;top:16px">Pass <b>148</b> / 210</div><div class="scan"></div></div>
+      <div class="facts"><div><span class="tag">Line spacing</span><b>0.08<small style="font:400 13px var(--mono);color:var(--dim)"> mm</small></b></div><div><span class="tag">Passes</span><b>210</b></div><div><span class="tag">Per dial</span><b>2<small style="font:400 13px var(--mono);color:var(--dim)"> days</small></b></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="team">
+  <div><div class="sh" style="padding:0;grid-template-columns:120px;margin-bottom:36px"><div class="no">03</div></div>
+    <h2 class="disp" style="font-size:44px">Twelve<br>watchmakers.<br><span class="outline">Every name<br>engraved.</span></h2>
+    <p style="color:var(--dim);margin-top:26px">The watchmaker who assembles your movement signs the bridge under the barrel. You will meet them at delivery.</p>
+    <a class="btn steel" href="appointment.html" style="margin-top:34px">Visit the atelier <span data-ic="arrow"></span></a></div>
+  <div class="mk" data-img="1725960103635-0a6709f97126" data-w="700"><span class="sig glass">Sig. · EV</span><div class="cap"><span class="tag">Assembly · 26 years</span><h4>Élise Varnier</h4><p style="font-size:13px;color:var(--dim)">Chef d'atelier. Has assembled 311 tourbillons.</p></div></div>
+  <div class="mk" data-img="1649803091689-0e65c4e9581f" data-w="700"><span class="sig glass">Sig. · TO</span><div class="cap"><span class="tag">Finishing · 14 years</span><h4>Tomás Oyelaran</h4><p style="font-size:13px;color:var(--dim)">Black polish and anglage on every lyre bridge.</p></div></div>
+  <div class="mk" data-img="1788125856710-1ae984195874" data-w="700"><span class="sig glass">Sig. · LB</span><div class="cap"><span class="tag">Regulation · 9 years</span><h4>Lucien Brandt</h4><p style="font-size:13px;color:var(--dim)">Sets every balance to +0.8 s a day, by ear first.</p></div></div>
+</section>
+
+<div data-foot></div>
+<script>
+  // guilloché rosette preview (svg)
+  let p = ''; for (let i = 0; i < 72; i++) { const a = i / 72 * Math.PI * 2; p += `<circle cx="${320 + Math.cos(a) * 26}" cy="${130 + Math.sin(a) * 26}" r="88" />`; }
+  document.getElementById('gl').innerHTML = `<g fill="none" stroke="rgba(157,185,255,.35)" stroke-width=".7">${p}</g><g fill="none" stroke="rgba(201,209,220,.18)">${Array.from({ length: 14 }, (_, i) => `<circle cx="320" cy="130" r="${120 + i * 4}"/>`).join('')}</g><circle cx="320" cy="130" r="3" fill="#5b8cff"/><path d="M320 130 L560 40" stroke="#5b8cff" stroke-dasharray="3 4"/><text x="566" y="38" fill="#c9d1dc" font-family="IBM Plex Mono" font-size="10" letter-spacing="2">Ø 33.6</text>`;
+</script>
+<script src="kairos.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const K = KAIROS3D(THREE, { RoundedBoxGeometry });
+const co = document.getElementById('co');
+K.stage(document.getElementById('x'), {
+  w: 1440, h: 1140, opts: { metal: 'steel', dial: 'blue', caseOn: false }, rot: [-1.0, 0, .55], shadow: false, exposure: 1.1,
+  cam: { pos: [0, 0, 188], fov: 26, shift: [.2, -.36] },
+  animate: (t, a) => { a.watch.setExplode(1.55 + Math.sin(t * .6) * .08); a.watch.rotation.z = .55 + Math.sin(t * .2) * .05; },
+  onAnchors: p => callouts(co, p, [
+    { k: 'hands', to: [780, 186] }, { k: 'dial', to: [1160, 266] }, { k: 'tourbillon', to: [1160, 486] }, { k: 'bridge', to: [1160, 706] }, { k: 'train', to: [670, 700] }, { k: 'plate', to: [1160, 946] }])
+});
+</script>
+</body></html>

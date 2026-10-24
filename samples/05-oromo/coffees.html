@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Oromo — Shop Coffee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="oromo.css">
+<style>
+.head{display:grid;grid-template-columns:1fr 520px;gap:40px;padding:80px 56px 40px;position:relative}
+.head .crumb{font-size:13px;color:var(--soft);margin-bottom:26px}
+.head h1{font-size:170px;line-height:.82;letter-spacing:-.05em;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144}
+.head h1 em{color:var(--terra)}
+.head p{font-size:19px;color:var(--soft);max-width:560px;margin-top:34px}
+.head .counts{display:flex;gap:12px;margin-top:30px}
+.head .counts span{padding:10px 16px;border-radius:12px;background:var(--cream);font:500 14px/1 var(--sans);border:1.5px solid var(--esp)}
+.head .counts b{font-family:var(--serif);font-size:20px;font-weight:400;margin-right:4px}
+.wheelbox{position:relative;height:520px}
+.wheelbox .lab{position:absolute;left:0;top:0;font-size:28px;transform:rotate(-6deg);z-index:3}
+.wheelbox .lab small{display:block;font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;font-style:normal;color:var(--terra);margin-top:8px}
+.wheelbox svg.w{position:absolute;left:40px;top:40px;width:470px;height:470px;overflow:visible}
+.wheelbox .arrow{left:120px;top:56px;width:90px;height:80px}
+.wheelbox .cur{left:390px;top:120px}
+.seg{cursor:pointer;transition:transform .3s}
+.bar{display:flex;align-items:center;gap:10px;padding:22px 56px;border-top:1.5px solid var(--esp);border-bottom:1.5px solid var(--esp);margin-top:20px;background:var(--cream)}
+.bar .g{display:flex;gap:8px;align-items:center}
+.bar .g>small{font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin-right:6px}
+.bar .sep{width:1.5px;height:30px;background:var(--line);margin:0 8px}
+.bar .sort{margin-left:auto;font-size:14px;white-space:nowrap;display:flex;gap:8px;align-items:center}
+.active{display:flex;gap:8px;align-items:center;padding:24px 56px 0;font-size:14px;color:var(--soft)}
+.active .chip{height:32px;background:var(--mustard);border-color:var(--mustard);color:var(--esp)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:30px 56px 140px}
+.pc{position:relative;border-radius:26px;background:var(--paper);border:1.5px solid var(--esp);overflow:hidden;display:flex;flex-direction:column}
+.pc .stage{position:relative;height:430px;background:var(--bg);display:grid;place-items:center;overflow:hidden;border-bottom:1.5px solid var(--esp)}
+.pc .stage::before{content:"";position:absolute;width:300px;height:300px;border-radius:47% 53% 41% 59%/55% 45% 55% 45%;background:var(--bl);mix-blend-mode:multiply;opacity:.75;left:var(--bx,40%);top:var(--by,30%)}
+.pc .stage .bag{transform:rotate(var(--rot,-4deg))}
+.pc .tags{position:absolute;left:18px;top:18px;display:flex;gap:6px;z-index:3}
+.pc .tags span{padding:7px 11px;border-radius:999px;background:var(--paper);font:700 10px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.pc .tags span.h{background:var(--esp);color:var(--paper)}
+.pc .fav{position:absolute;right:18px;top:16px;width:40px;height:40px;border-radius:50%;background:var(--paper);display:grid;place-items:center;z-index:3}
+.pc .info{padding:24px 26px 24px;display:flex;flex-direction:column;flex:1}
+.pc .info .o{font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--terra)}
+.pc h3{font-size:38px;line-height:1;letter-spacing:-.03em;margin:10px 0 6px}
+.pc .nt{font:italic 400 18px/1.3 var(--serif);color:var(--soft)}
+.pc .specs{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px;margin:20px 0 22px;padding-top:18px;border-top:1.5px dashed var(--line)}
+.pc .specs small{display:block;font:700 10px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+.alt{position:relative;height:26px}
+.alt svg{width:100%;height:26px}
+.alt b{position:absolute;right:0;top:-18px;font:600 12px var(--sans)}
+.pc .ft{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.pc .ft .pr{font:400 34px/1 var(--serif);letter-spacing:-.02em}
+.pc .ft .pr small{font:500 13px var(--sans);color:var(--soft);margin-left:6px}
+.pc .ft .add{width:52px;height:52px;border-radius:50%;background:var(--esp);color:var(--paper);display:grid;place-items:center;box-shadow:3px 3px 0 var(--terra)}
+/* hover open */
+.pc.hov{transform:translateY(-10px) rotate(-.6deg);box-shadow:10px 14px 0 var(--esp)}
+.pc.hov .stage .bag{transform:rotate(6deg) translateY(-50px) scale(1.04)}
+.pc .quick{position:absolute;left:16px;right:16px;bottom:16px;background:var(--paper);border-radius:18px;padding:16px 18px;z-index:4;box-shadow:0 14px 30px rgba(43,26,18,.25);border:1.5px solid var(--esp)}
+.pc .quick .r{display:flex;gap:6px;margin-bottom:10px}
+.pc .quick .r .chip{height:32px;padding:0 12px;font-size:12px}
+.pc .quick .btn{width:100%;justify-content:center;height:46px;margin-top:4px;box-shadow:3px 3px 0 var(--terra)}
+.pc.hov .cur{left:250px;top:60px}
+.feat{grid-column:span 2;border-radius:26px;position:relative;overflow:hidden;color:var(--paper);background:var(--esp);display:grid;grid-template-columns:1fr 1fr}
+.feat .ph{position:relative}
+.feat .ph::after{content:"";position:absolute;inset:0;background:var(--terra);mix-blend-mode:multiply;opacity:.35}
+.feat .tx{padding:50px 46px;display:flex;flex-direction:column;position:relative}
+.feat h3{font-size:72px;line-height:.9;letter-spacing:-.04em;margin:18px 0 18px}
+.feat h3 em{color:var(--mustard)}
+.feat p{color:rgba(239,227,204,.75);font-size:16px}
+.feat .mini{display:flex;margin:30px 0;align-items:flex-end}
+.feat .mini .bag{margin-right:-30px}
+.feat .ft{display:flex;align-items:center;gap:22px;margin-top:auto}
+.feat .ft b{font:400 44px/1 var(--serif)}
+.feat .stamp{position:absolute;right:30px;top:30px;width:130px;height:130px;color:var(--mustard)}
+.feat .stamp .core{background:var(--mustard);color:var(--esp);font-size:16px}
+.quiz{margin:0 56px 120px;border-radius:30px;background:var(--sage);padding:60px 64px;display:grid;grid-template-columns:1fr auto;align-items:center;position:relative;overflow:hidden}
+.quiz h2{font-size:78px;line-height:.92;letter-spacing:-.04em}
+.quiz h2 em{color:var(--paper)}
+.quiz .bl{position:absolute;right:300px;top:-60px;width:260px;height:260px;border-radius:50%;background:var(--mustard)}
+.quiz .btn{position:relative}
+.pager{display:flex;justify-content:center;gap:10px;margin:-90px 0 120px;align-items:center;font-size:14px}
+.pager span{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--esp);display:grid;place-items:center}
+.pager span.on{background:var(--esp);color:var(--paper)}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="head">
+  <div>
+    <div class="crumb">Home &nbsp;/&nbsp; Shop coffee &nbsp;/&nbsp; <b style="color:var(--esp)">All origins</b></div>
+    <h1>The coffee<br><em class="it">shelf.</em></h1>
+    <p>Eighteen single origins and one honest blend, roasted every Monday in small 15 kg batches. Shop by country, by roast — or just by what you like to taste.</p>
+    <div class="counts"><span><b>18</b>coffees</span><span><b>3</b>countries</span><span><b>€16–38</b>per bag</span></div>
+  </div>
+  <div class="wheelbox">
+    <div class="lab hand">shop by taste<small>Tap a flavour family</small></div>
+    <svg class="doodle arrow draw" viewBox="0 0 90 80"><path d="M6 10 C 40 6, 70 20, 76 62"/><path d="M62 52 L76 66 L86 48"/></svg>
+    <svg class="w" id="wheel" viewBox="0 0 470 470"></svg>
+    <div class="cur"><span>SNIFF</span></div>
+  </div>
+</section>
+
+<div class="bar">
+  <div class="g"><small>Origin</small><span class="chip on">All</span><span class="chip">Ethiopia</span><span class="chip">Colombia</span><span class="chip">Kenya</span></div>
+  <i class="sep"></i>
+  <div class="g"><small>Roast</small><span class="chip"><i style="background:#d9bf94"></i>Light</span><span class="chip"><i style="background:#9a6a43"></i>Medium</span><span class="chip"><i style="background:#3d281d"></i>Espresso</span></div>
+  <i class="sep"></i>
+  <div class="g"><small>Process</small><span class="chip">Washed</span><span class="chip on">Natural</span><span class="chip">Honey</span></div>
+  <div class="sort">Sort: <b>Freshest roast</b> <span data-ic="arrow"></span></div>
+</div>
+<div class="active">Showing 8 of 18 · <span class="chip">Fruity ✕</span><span class="chip">Natural ✕</span><a style="text-decoration:underline;margin-left:6px">Clear all</a></div>
+
+<section class="grid" id="grid"></section>
+<div class="pager"><span data-ic="left"></span><span class="on">1</span><span>2</span><span>3</span><span data-ic="arrow"></span></div>
+
+<section class="quiz">
+  <i class="bl"></i><div data-beans="880,40,30;940,120,-50,.9;1010,60,80,.8;1090,150,10;840,170,-20,.7;760,70,60,.6" style="position:absolute;inset:0"></div>
+  <div style="position:relative"><div class="eyebrow" style="margin-bottom:16px">Not sure where to start?</div><h2>Take the 60-second<br><em class="it">taste quiz.</em></h2></div>
+  <a class="btn t">Find my coffee <span data-ic="arrow"></span></a>
+</section>
+
+<div data-footer></div>
+<script src="oromo.js"></script>
+<script>
+const C = [
+  ['Bench Maji Gesha','Ethiopia · Natural',2150,1,'Jasmine, bergamot, white peach',38,'#e0a93b','#c65d3b','#8fa58a','#f3e0b5','#c65d3b',['New harvest','Rare'],'82%','38%'],
+  ['Guji Hambela','Ethiopia · Natural',2100,2,'Blueberry, cocoa nib, rose',19,'#8fa58a','#e0a93b','#efb9a0','#e3ecd9','#e0a93b',['Subscriber fave'],'74%','56%'],
+  ['Huila La Esperanza','Colombia · Washed',1750,2,'Red apple, panela, cacao',16,'#c65d3b','#e0a93b','#2b1a12','#f6d2bf','#8fa58a',[],'60%','64%'],
+  'FEAT',
+  ['Tolima Pink Bourbon','Colombia · Anaerobic natural',1900,2,'Watermelon, hibiscus, candy',29,'#efb9a0','#c65d3b','#e0a93b','#f8e1d6','#e0a93b',['Low stock · 31 left'],'78%','42%'],
+  ['Nyeri Gatomboya AA','Kenya · Washed',1850,2,'Blackcurrant, grapefruit, tomato vine',24,'#2b1a12','#c65d3b','#8fa58a','#e7dccb','#c65d3b',['Juicy'],'90%','50%'],
+  ['Kirinyaga Kii PB','Kenya · Washed peaberry',1800,2,'Rhubarb, brown sugar, hibiscus',22,'#8fa58a','#c65d3b','#2b1a12','#dfe7d6','#efb9a0',['Peaberry'],'84%','46%'],
+  ['Mercado Espresso','Colombia + Ethiopia · Blend',1800,4,'Dark chocolate, hazelnut, cherry',16,'#e0a93b','#2b1a12','#c65d3b','#f0d9a6','#2b1a12',['Espresso'],'35%','86%']
+];
+const altSvg = a => { const p = Math.round((a - 1200) / 1200 * 100); return `<div class="alt"><b>${a.toLocaleString('en')} m</b><svg viewBox="0 0 100 26" preserveAspectRatio="none"><path d="M0 26 L18 14 L28 19 L44 6 L56 15 L70 4 L84 16 L100 10 V26Z" fill="rgba(43,26,18,.1)"/><path d="M0 26 L18 14 L28 19 L44 6 L56 15 L70 4 L84 16 L100 10 V26Z" fill="var(--sage)" style="clip-path:inset(0 ${100 - p}% 0 0)"/><line x1="${p}" x2="${p}" y1="0" y2="26" stroke="#2b1a12" stroke-width="1.5"/></svg></div>`; };
+document.getElementById('grid').innerHTML = C.map((c, i) => {
+  if (c === 'FEAT') return `<div class="feat"><div class="ph" data-img="1529133396358-0f5f0c4a1c8a|900"></div><div class="tx"><div data-stamp="Free shipping ✺ Free shipping ✺ ">€0<br>post</div><div class="eyebrow" style="color:var(--mustard)">The tasting flight</div><h3>Three origins,<br><em class="it">one box.</em></h3><p>100 g each of Guji, Huila and Nyeri — taste Ethiopia, Colombia and Kenya side by side, with a printed cupping card.</p>
+    <div class="mini"><div data-bag="Guji|Ethiopia|#8fa58a|#d9bf94|||100 G" data-w="120"></div><div data-bag="Huila|Colombia|#c65d3b|#c9a877|||100 G" data-w="130"></div><div data-bag="Nyeri|Kenya|#e0a93b|#b8915f|||100 G" data-w="120"></div></div>
+    <div class="ft"><b>€24</b><a class="btn t" style="height:50px">Add the flight <span data-ic="plus"></span></a></div></div></div>`;
+  const [nm, or, alt, r, nt, pr, lc, b2, b3, bg, bl, tags, acid, body] = c;
+  const hov = i === 1;
+  const lt = lc === '#2b1a12' ? '#f6eedf' : '#2b1a12';
+  return `<div class="pc ${hov ? 'hov' : ''}" style="--bg:${bg};--bl:${bl};--rot:${[-4, 3, -6, 0, 5, -3, 6, 4][i]}deg;--bx:${[30, 8, 36, 0, 40, 10, 44, 30][i]}%;--by:${[26, 40, 6, 0, 30, 20, 4, 34][i]}%">
+    <div class="stage"><div class="tags">${tags.map((t, k) => `<span class="${k ? '' : 'h'}">${t}</span>`).join('')}</div><span class="fav">${ic('heart')}</span>
+      <div data-bag="${['Bench Maji','Guji','Huila','',"Pink Bourbon",'Nyeri AA','Kirinyaga','Mercado'][i]}|${or}|${lc}|${['#d4b78b', '#c9a877', '#b48d5e'][i % 3]}|${nt.split(', ').slice(0, 2).join(' · ')}|${r}|250 G|${lt}|${b2}|${b3}" data-w="${hov ? 220 : 210}"></div>
+      ${hov ? `<div class="cur"><span>SNIFF</span></div><div class="quick"><div class="r"><span class="chip on">250 g</span><span class="chip">1 kg · €62</span></div><div class="r"><span class="chip on">Whole bean</span><span class="chip">V60</span><span class="chip">Aeropress</span><span class="chip">Espresso</span></div><a class="btn">Quick add · €${pr} ${ic('plus')}</a></div>` : ''}
+    </div>
+    <div class="info"><div class="o">${or}</div><h3>${nm}</h3><div class="nt">${nt}</div>
+      <div class="specs"><div><small>Altitude</small>${altSvg(alt)}</div><div><small>Roast level</small><div class="roast">${[1, 2, 3, 4, 5].map(k => `<i class="${k <= r ? 'f' : ''}"></i>`).join('')}</div></div>
+        <div><small>Acidity</small><div class="meter"><span class="tr"><i style="width:${acid}"></i></span></div></div><div><small>Body</small><div class="meter"><span class="tr"><i style="width:${body};background:var(--sage)"></i></span></div></div></div>
+      <div class="ft"><span class="pr">€${pr}<small>/ 250 g</small></span><span class="add">${ic('plus')}</span></div></div></div>`;
+}).join('');
+oromo('Shop coffee', { cart: 2 });
+// flavour wheel
+const F = [['Floral', '#efb9a0', 'Jasmine · rose'], ['Fruity', '#c65d3b', 'Berry · stone fruit'], ['Citrus', '#e0a93b', 'Lemon · bergamot'], ['Sweet', '#d9bf94', 'Caramel · panela'], ['Chocolatey', '#6b4632', 'Cocoa · hazelnut'], ['Spiced', '#8fa58a', 'Clove · tea']];
+const cx = 235, cy = 235, R1 = 205, R0 = 92, n = F.length;
+const P = (r, a) => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+let s = '<defs>';
+F.forEach((f, i) => { const a0 = -Math.PI / 2 + i * 2 * Math.PI / n + .03, a1 = a0 + 2 * Math.PI / n - .06, rr = 150; const [x0, y0] = P(rr, a0), [x1, y1] = P(rr, a1); s += `<path id="fa${i}" d="M${x0} ${y0} A${rr} ${rr} 0 0 1 ${x1} ${y1}"/>`; });
+s += '</defs>';
+F.forEach((f, i) => {
+  const a0 = -Math.PI / 2 + i * 2 * Math.PI / n, a1 = a0 + 2 * Math.PI / n, am = (a0 + a1) / 2, on = i === 1;
+  const off = on ? 22 : 0, dx = Math.cos(am) * off, dy = Math.sin(am) * off;
+  const [ax, ay] = P(R1, a0), [bx, by] = P(R1, a1), [cx1, cy1] = P(R0, a1), [dx1, dy1] = P(R0, a0);
+  s += `<g class="seg" transform="translate(${dx} ${dy})"><path d="M${ax} ${ay} A${R1} ${R1} 0 0 1 ${bx} ${by} L${cx1} ${cy1} A${R0} ${R0} 0 0 0 ${dx1} ${dy1}Z" fill="${f[1]}" stroke="#2b1a12" stroke-width="${on ? 3 : 1.5}" ${on ? '' : 'fill-opacity=".78"'}/>
+  <text style="font:italic 400 ${on ? 30 : 24}px Fraunces;fill:${i === 4 || on ? '#f6eedf' : '#2b1a12'}" text-anchor="middle"><textPath href="#fa${i}" startOffset="50%">${f[0]}</textPath></text>
+  <text style="font:700 9px 'DM Sans';letter-spacing:2px;fill:${i === 4 || on ? '#f6eedf' : '#2b1a12'};opacity:.8" text-anchor="middle" dy="26"><textPath href="#fa${i}" startOffset="50%">${f[2].toUpperCase()}</textPath></text></g>`;
+});
+s += `<circle cx="${cx}" cy="${cy}" r="${R0 - 8}" fill="#f6eedf" stroke="#2b1a12" stroke-width="1.5" stroke-dasharray="3 5"/><text x="${cx}" y="${cy - 6}" text-anchor="middle" style="font:italic 400 34px Fraunces;fill:#c65d3b">Fruity</text><text x="${cx}" y="${cy + 22}" text-anchor="middle" style="font:700 10px 'DM Sans';letter-spacing:2px;fill:#2b1a12">8 COFFEES</text>`;
+document.getElementById('wheel').innerHTML = s;
+document.querySelectorAll('.wheelbox .cur span, .pc .cur span').forEach(e => e.innerHTML = ic('nose') + 'SNIFF');
+</script>
+</body></html>

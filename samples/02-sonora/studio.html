@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Studio — Sonora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sonora.css">
+<style>
+.g12{display:grid;grid-template-columns:repeat(12,1fr);margin:0 40px}
+.hero{padding:36px 0 0;position:relative}
+.hero .top{display:grid;grid-template-columns:repeat(12,1fr);margin:0 40px}
+.hero h1{font-size:150px;line-height:.92;margin:44px 0 0 36px;position:relative;z-index:2}
+.hero h1 .l2{display:block;padding-left:var(--col)}
+.hero .side{position:absolute;right:40px;top:420px;width:400px;z-index:4;background:var(--paper);padding:22px 26px 26px;font-size:17px;line-height:1.45}
+.hero .side .flap{font-size:76px;margin:12px 0 16px}
+.hero .band{height:600px;margin:-40px 40px 0;position:relative;background:var(--paper-2)}
+.hero .band img{filter:grayscale(1) contrast(1.15);mix-blend-mode:multiply}
+.hero .band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,77,0,.0) 60%,rgba(255,77,0,.85) 60%,rgba(255,77,0,.85) 60.4%,transparent 60.4%)}
+.hero .band .tg{position:absolute;z-index:3;background:var(--paper);padding:8px 10px;font:500 11px/1.3 var(--mono);text-transform:uppercase}
+.hero .band .meas{position:absolute;z-index:3;left:60.2%;top:0;bottom:0;width:0}
+.hero .band .meas span{position:absolute;top:24px;left:8px;background:var(--sig);color:var(--ink);font:600 11px/1 var(--mono);padding:5px 7px;white-space:nowrap}
+.hero .band .fb{position:absolute;left:0;right:0;bottom:0;height:110px;z-index:2;color:var(--ink);opacity:.85}
+.hero .cursor{left:560px;top:640px}
+
+.pr3{padding:130px 0 120px}
+.pr3 .cols{display:grid;grid-template-columns:repeat(3,1fr);margin:50px 40px 0;border-left:1px solid var(--line)}
+.pr3 .cols>div{padding:0 30px 10px;border-right:1px solid var(--line)}
+.pr3 .cols b.n{display:block;font:200 150px/.75 var(--sans);font-stretch:62%;letter-spacing:-.05em}
+.pr3 .cols h3{font:800 32px/.95 var(--sans);font-stretch:118%;letter-spacing:-.04em;text-transform:uppercase;margin:30px 0 16px}
+.pr3 .cols p{color:var(--grey);font-size:15px;max-width:340px}
+.pr3 .cols>div:nth-child(2) b.n{color:var(--sig)}
+
+.lab{padding:110px 0 120px}
+.lab .wrap{display:grid;grid-template-columns:repeat(12,1fr);margin:50px 40px 0}
+.lab .ph{grid-column:1/8;height:700px;position:relative}
+.lab .ph svg{position:absolute;inset:0;z-index:2}
+.lab .ph .t{position:absolute;z-index:3;background:var(--ink);border:1px solid rgba(242,241,238,.3);padding:8px 10px;font:500 10px/1.35 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.lab .ph .t b{display:block;color:var(--paper);font:600 14px/1.2 var(--sans);text-transform:none}
+.lab .tx{grid-column:9/13}
+.lab h2{font-size:84px;margin:0 0 26px}
+.lab .tbl th{color:var(--grey-2)}
+.lab .tbl td,.lab .tbl th{border-color:rgba(242,241,238,.14);font-size:13px}
+.lab .tbl tr:first-child td,.lab .tbl tr:first-child th{border-top-color:var(--paper)}
+.lab .tbl td{font-family:var(--mono)}
+.lab .ring-wrap{position:relative;height:200px;margin-top:30px;border:1px solid rgba(242,241,238,.14);overflow:hidden}
+.lab .ring-wrap .rings{left:50%;top:50%;width:300px;height:300px;margin:-150px 0 0 -150px}
+.lab .ring-wrap .lbl{position:absolute;left:14px;top:12px;font:500 10px/1.3 var(--mono);text-transform:uppercase;color:var(--grey-2)}
+.lab .ring-wrap .val{position:absolute;right:14px;bottom:12px;font:200 54px/.8 var(--sans);font-stretch:62%;color:var(--sig)}
+.lab .ring-wrap .dot{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px;background:var(--sig)}
+
+.tl{padding:130px 0 130px;overflow:hidden}
+.tl .track{position:relative;margin:70px 40px 0;height:520px}
+.tl .axis{position:absolute;left:0;right:0;top:300px;height:1px;background:var(--ink)}
+.tl .axis::before{content:"";position:absolute;left:0;top:-1px;height:3px;width:82%;background:var(--sig)}
+.tl .ev{position:absolute;top:0;width:200px}
+.tl .ev .y{font:200 112px/.8 var(--sans);font-stretch:62%;letter-spacing:-.05em;height:110px;color:var(--grey-2)}
+.tl .ev .stem{position:absolute;left:0;top:118px;height:182px;width:1px;background:var(--line)}
+.tl .ev .dt{position:absolute;left:-6px;top:294px;width:13px;height:13px;background:var(--paper);border:1px solid var(--ink)}
+.tl .ev .c{position:absolute;top:330px;left:0;width:200px}
+.tl .ev .c b{display:block;font:700 17px/1.15 var(--sans);margin-bottom:6px}
+.tl .ev .c small{font:400 11px/1.45 var(--mono);color:var(--grey);text-transform:uppercase}
+.tl .ev.on .y{color:var(--ink)}
+.tl .ev.on .dt{background:var(--sig);border-color:var(--sig);width:17px;height:17px;left:-8px;top:292px;box-shadow:0 0 0 8px rgba(255,77,0,.18)}
+.tl .ev.on .c{background:var(--ink);color:var(--paper);padding:18px;width:320px;top:326px;box-shadow:0 30px 60px rgba(11,11,11,.25)}
+.tl .ev.on .c small{color:var(--grey-2)}
+.tl .ev.on .c .im{height:120px;margin:-18px -18px 16px}
+.tl .ev.on .stem{background:var(--sig)}
+.tl .ev.now .y{color:var(--sig)}
+
+.proc{padding:0 0 130px}
+.proc .row{display:grid;grid-template-columns:5fr 4fr 3fr;gap:0;margin:50px 40px 0;border-left:1px solid var(--line)}
+.proc .row>div{border-right:1px solid var(--line);padding:0 18px 0 0;margin-left:0}
+.proc .row>div+div{padding-left:18px}
+.proc .im{height:440px;position:relative}
+.proc .im .ix{position:absolute;left:12px;top:12px;z-index:2;background:var(--paper);font:500 11px/1 var(--mono);padding:5px 6px}
+.proc h3{font:800 26px/.95 var(--sans);font-stretch:118%;letter-spacing:-.04em;text-transform:uppercase;margin:20px 0 10px}
+.proc p{color:var(--grey);font-size:14px}
+
+.eco{padding:120px 0 130px}
+.eco .wrap{display:grid;grid-template-columns:repeat(12,1fr);margin:50px 40px 0}
+.eco .big{grid-column:1/6}
+.eco .big b{display:block;font:200 330px/.72 var(--sans);font-stretch:62%;letter-spacing:-.06em;color:var(--ink)}
+.eco .big b sup{font:500 20px/1 var(--mono);vertical-align:top;color:var(--ink);letter-spacing:0;position:relative;top:24px;margin-left:6px}
+.eco .big p{font-size:18px;max-width:420px;margin-top:24px}
+.eco .meters{grid-column:7/13}
+.eco .meters>div{display:grid;grid-template-columns:200px 1fr 90px;gap:20px;align-items:center;padding:20px 0;border-bottom:1px solid rgba(11,11,11,.25)}
+.eco .meters>div:first-child{border-top:1px solid var(--ink)}
+.eco .meters span{font:500 11px/1.35 var(--mono);text-transform:uppercase}
+.eco .meters .t{height:16px;background:rgba(11,11,11,.12);position:relative}
+.eco .meters .t i{position:absolute;inset:0 auto 0 0;background:var(--ink)}
+.eco .meters .t i::after{content:"";position:absolute;right:-1px;top:-6px;bottom:-6px;width:2px;background:var(--ink)}
+.eco .meters b{font:300 40px/.8 var(--sans);font-stretch:62%;text-align:right}
+.eco .cert{display:flex;gap:8px;margin-top:30px}
+.eco .cert span{border:1px solid var(--ink);height:34px;padding:0 12px;display:flex;align-items:center;font:500 11px/1 var(--mono);text-transform:uppercase}
+
+.people{padding:130px 0 120px}
+.people .wrap{display:grid;grid-template-columns:repeat(12,1fr);margin:50px 40px 0}
+.people .p1{grid-column:1/5;height:560px;position:relative}
+.people .p2{grid-column:5/8;height:380px;margin-top:180px;margin-left:20px;position:relative}
+.people .cap{position:absolute;left:0;bottom:0;z-index:2;background:var(--paper);padding:12px 16px 0 0;font:400 11px/1.4 var(--mono);text-transform:uppercase;color:var(--grey)}
+.people .cap b{display:block;color:var(--ink);font:600 15px/1.2 var(--sans);text-transform:none}
+.people .jobs{grid-column:9/13}
+.people .jobs h2{font-size:64px;margin-bottom:28px}
+.job{display:grid;grid-template-columns:1fr auto;gap:8px;padding:16px 0;border-bottom:1px solid var(--line);align-items:center}
+.job:first-of-type{border-top:1px solid var(--ink)}
+.job b{font:600 17px/1.2 var(--sans)}
+.job small{display:block;font:400 11px/1.4 var(--mono);color:var(--grey);text-transform:uppercase;margin-top:5px}
+.job span{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--ink)}
+.job.on{background:var(--ink);color:var(--paper);margin:0 -14px;padding:16px 14px}
+.job.on span{background:var(--sig);color:var(--ink);border-color:var(--sig)}
+.job.on small{color:var(--grey-2)}
+
+.stores{padding:0 0 130px}
+.st-t{margin:50px 40px 0;width:calc(100% - 80px);border-collapse:collapse}
+.st-t th{font:500 11px/1 var(--mono);text-transform:uppercase;color:var(--grey);text-align:left;padding:0 0 12px;border-bottom:1px solid var(--ink)}
+.st-t td{padding:22px 0;border-bottom:1px solid var(--line);vertical-align:middle;font:400 13px/1.4 var(--mono)}
+.st-t td.c{font:800 34px/.9 var(--sans);font-stretch:125%;letter-spacing:-.04em;text-transform:uppercase;width:30%}
+.st-t td.c small{display:block;font:400 11px/1 var(--mono);letter-spacing:0;color:var(--grey);margin-top:8px;text-transform:uppercase}
+.st-t .bk{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border:1px solid var(--ink);font:500 11px/1 var(--mono);text-transform:uppercase}
+.st-t tr.on td{background:var(--sig)}
+.st-t tr.on td.c small{color:var(--ink)}
+.st-t tr.on td:first-child{padding-left:16px}
+.st-t tr.on .bk{background:var(--ink);color:var(--paper)}
+.st-t .open{display:inline-flex;align-items:center;gap:8px}
+.st-t .open i{width:8px;height:8px;background:var(--ink);border-radius:50%}
+.st-t .open.y i{background:#18a957;animation:blink 1.4s steps(2) infinite}
+</style></head>
+<body>
+<div data-nav></div>
+
+<section class="hero">
+  <div class="top mono"><span style="grid-column:1/4"><span class="sig">[05]</span> Studio · About Sonora</span><span style="grid-column:4/8">Sonora Akustik AG · est. 1987</span><span style="grid-column:8/13;text-align:right">Hardturmstrasse 161 · 8005 Zürich</span></div>
+  <h1 class="disp">Engineered<span class="l2">in Zürich<span class="sig">.</span></span></h1>
+  <div class="side"><div class="mono">Founded</div><div class="flap"><span>1</span><span>9</span><span>8</span><span class="flip sig">7</span></div><p>Sound is a measurement before it is a feeling. For 39 years we have built instruments for listening — in a former tram depot by the Limmat, with 64 people and one anechoic room.</p></div>
+  <div class="band" data-img="1574517947730-55cb23e608c2|2000">
+    <div class="tg" style="left:20px;top:20px">Fig. 01 · Reference control room B</div>
+    <div class="tg" style="left:20px;bottom:130px">Calibrated monthly · 85 dB SPL C</div>
+    <div class="meas"><span>Δ 0.4 dB · L/R match</span></div>
+    <div class="fb" data-bars="110|19"></div>
+  </div>
+  <div class="cursor sigc"><span class="eq"><s></s><s></s><s></s><s></s></span>LISTEN</div>
+</section>
+
+<section class="pr3">
+  <div class="sh"><div class="k"><b>[01]</b> Principles</div><h2 class="disp" style="grid-column:3/13;font-size:88px">Three rules<br>on the wall</h2></div>
+  <div class="cols">
+    <div><b class="n">01</b><h3>Measure<br>everything</h3><p>Every unit gets 1,284 sweeps and its own sheet. If we can’t measure an improvement, we don’t ship it.</p></div>
+    <div><b class="n">02</b><h3>Build to be<br>opened</h3><p>Torx screws, magnetic cushions, no glue. A Kontur from 2026 should still be repairable in 2046.</p></div>
+    <div><b class="n">03</b><h3>Tune by ear,<br>last</h3><p>After the graphs agree, three tuners listen blind. Two of three must prefer the change.</p></div>
+  </div>
+</section>
+
+<section class="lab dark">
+  <div class="sh"><div class="k"><b>[02]</b> The lab</div><div class="mono" style="grid-column:9/13;text-align:right;color:var(--grey-2)">Floor −1 · Access by appointment</div></div>
+  <div class="wrap">
+    <div class="ph" data-img="1758336717046-c475fc6f45ce|1400">
+      <svg viewBox="0 0 793 700" preserveAspectRatio="none"><g stroke="#ff4d00" fill="none"><rect x="270" y="300" width="150" height="110"/><path d="M420 300 L520 220 H640"/><path d="M215 330 L120 430 H40"/></g><g fill="#ff4d00"><rect x="211" y="326" width="8" height="8"/></g></svg>
+      <div class="t" style="left:520px;top:180px"><b>Listening position</b>±2 mm repeatability</div>
+      <div class="t" style="left:40px;top:440px"><b>Near-field monitors</b>Matched pair · 0.4 dB</div>
+    </div>
+    <div class="tx">
+      <div class="mono" style="color:var(--grey-2);margin-bottom:22px">Equipment · 2026</div>
+      <h2 class="disp">Quiet by<br>design<span class="sig">.</span></h2>
+      <table class="tbl"><tr><th>Anechoic room</th><td>4.2 × 3.8 m · 80 Hz cut-off</td></tr><tr><th>Noise floor</th><td>−18 dB(A)</td></tr><tr><th>Ear simulators</th><td>4 · IEC 60318-4</td></tr><tr><th>Climate chamber</th><td>−20 to +60 °C</td></tr><tr><th>Drop rig</th><td>1.8 m · 500 cycles</td></tr><tr><th>Hinge cycles</th><td>40,000 per sample</td></tr></table>
+      <div class="ring-wrap"><span class="lbl">Live · Chamber A<br>Sweep 0912</span><div class="rings"><b style="inset:60px"></b><i></i><i></i><i></i><i></i></div><span class="dot"></span><span class="val">−18 dB</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="tl">
+  <div class="sh"><div class="k"><b>[03]</b> Timeline<br><span class="dim">1987 — 2026</span></div><h2 class="disp" style="grid-column:3/13;font-size:88px">Thirty-nine years,<br>five milestones</h2></div>
+  <div class="track">
+    <div class="axis"></div>
+    <div class="ev" style="left:0"><div class="y">1987</div><span class="stem"></span><span class="dt"></span><div class="c"><b>A workshop in Kreis 5</b><small>Hanna &amp; Urs Sonderegger repair studio monitors for Swiss radio.</small></div></div>
+    <div class="ev" style="left:19%"><div class="y">1994</div><span class="stem"></span><span class="dt"></span><div class="c"><b>Fels 1 monitor</b><small>First own speaker. 400 made, 312 still in service.</small></div></div>
+    <div class="ev on" style="left:38%"><div class="y">2006</div><span class="stem"></span><span class="dt"></span><div class="c"><div class="im" data-img="1583394838336-acd977736f90|700"></div><b>Kontur Studio — the first headphone</b><small>Open-back, 300 Ω, built for mastering engineers. Still in the range, 20 years later.</small></div></div>
+    <div class="ev" style="left:63%"><div class="y">2015</div><span class="stem"></span><span class="dt"></span><div class="c"><b>The anechoic room</b><small>Built under the old tram depot on Hardturmstrasse.</small></div></div>
+    <div class="ev now" style="left:82%"><div class="y">2026</div><span class="stem"></span><span class="dt" style="background:var(--sig);border-color:var(--sig)"></span><div class="c"><b>Kontur H1</b><small>Our first wireless headphone. 1,284 sweeps per unit.</small></div></div>
+  </div>
+</section>
+
+<section class="proc">
+  <div class="sh"><div class="k"><b>[04]</b> Process</div><div class="mono dim" style="grid-column:9/13;text-align:right">From bar stock to sheet · 11 days</div></div>
+  <div class="row">
+    <div><div class="im" data-img="1485211177140-aa3b17a0c7b6|1200"><span class="ix">[A]</span></div><h3>Machining</h3><p>Grilles laser-cut from 0.2 mm stainless; cups milled from recycled 6061 aluminium in Winterthur, 22 km away.</p></div>
+    <div><div class="im" data-img="1618609377864-68609b857e90|1000"><span class="ix">[B]</span></div><h3>Tuning</h3><p>Each driver is matched to its pair within 0.4 dB, then tuned against our target curve.</p></div>
+    <div><div class="im" data-img="1510133744874-096621a0e01e|800"><span class="ix">[C]</span></div><h3>Listening</h3><p>Three blind listeners. Two must agree.</p></div>
+  </div>
+</section>
+
+<section class="eco ticker-wrap" style="background:var(--sig)">
+  <div class="sh" style="border-color:var(--ink)"><div class="k"><b style="color:var(--ink)">[05]</b> Responsibility<br>Report 2026</div><h2 class="disp" style="grid-column:3/13;font-size:88px">Built to outlast<br>its owner<span style="color:var(--paper)">.</span></h2></div>
+  <div class="wrap">
+    <div class="big"><b>92<sup>%</sup></b><p>of the aluminium in every Kontur is recycled — and we buy back every pair we ever made, in any condition.</p>
+      <div class="cert"><span>Repair score 9.1 / 10</span><span>B Corp pending</span><span>0 g PVC</span></div></div>
+    <div class="meters">
+      <div><span>Repaired, not replaced<br>Returns 2025</span><div class="t"><i style="width:71%"></i></div><b>71%</b></div>
+      <div><span>Replaceable parts</span><div class="t"><i style="width:100%"></i></div><b>38/38</b></div>
+      <div><span>Spare-parts guarantee</span><div class="t"><i style="width:66%"></i></div><b>10 yr</b></div>
+      <div><span>CO₂e per headphone<br>vs. industry 31 kg</span><div class="t"><i style="width:37%"></i></div><b>11.4</b></div>
+      <div><span>Glue in assembly</span><div class="t"><i style="width:0"></i></div><b>0 g</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="people">
+  <div class="sh"><div class="k"><b>[06]</b> People</div><div class="mono dim" style="grid-column:9/13;text-align:right">64 people · 14 nationalities · 1 dog</div></div>
+  <div class="wrap">
+    <div class="p1" data-img="1758876020848-6d1bed1d7453|900"><div class="cap"><b>Jonas Frei</b>Build engineer · since 2014</div></div>
+    <div class="p2" data-img="1718382341267-aef8a9e4ecef|700"><div class="cap"><b>Noah Imhof</b>Acoustics · field tests</div></div>
+    <div class="jobs">
+      <div class="mono" style="margin-bottom:16px"><span class="sig">■</span> Open roles · 5</div>
+      <h2 class="disp">Join the<br>quiet room</h2>
+      <div class="job"><div><b>DSP engineer, noise cancelling</b><small>Zürich · Full-time · Senior</small></div><span><i data-ic="arrow"></i></span></div>
+      <div class="job on"><div><b>Acoustic test technician</b><small>Zürich · Full-time · New</small></div><span><i data-ic="arrow"></i></span></div>
+      <div class="job"><div><b>Firmware engineer, Bluetooth LE</b><small>Zürich / remote CH · Full-time</small></div><span><i data-ic="arrow"></i></span></div>
+      <div class="job"><div><b>Repair specialist</b><small>Berlin · Part-time 80 %</small></div><span><i data-ic="arrow"></i></span></div>
+      <div class="job"><div><b>Showroom host</b><small>London · Full-time</small></div><span><i data-ic="arrow"></i></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="stores">
+  <div class="sh"><div class="k"><b>[07]</b> Showrooms</div><h2 class="disp" style="grid-column:3/13;font-size:88px">Come and listen</h2></div>
+  <table class="st-t">
+    <tr><th>City</th><th>Address</th><th>Hours</th><th>Status</th><th>Listening booth</th></tr>
+    <tr class="on"><td class="c">Zürich<small>Flagship · lab tours</small></td><td>Hardturmstrasse 161<br>8005 Zürich</td><td>Tue–Sat · 10–19</td><td><span class="open y"><i></i>Open now</span></td><td><span class="bk">Book · today 16:30</span></td></tr>
+    <tr><td class="c">Basel<small>Gallery</small></td><td>Klybeckstrasse 92<br>4057 Basel</td><td>Wed–Sat · 11–18</td><td><span class="open y"><i></i>Open now</span></td><td><span class="bk">Book · Sat 11:00</span></td></tr>
+    <tr><td class="c">Berlin<small>Repair centre</small></td><td>Linienstrasse 140<br>10115 Berlin</td><td>Mon–Fri · 10–18</td><td><span class="open y"><i></i>Open now</span></td><td><span class="bk">Book · Thu 14:00</span></td></tr>
+    <tr><td class="c">London<small>Clerkenwell</small></td><td>27 Great Sutton St<br>London EC1V</td><td>Tue–Sun · 10–19</td><td><span class="open"><i></i>Opens 10:00</span></td><td><span class="bk">Book · Fri 12:30</span></td></tr>
+    <tr><td class="c">Tokyo<small>Kuramae · 2027</small></td><td>Opening spring 2027</td><td>—</td><td><span class="open"><i></i>Soon</span></td><td><span class="bk">Notify me</span></td></tr>
+  </table>
+</section>
+
+<div data-footer></div>
+<script src="sonora.js"></script>
+<script>sonora('Studio');</script>
+</body></html>

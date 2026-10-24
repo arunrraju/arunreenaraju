@@ -448,6 +448,34 @@
     <iframe class="demo__frame" title="Live demo" data-demo-frame src="about:blank"></iframe>
   </dialog>
 
+  <!-- Site viewer: a website sample's pages as full-length screens, or live (filled by main.js) -->
+  <dialog class="viewer" aria-labelledby="viewer-title" data-mode="screens">
+    <div class="viewer__glow" aria-hidden="true"></div>
+    <header class="viewer__bar">
+      <div class="viewer__id">
+        <span class="viewer__count mono" data-viewer-count>01 / 20</span>
+        <h2 class="viewer__name" id="viewer-title" data-viewer-name>Site</h2>
+        <span class="viewer__niche" data-viewer-niche></span>
+      </div>
+      <div class="viewer__tabs mono" role="group" aria-label="Pages" data-viewer-tabs></div>
+      <div class="viewer__modes mono" role="group" aria-label="View as">
+        <button type="button" data-viewer-mode="screens" aria-pressed="true">Screens</button>
+        <button type="button" data-viewer-mode="live" aria-pressed="false">Live</button>
+      </div>
+      <a class="viewer__btn viewer__open mono" href="#" target="_blank" rel="noopener" data-viewer-open>Open ↗</a>
+      <button class="viewer__btn viewer__close mono" type="button" data-viewer-close aria-label="Close site viewer">Close ✕</button>
+    </header>
+    <div class="viewer__stage">
+      <button class="viewer__nav viewer__nav--prev" type="button" data-viewer-step="-1" aria-label="Previous site">←</button>
+      <div class="viewer__window">
+        <div class="viewer__chrome" aria-hidden="true"><i></i><i></i><i></i><span class="mono" data-viewer-url></span><b class="viewer__progress" data-viewer-progress></b></div>
+        <div class="viewer__screen" data-viewer-screen tabindex="0" autofocus><img data-viewer-img alt="" decoding="async"></div>
+        <div class="viewer__live" data-viewer-live><iframe title="Live page" data-viewer-frame src="about:blank"></iframe></div>
+      </div>
+      <button class="viewer__nav viewer__nav--next" type="button" data-viewer-step="1" aria-label="Next site">→</button>
+    </div>
+  </dialog>
+
   <!-- Command menu -->
   <dialog class="palette" aria-label="Command menu">
     <form method="dialog" class="palette__box">
