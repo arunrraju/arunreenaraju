@@ -409,6 +409,7 @@
       stage.style.clipPath = from || full;
       stage.style.opacity = from || reduceMotion ? '1' : '0';
       caseDlg.showModal();
+      body.scrollTop = 0; // a closed dialog has no box, so fill()'s reset doesn't stick
       root.classList.add('case-open');
       stage.getBoundingClientRect();
       stage.style.transition = '';

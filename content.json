@@ -1322,12 +1322,28 @@
       ],
       "shots": [
         {
-          "image": "assets/photos/work/ecoshop-1.jpg",
-          "caption": "Storefront"
+          "image": "assets/photos/work/ecoshop-1-home.jpg",
+          "caption": "Home"
         },
         {
-          "image": "assets/photos/work/ecoshop-2.jpg",
-          "caption": "Product page"
+          "image": "assets/photos/work/ecoshop-2-shop.jpg",
+          "caption": "Shop"
+        },
+        {
+          "image": "assets/photos/work/ecoshop-3-product.jpg",
+          "caption": "Product"
+        },
+        {
+          "image": "assets/photos/work/ecoshop-4-planner.jpg",
+          "caption": "Garden planner"
+        },
+        {
+          "image": "assets/photos/work/ecoshop-5-plant-doctor.jpg",
+          "caption": "Plant doctor"
+        },
+        {
+          "image": "assets/photos/work/ecoshop-6-cart.jpg",
+          "caption": "Cart & checkout"
         }
       ],
       "demo": "",
