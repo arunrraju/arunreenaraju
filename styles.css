@@ -209,7 +209,10 @@ body::after {
 
 /* ───────────── Metzee ───────────── */
 .metzee { position: relative; }
-.metzee__scene { position: relative; height: 165svh; }
+.metzee__scene { position: relative; }
+.metzee__spacer { height: 115svh; }
+.metzee__veil { position: absolute; inset: 0; z-index: 0; background: var(--bg); opacity: var(--veil, 0); pointer-events: none; }
+.metzee.is-zoom .metzee__orb { filter: none; }
 .metzee__sticky {
   position: sticky; top: 0; height: 100svh; overflow: hidden;
   display: grid; place-items: center; isolation: isolate;
@@ -219,8 +222,10 @@ body::after {
 .metzee__word {
   margin: 0; font-family: var(--display); font-weight: 800; font-stretch: 75%;
   font-size: clamp(90px, 25vw, 480px); line-height: .8; letter-spacing: -0.01em; opacity: var(--word-o, 1);
-  color: #fff; mix-blend-mode: difference; transform: scale(var(--word, 1)); will-change: transform;
+  color: #fff; mix-blend-mode: difference; transform: scale(var(--word, 1)); filter: blur(var(--word-b, 0px)); will-change: transform;
 }
+.metzee__body .rv { filter: blur(14px); transform: translateY(70px) scale(.96); transition: transform 1.3s var(--ease), opacity 1.3s var(--ease), filter 1.3s var(--ease); }
+.metzee__body .rv.in { filter: none; transform: none; }
 .metzee__body { position: relative; z-index: 2; padding-block: clamp(40px, 6vw, 80px) clamp(100px, 14vw, 200px); display: grid; gap: clamp(28px, 4vw, 48px); }
 .metzee__lede {
   margin: 0; max-width: 22ch; font-family: var(--display); font-weight: 500; font-stretch: 88%;
@@ -282,6 +287,39 @@ body::after {
 .card__title { margin: 0; font-family: var(--display); font-weight: 600; font-stretch: 85%; font-size: clamp(28px, 2.6vw, 44px); letter-spacing: -0.008em; line-height: 1; }
 .card__desc { margin: 0; color: var(--fg-2); grid-column: 1; }
 .card__tags { margin: 0; color: var(--fg-2); display: flex; gap: 14px; grid-column: 2; grid-row: 1 / span 2; align-self: start; }
+
+/* Cards ask to be opened: they deal in as they arrive, a light sweeps across each in turn,
+   the outline letter drifts, and an "Open case" chip pings */
+.card.deal { opacity: 0; transform: perspective(1100px) translateY(90px) rotateX(16deg) scale(.94); filter: blur(10px); }
+.card.dealt { opacity: 1; transform: none; filter: none; transition: opacity 1s var(--ease), transform 1.2s var(--ease), filter 1s var(--ease); transition-delay: var(--deal-d, 0ms); }
+.card__art::before {
+  content: ""; position: absolute; inset: -20% -60%; z-index: 1; pointer-events: none;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.26) 49%, rgba(255,255,255,.06) 54%, transparent 62%);
+  transform: translateX(-70%); animation: card-sheen 7s var(--ease) infinite; animation-delay: calc(var(--i, 0) * 1.4s + 1s);
+}
+@keyframes card-sheen { 0% { transform: translateX(-70%); } 22%, 100% { transform: translateX(70%); } }
+.card__glyph { animation: card-drift 8s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.7s); }
+@keyframes card-drift { from { translate: 0 0; } to { translate: -3% -5%; } }
+.card__open {
+  position: absolute; left: clamp(14px, 1.6vw, 22px); bottom: clamp(14px, 1.6vw, 22px); z-index: 2;
+  display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px 10px 14px; border-radius: 999px;
+  font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #fff;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.3);
+  backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  transition: background .4s var(--ease), color .4s var(--ease), padding .5s var(--ease);
+}
+.card__open i { position: relative; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.card__open i::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid #fff; animation: card-ping 2.4s var(--ease) infinite; animation-delay: calc(var(--i, 0) * .4s); }
+@keyframes card-ping { 0% { transform: scale(1); opacity: .9; } 70%, 100% { transform: scale(3.6); opacity: 0; } }
+.card__open b { font-weight: 400; transition: transform .5s var(--ease); }
+.card__link:hover .card__open, .card__link:focus-visible .card__open { background: #fff; color: #0a0d11; padding-right: 22px; }
+.card__link:hover .card__open b, .card__link:focus-visible .card__open b { transform: translate(3px, -3px); }
+.card__link:hover .card__open i::after { border-color: #0a0d11; }
+@media (prefers-reduced-motion: reduce) {
+  .card.deal { opacity: 1; transform: none; filter: none; }
+  .card__art::before, .card__glyph, .card__open i::after { animation: none; }
+  .card__art::before { display: none; }
+}
 
 /* ───────────── Experience ───────────── */
 .exp { padding-block: clamp(110px, 14vw, 200px) 0; display: grid; gap: clamp(32px, 4vw, 56px); }
@@ -854,6 +892,7 @@ body::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .metzee__spacer { height: 20svh; }
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
   html { scroll-behavior: auto; }
   .hero__chars .ch, .rv { transform: none; opacity: 1; }

@@ -149,15 +149,16 @@
 
     <!-- ───────────── METZEE ───────────── -->
     <section class="metzee" id="metzee" aria-labelledby="metzee-h">
-      <!-- The scene pins for one screen of scrolling, then the details follow below it -->
+      <!-- The orb pins, zooms until it fills the screen, then the details scroll up over the liquid chrome -->
       <div class="metzee__scene">
         <div class="metzee__sticky">
           <div class="metzee__orb" aria-hidden="true">
             <canvas class="metzee__canvas"></canvas>
           </div>
+          <div class="metzee__veil" aria-hidden="true"></div>
           <h2 class="metzee__word" id="metzee-h" data-metzee-word>Metzee</h2>
         </div>
-      </div>
+        <div class="metzee__spacer" aria-hidden="true"></div>
 
       <div class="metzee__body wrap">
         <p class="label mono"><span class="label__dot"></span>The company · Founder · [Year] to now</p>
@@ -182,6 +183,7 @@
         <a class="pill pill--iri" href="https://metzee.com/" target="_blank" rel="noopener" data-magnetic data-cursor="Visit">
           Visit Metzee <span aria-hidden="true">↗</span>
         </a>
+      </div>
       </div>
     </section>
 
