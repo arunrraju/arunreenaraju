@@ -772,11 +772,12 @@
     }
     if (metzee) {
       // 1) the orb grows in, 2) once pinned it zooms until it covers the screen and the word flies
-      // past the camera, 3) a veil settles over the chrome as the details scroll up across it
+      // past the camera, 3) the details are already halfway up the screen as the zoom lands, so the
+      // page never looks finished, and a veil settles over the chrome behind them
       const r = mScene.getBoundingClientRect();
       const p = clamp(1 - r.top / vh);
       const s = -r.top;
-      const z = reduceMotion ? 0 : clamp((s - vh * 0.06) / (vh * 0.95));
+      const z = reduceMotion ? 0 : clamp((s - vh * 0.04) / (vh * 0.76));
       const ez = z * z * (3 - 2 * z);
       const base = 0.55 + 0.45 * p;
       const cover = Math.hypot(innerWidth, vh) / Math.max(1, mOrb.offsetWidth) * 1.04;
@@ -784,7 +785,7 @@
       metzee.style.setProperty('--word', ((1.35 - 0.35 * p) * Math.pow(7, ez)).toFixed(4));
       metzee.style.setProperty('--word-o', (1 - clamp((z - 0.3) / 0.5)).toFixed(3));
       metzee.style.setProperty('--word-b', `${(clamp((z - 0.2) / 0.6) * 14).toFixed(1)}px`);
-      metzee.style.setProperty('--veil', (0.66 * clamp((s - vh * 1.0) / (vh * 0.7))).toFixed(3));
+      metzee.style.setProperty('--veil', (0.66 * clamp((s - vh * 0.45) / (vh * 0.65))).toFixed(3));
       metzee.classList.toggle('is-zoom', z > 0.02);
     }
     if (nav) {

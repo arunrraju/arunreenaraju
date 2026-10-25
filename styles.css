@@ -210,7 +210,7 @@ body::after {
 /* ───────────── Metzee ───────────── */
 .metzee { position: relative; }
 .metzee__scene { position: relative; }
-.metzee__spacer { height: 115svh; }
+.metzee__spacer { height: 30svh; }
 .metzee__veil { position: absolute; inset: 0; z-index: 0; background: var(--bg); opacity: var(--veil, 0); pointer-events: none; }
 .metzee.is-zoom .metzee__orb { filter: none; }
 .metzee__sticky {
