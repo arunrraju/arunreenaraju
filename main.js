@@ -266,6 +266,68 @@
     if (e.key === 'ArrowRight') showShot(lbIndex + 1);
   });
 
+  /* ───────────── Gallery deck (phones): photos fly in and pile up as you scroll ───────────── */
+  const gallery = $('.gallery');
+  const gGrid = gallery && $('.gallery__grid', gallery);
+  const gItems = gGrid ? $$('.gallery__item', gGrid) : [];
+  let deckOn = false;
+  let deckTick = () => {};
+  if (gItems.length > 1 && !reduceMotion) {
+    const phone = matchMedia('(max-width: 760px)');
+    const deck = document.createElement('div');
+    deck.className = 'gallery__deck';
+    gGrid.before(deck);
+    deck.append(gGrid);
+    const hud = document.createElement('div');
+    hud.className = 'gallery__hud mono';
+    hud.setAttribute('aria-hidden', 'true');
+    hud.innerHTML = `<span data-deck-n>01</span><i><b></b></i><span>${String(gItems.length).padStart(2, '0')}</span>`;
+    gGrid.append(hud);
+    const hudN = $('[data-deck-n]', hud);
+    const hudBar = $('b', hud);
+    // Each photo gets its own resting tilt and the side it flies in from
+    const tilt = gItems.map((_, k) => (k % 2 ? 1 : -1) * (2 + (k * 7) % 4));
+    deckTick = () => {
+      if (!deckOn) return;
+      const step = innerHeight * 0.7;
+      const p = clamp(-deck.getBoundingClientRect().top / step, 0, gItems.length - 1);
+      const top = Math.round(p);
+      gItems.forEach((li, k) => {
+        const t = p - k;
+        let tr;
+        if (t < 0) {
+          // on its way in: from below the screen, spinning out of its own side
+          const a = clamp(-t);
+          const e = a * a;
+          tr = `translate3d(${(tilt[k] * 9 * e).toFixed(1)}vw, ${(e * 105).toFixed(1)}svh, 0) rotate(${(tilt[k] * (1 + e * 5)).toFixed(2)}deg) scale(${(1 + e * 0.08).toFixed(3)})`;
+          li.style.filter = '';
+        } else {
+          // landed: sinks into the pile as newer photos arrive on top
+          const d = Math.min(t, 3);
+          tr = `translate3d(0, ${(-d * 2.6).toFixed(2)}svh, 0) rotate(${tilt[k].toFixed(2)}deg) scale(${(1 - d * 0.06).toFixed(3)})`;
+          li.style.filter = d > 0.05 ? `brightness(${(1 - d * 0.16).toFixed(3)})` : '';
+        }
+        li.style.transform = tr;
+        li.style.zIndex = k + 1;
+        li.classList.toggle('is-top', k === top);
+        $('.gallery__btn', li).tabIndex = t < -0.5 ? -1 : 0;
+      });
+      hudN.textContent = String(top + 1).padStart(2, '0');
+      hudBar.style.transform = `scaleX(${(p / (gItems.length - 1)).toFixed(4)})`;
+    };
+    const setDeck = () => {
+      deckOn = phone.matches;
+      gallery.classList.toggle('is-deck', deckOn);
+      deck.style.setProperty('--n', gItems.length);
+      if (!deckOn) gItems.forEach((li) => { li.style.transform = li.style.filter = li.style.zIndex = ''; li.classList.remove('is-top'); $('.gallery__btn', li).tabIndex = 0; });
+      deckTick();
+    };
+    phone.addEventListener('change', setDeck);
+    setDeck();
+    addEventListener('scroll', deckTick, { passive: true });
+    addEventListener('resize', deckTick);
+  }
+
   /* ───────────── Case panel: a work card grows into its full story ───────────── */
   const caseDlg = $('.case');
   const projects = window.siteContent?.work || [];
@@ -694,7 +756,7 @@
       const p = span > 0 ? clamp(-r.top / (span * 0.75)) : 1;
       portrait.style.setProperty('--pp', (p * p * (3 - 2 * p)).toFixed(4));
     }
-    if (!reduceMotion) parallax.forEach((f) => {
+    if (!reduceMotion && !deckOn) parallax.forEach((f) => {
       const r = f.getBoundingClientRect();
       if (r.bottom < 0 || r.top > vh) return;
       const c = (r.top + r.height / 2 - vh / 2) / vh;

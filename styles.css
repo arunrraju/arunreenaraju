@@ -432,6 +432,29 @@ body::after {
 .g-full { grid-column: 1 / -1; } .g-full .photo { aspect-ratio: 21 / 9; }
 .gallery__item .photo { max-width: 100%; }
 
+/* Phones: the gallery becomes a pinned deck that main.js animates as you scroll */
+.gallery__hud { display: none; }
+.gallery.is-deck .gallery__deck { height: calc(100svh + (var(--n) - 1) * 70svh + 30svh); }
+.gallery.is-deck .gallery__grid {
+  position: sticky; top: 0; height: 100svh; display: grid; place-items: center; overflow: hidden;
+  perspective: 1200px;
+}
+.gallery.is-deck .gallery__item {
+  grid-area: 1 / 1; width: min(78vw, 56svh); margin: 0; opacity: 1; transition: none;
+  transform-origin: 50% 85%; will-change: transform;
+}
+.gallery.is-deck .gallery__item .photo { aspect-ratio: 3 / 4; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .06); }
+.gallery.is-deck .gallery__item .photo img { inset: 0; height: 100%; transform: none; }
+.gallery.is-deck .gallery__cap { opacity: 0; transition: opacity .4s var(--ease); }
+.gallery.is-deck .gallery__item.is-top .gallery__cap { opacity: 1; }
+.gallery.is-deck .gallery__hud {
+  position: absolute; left: var(--gutter); right: var(--gutter); bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  display: flex; align-items: center; gap: 14px; color: var(--fg-2); font-size: 12px; z-index: 50;
+}
+.gallery.is-deck .gallery__hud span:first-child { color: var(--fg); }
+.gallery.is-deck .gallery__hud i { flex: 1; height: 1px; background: var(--line); position: relative; overflow: hidden; }
+.gallery.is-deck .gallery__hud b { position: absolute; inset: 0; background: var(--fg); transform-origin: 0 50%; transform: scaleX(0); }
+
 /* ───────────── Lightbox ───────────── */
 .lightbox {
   border: 0; padding: 0; margin: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none;
