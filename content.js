@@ -76,9 +76,9 @@ ${indent}</li>`;
         const art = w.image ? ` style="--img:url('${esc(w.image)}')"` : '';
         const tags = list(w.tags).map((t) => `<span>${esc(t)}</span>`).join('');
         return `
-          <li class="card" style="--a:${a};--b:${b};--c:${cc}">
+          <li class="card" style="--a:${a};--b:${b};--c:${cc};--i:${i}">
             <a class="card__link" href="${esc(href)}" data-case="${i}" data-cursor="Open">
-              <div class="card__art"${art}><span class="card__glyph">${esc(glyph(w.letter || w.title))}</span></div>
+              <div class="card__art"${art}><span class="card__glyph">${esc(glyph(w.letter || w.title))}</span><span class="card__open mono" aria-hidden="true"><i></i>Open case<b>↗</b></span></div>
               <div class="card__meta">
                 <h3 class="card__title">${esc(w.title)}</h3>
                 <p class="card__desc">${esc(w.description)}</p>

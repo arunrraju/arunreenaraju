@@ -726,6 +726,8 @@
   }
 
   const metzee = $('.metzee');
+  const mScene = metzee && $('.metzee__scene', metzee);
+  const mOrb = metzee && $('.metzee__orb', metzee);
   const work = $('.work');
   const track = $('.work__track');
   const cards = $$('.card', track);
@@ -769,13 +771,21 @@
       words.forEach((w, k) => w.classList.toggle('on', k < lit));
     }
     if (metzee) {
-      const scene = $('.metzee__scene', metzee);
-      const r = scene.getBoundingClientRect();
-      const span = Math.max(1, scene.offsetHeight - vh);
+      // 1) the orb grows in, 2) once pinned it zooms until it covers the screen and the word flies
+      // past the camera, 3) a veil settles over the chrome as the details scroll up across it
+      const r = mScene.getBoundingClientRect();
       const p = clamp(1 - r.top / vh);
-      const out = clamp(-r.top / span);
-      metzee.style.setProperty('--orb', (0.55 + 0.45 * p + out * 0.1).toFixed(4));
-      metzee.style.setProperty('--word', (1.35 - 0.35 * p + out * 0.15).toFixed(4));
+      const s = -r.top;
+      const z = reduceMotion ? 0 : clamp((s - vh * 0.06) / (vh * 0.95));
+      const ez = z * z * (3 - 2 * z);
+      const base = 0.55 + 0.45 * p;
+      const cover = Math.hypot(innerWidth, vh) / Math.max(1, mOrb.offsetWidth) * 1.04;
+      metzee.style.setProperty('--orb', (base * Math.pow(Math.max(1, cover / base), ez)).toFixed(4));
+      metzee.style.setProperty('--word', ((1.35 - 0.35 * p) * Math.pow(7, ez)).toFixed(4));
+      metzee.style.setProperty('--word-o', (1 - clamp((z - 0.3) / 0.5)).toFixed(3));
+      metzee.style.setProperty('--word-b', `${(clamp((z - 0.2) / 0.6) * 14).toFixed(1)}px`);
+      metzee.style.setProperty('--veil', (0.66 * clamp((s - vh * 1.0) / (vh * 0.7))).toFixed(3));
+      metzee.classList.toggle('is-zoom', z > 0.02);
     }
     if (nav) {
       const y = scrollY;
@@ -808,6 +818,20 @@
     el.style.transitionDelay = `${(k % 3) * 80}ms`;
     io.observe(el);
   });
+
+  /* ───────────── Work cards deal in as they come into view ───────────── */
+  if (!reduceMotion && cards.length) {
+    const dealIO = new IntersectionObserver((entries) => {
+      let n = 0;
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.style.setProperty('--deal-d', `${n++ * 120}ms`);
+        e.target.classList.add('dealt');
+        dealIO.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px' });
+    cards.forEach((c) => { c.classList.add('deal'); dealIO.observe(c); });
+  }
 
   /* ───────────── Active nav link ───────────── */
   const navLinks = $$('.nav__links a');
