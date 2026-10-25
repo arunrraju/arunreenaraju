@@ -1348,11 +1348,18 @@
       ],
       "demo": "",
       "quote": {
-        "text": "[A short line from a client, colleague or customer about this work.]",
-        "name": "[Name]",
-        "role": "[Role, Company]"
+        "text": "",
+        "name": "",
+        "role": ""
       },
-      "links": []
+      "links": [],
+      "quotes": [
+        {
+          "name": "Ravi",
+          "role": "",
+          "text": "Arun ran our whole online side, from the store and orders to every campaign, and watched the numbers every day. Nothing slipped for long."
+        }
+      ]
     }
   ],
   "gallery": [
