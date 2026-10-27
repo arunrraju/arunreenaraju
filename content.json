@@ -1452,22 +1452,68 @@
       "note": "Earth science, with GIS mapping training at CED Trivandrum."
     }
   ],
-  "toolkit": [
-    "Live commerce",
-    "Digital marketing",
-    "SEO",
-    "Google Ads",
-    "Meta Ads",
-    "GA4",
-    "WordPress",
-    "E-commerce",
-    "Team coaching",
-    "Safety leadership",
-    "Process improvement",
-    "Labour planning",
-    "JavaScript automation",
-    "Data analysis",
-    "GIS and ArcGIS"
+  "toolkit_groups": [
+    {
+      "name": "WordPress & web",
+      "items": [
+        "WordPress",
+        "WooCommerce",
+        "Elementor",
+        "Shopify",
+        "HTML & CSS",
+        "JavaScript",
+        "React",
+        "Figma",
+        "Canva"
+      ]
+    },
+    {
+      "name": "E-commerce & growth",
+      "items": [
+        "E-commerce",
+        "Live commerce",
+        "Digital marketing",
+        "SEO",
+        "Google Ads",
+        "Meta Ads",
+        "GA4",
+        "Google Tag Manager",
+        "Google Search Console",
+        "Semrush",
+        "Email marketing",
+        "Conversion optimisation"
+      ]
+    },
+    {
+      "name": "AI",
+      "items": [
+        "ChatGPT",
+        "Claude",
+        "Claude Code",
+        "Prompt engineering",
+        "AI automation",
+        "AI content and SEO"
+      ]
+    },
+    {
+      "name": "Data & GIS",
+      "items": [
+        "Data analysis",
+        "Excel",
+        "Python",
+        "JavaScript automation",
+        "GIS and ArcGIS"
+      ]
+    },
+    {
+      "name": "Leadership & operations",
+      "items": [
+        "Team coaching",
+        "Safety leadership",
+        "Process improvement",
+        "Labour planning"
+      ]
+    }
   ],
   "contact": {
     "lede": "Have an idea, a question, or just want to say hello? My inbox is open.",

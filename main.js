@@ -834,6 +834,12 @@
     cards.forEach((c) => { c.classList.add('deal'); dealIO.observe(c); });
   }
 
+  /* ───────────── Toolkit: each group's chips pop in when it scrolls into view ───────────── */
+  const kitIO = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); kitIO.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -15% 0px' });
+  $$('.kit__group').forEach((g) => kitIO.observe(g));
+
   /* ───────────── Active nav link ───────────── */
   const navLinks = $$('.nav__links a');
   const navIO = new IntersectionObserver((entries) => {
