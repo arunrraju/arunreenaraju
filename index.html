@@ -377,6 +377,19 @@
 
       <div class="kit">
         <h3 class="label mono"><span class="label__dot"></span>Toolkit</h3>
+        <!-- main.js builds a spinning 3D sphere of tools from the groups below (the list stays for screen readers) -->
+        <div class="tools" data-tools hidden>
+          <div class="tools__stage" aria-hidden="true">
+            <div class="tools__halo"></div>
+            <div class="tools__ring"></div><div class="tools__ring tools__ring--b"></div>
+            <div class="tools__globe" data-tools-globe></div>
+          </div>
+          <div class="tools__side">
+            <p class="tools__title"><span data-tools-total>0</span> tools.<br><span class="iri">One builder.</span></p>
+            <div class="tools__legend" role="group" aria-label="Highlight a group of tools" data-tools-legend></div>
+            <p class="tools__hint mono" aria-hidden="true"><span class="tools__hand">↔</span> Drag to spin · tap a group to light it up</p>
+          </div>
+        </div>
         <div class="kit__groups">
           <div class="kit__group">
             <p class="kit__name mono"><span>01</span>WordPress &amp; web<span class="kit__count">9</span></p>

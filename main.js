@@ -840,6 +840,122 @@
   }, { rootMargin: '0px 0px -15% 0px' });
   $$('.kit__group').forEach((g) => kitIO.observe(g));
 
+  /* ───────────── Toolkit sphere: the tools orbit in 3D, follow the cursor, spin when dragged ───────────── */
+  const toolsEl = $('[data-tools]');
+  const kitGroups = $$('.kit__group');
+  if (toolsEl && kitGroups.length && !reduceMotion) {
+    const kitBox = toolsEl.closest('.kit');
+    const stage = $('.tools__stage', toolsEl);
+    const globe = $('[data-tools-globe]', toolsEl);
+    const legend = $('[data-tools-legend]', toolsEl);
+    const tags = [];
+    kitGroups.forEach((g, gi) => {
+      const name = $('.kit__name', g)?.childNodes[1]?.textContent?.trim() || `Group ${gi + 1}`;
+      const items = $$('.kit__list li', g).map((li) => li.textContent.trim());
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tools__btn';
+      b.style.setProperty('--c', `var(--g${gi % 5})`);
+      b.setAttribute('aria-pressed', 'false');
+      b.innerHTML = `<i></i><span></span><span>${items.length}</span>`;
+      b.children[1].textContent = name;
+      b.dataset.g = gi;
+      legend.append(b);
+      items.forEach((t) => {
+        const el = document.createElement('span');
+        el.className = 'tool';
+        el.textContent = t;
+        el.dataset.g = gi;
+        el.style.setProperty('--c', `var(--g${gi % 5})`);
+        globe.append(el);
+        tags.push({ el, g: gi });
+      });
+    });
+    // Spread the tags evenly over a sphere (Fibonacci lattice), shuffled so groups mix
+    const n = tags.length;
+    const order = tags.map((_, k) => (k * 7) % n);
+    tags.forEach((t, k) => {
+      const i = order[k] + 0.5;
+      const phi = Math.acos(1 - (2 * i) / n);
+      const th = Math.PI * (1 + Math.sqrt(5)) * i;
+      t.p = [Math.sin(phi) * Math.cos(th), Math.cos(phi), Math.sin(phi) * Math.sin(th)];
+    });
+    $('[data-tools-total]', toolsEl).textContent = n;
+    toolsEl.hidden = false;
+    kitBox.classList.add('tools-on');
+
+    let ax = -0.35, ay = 0, vx = 0, vy = 0.0035, tvx = 0, tvy = 0.0035;
+    let grow = 0, live = false, raf2 = 0, drag = null, pick = -1;
+    const rsize = () => stage.clientWidth * 0.39;
+    let R = rsize();
+    addEventListener('resize', () => { R = rsize(); });
+
+    const draw = () => {
+      if (grow < 1) grow = Math.min(1, grow + 0.018);
+      const eg = 1 - Math.pow(1 - grow, 3);
+      if (!drag) { vx += (tvx - vx) * 0.05; vy += (tvy - vy) * 0.05; }
+      ax = Math.max(-1.1, Math.min(1.1, ax + vx)); ay += vy;
+      const cx = Math.cos(ax), sx = Math.sin(ax), cy = Math.cos(ay), sy = Math.sin(ay);
+      const r = R * eg;
+      for (const t of tags) {
+        const [x0, y0, z0] = t.p;
+        const x1 = x0 * cy + z0 * sy, z1 = -x0 * sy + z0 * cy;
+        const y2 = y0 * cx - z1 * sx, z2 = y0 * sx + z1 * cx;
+        const depth = (z2 + 1) / 2;                 // 0 = back, 1 = front
+        const s = 0.55 + 0.6 * depth;
+        t.el.style.transform = `translate(-50%, -50%) translate3d(${(x1 * r).toFixed(1)}px, ${(y2 * r).toFixed(1)}px, 0) scale(${s.toFixed(3)})`;
+        t.el.style.opacity = (0.18 + 0.82 * depth * eg).toFixed(3);
+        t.el.style.zIndex = Math.round(depth * 100);
+        t.el.style.filter = depth < 0.35 ? `blur(${((0.35 - depth) * 6).toFixed(1)}px)` : '';
+      }
+      stage.style.setProperty('--tools-r', eg.toFixed(3));
+      stage.style.setProperty('--tools-spin', `${(ay * 57.3).toFixed(1)}deg`);
+      raf2 = live ? requestAnimationFrame(draw) : 0;
+    };
+    new IntersectionObserver(([e]) => {
+      live = e.isIntersecting;
+      if (live && !raf2) raf2 = requestAnimationFrame(draw);
+    }, { threshold: 0.15 }).observe(stage);
+
+    // The cursor steers the spin; leaving lets it drift back to a slow idle turn
+    stage.addEventListener('pointermove', (e) => {
+      if (drag) {
+        vy = (e.clientX - drag.x) * 0.006; vx = -(e.clientY - drag.y) * 0.006;
+        ay += vy; ax += vx; drag.x = e.clientX; drag.y = e.clientY;
+        return;
+      }
+      if (e.pointerType !== 'mouse') return;
+      const b = stage.getBoundingClientRect();
+      tvy = ((e.clientX - b.left) / b.width - 0.5) * 0.03;
+      tvx = -((e.clientY - b.top) / b.height - 0.5) * 0.02;
+    });
+    stage.addEventListener('pointerleave', () => { tvx = 0; tvy = 0.0035; });
+    stage.addEventListener('pointerdown', (e) => {
+      drag = { x: e.clientX, y: e.clientY };
+      stage.classList.add('is-drag');
+    });
+    const endDrag = () => {
+      if (!drag) return;
+      drag = null; stage.classList.remove('is-drag');
+      tvx = 0; tvy = Math.sign(vy || 1) * 0.0035;     // keep the flick's momentum, then ease back
+    };
+    addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+
+    // Legend: light up one group's tools and dim the rest
+    const setPick = (g) => {
+      pick = g;
+      toolsEl.classList.toggle('has-pick', g >= 0);
+      tags.forEach((t) => t.el.classList.toggle('is-on', t.g === g));
+      $$('.tools__btn', legend).forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.g === g)));
+      if (g >= 0) { vy += 0.08; }                      // a quick spin to show them off
+    };
+    legend.addEventListener('click', (e) => {
+      const b = e.target.closest('.tools__btn');
+      if (b) setPick(+b.dataset.g === pick ? -1 : +b.dataset.g);
+    });
+  }
+
   /* ───────────── Active nav link ───────────── */
   const navLinks = $$('.nav__links a');
   const navIO = new IntersectionObserver((entries) => {
