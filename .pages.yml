@@ -177,7 +177,14 @@ content:
           - { name: org, label: Institution, type: string }
           - { name: note, label: Note, type: string }
 
-      - { name: toolkit, label: Toolkit, type: string, list: true }
+      - name: toolkit_groups
+        label: Toolkit
+        type: object
+        list: true
+        description: "Groups of tools and skills. Each chip pops in when the section scrolls into view."
+        fields:
+          - { name: name, label: Group name, type: string, description: "e.g. WordPress & web" }
+          - { name: items, label: Tools and skills, type: string, list: true }
 
       - name: contact
         label: Contact

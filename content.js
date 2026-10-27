@@ -106,7 +106,15 @@ ${indent}</li>`;
 
     if (list(c.experience).length) html('#experience > .exp__list', list(c.experience).map((r) => row(r, '        ')).join(''));
     if (list(c.education).length) html('[data-education]', list(c.education).map((r) => row(r, '          ')).join(''));
-    if (list(c.toolkit).length) html('.kit__list', list(c.toolkit).map((t) => `<li>${esc(t)}</li>`).join(''));
+    // Toolkit: named groups of chips; an older flat list still works as a single group
+    const kit = list(c.toolkit_groups).length ? list(c.toolkit_groups) : (list(c.toolkit).length ? [{ name: 'Toolkit', items: c.toolkit }] : []);
+    if (kit.length) {
+      html('.kit__groups', kit.map((g, i) => `
+          <div class="kit__group">
+            <p class="kit__name mono"><span>${String(i + 1).padStart(2, '0')}</span>${esc(g.name)}<span class="kit__count">${list(g.items).length}</span></p>
+            <ul class="kit__list" role="list">${list(g.items).map((t, k) => `<li style="--k:${k}">${esc(t)}</li>`).join('')}</ul>
+          </div>`).join(''));
+    }
 
     if (c.contact) {
       const k = c.contact;
